@@ -1,0 +1,169 @@
+/*COLORS 
+	DEEP-BROWN: #80532A
+	MID-BROWN: #d18743
+	LIGHT_BROWN: #f4e1cf	
+*/
+
+/* kmzero Color */
+
+a, a:visited{
+	color: #80532a;
+}
+
+a:hover{
+	color: #80532a;
+}
+
+.color{
+	color: #80532a;
+}
+
+.button a, .button a:visited{
+background:#ecb684;
+}
+
+.button a:hover{
+background:#d18743;
+}
+
+/* Header */
+
+header .hlinks > span{
+background: #ecb684;
+border: 1px solid #b3743a;
+}
+
+/* Navigation */
+
+.navbar-inner{
+background:#ecb684;
+border-top: 1px solid #d18743;
+border-bottom: 1px solid #d18743;
+color:#80532a;
+}
+
+.navbar .btn{
+	background: #80532A;
+}
+
+.navbar .btn:hover{
+	background: #d18743;
+}
+
+.navbar .nav{
+  border-left: 1px solid #d18743;	
+}
+
+.navbar .nav > li > a{
+   border-right: 1px solid #b3743a;
+}
+.navbar .nav > li > a:hover{
+	background: #d18743 !important;
+}
+
+.navbar .nav .active > a,
+.navbar .nav .active > a:hover,
+.navbar .nav .active > a:focus {
+	background: #df4c4d !important;
+}
+
+.dropdown-toggle{
+	background: #ecb684 !important;	
+}
+
+.nav-collapse .nav > li > a{
+	background: #ecb684 !important;	
+}
+
+/* Sidebar nav */
+
+#nav > li > a { 
+ border-left: 3px solid #b3743a;
+}
+
+/* Sidebar page navigation */
+
+#navi > li > a { 
+ border-left: 3px solid #80532A;
+}
+
+
+/* Title */
+
+.title i{
+	color: #f25758;
+}
+
+
+/* Recent posts carousel */
+
+.recent-posts .carousel_nav i{
+	background: #ecb684;	
+}
+
+.recent-posts .rp-details{
+	background: #ecb684;
+	border-top: 1px solid #d18743;
+	border-bottom: 1px solid #d18743;
+}
+
+.recent-posts .price{
+	background: #d18743;
+}
+
+/* Blog */
+
+.posts .tags a{
+background:#f25758;
+border:1px solid #df4c4d;
+}
+
+.posts .tags a:hover{
+background:#df4c4d;
+border:1px solid #df4c4d;
+}
+
+.paging a:hover{
+background: #f25758;
+border:1px solid #df4c4d;
+}
+
+.paging .current{
+background: #f25758;
+border:1px solid #df4c4d;
+}
+
+/* Sidebar */
+
+.sidebar .widget{
+	border-top: 1px solid #f25758;
+}
+
+
+/* Career */
+
+.nav-tabs > li > a:hover{
+	background: #ecb684;
+}
+
+
+/* Back to top */
+
+.totop a, .totop a:visited{
+	background: #d18743;
+}
+
+.totop a:hover{
+	background: #d18743;
+}
+
+/* Footer */
+
+footer{
+	border-top: 4px solid #d18743;
+}
+
+.side-menu{
+	margin-bottom:10px
+	
+}

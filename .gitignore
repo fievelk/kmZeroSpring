@@ -1,0 +1,12 @@
+# Ignores classpath
+.classpath
+
+# Ignores context.xml
+context.xml
+
+# Ignores libraries, compiled sources and others
+*.jar
+*.war
+*.ear
+*.class
+build/

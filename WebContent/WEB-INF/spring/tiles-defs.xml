@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="standard" template="/WEB-INF/spring/views/layout/00_layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/spring/views/layout/01_header.jsp"/>
+        <put-attribute name="cartModal" value="/WEB-INF/spring/views/layout/02_cartModal.jsp"/>
+        <put-attribute name="loginModal" value="/WEB-INF/spring/views/layout/03_loginModal.jsp"/>
+        <put-attribute name="registerModal" value="/WEB-INF/spring/views/layout/04_registerModal.jsp"/>
+        <put-attribute name="navigation" value="/WEB-INF/spring/views/layout/05_navigation.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/spring/views/layout/06_footer.jsp"/>
+    </definition>
+    
+    <definition name="common.index" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/spring/views/common/index.jsp"/>
+    </definition>
+    
+    <definition name="products.views" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/spring/views/products/productslist.jsp"/>
+    </definition>
+    
+    <definition name="products.viewsforsellers" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/spring/views/products/productslistforsellers.jsp"/>
+    </definition>
+     
+    <definition name="products.createproduct" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/create.do"/>
+    </definition>
+ 
+    <definition name="products.updateform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/update.do"/>
+    </definition>
+         
+    <!-- tile per la form di inserimento del Product -->
+    
+<!--      <definition name="products.insertproduct" extends="standard" 
+    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
+    	<put-attribute name="action" value="/WEB-INF/spring/views/products/insert.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    </definition>
+    
+    <definition name="products.updateproduct" extends="standard" 
+    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
+    	<put-attribute name="action" value="/WEB-INF/spring/views/products/update.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    </definition>    
+    
+    <definition name="products.deleteproduct" extends="standard" 
+    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
+    	<put-attribute name="delete" value="true"></put>
+    	<put-attribute name="action" value="/WEB-INF/spring/views/products/delete.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    </definition>      -->  
+
+</tiles-definitions>
