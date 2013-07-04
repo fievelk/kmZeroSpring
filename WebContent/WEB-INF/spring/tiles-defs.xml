@@ -18,6 +18,10 @@
         <put-attribute name="content" value="/WEB-INF/views/common/index.jsp"/>
     </definition>
     
+    <definition name="common.login" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/common/login.jsp"/>
+    </definition>
+    
     <definition name="products.views" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>
@@ -28,7 +32,7 @@
     
  	<!--ALEPH TESTS START-->
     <definition name="common.test" extends="standard">
-        <put-attribute name="body" value="/WEB-INF/views/common/test.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/common/test.jsp"/>
     </definition>
     <!--ALEPH TESTS END-->
      
