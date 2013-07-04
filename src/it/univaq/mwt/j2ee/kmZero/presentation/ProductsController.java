@@ -1,5 +1,8 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import java.beans.PropertyEditorSupport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,9 +13,13 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 
 
 @Controller
@@ -29,6 +37,40 @@ public class ProductsController {
 
 	@Autowired
 	private ProductService service;
+
+	
+	@InitBinder
+	public void binder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new DateEditor());
+	
+	}
+	
+	
+/*	@InitBinder
+	public void binder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+		    public void setAsText(String value) {
+		        try {
+		            setValue(new SimpleDateFormat("dd/MM/yyyy").parse(value));
+		        	//System.out.println("Metodo set Binder" + new SimpleDateFormat("dd/MM/yyyy").parse(value));
+		        } catch(ParseException e) {
+		            setValue(null);
+		        }
+		    }
+
+		    public String getAsText() {
+		    	String s = "";
+	        	if (getValue() != null) {
+					s = new SimpleDateFormat("dd/MM/yyyy").format((Date) getValue());
+		        	//System.out.println("Metodo get Binder return " + s);
+				}
+	        	return s;
+		    }        
+
+		});
+	
+	}*/
+	
 	
 	@RequestMapping("/views.do")
 	public String views() {
@@ -61,23 +103,27 @@ public class ProductsController {
 		return "products.createproduct";
 	}
 	
-	
 	@RequestMapping(value="/create.do", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.createProduct(product);
+		//System.out.println("NEL CONTROLLER: " + product.getDate_in());
 		return "redirect:/products/viewsforsellers.do";
 	}
 	
 	@RequestMapping("/update_start.do")
-	public String updateStart(@RequestParam("oid") Long id, Date date_out, Model model) throws BusinessException {
+	public String updateStart(@RequestParam("oid") Long id, Model model) throws BusinessException {
+		
 		Product product = service.findProductById(id);
+
 		model.addAttribute("product", product);
+		
 		return "products.updateform";
 	}
 	
 	
 	@RequestMapping(value="/update.do", method = RequestMethod.POST)
-	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+	public String update(@ModelAttribute String date_in, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		
 		service.updateProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
