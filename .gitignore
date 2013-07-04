@@ -10,3 +10,4 @@ context.xml
 *.ear
 *.class
 build/
+/bin
