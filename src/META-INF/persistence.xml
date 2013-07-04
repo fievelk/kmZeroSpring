@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="kmz" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+	
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.User</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Role</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<!--<class>it.univaq.mwt.j2ee.library.business.model.TitleKind</class> -->
+		
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+     		<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+     		<property name="javax.persistence.jdbc.user" value="j2eekmzero"/>
+     		<property name="javax.persistence.jdbc.password" value="j2eekmzero"/>
+     		<property name="eclipselink.application-location" value="/Users/aleph/Home/Master/07_TP/03_WORKSPACE/library/ddl"/>
+			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+		</properties>
+	</persistence-unit>
+</persistence>

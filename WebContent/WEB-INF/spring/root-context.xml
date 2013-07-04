@@ -8,7 +8,8 @@
            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd">
           
 	<!-- Scans for application @Component and @Service to deploy -->
- 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.business.impl"/>	 
+ 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.business.impl"/>	
  	
-	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/kmzerodb"/>
+ 	
+<!-- 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/kmzerodb"/> -->
 </beans>
