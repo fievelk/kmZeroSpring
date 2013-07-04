@@ -22,6 +22,10 @@
         <put-attribute name="content" value="/WEB-INF/views/common/login.jsp"/>
     </definition>
     
+    <definition name="common.welcome" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/common/welcome.jsp"/>
+    </definition>
+    
     <definition name="products.views" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>

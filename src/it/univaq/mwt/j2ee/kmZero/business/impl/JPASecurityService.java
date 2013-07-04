@@ -1,6 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -23,18 +26,17 @@ public class JPASecurityService implements SecurityService {
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
         EntityManager em = emf.createEntityManager();
-             
-        User result = new User();
-        
-        String jpql = "SELECT U FROM USERS WHERE U.email = :email";
-        Query query = em.createQuery(jpql);
+   
+        User result = null;
+        Query query = em.createQuery("Select U FROM User U WHERE U.email = :email");
         query.setParameter("email", e);
+        
         result = (User)query.getSingleResult();
-      
+        System.out.println("USER:"+result.getName());
         em.close();
         emf.close();
+       
         return result;
-        
 	}
 
 }

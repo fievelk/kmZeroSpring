@@ -15,7 +15,7 @@
      		<property name="javax.persistence.jdbc.password" value="j2eekmzero"/>
      		<property name="eclipselink.application-location" value="/Users/aleph/Home/Master/07_TP/03_WORKSPACE/library/ddl"/>
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>

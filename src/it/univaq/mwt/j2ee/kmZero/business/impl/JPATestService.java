@@ -4,8 +4,10 @@ import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -13,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+
 
 
 
@@ -41,10 +44,12 @@ public class JPATestService implements TestService{
         em.persist(r1);
         em.persist(r2);
         
-        User u = new User("paolo", "paolo","paolo@gmail.com","pp",null,null, "via brancastello", rs);
+        User u1 = new User("paolo", "paolo","paolo@gmail.com","pp",null,null, "via brancastello", rs);
+        User u2 = new User("federico", "federico","federico@gmail.com","ff",null,null, "via paganica", rs);
     
         
-        em.persist(u);
+        em.persist(u1);
+        em.persist(u2);
         
         em.getTransaction().commit();
         System.out.println ("Transaction ends.");
@@ -52,8 +57,14 @@ public class JPATestService implements TestService{
 
 	@Override
 	public void testNumberTwo() {
-		// TODO Auto-generated method stub
-		
+		//Esempio di ITERATOR
+		/*Collection<User> userslist = (Collection)query.getResultList();
+        System.out.println("DOPO getResultList");
+        for (Iterator i = userslist.iterator(); i.hasNext();){
+        	User u = (User)i.next();
+        	System.out.println("USER:"+u.getAddress());
+        }
+		*/
 	}
 
 	@Override
