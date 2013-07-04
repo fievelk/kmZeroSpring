@@ -26,7 +26,16 @@
 						<li><a href="${pageContext.request.contextPath}/sellers/views.do">Lista Venditori</a></li>
 					    <li><a href="${pageContext.request.contextPath}/sellers/insert_start.do">Registrati come Venditore</a></li>
                       </ul>
-                   </li>                                     
+                   </li>      
+                   <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">TESTS<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="${pageContext.request.contextPath}/common/testNumberOne">Test #1</a></li>
+						<li><a href="${pageContext.request.contextPath}/common/testNumberTwo">Test #2</a></li>
+						<li><a href="${pageContext.request.contextPath}/common/testNumberThree">Test #3</a></li>
+					    <li><a href="${pageContext.request.contextPath}/common/testNumberFour">Test #4</a></li>
+                      </ul>
+                   </li>                                
                    <li><a href="${pageContext.request.contextPath}/errors/404.do">404</a></li>
                    <li><a href="contact.html">Contact</a></li>
                  </ul>

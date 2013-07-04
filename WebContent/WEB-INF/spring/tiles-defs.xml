@@ -5,34 +5,40 @@
 
 <tiles-definitions>
 
-    <definition name="standard" template="/WEB-INF/spring/views/layout/00_layout.jsp">
-        <put-attribute name="header" value="/WEB-INF/spring/views/layout/01_header.jsp"/>
-        <put-attribute name="cartModal" value="/WEB-INF/spring/views/layout/02_cartModal.jsp"/>
-        <put-attribute name="loginModal" value="/WEB-INF/spring/views/layout/03_loginModal.jsp"/>
-        <put-attribute name="registerModal" value="/WEB-INF/spring/views/layout/04_registerModal.jsp"/>
-        <put-attribute name="navigation" value="/WEB-INF/spring/views/layout/05_navigation.jsp"/>
-        <put-attribute name="footer" value="/WEB-INF/spring/views/layout/06_footer.jsp"/>
+    <definition name="standard" template="/WEB-INF/views/layout/00_layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/layout/01_header.jsp"/>
+        <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
+        <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
+        <put-attribute name="registerModal" value="/WEB-INF/views/layout/04_registerModal.jsp"/>
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
     </definition>
     
     <definition name="common.index" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/spring/views/common/index.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/common/index.jsp"/>
     </definition>
     
     <definition name="products.views" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/spring/views/products/productslist.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>
     
     <definition name="products.viewsforsellers" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/spring/views/products/productslistforsellers.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productslistforsellers.jsp"/>
     </definition>
+    
+ 	<!--ALEPH TESTS START-->
+    <definition name="common.test" extends="standard">
+        <put-attribute name="body" value="/WEB-INF/views/common/test.jsp"/>
+    </definition>
+    <!--ALEPH TESTS END-->
      
     <definition name="products.createproduct" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/create.do"/>
     </definition>
  
     <definition name="products.updateform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/update.do"/>
     </definition>
          
@@ -40,21 +46,21 @@
     
 <!--      <definition name="products.insertproduct" extends="standard" 
     			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="action" value="/WEB-INF/spring/views/products/insert.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    	<put-attribute name="action" value="/WEB-INF/views/products/insert.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
     </definition>
     
     <definition name="products.updateproduct" extends="standard" 
     			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="action" value="/WEB-INF/spring/views/products/update.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    	<put-attribute name="action" value="/WEB-INF/views/products/update.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
     </definition>    
     
     <definition name="products.deleteproduct" extends="standard" 
     			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
     	<put-attribute name="delete" value="true"></put>
-    	<put-attribute name="action" value="/WEB-INF/spring/views/products/delete.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/spring/views/products/productform.jsp"></put>
+    	<put-attribute name="action" value="/WEB-INF/views/products/delete.do"></put>
+    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
     </definition>      -->  
 
 </tiles-definitions>
