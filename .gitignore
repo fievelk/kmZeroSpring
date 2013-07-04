@@ -11,3 +11,4 @@ context.xml
 *.class
 build/
 /bin
+*.DS_Store
