@@ -29,6 +29,7 @@
 
 	<mvc:view-controller path="/index.do" view-name="common.index"/>
 	<mvc:view-controller path="/common/welcome.do" view-name="common.welcome"/>
+	<mvc:view-controller path="/common/login" view-name="common.login"/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving  up static resources in the ${webappRoot}/resources/ directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/"/>

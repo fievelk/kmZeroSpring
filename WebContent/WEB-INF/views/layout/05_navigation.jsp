@@ -36,8 +36,7 @@
 					    <li><a href="${pageContext.request.contextPath}/common/testNumberFour">Test #4</a></li>
                       </ul>
                    </li>                                
-                   <li><a href="${pageContext.request.contextPath}/errors/404.do">404</a></li>
-                   <li><a href="contact.html">Contact</a></li>
+                   <li><a href="${pageContext.request.contextPath}/common/login">Login</a></li>
                  </ul>
                </div>
               </div>
