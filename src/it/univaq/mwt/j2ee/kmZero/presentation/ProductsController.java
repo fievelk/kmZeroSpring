@@ -1,9 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.beans.PropertyEditorSupport;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +9,6 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +39,17 @@ public class ProductsController {
 	
 	}
 	
+	
+	@RequestMapping(value="/testCreateProduct")
+	public String createProduct(Model model) throws BusinessException {
+
+		//Eliminare, è solo per il test
+		Product product = new Product();
+		
+		service.createProduct(product);	
+		model.addAttribute("test", 654);
+		return "common.test";
+	}
 	
 /*	@InitBinder
 	public void binder(WebDataBinder binder) {
@@ -111,7 +116,7 @@ public class ProductsController {
 	}
 	
 	@RequestMapping("/update_start.do")
-	public String updateStart(@RequestParam("oid") Long id, Model model) throws BusinessException {
+	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
 		Product product = service.findProductById(id);
 

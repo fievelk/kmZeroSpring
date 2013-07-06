@@ -44,7 +44,7 @@
 	<div class="form form-small">
 	
 	  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
-		<form:hidden path="oid"/>
+		<form:hidden path="id"/>
 		<div>
 		    <label for="name">Nome</label>
 		    <div>
@@ -70,8 +70,8 @@
 		<div>
 		    <label for="CategoryId">Categoria</label>
 		    <div>
-				<form:select id="categoryId" path="category.oid">
-					<form:options items="${categories}" itemValue="oid" itemLabel="name"/>
+				<form:select id="categoryId" path="category.id">
+					<form:options items="${categories}" itemValue="id" itemLabel="name"/>
 				</form:select>
 		    </div>
 		</div>
@@ -80,23 +80,23 @@
 		
 		 <script>
 		$(function() {
-			$( "#from_fake" ).datepicker({
+			$( "#from" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				dateFormat: 'dd/mm/yy',
-				altField  : '#from',
-			    altFormat : 'mm/dd/yy',
+				//altField  : '#from',
+			    //altFormat : 'mm/dd/yy',
 				numberOfMonths: 3,
 				onClose: function( selectedDate ) {
 					$( "#to" ).datepicker( "option", "minDate", selectedDate );
 				}
 			});
-			$( "#to_fake" ).datepicker({
+			$( "#to" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				dateFormat: 'dd/mm/yy',
-				altField  : '#to',
-			    altFormat : 'mm/dd/yy',
+				//altField  : '#to',
+			    //altFormat : 'mm/dd/yy',
 				numberOfMonths: 3,
 				onClose: function( selectedDate ) {
 					$( "#from" ).datepicker( "option", "maxDate", selectedDate );
@@ -105,8 +105,9 @@
 		});
 		</script>
 		
-		<form:hidden id="from" path="date_in"/>
-		<form:hidden id="to" path="date_out"/>
+		
+<%-- 		<input type="hidden" id="from" name="date_in" value="<fmt:formatDate value="${product.date_in}" pattern="MM/dd/yyyy"/>" />
+		<input type="hidden" id="to" name="date_out" value="<fmt:formatDate value="${product.date_out}" pattern="MM/dd/yyyy"/>"/>
 		
 		<div>
 		    <label for="from_fake">Data di inizio fittizia</label>
@@ -116,9 +117,9 @@
 		<div>
 		    <label for="to_fake">Data di inizio fittizia</label>
 			    <input type="text" id="to_fake" name="date_out_fake" readonly=readonly value="<fmt:formatDate value="${product.date_out}" pattern="dd/MM/yyyy"/>" />
-		</div>
+		</div> --%>
 		
-<%--  		<div>
+ 		<div>
 		    <label for="date_in">Data di inizio</label>
 		    <div>
 		    	<form:input id="from" path="date_in"/>
@@ -131,7 +132,7 @@
 		    	<form:input id="to" path="date_out"/>
 		    </div>
 		</div>		
---%>
+
 		
 <%--   		<div>
 		    <label for="from">Data di inizio</label>
