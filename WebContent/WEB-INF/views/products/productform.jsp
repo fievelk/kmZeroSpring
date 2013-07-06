@@ -46,14 +46,14 @@
 	  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
 		<form:hidden path="id"/>
 		<div>
-		    <label for="name">Nome</label>
+		    <label for="name"><spring:message code="product.name"/></label>
 		    <div>
 		    	<form:input id="name" path="name"/>
 		    </div>
 		</div>
 		
 		<div>
-		    <label for="description">Descrizione</label>
+		    <label for="description"><spring:message code="product.description"/></label>
 		    <div>
 		    	<form:input id="description" path="description"/>
 		    </div>
@@ -61,14 +61,14 @@
 		
 		
 		<div>
-		    <label for="price">Prezzo</label>
+		    <label for="price"><spring:message code="product.price"/></label>
 		    <div>
 		    	<form:input id="price" path="price"/>
 		    </div>
 		</div>
 		
 		<div>
-		    <label for="CategoryId">Categoria</label>
+		    <label for="CategoryId"><spring:message code="product.category"/></label>
 		    <div>
 				<form:select id="categoryId" path="category.id">
 					<form:options items="${categories}" itemValue="id" itemLabel="name"/>
@@ -120,14 +120,14 @@
 		</div> --%>
 		
  		<div>
-		    <label for="date_in">Data di inizio</label>
+		    <label for="date_in"><spring:message code="product.date_in"/></label>
 		    <div>
 		    	<form:input id="from" path="date_in"/>
 		    </div>
 		</div> 
 		
  		<div>
-		    <label for="date_out">Data di fine</label>
+		    <label for="date_out"><spring:message code="product.date_out"/></label>
 		    <div>
 		    	<form:input id="to" path="date_out"/>
 		    </div>
@@ -148,10 +148,10 @@
 		      <button type="submit">
 		      	<c:choose>
 		      		<c:when test="${requestScope.delete eq 'true'}">
-						DELETE
+						<spring:message code="common.delete"/>
 		      		</c:when>
 		      		<c:otherwise>
-		      			SUBMIT
+		      			<spring:message code="common.submit"/>
 		      		</c:otherwise>
       			</c:choose>	
       		  </button>
