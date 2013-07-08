@@ -14,11 +14,13 @@ import javax.persistence.Table;
 @Table(name="roles")
 public class Role implements java.io.Serializable {
 	
+
 	@Id 
 	@Column(name="role_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+
 	@Column(name="name")
 	private String name;
 	
@@ -28,6 +30,8 @@ public class Role implements java.io.Serializable {
 	@ManyToMany(mappedBy="roles")
 	private Set<User> users;
 	
+	private static final long serialVersionUID = 1L;
+	
 	public Role() {
 		super();
 	}
@@ -36,6 +40,15 @@ public class Role implements java.io.Serializable {
 		super();
 		this.name = name;
 		this.description = description;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -53,6 +66,7 @@ public class Role implements java.io.Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+
 
 }

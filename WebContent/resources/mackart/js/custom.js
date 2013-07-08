@@ -59,7 +59,7 @@ $(window).load(function(){
    });
 
 /* Twitter */
-
+/*
 jQuery(function($){
    $(".tweet").tweet({
       username: "ashokramesh90",
@@ -76,7 +76,7 @@ jQuery(function($){
    });
 }); 
 
-
+*/
 /* Support */
 
 $("#slist a").click(function(e){
@@ -117,3 +117,4 @@ $(document).ready(function(){
 
   });
 });
+

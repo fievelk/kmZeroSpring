@@ -1,3 +1,4 @@
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!-- Header starts -->
   <header>
     <div class="container">
@@ -29,10 +30,18 @@
 
             </span>
 
-
-              <!-- Login and Register link -->
-              <span class="lr"><a href="#login" role="button" data-toggle="modal">Login</a> or <a href="#register" role="button" data-toggle="modal">Register</a></span>
-
+			
+			<!-- Login and Register link -->
+              <span class="lr">
+              	<security:authorize access="!isAuthenticated()">
+              		<a href="#login" role="button" data-toggle="modal">Login</a> or <a href="#register" role="button" data-toggle="modal">Register</a>
+				</security:authorize>
+				<security:authorize access="isAuthenticated()">
+					<span><security:authentication property="principal.name"/> |</span>
+					<a href="${pageContext.request.contextPath}/j_spring_security_logout" role="button" data-toggle="modal">Logout</a>
+				</security:authorize>
+              </span>
+          
           </div>
 
         </div>

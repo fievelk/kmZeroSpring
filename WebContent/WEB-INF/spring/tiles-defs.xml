@@ -15,15 +15,15 @@
     </definition>
     
     <definition name="common.index" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/common/index.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
     <definition name="common.login" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/common/login.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/login.jsp"/>
     </definition>
     
     <definition name="common.welcome" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/common/welcome.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
     </definition>
     
     <definition name="products.views" extends="standard">
@@ -35,8 +35,15 @@
     </definition>
     
  	<!--ALEPH TESTS START-->
-    <definition name="common.test" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/common/test.jsp"/>
+    <definition name="test.test" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/test.jsp"/>
+    </definition>
+    <definition name="test.test_user_start" extends="standard">
+   		<put-attribute name="action" value="/test/test_user_create"/>
+        <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
+    </definition>
+    <definition name="test.testuser" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
     <!--ALEPH TESTS END-->
      

@@ -49,7 +49,7 @@
 
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.9.1.min.js"></script> <!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
-    
+
 
     
 <!-- Collegamenti per il jQuery datepicker -->    
@@ -81,12 +81,11 @@
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/bootstrap.js"></script> <!-- Bootstrap -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/jquery.prettyPhoto.js"></script> <!-- Pretty Photo -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/filter.js"></script> <!-- Filter for support page -->
-	<script src="${pageContext.request.contextPath}/resources/mackart/js/jquery.tweet.js"></script> <!-- Twitter -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/jquery.flexslider-min.js"></script> <!-- Flex slider -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/nav.js"></script> <!-- Sidebar navigation -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/jquery.carouFredSel-6.1.0-packed.js"></script> <!-- Carousel for recent posts -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/custom.js"></script> <!-- Custom codes -->
-	
+	<script src="${pageContext.request.contextPath}/resources/mackart/js/kmzero.js"></script> <!-- Custom codes -->
 	<script src="${pageContext.request.contextPath}/resources/datatables/js/my.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
    
