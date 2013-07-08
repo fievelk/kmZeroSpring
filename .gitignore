@@ -1,9 +1,9 @@
 # Ignores classpath
-.classpath
+/.classpath
 
 # Ignores context.xml
 context.xml
-persistence.xml
+/src/META-INF/persistence.xml
 
 # Ignores libraries, compiled sources and others
 *.jar
