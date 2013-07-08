@@ -36,7 +36,6 @@ public class ProductsController {
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
-	
 	}
 	
 	
@@ -50,32 +49,7 @@ public class ProductsController {
 		model.addAttribute("test", 654);
 		return "common.test";
 	}
-	
-/*	@InitBinder
-	public void binder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
-		    public void setAsText(String value) {
-		        try {
-		            setValue(new SimpleDateFormat("dd/MM/yyyy").parse(value));
-		        	//System.out.println("Metodo set Binder" + new SimpleDateFormat("dd/MM/yyyy").parse(value));
-		        } catch(ParseException e) {
-		            setValue(null);
-		        }
-		    }
 
-		    public String getAsText() {
-		    	String s = "";
-	        	if (getValue() != null) {
-					s = new SimpleDateFormat("dd/MM/yyyy").format((Date) getValue());
-		        	//System.out.println("Metodo get Binder return " + s);
-				}
-	        	return s;
-		    }        
-
-		});
-	
-	}*/
-	
 	
 	@RequestMapping("/views.do")
 	public String views() {
@@ -83,18 +57,25 @@ public class ProductsController {
 	}
 	
 	
+	@RequestMapping("/viewProducts")
+	@ResponseBody
+	public ResponseGrid<Product> viewProducts(@ModelAttribute RequestGrid requestGrid) throws BusinessException {
+		ResponseGrid<Product> result = service.viewProducts(requestGrid);
+		return result;
+	}
+	
+	
 	@RequestMapping("/viewsforsellers.do")
 	public String viewsForSellers() {
-
 		return "products.viewsforsellers";
 	}
 	
 	
-	@RequestMapping("/viewProductsBySellerIdPaginated.do")
+	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-
 		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid);
+		
 		return result;
 	}
 	
@@ -105,34 +86,47 @@ public class ProductsController {
 		//Parte commentata: si è aggiunto @ModelAttribute
 /*		List<Category> categories = service.findAllCategories();
 		model.addAttribute("categories", categories);*/
-		return "products.createproduct";
+		return "products.createform";
 	}
+	
 	
 	@RequestMapping(value="/create.do", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.createProduct(product);
-		//System.out.println("NEL CONTROLLER: " + product.getDate_in());
 		return "redirect:/products/viewsforsellers.do";
 	}
+	
 	
 	@RequestMapping("/update_start.do")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
 		Product product = service.findProductById(id);
-
 		model.addAttribute("product", product);
-		
 		return "products.updateform";
 	}
 	
 	
 	@RequestMapping(value="/update.do", method = RequestMethod.POST)
 	public String update(@ModelAttribute String date_in, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		
 		service.updateProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
+	
+	@RequestMapping(value="/delete_start.do")
+	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		
+		Product product = service.findProductById(id);
+		model.addAttribute("product", product);
+		return "products.deleteform";
+	}
+	
+	
+	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	public String delete(@ModelAttribute String date_in, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		service.deleteProduct(product);
+		return "redirect:/products/viewsforsellers.do";
+	}	
 	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {

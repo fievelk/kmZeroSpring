@@ -19,9 +19,9 @@
 <!-- 		<security:intercept-url pattern="/common/**" access="isAuthenticated()" /> -->
 		<security:intercept-url pattern="/titles/**" access="hasAnyRole('librarian', 'masterlibrarian')"/>
  		
-		<security:form-login login-page="/index.do" 
-							 authentication-failure-url="/index.do" 
-							 default-target-url="/common/welcome.do"
+		<security:form-login login-page="/common/login" 
+							 authentication-failure-url="/common/login" 
+							 default-target-url="/common/welcome"
 							 always-use-default-target="false"/>
 
 	</security:http>

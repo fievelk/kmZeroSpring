@@ -1,5 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -14,6 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="products")
@@ -44,10 +51,14 @@ public class Product {
 	@Column(name="active")
 	private boolean active;
 	
-	@ManyToOne
+/*	@ManyToOne
 	//@JoinColumn(name="category")
 	@JoinTable(name="products_categories",joinColumns=@JoinColumn(name = "product_fk"),
-	inverseJoinColumns=@JoinColumn(name = "category_fk"))
+	inverseJoinColumns=@JoinColumn(name = "categoies_id"))
+	private Category category;*/
+	
+	@ManyToOne
+	@JoinColumn(name = "categories_id")
 	private Category category;
 	
 	//private Collection<Image> images;
@@ -55,7 +66,9 @@ public class Product {
 	@Column(name="rating")
 	private float rating;
 	
-	//private Seller seller;
+/*	@ManyToOne
+	@JoinColumn(name="sellers_users_id")
+	private Seller seller;*/
 
 	public Product() {
 		super();
@@ -101,10 +114,6 @@ public class Product {
 		this.category = category;
 		this.seller = seller;
 	}
-	
-	public void setSeller(Seller seller) {
-		this.seller = seller;
-	}
 
 	public long getId() {
 		return id;
@@ -130,12 +139,17 @@ public class Product {
 	public void setPrice(float price) {
 		this.price = price;
 	}
+	
+	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
+	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getDate_in() {
 		return date_in;
 	}
 	public void setDate_in(Date date_in) {
 		this.date_in = date_in;
 	}
+	
+	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getDate_out() {
 		return date_out;
 	}
@@ -149,12 +163,12 @@ public class Product {
 		this.category = category;
 	}
 	
-	public Collection<Image> getImages() {
+/*	public Collection<Image> getImages() {
 		return images;
 	}
 	public void setImages(Collection<Image> images) {
 		this.images = images;
-	}
+	}*/
 
 	public float getRating() {
 		return rating;
@@ -164,10 +178,6 @@ public class Product {
 		this.rating = rating;
 	}
 	
-	public Seller getSeller() {
-		return seller;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -175,5 +185,14 @@ public class Product {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+
+/*	public Seller getSeller() {
+		return seller;
+	}
+	
+	public void setSeller(Seller seller) {
+		this.seller = seller;
+	}*/
 	
 }

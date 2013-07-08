@@ -3,14 +3,12 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%-- <%@taglib uri="http://struts.apache.org/tags-html" prefix="html"%> --%>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var del = "${requestScope.delete}"; 
 		if (del == "true" ) {
-			$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('disabled','disabled'); });				
+			$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
 		}		
 	});
 	
@@ -39,12 +37,24 @@
 <!-- Main content -->
 
 <div class="span9">
-	<h5 class="title">insert or modify product </h5>
-	
+	<h5 class="title">
+		<c:choose>
+      		<c:when test="${requestScope.delete eq 'true'}">
+				<spring:message code="product.delete"/>
+      		</c:when>
+      		<c:when test="${requestScope.create eq 'true'}">
+				<spring:message code="product.create"/>
+      		</c:when>
+      		<c:when test="${requestScope.update eq 'true'}">
+      			<spring:message code="product.update"/>
+   			</c:when>
+      	</c:choose>	
+   	</h5>
 	<div class="form form-small">
 	
 	  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
 		<form:hidden path="id"/>
+		<form:hidden path="active"/> <!-- senza questo campo, l'ACTIVE del prodotto viene passato come "false" al controller da Spring -->
 		<div>
 		    <label for="name"><spring:message code="product.name"/></label>
 		    <div>
@@ -105,20 +115,6 @@
 		});
 		</script>
 		
-		
-<%-- 		<input type="hidden" id="from" name="date_in" value="<fmt:formatDate value="${product.date_in}" pattern="MM/dd/yyyy"/>" />
-		<input type="hidden" id="to" name="date_out" value="<fmt:formatDate value="${product.date_out}" pattern="MM/dd/yyyy"/>"/>
-		
-		<div>
-		    <label for="from_fake">Data di inizio fittizia</label>
-			    <input type="text" id="from_fake" name="date_in_fake" readonly=readonly value="<fmt:formatDate value="${product.date_in}" pattern="dd/MM/yyyy"/>" />
-		</div>
-		
-		<div>
-		    <label for="to_fake">Data di inizio fittizia</label>
-			    <input type="text" id="to_fake" name="date_out_fake" readonly=readonly value="<fmt:formatDate value="${product.date_out}" pattern="dd/MM/yyyy"/>" />
-		</div> --%>
-		
  		<div>
 		    <label for="date_in"><spring:message code="product.date_in"/></label>
 		    <div>
@@ -132,14 +128,6 @@
 		    	<form:input id="to" path="date_out"/>
 		    </div>
 		</div>		
-
-		
-<%--   		<div>
-		    <label for="from">Data di inizio</label>
-			    <input type="text" id="from" name="date_in" value="${requestScope.date_in}"/>
-		    <label for="to">Data di fine</label>
-			    <input type="text" id="to" name="date_out" value="${requestScope.date_out}"/>
-		</div> --%>
 		
 		<!-- fine DATEPICKER -->
 		

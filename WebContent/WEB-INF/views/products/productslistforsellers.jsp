@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> --%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
@@ -10,7 +10,7 @@
 			"bServerSide": true,
 			"sAjaxDataProp": "rows",
 			"aoColumns":[
-		                {"mData":"oid"}, // contenuto dei products restituiti dal metodo viewProductsBySellerIdPaginated 
+		                {"mData":"id"}, // contenuto dei products restituiti dal metodo viewProductsBySellerIdPaginated 
 		                {"mData":"name"},
 		                {"mData":"description"},		
 		                {"mData":"price"},
@@ -22,12 +22,13 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/products/update_start.do?oid=" + oObj.aData['oid'] + "'><i class='icon-edit'></i></a>" + " | " + 
-		                       		  "<a href='${pageContext.request.contextPath}/products/delete_start.do?oid=" + oObj.aData['oid'] + "'><i class='icon-trash'></i></a>";
+		                       return "<a href='${pageContext.request.contextPath}/products/update_start.do?id=" + oObj.aData['id'] + "'><i class='icon-edit'></i></a>" + " | " + 
+		                       		  "<a href='${pageContext.request.contextPath}/products/delete_start.do?id=" + oObj.aData['id'] + "'><i class='icon-trash'></i></a>";
 		                     }
 		                  }
             ],
-            "sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated.do",
+            //"sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated.do",
+            "sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},
             "fnServerParams": addsortparams
 		});
@@ -58,64 +59,30 @@
 
 <!-- Main content -->
       <div class="span9">
-      <h5 class="title">BLABLABLA</h5>
+      	<h5 class="title"><spring:message code="product.viewforseller"/></h5>
 		<div class="row-fluid">
-			<a class="btn" href="${pageContext.request.contextPath}/products/insert_start.do">Add Product</a>
+			<a class="btn" href="${pageContext.request.contextPath}/products/create_start.do"><spring:message code="product.create"/></a>
 		</div>
 
 
-<table id="productsforseller" class="table table-striped tcart">
-	<thead>
-	    <tr>
-		    <th>Id</th>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Price</th>
-		    <th>Category</th>
-		    <th>Date IN</th>
-		    <th>Date OUT</th>
-   	   	    <th>update</th>
-	    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-
-<!-- Senza DATATABLES -->
-
-<%-- <table class="table table-striped tcart">
-	<thead>
-	    <tr>
-		    <th>Id</th>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Price</th>
-		    <th>Category</th>
-		    <th>Seller Company</th>
-	   	    <th>update</th>
-		    <th>Date IN</th>
-		    <th>Date OUT</th>
-	    </tr>
-    </thead>
-    <tbody>
-	<c:forEach items="${requestScope.products}" var="product">
-	<tr>
-		<td>${product.oid}</td>
-		<td>${product.name}</td>
-		<td>${product.description}</td>
-		<td>${product.price}</td>
-		<td>${product.category.name}</td>
-		<td>${product.seller.company}</td>
-		<td><a href="${pageContext.request.contextPath}/products/update_start.do?oid=${product.oid}">UPDATAMI</a></td>
-		<td><fmt:formatDate pattern="dd-MM-yyyy"  value="${product.date_in.time}" /></td>
-		<td><fmt:formatDate pattern="dd-MM-yyyy"  value="${product.date_out.time}" /></td>
+		<table id="productsforseller" class="table table-striped tcart">
+			<thead>
+			    <tr>
+				    <th><spring:message code="product.id"/></th>
+				    <th><spring:message code="product.name"/></th>
+				    <th><spring:message code="product.description"/></th>
+				    <th><spring:message code="product.price"/></th>
+				    <th><spring:message code="product.category"/></th>
+				    <th><spring:message code="product.date_in"/></th>
+				    <th><spring:message code="product.date_out"/></th>
+		   	   	    <th><spring:message code="common.actions"/></th>
+			    </tr>
+		    </thead>
+		    <tbody>
+		    </tbody>
+		</table>
 		
-	</tr>
-	</c:forEach>
-	</tbody>
-</table> --%>
-
-</div>
-</div>
-</div>
+      </div>
+    </div>
+  </div>
 </div>

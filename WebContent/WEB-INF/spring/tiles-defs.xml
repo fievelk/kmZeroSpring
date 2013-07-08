@@ -22,6 +22,10 @@
         <put-attribute name="content" value="/WEB-INF/views/common/login.jsp"/>
     </definition>
     
+    <definition name="common.welcome" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/common/welcome.jsp"/>
+    </definition>
+    
     <definition name="products.views" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>
@@ -36,15 +40,23 @@
     </definition>
     <!--ALEPH TESTS END-->
      
-    <definition name="products.createproduct" extends="standard">
+    <definition name="products.createform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/create.do"/>
+        <put-attribute name="create" value="true"/>
     </definition>
  
     <definition name="products.updateform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/update.do"/>
+        <put-attribute name="update" value="true"/>
     </definition>
+    
+    <definition name="products.deleteform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/delete.do"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>    
          
     <!-- tile per la form di inserimento del Product -->
     

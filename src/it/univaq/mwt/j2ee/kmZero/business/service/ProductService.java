@@ -12,14 +12,17 @@ public interface ProductService {
 		
 	void createProduct(Product product) throws BusinessException;
 	
+	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	
 	void updateProduct(Product product) throws BusinessException;
 	
-	List<Product> viewProducts() throws BusinessException;
-
-	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
 
 	List<Category> findAllCategories() throws BusinessException;
 
 	Product findProductById(long id) throws BusinessException;
+
+	void deleteProduct(Product product);
+
 
 }
