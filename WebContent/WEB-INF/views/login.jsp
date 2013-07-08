@@ -14,6 +14,9 @@
 				           <button type="submit" class="btn"><spring:message code="common.signin"/></button>
 				         </form>
 				    </security:authorize>
+				    <security:authorize access="isAuthenticated()">
+				    	LOGOUT
+				    </security:authorize>
 			        <hr />
 			        <h5>New Account</h5>
 			               Don't have an Account? <a href="register.html">Register</a>

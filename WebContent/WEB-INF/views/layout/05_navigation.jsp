@@ -30,13 +30,14 @@
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">TESTS<b class="caret"></b></a>
                       <ul class="dropdown-menu">
-                        <li><a href="${pageContext.request.contextPath}/common/testNumberOne">Test #1</a></li>
-						<li><a href="${pageContext.request.contextPath}/common/testNumberTwo">Test #2</a></li>
-						<li><a href="${pageContext.request.contextPath}/common/testNumberThree">Test #3</a></li>
-					    <li><a href="${pageContext.request.contextPath}/common/testNumberFour">Test #4</a></li>
+                        <li><a href="${pageContext.request.contextPath}/test/testNumberOne">Test #1</a></li>
+						<li><a href="${pageContext.request.contextPath}/test/testNumberTwo">Test #2</a></li>
+						<li><a href="${pageContext.request.contextPath}/test/testNumberThree">Test #3</a></li>
+					    <li><a href="${pageContext.request.contextPath}/test/testNumberFour">Test #4</a></li>
+					    <li><a href="${pageContext.request.contextPath}/test/test_user_start">Test User</a></li>
+					    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                       </ul>
                    </li>                                
-                   <li><a href="${pageContext.request.contextPath}/common/login">Login</a></li>
                  </ul>
                </div>
               </div>

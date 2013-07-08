@@ -4,8 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -21,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements java.io.Serializable{
 
 	@Id
 	@Column(name="user_id")
@@ -55,13 +57,13 @@ public class User {
 	@Column(name="address")
 	private String address;
 	
-	@ManyToMany
-
+	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
 	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
 	private Set<Role> roles;
 	
-
+	private static final long serialVersionUID = 1L;
+	
 	public User() {
 		
 	}

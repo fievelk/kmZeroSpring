@@ -37,7 +37,23 @@ public class UserDetailsImpl implements UserDetails {
 	public String getUsername() {
 		return user.getEmail();
 	}
+	
+	/*---- USER DATA TO DISPLAY WITH PRINCIPAL -- START -----*/
+    public String getName() {
+        return user.getName();
+    }
+    public String getSurName() {
+        return user.getSurname();
+    }
+    public String getEmail() {
+        return user.getEmail();
+    }
+    public String getAddress() {
+        return user.getAddress();
+    }
 
+    /*---- USER DATA TO DISPLAY WITH PRINCIPAL -- END -----*/
+	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
