@@ -3,7 +3,7 @@
 
 # Ignores context.xml
 context.xml
-/src/META-INF/persistence.xml
+
 
 # Ignores libraries, compiled sources and others
 *.jar
