@@ -1,8 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResponseGrid<R> {
+public class ResponseGrid<R> implements Serializable{
 
 	private String sEcho;
 	private long iTotalRecords;
@@ -34,7 +35,7 @@ public class ResponseGrid<R> {
 	public void setiTotalDisplayRecords(long iTotalDisplayRecords) {
 		this.iTotalDisplayRecords = iTotalDisplayRecords;
 	}
-	public List getRows() {
+	public List<R> getRows() {
 		return rows;
 	}
 	public void setRows(List<R> rows) {

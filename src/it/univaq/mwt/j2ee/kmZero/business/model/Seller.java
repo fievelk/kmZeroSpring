@@ -1,15 +1,33 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
-import java.util.Calendar;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="sellers")
+@DiscriminatorValue(value="S")
+@PrimaryKeyJoinColumn(name="user_id")
 public class Seller extends User {
 
+	@Column(name="p_iva")
 	private String p_iva;
+	@Column(name="cod_fisc")
 	private String cod_fisc;
+	@Column(name="company")
 	private String company;
+	@Column(name="url", nullable=true)
 	private String url;
+	@Column(name="phone")
 	private String phone;
+	@Column(name="enable", length=1)
 	private int enable;
+	
+	private static final long serialVersionUID = 1L;
 	
 	public Seller() {
 		super();
@@ -21,9 +39,9 @@ public class Seller extends User {
 	}
 
 	// Costruttore da utilizzare quando il venditore si registra da zero.
-	public Seller(long oid, String name, String surname, String email, String password, Calendar created, Calendar date_of_birth,
+	public Seller(long oid, String name, String surname, String email, String password, Date created, Date date_of_birth,
 			String address, String p_iva, String cod_fisc, String company, String url, String phone, int enable) {
-		super(oid, name, surname, email, password, created, date_of_birth, address);
+		super(oid, name, surname, email, password, created, date_of_birth, address, null);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
@@ -51,9 +69,9 @@ public class Seller extends User {
 	}
 	
 	// Costruttore da utilizzare al momento della cancellazione e delle modifica di un venditore
-	public Seller(long oid, String name, String surname, String email, Calendar date_of_birth,
+	public Seller(long oid, String name, String surname, String email, Date date_of_birth,
 			String address, String p_iva, String cod_fisc, String company, String url, String phone){
-		super(oid, name, surname, email, date_of_birth, address);
+		super(oid, name, surname, email, date_of_birth, address, null);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
@@ -62,9 +80,9 @@ public class Seller extends User {
 	}
 	
 	// Costruttore da utilizzare al momento della modifica di un venditore da parte di quest'ultimo
-		public Seller(long oid, String name, String surname, String email, Calendar date_of_birth,
+		public Seller(long oid, String name, String surname, String email, Date date_of_birth,
 				String address, String url, String phone){
-			super(oid, name, surname, email, date_of_birth, address);
+			super(oid, name, surname, email, date_of_birth, address, null);
 			this.url = url;
 			this.phone = phone;
 		}

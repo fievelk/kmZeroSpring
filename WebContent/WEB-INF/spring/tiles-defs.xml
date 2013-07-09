@@ -85,5 +85,31 @@
     	<put-attribute name="action" value="/WEB-INF/views/products/delete.do"></put>
     	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
     </definition>      -->  
+    
+    <!-- USERS TILES BEGIN -->
+    
+    <definition name="users.views" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userviews.jsp"/>
+    </definition>
+    
+    <definition name="users.createform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/usercreateform.jsp"/>
+        <put-attribute name="action" value="/users/create.do"/>
+        <!-- <put-attribute name="create" value="true"/> -->
+    </definition>
+    
+    <definition name="user.updateform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
+        <put-attribute name="action" value="/users/update.do"/>
+        <!-- <put-attribute name="update" value="true"/> -->
+    </definition>
+    
+    <definition name="user.deleteform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
+        <put-attribute name="action" value="/users/delete.do"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>
+    
+    <!-- USERS TILES END -->
 
 </tiles-definitions>

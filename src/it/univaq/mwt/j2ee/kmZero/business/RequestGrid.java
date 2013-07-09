@@ -1,6 +1,8 @@
 package it.univaq.mwt.j2ee.kmZero.business;
 
-public class RequestGrid {
+import java.io.Serializable;
+
+public class RequestGrid implements Serializable{
 
 	private Long iDisplayStart;
 	private Long iDisplayLength;
@@ -8,6 +10,19 @@ public class RequestGrid {
 	private String sSearch;
 	private String sortCol;
 	private String sortDir;
+	
+	public RequestGrid() {
+		super();
+	}
+	public RequestGrid(Long iDisplayStart, Long iDisplayLength, String sEcho, String sSearch, String sortCol, String sortDir) {
+		super();
+		this.iDisplayStart = iDisplayStart;
+		this.iDisplayLength = iDisplayLength;
+		this.sEcho = sEcho;
+		this.sSearch = sSearch;
+		this.sortCol = sortCol;
+		this.sortDir = sortDir;
+	}
 	
 	public String getsEcho() {
 		return sEcho;

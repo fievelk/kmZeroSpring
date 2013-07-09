@@ -22,9 +22,9 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utenti<b class="caret"></b></a>
                       <ul class="dropdown-menu">
                         <li><a href="${pageContext.request.contextPath}/users/views.do">Lista Utenti</a></li>
-						<li><a href="${pageContext.request.contextPath}/users/insert_start.do">Registrati</a></li>
+						<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
 						<li><a href="${pageContext.request.contextPath}/sellers/views.do">Lista Venditori</a></li>
-					    <li><a href="${pageContext.request.contextPath}/sellers/insert_start.do">Registrati come Venditore</a></li>
+					    <li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati come Venditore</a></li>
                       </ul>
                    </li>      
                    <li class="dropdown">
