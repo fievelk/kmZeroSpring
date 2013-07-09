@@ -63,16 +63,9 @@
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/delete.do"/>
         <put-attribute name="delete" value="true"/>
-    </definition>    
-         
-    <!-- tile per la form di inserimento del Product -->
-    
-<!--      <definition name="products.insertproduct" extends="standard" 
-    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="action" value="/WEB-INF/views/products/insert.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
     </definition>
-    
+
+<!--     
     <definition name="products.updateproduct" extends="standard" 
     			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
     	<put-attribute name="action" value="/WEB-INF/views/products/update.do"></put>

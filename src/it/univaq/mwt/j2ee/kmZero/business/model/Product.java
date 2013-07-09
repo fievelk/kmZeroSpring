@@ -51,12 +51,6 @@ public class Product {
 	@Column(name="active")
 	private boolean active;
 	
-/*	@ManyToOne
-	//@JoinColumn(name="category")
-	@JoinTable(name="products_categories",joinColumns=@JoinColumn(name = "product_fk"),
-	inverseJoinColumns=@JoinColumn(name = "categoies_id"))
-	private Category category;*/
-	
 	@ManyToOne
 	@JoinColumn(name = "categories_id")
 	private Category category;
