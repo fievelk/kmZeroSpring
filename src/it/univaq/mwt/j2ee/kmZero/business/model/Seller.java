@@ -71,7 +71,7 @@ public class Seller extends User {
 	// Costruttore da utilizzare al momento della cancellazione e delle modifica di un venditore
 	public Seller(long oid, String name, String surname, String email, Date date_of_birth,
 			String address, String p_iva, String cod_fisc, String company, String url, String phone){
-		super(oid, name, surname, email, date_of_birth, address, null);
+		super(oid, name, surname, email, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
@@ -82,7 +82,7 @@ public class Seller extends User {
 	// Costruttore da utilizzare al momento della modifica di un venditore da parte di quest'ultimo
 		public Seller(long oid, String name, String surname, String email, Date date_of_birth,
 				String address, String url, String phone){
-			super(oid, name, surname, email, date_of_birth, address, null);
+			super(oid, name, surname, email, date_of_birth, address);
 			this.url = url;
 			this.phone = phone;
 		}

@@ -105,7 +105,7 @@ public class User implements java.io.Serializable{
 	
 	/* Costruttore per visualizzare la lista degli utenti senza il campo password */
 	public User(long id, String name, String surname, String email,
-			Date created, Date date_of_birth, Date last_access, String address,Set<Role> roles) {
+			Date created, Date date_of_birth, Date last_access, String address) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -114,12 +114,11 @@ public class User implements java.io.Serializable{
 		this.date_of_birth = date_of_birth;
 		this.last_access = last_access;
 		this.address = address;
-		this.roles = roles;
 	}
 	
 	/* Costruttore per aggiornare il profilo utente */
 	public User(long id, String name, String surname, String email,
-			Date date_of_birth, String address, Set<Role> roles) {
+			Date date_of_birth, String address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -127,7 +126,6 @@ public class User implements java.io.Serializable{
 		this.email = email;
 		this.date_of_birth = date_of_birth;
 		this.address = address;
-		this.roles = roles;
 	}
 
 

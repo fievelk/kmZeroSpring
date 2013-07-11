@@ -1,14 +1,14 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.util.Date;
-
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/sellers")
+public class SellersController {
 	
 	@Autowired
 	private UserService service;
@@ -36,53 +36,68 @@ public class UsersController {
 	
 	@RequestMapping("/views.do")
 	public String views(){
-		return "users.views";
+		return "sellers.views";
 	}
 	
-	@RequestMapping("/viewAllUsersPaginated")
+	@RequestMapping("/viewAllSellersPaginated.do")
 	@ResponseBody
-	public ResponseGrid<User> findAllUsersPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<User> result = service.viewAllUsersPaginated(requestGrid);
+	public ResponseGrid<Seller> findAllUsersPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
+		ResponseGrid<Seller> result = service.viewAllSellersPaginated(requestGrid);
 		return result;
 	}
 	
 	@RequestMapping("/create_start.do")
 	public String createStart(Model model) throws BusinessException{
-		model.addAttribute("user", new User());
-		return "users.createform";
+		model.addAttribute("seller", new Seller());
+		return "sellers.createform";
 	}
 	
 	@RequestMapping(value="/create.do", method=RequestMethod.POST)
-	public String create(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
-		service.createUser(user);
-		return "redirect:/users/views.do";
+	public String create(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		service.createSeller(seller);
+		return "redirect:/sellers/views.do";
 	}
 	
+	// DA SISTEMARE
 	@RequestMapping("/update_start.do")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		User user = service.findUserById(id);
-		model.addAttribute("user", user);
-		return "user.updateform";
+		Seller seller = service.findSellerById(id);
+		model.addAttribute("seller", seller);
+		return "seller.updateform";
 	}
 	
 	
 	@RequestMapping(value="/update.do", method = RequestMethod.POST)
-	public String update(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
-		service.updateUser(user);
-		return "redirect:/users/views.do";
+	public String update(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		service.updateSeller(seller);
+		return "redirect:/sellers/views.do";
+	}
+	
+	@RequestMapping("/update_start_admin.do")
+	public String updateStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Seller seller = service.findSellerById(id);
+		model.addAttribute("seller", seller);
+		return "seller.updateformadmin";
+	}
+	
+	
+	@RequestMapping(value="/update_admin.do", method = RequestMethod.POST)
+	public String updateByAdmin(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		service.updateSellerByAdmin(seller);
+		return "redirect:/sellers/views.do";
 	}
 	
 	@RequestMapping("/delete_start.do")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		User user = service.findUserById(id);
-		model.addAttribute("user", user);
-		return "user.deleteform";
+		Seller seller = service.findSellerById(id);
+		model.addAttribute("seller", seller);
+		return "seller.deleteform";
 	}
 	
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String delete(@ModelAttribute User user) throws BusinessException {
-		service.deleteUser(user);
-		return "redirect:/users/views.do";
+	public String delete(@ModelAttribute Seller seller) throws BusinessException {
+		service.deleteSeller(seller);
+		return "redirect:/sellers/views.do";
 	}
 
 }

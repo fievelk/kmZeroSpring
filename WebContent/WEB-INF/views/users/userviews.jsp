@@ -68,7 +68,7 @@
 
           <h5 class="title"><spring:message code="user.views"/></h5>
           	<div class="row-fluid">
-				<a class="btn" href="${pageContext.request.contextPath}/users/insert_start.do"><spring:message code="user.add"/>e</a>
+				<a class="btn" href="${pageContext.request.contextPath}/users/create_start.do"><spring:message code="user.add"/></a>
 			</div>
 
             <table id="user" class="table table-striped tcart">
