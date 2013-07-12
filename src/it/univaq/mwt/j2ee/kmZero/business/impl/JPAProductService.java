@@ -152,7 +152,7 @@ public class JPAProductService implements ProductService{
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        int minRows = (int) (long) (requestGrid.getiDisplayStart() + 1); // Doppio cast per ottenere le rows minime + 1
+        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +

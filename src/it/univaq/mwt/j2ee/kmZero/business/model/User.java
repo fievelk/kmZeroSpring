@@ -1,13 +1,19 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
-import java.util.Calendar;
+import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
+
 import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -21,8 +27,13 @@ import javax.persistence.TemporalType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 @Table(name="users")
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="user_type", discriminatorType=DiscriminatorType.STRING, length=1)
+@DiscriminatorValue(value="U")
 public class User implements java.io.Serializable{
 
 	@Id
@@ -94,7 +105,7 @@ public class User implements java.io.Serializable{
 	
 	/* Costruttore per visualizzare la lista degli utenti senza il campo password */
 	public User(long id, String name, String surname, String email,
-			Date created, Date date_of_birth, Date last_access, String address,Set<Role> roles) {
+			Date created, Date date_of_birth, Date last_access, String address) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -103,12 +114,11 @@ public class User implements java.io.Serializable{
 		this.date_of_birth = date_of_birth;
 		this.last_access = last_access;
 		this.address = address;
-		this.roles = roles;
 	}
 	
 	/* Costruttore per aggiornare il profilo utente */
 	public User(long id, String name, String surname, String email,
-			Date date_of_birth, String address, Set<Role> roles) {
+			Date date_of_birth, String address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -116,7 +126,6 @@ public class User implements java.io.Serializable{
 		this.email = email;
 		this.date_of_birth = date_of_birth;
 		this.address = address;
-		this.roles = roles;
 	}
 
 
@@ -170,6 +179,7 @@ public class User implements java.io.Serializable{
 		this.password = password;
 	}
 
+	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getCreated() {
 		return created;
 	}
@@ -178,6 +188,7 @@ public class User implements java.io.Serializable{
 		this.created = created;
 	}
 
+	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getDate_of_birth() {
 		return date_of_birth;
 	}
@@ -186,6 +197,7 @@ public class User implements java.io.Serializable{
 		this.date_of_birth = date_of_birth;
 	}
 
+	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getLast_access() {
 		return last_access;
 	}

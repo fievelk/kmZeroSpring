@@ -118,7 +118,7 @@ public class ProductsController {
 	
 	
 	@RequestMapping(value="/update.do", method = RequestMethod.POST)
-	public String update(@ModelAttribute String date_in, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.updateProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
@@ -134,7 +134,7 @@ public class ProductsController {
 	
 	
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
-	public String delete(@ModelAttribute String date_in, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+	public String delete(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.deleteProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
