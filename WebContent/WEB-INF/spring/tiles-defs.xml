@@ -10,9 +10,21 @@
         <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
         <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
         <put-attribute name="registerModal" value="/WEB-INF/views/layout/04_registerModal.jsp"/>
+        <put-attribute name="addImagesModal" value=""/>
         <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
     </definition>
+    
+    <definition name="standard_logged" template="/WEB-INF/views/layout/00_layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/layout/01_header.jsp"/>
+        <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
+        <put-attribute name="loginModal" value=""/>
+        <put-attribute name="registerModal" value=""/>
+        <put-attribute name="addImagesModal" value=""/>
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
+    </definition>
+    
     
     <definition name="common.index" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
@@ -22,18 +34,39 @@
         <put-attribute name="content" value="/WEB-INF/views/login.jsp"/>
     </definition>
     
-    <definition name="common.welcome" extends="standard">
+    <definition name="common.welcome" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
     </definition>
     
-    <definition name="products.views" extends="standard">
+    <definition name="products.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>
     
-    <definition name="products.viewsforsellers" extends="standard">
+    <definition name="products.viewsforsellers" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productslistforsellers.jsp"/>
     </definition>
+     
+    <definition name="products.createform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/create.do"/>
+        <put-attribute name="create" value="true"/>
+    </definition>
+ 
+    <definition name="products.updateform" extends="standard_logged">
+    	<put-attribute name="addImagesModal" value="/WEB-INF/views/common/addImagesModal.jsp"/>
+    	<put-attribute name="actionModal" value="/products/addImages"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/update.do"/> 
+        <put-attribute name="update" value="true"/>
+    </definition>
     
+    <definition name="products.deleteform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
+        <put-attribute name="action" value="/products/delete.do"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>    
+         
+        
  	<!--ALEPH TESTS START-->
     <definition name="test.test" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/test.jsp"/>
@@ -46,25 +79,6 @@
         <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
     <!--ALEPH TESTS END-->
-     
-    <definition name="products.createform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/create.do"/>
-        <put-attribute name="create" value="true"/>
-    </definition>
- 
-    <definition name="products.updateform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/update.do"/>
-        <put-attribute name="update" value="true"/>
-    </definition>
-    
-    <definition name="products.deleteform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/delete.do"/>
-        <put-attribute name="delete" value="true"/>
-    </definition>    
-         
     <!-- tile per la form di inserimento del Product -->
     
 <!--      <definition name="products.insertproduct" extends="standard" 

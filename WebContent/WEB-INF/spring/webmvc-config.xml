@@ -49,6 +49,11 @@
 	
 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.presentation"/>
 	
+	<!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- set the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="2000000"/>
+	</bean>
 	
 	
 	

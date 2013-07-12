@@ -5,14 +5,17 @@ import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,17 +54,13 @@ public class Product {
 	@Column(name="active")
 	private boolean active;
 	
-/*	@ManyToOne
-	//@JoinColumn(name="category")
-	@JoinTable(name="products_categories",joinColumns=@JoinColumn(name = "product_fk"),
-	inverseJoinColumns=@JoinColumn(name = "categoies_id"))
-	private Category category;*/
-	
 	@ManyToOne
 	@JoinColumn(name = "categories_id")
 	private Category category;
-	
-	//private Collection<Image> images;
+
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "product_fk")
+	private Collection<Image> images;
 	
 	@Column(name="rating")
 	private float rating;
@@ -186,6 +185,13 @@ public class Product {
 		this.active = active;
 	}
 
+	public Collection<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Collection<Image> images) {
+		this.images = images;
+	}
 
 /*	public Seller getSeller() {
 		return seller;

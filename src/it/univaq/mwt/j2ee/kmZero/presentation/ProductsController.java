@@ -1,7 +1,12 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
@@ -15,14 +20,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
+import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
+import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
 
 
 @Controller
@@ -99,9 +110,9 @@ public class ProductsController {
 	
 	@RequestMapping("/update_start.do")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		
 		Product product = service.findProductById(id);
 		model.addAttribute("product", product);
+		model.addAttribute("id", id);
 		return "products.updateform";
 	}
 	
@@ -128,9 +139,45 @@ public class ProductsController {
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
+	@RequestMapping(value="/addImages", method = RequestMethod.POST)
+	public @ResponseBody Collection<Image> addImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("prod_id") Long id) throws BusinessException, IOException {
+		
+			Collection<Image> ci = new HashSet<Image>();
+			List<MultipartFile> l = fileUpload.getFiles();
+	
+			for (Iterator<MultipartFile> i = l.iterator(); i.hasNext();){
+				MultipartFile mpf = (MultipartFile)i.next();
+				//File cannot be null 
+				if(!mpf.isEmpty()){
+					byte [] scaledimg = km0ImageUtility.getScaledImage(220, 410, mpf.getBytes(), mpf.getContentType());
+					Image img = new Image(mpf.getOriginalFilename(), scaledimg);
+					ci.add(img);
+				}
+	        }
+			service.setProductImages(id,ci);
+		
+		return service.getProductImagesIdName(id);
+	}
+	
+	@RequestMapping(value ="/image/{id}")
+	@ResponseBody
+    public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
+		Image image = service.getImage(id);
+		return image.getImageData();
+	}
+	
+	@RequestMapping(value ="/image/delete/{id}", method = RequestMethod.POST)
+	@ResponseBody
+    public boolean deleteImage(@PathVariable("id")Long id)throws BusinessException {
+		return service.deleteImage(id);	
+	}
+
+	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
 		List<Category> categories = service.findAllCategories();
 		model.addAttribute("categories", categories);
 	}
+	
+
 }

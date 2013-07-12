@@ -12,6 +12,20 @@
 		}		
 	});
 	
+	function doAjaxDeleteImg(image_id){
+		url = "${pageContext.request.contextPath}/products/image/delete/"+image_id;
+		$.ajax({
+			type: "POST",
+			url: url,
+			success: function(data) {
+						if(data == true){
+							$("#image_"+image_id).remove();
+						}
+					}
+		});		
+		return false;
+	}
+	
 </script>
 
 <div class="items">
@@ -51,8 +65,12 @@
       	</c:choose>	
    	</h5>
 	<div class="form form-small">
+
+	
 	
 	  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
+	  
+      <div class="span4">
 		<form:hidden path="id"/>
 		<form:hidden path="active"/> <!-- senza questo campo, l'ACTIVE del prodotto viene passato come "false" al controller da Spring -->
 		<div>
@@ -133,7 +151,7 @@
 		
 		<div class="control-group">
 		    <div class="controls">
-		      <button type="submit">
+		      <button type="submit" class="btn">
 		      	<c:choose>
 		      		<c:when test="${requestScope.delete eq 'true'}">
 						<spring:message code="common.delete"/>
@@ -145,8 +163,23 @@
       		  </button>
 			</div>
 		</div>
+		</div>
+		<div class="span4 addImages">
+			<div class="row-fluid">
+				<a class="btn" href="#addImages" role="button" data-toggle="modal">Add Images...</a>
+			</div>
+			<div id="productImages">
+		  	<c:forEach var="image" items="${product.images}">
+		  			<span id="image_${image.id}">
+			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}" alt="${image.name}">
+			       		<a class="icon-remove-circle" onclick="doAjaxDeleteImg('${image.id}')" href="#"></a>
+		       		</span>	
+	    	</c:forEach>
+	    	</div>
+      	</div>	
 	  </form:form>
 	</div>
+	
 </div>
 </div>
 </div>
