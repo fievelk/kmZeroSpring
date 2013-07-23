@@ -11,6 +11,7 @@
         <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
         <put-attribute name="registerModal" value="/WEB-INF/views/layout/04_registerModal.jsp"/>
         <put-attribute name="addImagesModal" value=""/>
+        <put-attribute name="dialog" value=""/>
         <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
     </definition>
@@ -21,6 +22,7 @@
         <put-attribute name="loginModal" value=""/>
         <put-attribute name="registerModal" value=""/>
         <put-attribute name="addImagesModal" value=""/>
+        <put-attribute name="dialog" value=""/>
         <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
     </definition>
@@ -53,7 +55,8 @@
     </definition>
  
     <definition name="products.updateform" extends="standard_logged">
-    	<put-attribute name="addImagesModal" value="/WEB-INF/views/common/addImagesModal.jsp"/>
+    	<put-attribute name="addImagesModal" value="/WEB-INF/views/products/addImagesModal.jsp"/>
+    	<put-attribute name="dialog" value="/WEB-INF/views/common/dialog.jsp"/>
     	<put-attribute name="actionModal" value="/products/addImages"/>
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/update.do"/> 

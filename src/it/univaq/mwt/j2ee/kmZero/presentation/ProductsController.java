@@ -161,12 +161,13 @@ public class ProductsController {
 		return service.getProductImagesIdName(id);
 	}
 	
-	@RequestMapping(value ="/image/{id}")
+	@RequestMapping(value = {"/image/{id}/*","/image/{id}"})
 	@ResponseBody
     public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
 		Image image = imageService.getImage(id);
 		return image.getImageData();
 	}
+	
 	
 	@RequestMapping(value ="/{prod_id}/image/{id}/delete", method = RequestMethod.POST)
 	@ResponseBody

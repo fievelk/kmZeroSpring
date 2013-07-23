@@ -32,7 +32,7 @@ public class Seller extends User {
 	@Column(name="enable", length=1)
 	private int enable;
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "product_fk")
+	@JoinColumn(name = "seller_fk")
 	private Collection<Image> images;
 	
 	

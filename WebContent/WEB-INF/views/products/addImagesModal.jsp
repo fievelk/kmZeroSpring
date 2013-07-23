@@ -11,8 +11,7 @@ function processJson(data)  {
 	
 	var imgs;
 	$.each(data,function(i,item){
-		//console.log(item.name);
-		imgs += '<span id="image_'+item.id+'"><img src="${pageContext.request.contextPath}/products/image/'+item.id+'">\n<a class="icon-remove-circle" onclick="doAjaxDeleteImg('+item.id+','+${id}+')" href="#"></a></span>\n';
+		imgs += '<span id="image_'+item.id+'"><img src="${pageContext.request.contextPath}/products/image/'+item.id+'/'+item.name+'">\n<a href="#dialog" class="icon-remove-circle" onclick="dialog('+item.id+','+${id}+')" role="button" data-toggle="modal"></a></span>\n';
 	});
 	/*non si capisce perchè al primo giro del foreach viene stamapato 'undefined', 
 	ho cercato di debuggare ma firebug non lo mostra, alla fine ho dovuto stripparlo manualmente dalla stringa*/
@@ -75,4 +74,4 @@ function doAjaxPost() {
   </div>
 </div>
 
-<!-- AddImage Modal starts -->
+<!-- AddImage Modal ends -->

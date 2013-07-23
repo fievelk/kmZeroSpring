@@ -69,6 +69,7 @@
 	<tiles:insertAttribute name="loginModal"/>
 	<tiles:insertAttribute name="registerModal"/>
 	<tiles:insertAttribute name="addImagesModal"/>
+	<tiles:insertAttribute name="dialog"/>
 	
 	<!-- Cart, Login and Register form (Modal) END -->
 	

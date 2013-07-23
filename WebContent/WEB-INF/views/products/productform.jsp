@@ -12,6 +12,19 @@
 		}		
 	});
 	
+	function dialog(image_id,product_id){
+		$('#dialog p').text("sicuro di voler rimuovere questa immagine?");
+		var imgsrc = "${pageContext.request.contextPath}/products/image/"+image_id;
+		$('#dialog img').attr("src",imgsrc);
+		$('#dialog_ok').click(function(){
+			doAjaxDeleteImg(image_id,product_id);
+			$('#dialog').modal('hide')
+		});
+		$('#dialog_cancel').click(function (){
+			$('#dialog').modal('hide')
+		});
+	}
+	
 	function doAjaxDeleteImg(image_id,product_id){
 		url = "${pageContext.request.contextPath}/products/"+product_id+"/image/"+image_id+"/delete";
 		$.ajax({
@@ -172,8 +185,8 @@
 			<div id="productImages">
 		  	<c:forEach var="image" items="${product.images}">
 		  			<span id="image_${image.id}">
-			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}" alt="${image.name}">
-			       		<a class="icon-remove-circle" onclick="doAjaxDeleteImg('${image.id}','${product.id}')" href="#"></a>
+			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}" alt="${image.name}">
+			       		<a href="#dialog" class="icon-remove-circle"  role="button" data-toggle="modal" onclick="dialog('${image.id}','${product.id}')"></a>	
 		       		</span>	
 	    	</c:forEach>
 	    	</div>

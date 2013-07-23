@@ -261,9 +261,8 @@ public class JPAProductService implements ProductService{
 			tx.begin();
 			Image i = em.find(Image.class, id);
 			Product p = em.find(Product.class, product_id);
-			p.getImages().remove(i);
 			em.merge(p);
-			
+			p.getImages().remove(i);
 			tx.commit();
 			val=true;
 			
