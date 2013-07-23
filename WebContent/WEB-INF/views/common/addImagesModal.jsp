@@ -8,17 +8,18 @@
 <script type="text/javascript">
 
 function processJson(data)  {
-	/*Chiude la finestra modale*/
-	$('#addImages').modal('hide');
+	
 	var imgs;
 	$.each(data,function(i,item){
 		//console.log(item.name);
-		imgs += '<img src="${pageContext.request.contextPath}/products/image/'+item.id+'">\n<a class="icon-remove-circle" onclick="doAjaxDeleteImg('+item.id+')" href="#"></a>\n';
+		imgs += '<span id="image_'+item.id+'"><img src="${pageContext.request.contextPath}/products/image/'+item.id+'">\n<a class="icon-remove-circle" onclick="doAjaxDeleteImg('+item.id+','+${id}+')" href="#"></a></span>\n';
 	});
 	/*non si capisce perchè al primo giro del foreach viene stamapato 'undefined', 
 	ho cercato di debuggare ma firebug non lo mostra, alla fine ho dovuto stripparlo manualmente dalla stringa*/
 	imgs = imgs.replace('undefined','');
 	$('div#productImages').replaceWith('<div id="productImages">'+imgs+'</div>'); 
+	/*Chiude la finestra modale*/
+	$('#addImages').modal('hide');
 	/*reset progress bar*/
 	$("div.bar").width("0%");
 	$('div.bar').text("0%");

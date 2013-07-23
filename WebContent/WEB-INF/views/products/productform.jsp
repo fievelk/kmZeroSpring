@@ -12,8 +12,8 @@
 		}		
 	});
 	
-	function doAjaxDeleteImg(image_id){
-		url = "${pageContext.request.contextPath}/products/image/delete/"+image_id;
+	function doAjaxDeleteImg(image_id,product_id){
+		url = "${pageContext.request.contextPath}/products/"+product_id+"/image/"+image_id+"/delete";
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -25,6 +25,31 @@
 		});		
 		return false;
 	}
+	
+	$(function() {
+		$( "#from" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			dateFormat: 'dd/mm/yy',
+			//altField  : '#from',
+		    //altFormat : 'mm/dd/yy',
+			numberOfMonths: 3,
+			onClose: function( selectedDate ) {
+				$( "#to" ).datepicker( "option", "minDate", selectedDate );
+			}
+		});
+		$( "#to" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			dateFormat: 'dd/mm/yy',
+			//altField  : '#to',
+		    //altFormat : 'mm/dd/yy',
+			numberOfMonths: 3,
+			onClose: function( selectedDate ) {
+				$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+			}
+		});
+	});
 	
 </script>
 
@@ -106,32 +131,7 @@
 		
 		<!-- inizio DATEPICKER from-to -->
 		
-		 <script>
-		$(function() {
-			$( "#from" ).datepicker({
-				defaultDate: "+1w",
-				changeMonth: true,
-				dateFormat: 'dd/mm/yy',
-				//altField  : '#from',
-			    //altFormat : 'mm/dd/yy',
-				numberOfMonths: 3,
-				onClose: function( selectedDate ) {
-					$( "#to" ).datepicker( "option", "minDate", selectedDate );
-				}
-			});
-			$( "#to" ).datepicker({
-				defaultDate: "+1w",
-				changeMonth: true,
-				dateFormat: 'dd/mm/yy',
-				//altField  : '#to',
-			    //altFormat : 'mm/dd/yy',
-				numberOfMonths: 3,
-				onClose: function( selectedDate ) {
-					$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-				}
-			});
-		});
-		</script>
+
 		
  		<div>
 		    <label for="date_in"><spring:message code="product.date_in"/></label>
@@ -164,6 +164,7 @@
 			</div>
 		</div>
 		</div>
+		<c:if test="${requestScope.update eq 'true'}">
 		<div class="span4 addImages">
 			<div class="row-fluid">
 				<a class="btn" href="#addImages" role="button" data-toggle="modal">Add Images...</a>
@@ -172,11 +173,13 @@
 		  	<c:forEach var="image" items="${product.images}">
 		  			<span id="image_${image.id}">
 			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}" alt="${image.name}">
-			       		<a class="icon-remove-circle" onclick="doAjaxDeleteImg('${image.id}')" href="#"></a>
+			       		<a class="icon-remove-circle" onclick="doAjaxDeleteImg('${image.id}','${product.id}')" href="#"></a>
 		       		</span>	
 	    	</c:forEach>
 	    	</div>
       	</div>	
+   		</c:if>
+		
 	  </form:form>
 	</div>
 	

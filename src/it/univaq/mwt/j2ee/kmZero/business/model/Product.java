@@ -58,7 +58,7 @@ public class Product {
 	@JoinColumn(name = "categories_id")
 	private Category category;
 
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "product_fk")
 	private Collection<Image> images;
 	

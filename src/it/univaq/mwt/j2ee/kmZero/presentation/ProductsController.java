@@ -11,6 +11,7 @@ import java.util.Set;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
@@ -42,6 +41,9 @@ public class ProductsController {
 
 	@Autowired
 	private ProductService service;
+	
+	@Autowired
+	private ImageService imageService;
 
 	
 	@InitBinder
@@ -162,14 +164,14 @@ public class ProductsController {
 	@RequestMapping(value ="/image/{id}")
 	@ResponseBody
     public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
-		Image image = service.getImage(id);
+		Image image = imageService.getImage(id);
 		return image.getImageData();
 	}
 	
-	@RequestMapping(value ="/image/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value ="/{prod_id}/image/{id}/delete", method = RequestMethod.POST)
 	@ResponseBody
-    public boolean deleteImage(@PathVariable("id")Long id)throws BusinessException {
-		return service.deleteImage(id);	
+    public boolean deleteImage(@PathVariable("id")Long id,@PathVariable("prod_id")Long p_id)throws BusinessException {
+		return service.deleteImage(id,p_id);	
 	}
 
 	

@@ -1,10 +1,15 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -26,6 +31,10 @@ public class Seller extends User {
 	private String phone;
 	@Column(name="enable", length=1)
 	private int enable;
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "product_fk")
+	private Collection<Image> images;
+	
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -140,6 +149,14 @@ public class Seller extends User {
 
 	public void setEnable(int enable) {
 		this.enable = enable;
+	}
+
+	public Collection<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Collection<Image> images) {
+		this.images = images;
 	}
 	
 }

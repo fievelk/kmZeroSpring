@@ -49,13 +49,23 @@
 	
 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.presentation"/>
 	
-	<!-- Configure the multipart resolver -->
+	<!-- Configure the multipart resolver for file upload-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- set the maximum file size in bytes -->
 	    <property name="maxUploadSize" value="2000000"/>
 	</bean>
 	
+
+	<!-- Configurazione JPA - EntityManagerFactory bean -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+	    <property name="persistenceUnitName" value="kmz"/>
+	</bean>
+
+	<!-- Configurazione JPA - Data Access Object Beans necessari per l'inject dell'entityManagerFactory -->
+	<bean id="imageDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAImageService" /> 
+	<bean id="productDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAProductService" />
 	
+	<!-- END Configurazione JPA -->
 	
 	
 	<!-- Classe di configurazione per metodo alternativo usando i Converters per le date. Non funziona -->
