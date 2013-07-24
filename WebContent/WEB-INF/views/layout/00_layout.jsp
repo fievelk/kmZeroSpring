@@ -33,7 +33,7 @@
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/jquery-ui/css/jquery-ui-1.10.3.custom.min.css" />
 	<!-- Stylesheet for Color -->
-	<link href="${pageContext.request.contextPath}/resources/mackart/style/kmzero.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/custom/css/kmzero.css" rel="stylesheet">
 	<!-- Stylesheet for Color -->
 	<link href="${pageContext.request.contextPath}/resources/datatables/css/kmzero_datatables.css" rel="stylesheet">
 	
@@ -63,11 +63,15 @@
   
 	<tiles:insertAttribute name="header"/>
 	
-	 <!-- Cart, Login and Register form (Modal) -->
+	<!-- Cart, Login and Register form (Modal) START-->
 	
 	<tiles:insertAttribute name="cartModal"/>
 	<tiles:insertAttribute name="loginModal"/>
 	<tiles:insertAttribute name="registerModal"/>
+	<tiles:insertAttribute name="addImagesModal"/>
+	<tiles:insertAttribute name="dialog"/>
+	
+	<!-- Cart, Login and Register form (Modal) END -->
 	
 	<tiles:insertAttribute name="navigation"/>
 	<tiles:insertAttribute name="content"/>
@@ -88,6 +92,7 @@
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/kmzero.js"></script> <!-- Custom codes -->
 	<script src="${pageContext.request.contextPath}/resources/datatables/js/my.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.form.min.js"></script>
    
     
   </body>

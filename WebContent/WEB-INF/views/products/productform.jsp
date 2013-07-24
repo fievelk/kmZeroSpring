@@ -12,6 +12,58 @@
 		}		
 	});
 	
+	function dialog(image_id,product_id){
+		$('#dialog p').text("sicuro di voler rimuovere questa immagine?");
+		var imgsrc = "${pageContext.request.contextPath}/products/image/"+image_id;
+		$('#dialog img').attr("src",imgsrc);
+		$('#dialog_ok').click(function(){
+			doAjaxDeleteImg(image_id,product_id);
+			$('#dialog').modal('hide')
+		});
+		$('#dialog_cancel').click(function (){
+			$('#dialog').modal('hide')
+		});
+	}
+	
+	function doAjaxDeleteImg(image_id,product_id){
+		url = "${pageContext.request.contextPath}/products/"+product_id+"/image/"+image_id+"/delete";
+		$.ajax({
+			type: "POST",
+			url: url,
+			success: function(data) {
+						if(data == true){
+							$("#image_"+image_id).remove();
+						}
+					}
+		});		
+		return false;
+	}
+	
+	$(function() {
+		$( "#from" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			dateFormat: 'dd/mm/yy',
+			//altField  : '#from',
+		    //altFormat : 'mm/dd/yy',
+			numberOfMonths: 3,
+			onClose: function( selectedDate ) {
+				$( "#to" ).datepicker( "option", "minDate", selectedDate );
+			}
+		});
+		$( "#to" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			dateFormat: 'dd/mm/yy',
+			//altField  : '#to',
+		    //altFormat : 'mm/dd/yy',
+			numberOfMonths: 3,
+			onClose: function( selectedDate ) {
+				$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+			}
+		});
+	});
+	
 </script>
 
 <div class="items">
@@ -51,8 +103,12 @@
       	</c:choose>	
    	</h5>
 	<div class="form form-small">
+
+	
 	
 	  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
+	  
+      <div class="span4">
 		<form:hidden path="id"/>
 		<form:hidden path="active"/> <!-- senza questo campo, l'ACTIVE del prodotto viene passato come "false" al controller da Spring -->
 		<div>
@@ -88,32 +144,7 @@
 		
 		<!-- inizio DATEPICKER from-to -->
 		
-		 <script>
-		$(function() {
-			$( "#from" ).datepicker({
-				defaultDate: "+1w",
-				changeMonth: true,
-				dateFormat: 'dd/mm/yy',
-				//altField  : '#from',
-			    //altFormat : 'mm/dd/yy',
-				numberOfMonths: 3,
-				onClose: function( selectedDate ) {
-					$( "#to" ).datepicker( "option", "minDate", selectedDate );
-				}
-			});
-			$( "#to" ).datepicker({
-				defaultDate: "+1w",
-				changeMonth: true,
-				dateFormat: 'dd/mm/yy',
-				//altField  : '#to',
-			    //altFormat : 'mm/dd/yy',
-				numberOfMonths: 3,
-				onClose: function( selectedDate ) {
-					$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-				}
-			});
-		});
-		</script>
+
 		
  		<div>
 		    <label for="date_in"><spring:message code="product.date_in"/></label>
@@ -133,7 +164,7 @@
 		
 		<div class="control-group">
 		    <div class="controls">
-		      <button type="submit">
+		      <button type="submit" class="btn">
 		      	<c:choose>
 		      		<c:when test="${requestScope.delete eq 'true'}">
 						<spring:message code="common.delete"/>
@@ -145,8 +176,26 @@
       		  </button>
 			</div>
 		</div>
+		</div>
+		<c:if test="${requestScope.update eq 'true'}">
+		<div class="span4 addImages">
+			<div class="row-fluid">
+				<a class="btn" href="#addImages" role="button" data-toggle="modal">Add Images...</a>
+			</div>
+			<div id="productImages">
+		  	<c:forEach var="image" items="${product.images}">
+		  			<span id="image_${image.id}">
+			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}" alt="${image.name}">
+			       		<a href="#dialog" class="icon-remove-circle"  role="button" data-toggle="modal" onclick="dialog('${image.id}','${product.id}')"></a>	
+		       		</span>	
+	    	</c:forEach>
+	    	</div>
+      	</div>	
+   		</c:if>
+		
 	  </form:form>
 	</div>
+	
 </div>
 </div>
 </div>

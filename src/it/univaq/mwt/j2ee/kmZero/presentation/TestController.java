@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
@@ -58,7 +59,7 @@ public class TestController {
 	
 	@RequestMapping(value="/testNumberFour")
 	public String testNumberFour(Model model) throws BusinessException {
-		service.testNumberFour();	
+		
 		model.addAttribute("test", 4);
 		return "test.test";
 	}

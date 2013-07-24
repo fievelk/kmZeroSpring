@@ -1,1 +1,5 @@
-$('#address').click(function(){$('#loginform').replaceWith('</br>')})
+/*
+$(document).ready(function() {
+   
+     
+});*/

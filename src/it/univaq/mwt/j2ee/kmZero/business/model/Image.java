@@ -1,31 +1,59 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
-public class Image {
+import java.io.Serializable;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="image")
+public class Image implements Serializable{
 	
-	private long oid;
+
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
 	private String name;
-	private String path;
-	private String mimetype;
+	@Basic(fetch=FetchType.LAZY)//sembra non avere effetto...
+	@Lob
+	private byte [] imageData;
 	
+	private static final long serialVersionUID = 1L;
 	
 	public Image() {
 		super();
 	}
 
-	public Image(long oid, String name, String path, String mimetype) {
-		super();
-		this.oid = oid;
+	public Image(String name, byte[] imageData) {
 		this.name = name;
-		this.path = path;
-		this.mimetype = mimetype;
+		this.imageData = imageData;
 	}
 
-	public long getOid() {
-		return oid;
+
+	public Image(long id, String name) {
+		this.id = id;
+		this.name = name;
 	}
 
-	public void setOid(long oid) {
-		this.oid = oid;
+	public Image(long id, String name, byte[] imageData) {
+		this(name,imageData);
+		this.id = id;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -36,22 +64,14 @@ public class Image {
 		this.name = name;
 	}
 
-	public String getPath() {
-		return path;
+	public byte[] getImageData() {
+		return imageData;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setImageData(byte[] imageData) {
+		this.imageData = imageData;
 	}
 
-	public String getMimetype() {
-		return mimetype;
-	}
-
-	public void setMimetype(String mimetype) {
-		this.mimetype = mimetype;
-	}
-	
 	
 
 }
