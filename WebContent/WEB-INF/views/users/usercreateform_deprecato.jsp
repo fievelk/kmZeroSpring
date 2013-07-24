@@ -44,36 +44,41 @@ $(function() {
 			<div class="span9">
 				<h5 class="title"><spring:message code="user.add"/></h5>
 				<div class="form form-small">
-					<form:form modelAttribute="user" styleClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}">
+					<form:form modelAttribute="user" styleClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
 					<div class="control-group">
 					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
 					    <div class="controls">
 					    	<form:input id="name" path="name"/>
+					    	<form:errors path="name"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="surname"><spring:message code="user.surname"/></label>
 					    <div class="controls">
 					    	<form:input id="surname" path="surname"/>
+					    	<form:errors path="surname"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="email"><spring:message code="user.email"/></label>
 					    <div class="controls">
 					    	<form:input id="email" path="email"/>
+					    	<form:errors path="email"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="password"><spring:message code="user.password"/></label>
 					    <div class="controls">
-					    	<form:password id="password" path="password"/>
+					    	<form:password id="password" path="password.password"/>
+					    	<form:errors path="password.password"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
 					    <div class="controls">
-					    	<input type="password" name="confirm_password" id="confirm_password"/>
+					    	<form:password id="confirm_password" path="password.confirm_password"/>
+					    	<form:errors path="password.confirm_password"/>
 					    </div>
 					</div>
 					<%-- <div class="control-group">
@@ -99,6 +104,7 @@ $(function() {
 					    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 						<div class="controls">
 							<form:input id="datepicker" path="date_of_birth"/>
+							<form:errors path="date_of_birth"/>
 						</div>
 					</div>
 					
@@ -106,8 +112,15 @@ $(function() {
 					    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 					    <div class="controls">
 							<form:input id="address" path="address"/>
+							<form:errors path="address"/>
 					    </div>
 					</div>
+					<!-- <div class="control-group">
+					    <label class="control-label" for="address">Prova</label>
+					    <div class="controls">
+							<input type="text" name="prova"/>
+					    </div>
+					</div> -->
 					
 					<div class="control-group">
 					    <div class="controls">

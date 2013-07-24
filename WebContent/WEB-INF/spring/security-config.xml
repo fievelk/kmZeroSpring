@@ -27,8 +27,9 @@
 	</security:http>
 
     <security:authentication-manager>
-		<security:authentication-provider user-service-ref="myUserDetailsService"/>
-		
+		<security:authentication-provider user-service-ref="myUserDetailsService">
+			<security:password-encoder hash="md5"/>
+		</security:authentication-provider>
 	</security:authentication-manager>
 
 	<bean id="myUserDetailsService" class="it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsServiceImpl"/>

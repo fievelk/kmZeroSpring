@@ -23,7 +23,8 @@
                       <ul class="dropdown-menu">
                         <li><a href="${pageContext.request.contextPath}/users/views.do">Lista Utenti</a></li>
 						<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
-						<li><a href="${pageContext.request.contextPath}/sellers/views.do">Lista Venditori</a></li>
+						<li><a href="${pageContext.request.contextPath}/sellers/viewsToEnable.do">Lista Venditori da Abilitare</a></li>
+						<li><a href="${pageContext.request.contextPath}/sellers/viewsEnabled.do">Lista Venditori Abilitati</a></li>
 					    <li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati come Venditore</a></li>
                       </ul>
                    </li>      

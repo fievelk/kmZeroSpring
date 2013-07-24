@@ -24,8 +24,8 @@ public class Seller extends User {
 	private String url;
 	@Column(name="phone")
 	private String phone;
-	@Column(name="enable", length=1)
-	private int enable;
+	@Column(name="enable")
+	private boolean enable;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -39,15 +39,16 @@ public class Seller extends User {
 	}
 
 	// Costruttore da utilizzare quando il venditore si registra da zero.
-	public Seller(long oid, String name, String surname, String email, String password, Date created, Date date_of_birth,
-			String address, String p_iva, String cod_fisc, String company, String url, String phone, int enable) {
-		super(oid, name, surname, email, password, created, date_of_birth, address, null);
+	public Seller(long oid, String name, String surname, String email, Password password, Date created, 
+			Date date_of_birth, String address, String p_iva, String cod_fisc, String company, 
+			String url, String phone, int enable) {
+		super(oid, name, surname, email, password, created, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
 		this.url = url;
 		this.phone = phone;
-		this.enable = 0;
+		this.enable = false;
 	}
 
 	// Costruttore da utilizzare quando un utente fa l'upgrade a venditore
@@ -57,7 +58,7 @@ public class Seller extends User {
 		this.company = company;
 		this.url = url;
 		this.phone = phone;
-		this.enable = 0;
+		this.enable = false;
 	}
 	
 	// Costruttore da utilizzare per visualizzare un venditore all'interno di una Datatables (Admin)
@@ -134,11 +135,11 @@ public class Seller extends User {
 		this.phone = phone;
 	}
 
-	public int getEnable() {
+	public boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(int enable) {
+	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
 	

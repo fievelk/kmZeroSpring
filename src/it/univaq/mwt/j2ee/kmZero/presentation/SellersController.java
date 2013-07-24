@@ -4,7 +4,6 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
-import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 
@@ -29,20 +28,35 @@ public class SellersController {
 	@Autowired
 	private UserService service;
 	
+	@Autowired
+	private SellerValidator validator;
+	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/views.do")
-	public String views(){
-		return "sellers.views";
+	@RequestMapping("/viewsToEnable.do")
+	public String viewsToEnable(){
+		return "sellerstoenable.views";
 	}
 	
-	@RequestMapping("/viewAllSellersPaginated.do")
+	@RequestMapping("/viewsEnabled.do")
+	public String viewsEnabled(){
+		return "sellersenabled.views";
+	}
+	
+	@RequestMapping("/viewAllSellersToEnablePaginated.do")
 	@ResponseBody
-	public ResponseGrid<Seller> findAllUsersPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<Seller> result = service.viewAllSellersPaginated(requestGrid);
+	public ResponseGrid<Seller> findAllSellersToEnablePaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
+		ResponseGrid<Seller> result = service.viewAllSellersToEnablePaginated(requestGrid);
+		return result;
+	}
+	
+	@RequestMapping("/viewAllSellersEnabledPaginated.do")
+	@ResponseBody
+	public ResponseGrid<Seller> findAllSellersEnabledPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
+		ResponseGrid<Seller> result = service.viewAllSellersEnabledPaginated(requestGrid);
 		return result;
 	}
 	
@@ -54,50 +68,74 @@ public class SellersController {
 	
 	@RequestMapping(value="/create.do", method=RequestMethod.POST)
 	public String create(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		validator.validate(seller, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "sellers.createform";
+		}
 		service.createSeller(seller);
-		return "redirect:/sellers/views.do";
+		return "redirect:/sellers/viewsToEnable.do";
 	}
 	
-	// DA SISTEMARE
 	@RequestMapping("/update_start.do")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
-		return "seller.updateform";
+		return "sellers.updateform";
 	}
 	
 	
 	@RequestMapping(value="/update.do", method = RequestMethod.POST)
 	public String update(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		validator.validate(seller, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "sellers.updateform";
+		}
 		service.updateSeller(seller);
-		return "redirect:/sellers/views.do";
+		if (seller.getEnable()){
+			return "redirect:/sellers/viewsEnabled.do";
+		} else {
+			return "redirect:/sellers/viewsToEnable.do";
+		}
+		
 	}
 	
 	@RequestMapping("/update_start_admin.do")
 	public String updateStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
-		return "seller.updateformadmin";
+		return "sellers.updateformadmin";
 	}
 	
 	
 	@RequestMapping(value="/update_admin.do", method = RequestMethod.POST)
 	public String updateByAdmin(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		validator.validate(seller, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "sellers.updateformadmin";
+		}
 		service.updateSellerByAdmin(seller);
-		return "redirect:/sellers/views.do";
+		if (seller.getEnable()){
+			return "redirect:/sellers/viewsEnabled.do";
+		} else {
+			return "redirect:/sellers/viewsToEnable.do";
+		}
 	}
 	
 	@RequestMapping("/delete_start.do")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
-		return "seller.deleteform";
+		return "sellers.deleteform";
 	}
 	
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Seller seller) throws BusinessException {
 		service.deleteSeller(seller);
-		return "redirect:/sellers/views.do";
+		if (seller.getEnable()){
+			return "redirect:/sellers/viewsEnabled.do";
+		} else {
+			return "redirect:/sellers/viewsToEnable.do";
+		}
 	}
 
 }

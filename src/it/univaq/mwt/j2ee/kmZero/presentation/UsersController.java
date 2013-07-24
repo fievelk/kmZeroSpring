@@ -5,7 +5,6 @@ import java.util.Date;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
@@ -28,6 +27,9 @@ public class UsersController {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private UserValidator validator;
 	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
@@ -54,6 +56,10 @@ public class UsersController {
 	
 	@RequestMapping(value="/create.do", method=RequestMethod.POST)
 	public String create(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
+		validator.validate(user, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "users.createform";
+		}
 		service.createUser(user);
 		return "redirect:/users/views.do";
 	}
@@ -62,12 +68,16 @@ public class UsersController {
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		User user = service.findUserById(id);
 		model.addAttribute("user", user);
-		return "user.updateform";
+		return "users.updateform";
 	}
 	
 	
-	@RequestMapping(value="/update.do", method = RequestMethod.POST)
+	@RequestMapping(value="/update.do", method=RequestMethod.POST)
 	public String update(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
+		validator.validate(user, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "users.updateform";
+		}
 		service.updateUser(user);
 		return "redirect:/users/views.do";
 	}
@@ -76,7 +86,7 @@ public class UsersController {
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		User user = service.findUserById(id);
 		model.addAttribute("user", user);
-		return "user.deleteform";
+		return "users.deleteform";
 	}
 	
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)

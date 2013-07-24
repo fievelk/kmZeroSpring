@@ -49,7 +49,15 @@
 	
 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.presentation"/>
 	
-	
+		<!-- Configurazione JPA - EntityManagerFactory bean -->
+		<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+			<property name="persistenceUnitName" value="kmz"/>
+		</bean>
+		
+		<!-- Configurazione JPA - Data Access Object Beans necessari per l'inject dell'entityManagerFactory -->
+		<!-- <bean id="imageDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAImageService" />
+		<bean id="productDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAProductService" /> -->
+		<bean id="userDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAUserService" />
 	
 	
 	

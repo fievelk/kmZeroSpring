@@ -30,6 +30,8 @@ public interface UserService {
 	
 	Seller findSellerById(long id) throws BusinessException;
 	
-	ResponseGrid<Seller> viewAllSellersPaginated(RequestGrid requestGrid) throws BusinessException;
+	ResponseGrid<Seller> viewAllSellersToEnablePaginated(RequestGrid requestGrid) throws BusinessException;
+	
+	ResponseGrid<Seller> viewAllSellersEnabledPaginated(RequestGrid requestGrid) throws BusinessException;
 
 }
