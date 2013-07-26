@@ -236,21 +236,33 @@ public class JPAUserService implements UserService{
 
 	@Override
 	public void deleteSeller(Seller seller) throws BusinessException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		em.remove(em.merge(seller));
 		et.commit();
 		em.close();
-		emf.close();
 		
 	}
 
 	@Override
-	public void upgradeSeller(User user) throws BusinessException {
-		// TODO Auto-generated method stub
+	public void upgradeSeller(Seller seller) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
 		
+		et.begin();
+		User user = em.find(User.class, seller.getId());
+		seller.setPassword(user.getPassword());
+		seller.setLast_access(user.getLast_access());
+		seller.setCreated(user.getCreated());
+		
+		em.remove(em.merge(user));
+		et.commit();
+		
+		et.begin();
+		em.merge(seller);
+		et.commit();
+		em.close();
 	}
 
 	@Override
@@ -332,6 +344,37 @@ public class JPAUserService implements UserService{
         em.close();
 		
 		return new ResponseGrid<Seller>(requestGrid.getsEcho(), records, records, sellers);
+	}
+
+	@Override
+	public void editPassword(long id, String password) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		User user = em.find(User.class, id);
+		Password p = new Password();
+		p.setPassword(DigestUtils.md5Hex(password));
+		user.setPassword(p);
+		em.merge(user);
+		
+		et.commit();
+		em.close();
+	}
+
+	@Override
+	public String oldPassword(long id) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		User user = em.find(User.class, id);
+		String db_password = user.getPassword().getPassword();
+		
+		et.commit();
+		em.close();
+		
+		return db_password;
 	}
 
 }

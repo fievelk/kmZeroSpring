@@ -14,11 +14,13 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h4>Confirm</h4>
     <p></p>
-    <img src=""/>
-    <br/>
-    <br/>
-    <a id="dialog_ok" class="btn" role="button">OK</a>
-    <a id="dialog_cancel" class="btn" role="button">CANCEL</a>
+    <div>
+    	<img src=""/>
+    </div>
+    <div>
+	    <a id="dialog_ok" class="btn" role="button">OK</a>
+	    <a id="dialog_cancel" class="btn" role="button">CANCEL</a>
+    </div>
   </div>
   <div class="modal-body">
 	<div class="form">

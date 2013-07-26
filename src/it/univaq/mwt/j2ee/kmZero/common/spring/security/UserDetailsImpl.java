@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +20,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.user = user;
 	}
 
+	
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
@@ -39,9 +41,9 @@ public class UserDetailsImpl implements UserDetails {
 	}
 	
 	/*---- USER DATA TO DISPLAY WITH PRINCIPAL -- START -----*/
-	public long getId() {
-		return user.getId();
-	}
+	public long getId(){
+    	return user.getId();
+    }
     public String getName() {
         return user.getName();
     }
@@ -54,7 +56,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getAddress() {
         return user.getAddress();
     }
-
+    public String getP_Iva(){
+    	Seller s = (Seller)user;
+    	return s.getP_iva();
+    }
     /*---- USER DATA TO DISPLAY WITH PRINCIPAL -- END -----*/
 	
 	@Override

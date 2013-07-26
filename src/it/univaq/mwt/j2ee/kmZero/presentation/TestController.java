@@ -12,12 +12,15 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +49,13 @@ public class TestController {
 		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
 		System.out.println("DATAILS;"+wad.getSessionId());
 		System.out.println("PRINCIPAL;"+a.getPrincipal());
-
+		System.out.println("CREDENTIAL;"+a.getCredentials());
+		System.out.println("CREDENTIAL;"+a.getDetails());
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		System.out.println("NAME;"+udi.getUser().getName());
+		
+	
 		return "test.test";
 	}
 	

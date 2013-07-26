@@ -26,6 +26,7 @@
 						<li><a href="${pageContext.request.contextPath}/sellers/viewsToEnable.do">Lista Venditori da Abilitare</a></li>
 						<li><a href="${pageContext.request.contextPath}/sellers/viewsEnabled.do">Lista Venditori Abilitati</a></li>
 					    <li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati come Venditore</a></li>
+					    <li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a Venditore</a></li>
                       </ul>
                    </li>      
                    <li class="dropdown">

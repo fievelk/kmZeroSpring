@@ -42,7 +42,7 @@ public class SellerValidator implements Validator {
 		if (seller.getPassword() != null){
 			ValidationUtils.rejectIfEmpty(errors, "password.password", "errors.required");
 			ValidationUtils.rejectIfEmpty(errors, "password.confirm_password", "errors.required");
-			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", seller.getPassword());
+			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", seller.getPassword().getPassword(), seller.getPassword().getConfirm_password());
 		}
 		ValidationUtility.checkEmail(errors, "email", "errors.email", seller.getEmail());
 		ValidationUtility.rejectIfMaxLength(errors, "address", "errors.maxlength", seller.getP_iva(), 11);

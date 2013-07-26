@@ -4,66 +4,46 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		var del = "${requestScope.delete}"; 
-		if (del == "true" ) {
-			$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
-		}		
+<script>
+/*--------SETUP READONLY FIELDS IF DELETING - START--------*/
+
+$(document).ready(function() {
+	var del = "${requestScope.delete}"; 
+	if (del == "true" ) {
+		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
+	}		
+});
+
+/*--------SETUP READONLY FIELDS IF DELETING - END--------*/
+ 
+/*--------DATE PICKER - START--------*/
+
+$(function() {
+	$( "#from" ).datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		dateFormat: 'dd/mm/yy',
+		//altField  : '#from',
+	    //altFormat : 'mm/dd/yy',
+		numberOfMonths: 3,
+		onClose: function( selectedDate ) {
+			$( "#to" ).datepicker( "option", "minDate", selectedDate );
+		}
 	});
-	
-	function dialog(image_id,product_id){
-		$('#dialog p').text("sicuro di voler rimuovere questa immagine?");
-		var imgsrc = "${pageContext.request.contextPath}/products/image/"+image_id;
-		$('#dialog img').attr("src",imgsrc);
-		$('#dialog_ok').click(function(){
-			doAjaxDeleteImg(image_id,product_id);
-			$('#dialog').modal('hide')
-		});
-		$('#dialog_cancel').click(function (){
-			$('#dialog').modal('hide')
-		});
-	}
-	
-	function doAjaxDeleteImg(image_id,product_id){
-		url = "${pageContext.request.contextPath}/products/"+product_id+"/image/"+image_id+"/delete";
-		$.ajax({
-			type: "POST",
-			url: url,
-			success: function(data) {
-						if(data == true){
-							$("#image_"+image_id).remove();
-						}
-					}
-		});		
-		return false;
-	}
-	
-	$(function() {
-		$( "#from" ).datepicker({
-			defaultDate: "+1w",
-			changeMonth: true,
-			dateFormat: 'dd/mm/yy',
-			//altField  : '#from',
-		    //altFormat : 'mm/dd/yy',
-			numberOfMonths: 3,
-			onClose: function( selectedDate ) {
-				$( "#to" ).datepicker( "option", "minDate", selectedDate );
-			}
-		});
-		$( "#to" ).datepicker({
-			defaultDate: "+1w",
-			changeMonth: true,
-			dateFormat: 'dd/mm/yy',
-			//altField  : '#to',
-		    //altFormat : 'mm/dd/yy',
-			numberOfMonths: 3,
-			onClose: function( selectedDate ) {
-				$( "#from" ).datepicker( "option", "maxDate", selectedDate );
-			}
-		});
+	$( "#to" ).datepicker({
+		defaultDate: "+1w",
+		changeMonth: true,
+		dateFormat: 'dd/mm/yy',
+		//altField  : '#to',
+	    //altFormat : 'mm/dd/yy',
+		numberOfMonths: 3,
+		onClose: function( selectedDate ) {
+			$( "#from" ).datepicker( "option", "maxDate", selectedDate );
+		}
 	});
-	
+});
+
+/*--------DATE PICKER END--------*/
 </script>
 
 <div class="items">
