@@ -5,6 +5,7 @@ import java.util.Date;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
@@ -30,6 +31,9 @@ public class UsersController {
 	
 	@Autowired
 	private UserValidator validator;
+	
+	@Autowired
+	private PasswordValidator validatorPassword;
 	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
@@ -92,6 +96,29 @@ public class UsersController {
 	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
 	public String delete(@ModelAttribute User user) throws BusinessException {
 		service.deleteUser(user);
+		return "redirect:/users/views.do";
+	}
+	
+	@RequestMapping("/edit_start_password.do")
+	public String editStartPassword(@RequestParam("id") Long id, Model model) throws BusinessException {
+		User user = service.findUserById(id);
+		model.addAttribute("user", user);
+		return "users.passwordform";
+	}
+	
+	@RequestMapping(value="/edit_password.do", method = RequestMethod.POST)
+	public String editPassword(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
+		/* Metodo che restituisce la password vecchia che è nel DB e poi fare il confronto
+		 * Ricordare che bisogna mettere l'hash altrimenti il confronto non funziona. */
+		Password password = user.getPassword();
+		password.setDb_password(service.oldPassword(user.getId()));
+		
+		//user.getPassword().setDb_password(service.oldPassword(user.getId()));
+		validatorPassword.validate(password, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "users.passwordform";
+		}
+		service.editPassword(user.getId(), user.getPassword().getPassword());
 		return "redirect:/users/views.do";
 	}
 

@@ -13,11 +13,11 @@ public class ValidationUtility {
 		}
 	}
 	
-	public static void checkPassword(Errors errors, String fieldName, String errorMessage, Password p){
+	public static void checkPassword(Errors errors, String fieldName, String errorMessage, String p1, String p2){
 		/*if (!cp.equals("") && !p.equals(cp)){
 			errors.rejectValue(fieldName, errorMessage);
 		}*/
-		if (!p.getConfirm_password().equals("") && !p.getPassword().equals(p.getConfirm_password())){
+		if (!p2.equals("") && !p1.equals(p2)){
 			errors.rejectValue(fieldName, errorMessage);
 		}
 	}
