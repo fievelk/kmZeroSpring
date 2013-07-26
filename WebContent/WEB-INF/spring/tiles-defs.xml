@@ -6,6 +6,7 @@
 <tiles-definitions>
 
     <definition name="standard" template="/WEB-INF/views/layout/00_layout.jsp">
+    	<put-attribute name="optionalJS" value=""/>
         <put-attribute name="header" value="/WEB-INF/views/layout/01_header.jsp"/>
         <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
         <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
@@ -17,6 +18,7 @@
     </definition>
     
     <definition name="standard_logged" template="/WEB-INF/views/layout/00_layout.jsp">
+    	<put-attribute name="optionalJS" value=""/>
         <put-attribute name="header" value="/WEB-INF/views/layout/01_header.jsp"/>
         <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
         <put-attribute name="loginModal" value=""/>
@@ -40,6 +42,10 @@
         <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
     </definition>
     
+    <definition name="productsFrontEnd.views" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/productsview.jsp"/>
+    </definition>
+    
     <definition name="products.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productslist.jsp"/>
     </definition>
@@ -55,6 +61,7 @@
     </definition>
  
     <definition name="products.updateform" extends="standard_logged">
+    	<put-attribute name="optionalJS" value="/WEB-INF/views/products/images_js.jsp"/>
     	<put-attribute name="addImagesModal" value="/WEB-INF/views/products/addImagesModal.jsp"/>
     	<put-attribute name="dialog" value="/WEB-INF/views/common/dialog.jsp"/>
     	<put-attribute name="actionModal" value="/products/addImages"/>

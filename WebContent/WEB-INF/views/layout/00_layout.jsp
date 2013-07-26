@@ -44,14 +44,12 @@
 	
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="img/favicon/favicon.png">
-    
-	
 
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.9.1.min.js"></script> <!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
-    
+    <tiles:insertAttribute name="optionalJS"/>
 <!-- Collegamenti per il jQuery datepicker -->    
 <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -89,7 +87,6 @@
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/nav.js"></script> <!-- Sidebar navigation -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/jquery.carouFredSel-6.1.0-packed.js"></script> <!-- Carousel for recent posts -->
 	<script src="${pageContext.request.contextPath}/resources/mackart/js/custom.js"></script> <!-- Custom codes -->
-	<script src="${pageContext.request.contextPath}/resources/mackart/js/kmzero.js"></script> <!-- Custom codes -->
 	<script src="${pageContext.request.contextPath}/resources/datatables/js/my.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.form.min.js"></script>

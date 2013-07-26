@@ -9,6 +9,9 @@
 <li>Name<security:authentication property="principal.name"/></li>
 <li>Surname<security:authentication property="principal.surName"/></li>
 <li>Address<security:authentication property="principal.address"/></li>
+<security:authorize access="hasRole('seller')">
+<li>Piva<security:authentication property="principal.p_Iva"/></li>
+</security:authorize>
 </ul>
 
    

@@ -63,6 +63,23 @@ public class ProductsController {
 		return "common.test";
 	}
 
+	//FRONTEND
+	@RequestMapping("/")
+	public String productsFrontEnd() {
+		return "productsFrontEnd.views";
+	}
+	
+	@RequestMapping("/viewProducts2")
+	@ResponseBody
+	public void viewProducts2(@ModelAttribute RequestGrid requestGrid) throws BusinessException {
+		System.out.println(requestGrid.getSortCol());
+		//ResponseGrid<Product> result = service.viewProducts(requestGrid);
+		//return result;
+	}
+	
+	
+	
+	//BACKEND
 	
 	@RequestMapping("/views.do")
 	public String views() {
