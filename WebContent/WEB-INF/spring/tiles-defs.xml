@@ -135,6 +135,11 @@
         <put-attribute name="delete" value="true"/>
     </definition>
     
+    <definition name="users.passwordform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/passwordform.jsp"/>
+        <put-attribute name="action" value="/users/edit_password.do"/>
+    </definition>
+    
     <!-- SELLERS -->
     
     <definition name="sellerstoenable.views" extends="standard">
@@ -169,6 +174,11 @@
         <put-attribute name="delete" value="true"/>
     </definition>
     
+    <definition name="sellers.upgradeform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
+        <put-attribute name="action" value="/sellers/upgrade.do"/>
+        <put-attribute name="upgrade" value="true"/>
+    </definition>
     <!-- USERS TILES END -->
 
 </tiles-definitions>

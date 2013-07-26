@@ -3,13 +3,17 @@ package it.univaq.mwt.j2ee.kmZero.presentation;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -136,6 +140,38 @@ public class SellersController {
 		} else {
 			return "redirect:/sellers/viewsToEnable.do";
 		}
+	}
+	
+	@RequestMapping("/upgrade_start.do")
+	public String upgradeStart(Model model) throws BusinessException {
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
+		User user = service.findUserById(id);
+		
+		Seller seller = new Seller();
+		seller.setId(user.getId());
+		seller.setName(user.getName());
+		seller.setSurname(user.getSurname());
+		seller.setPassword(user.getPassword());
+		seller.setEmail(user.getEmail());
+		seller.setCreated(user.getCreated());
+		seller.setDate_of_birth(user.getDate_of_birth());
+		seller.setLast_access(user.getLast_access());
+		seller.setAddress(user.getAddress());
+		
+		//seller = (Seller) user;
+		model.addAttribute("seller", seller);
+		return "sellers.upgradeform";
+	}
+	
+	@RequestMapping(value="/upgrade.do", method = RequestMethod.POST)
+	public String upgrade(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		validator.validate(seller, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "sellers.upgradeform";
+		}
+		service.upgradeSeller(seller);
+		return "redirect:/sellers/viewsToEnable.do";
 	}
 
 }

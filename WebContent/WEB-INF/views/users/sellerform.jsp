@@ -6,14 +6,6 @@
 
 
 <script>
-$(document).ready(function() {
-	var del = "${requestScope.delete}"; 
-	if (del == "true" ) {
-		$(":input[type='text']").each(function () { $(this).attr('readonly',true); });				
-	}		
-});
-
-
 $(function() {
 	$( "#datepicker" ).datepicker({
 		defaultDate: "1/1/1960",
@@ -52,10 +44,10 @@ $(function() {
 			<div class="span9">
 				<h5 class="title">
 					<c:choose>
-			      		<c:when test="${requestScope.delete eq 'true'}">
-							<spring:message code="seller.delete"/>
+			      		<c:when test="${requestScope.upgrade}">
+							<spring:message code="seller.upgrade"/>
 			      		</c:when>
-			      		<c:when test="${requestScope.update eq 'true'}">
+			      		<c:when test="${requestScope.update}">
 			      			<spring:message code="seller.edit"/>
 			   			</c:when>
 			      	</c:choose>	
@@ -99,6 +91,33 @@ $(function() {
 							<form:errors path="address"/>
 					    </div>
 					</div>
+					
+					<c:choose>
+						<c:when test="${requestScope.upgrade}">
+							<div class="control-group">
+							    <label class="control-label" for="p_iva"><spring:message code="seller.p_iva"/></label>
+							    <div class="controls">
+									<form:input id="p_iva" path="p_iva"/>
+									<form:errors path="p_iva"/>
+							    </div>
+							</div>
+							<div class="control-group">
+							    <label class="control-label" for="cod_fisc"><spring:message code="seller.cod_fisc"/></label>
+							    <div class="controls">
+									<form:input id="cod_fisc" path="cod_fisc"/>
+									<form:errors path="cod_fisc"/>
+							    </div>
+							</div>
+							<div class="control-group">
+							    <label class="control-label" for="company"><spring:message code="seller.company"/></label>
+							    <div class="controls">
+									<form:input id="company" path="company"/>
+									<form:errors path="company"/>
+							    </div>
+							</div>
+						</c:when>
+					</c:choose>
+					
 					<div class="control-group">
 					    <label class="control-label" for="url"><spring:message code="seller.url"/></label>
 					    <div class="controls">
@@ -117,14 +136,7 @@ $(function() {
 					<div class="control-group">
 					    <div class="controls">
 					      <button type="submit" class="btn">
-					      	<c:choose>
-					      		<c:when test="${!requestScope.delete}">
-									<spring:message code="common.submit"/>
-					      		</c:when>
-					      		<c:otherwise>
-					      			<spring:message code="common.delete"/>
-					      		</c:otherwise>
-					      	</c:choose>	
+					      	<spring:message code="common.submit"/>
 					      </button>
 						</div>
 					</div>
