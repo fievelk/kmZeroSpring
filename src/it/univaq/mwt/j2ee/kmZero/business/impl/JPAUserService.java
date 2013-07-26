@@ -124,7 +124,7 @@ public class JPAUserService implements UserService{
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND u.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), User.class);
 		
-		//System.out.println("Questa è la query:" + query);
+		//System.out.println("Questa ï¿½ la query:" + query);
 		
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);

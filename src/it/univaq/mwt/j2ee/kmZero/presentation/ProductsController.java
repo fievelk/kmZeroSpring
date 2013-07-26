@@ -11,10 +11,14 @@ import java.util.Set;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.SecurityService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
+import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +34,12 @@ import org.springframework.web.multipart.MultipartFile;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
 import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 
 @Controller
@@ -45,24 +52,16 @@ public class ProductsController {
 	@Autowired
 	private ImageService imageService;
 
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private SecurityService securityService;
 	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
-	
-	
-	@RequestMapping(value="/testCreateProduct")
-	public String createProduct(Model model) throws BusinessException {
-
-		//Eliminare, è solo per il test
-		Product product = new Product();
-		
-		service.createProduct(product);	
-		model.addAttribute("test", 654);
-		return "common.test";
-	}
-
 	
 	@RequestMapping("/views.do")
 	public String views() {
@@ -87,8 +86,13 @@ public class ProductsController {
 	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid);
-		
+	      
+		// L'utente loggato è sicuramente un Seller (altrimenti non avrebbe potuto accedere alla pagina)
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetailsImpl udi = (UserDetailsImpl)auth.getPrincipal();
+		long userId = udi.getId();
+		Seller seller = userService.findSellerById(userId);
+		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid, seller);
 		return result;
 	}
 	

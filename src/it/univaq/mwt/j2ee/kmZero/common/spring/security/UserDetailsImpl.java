@@ -39,6 +39,9 @@ public class UserDetailsImpl implements UserDetails {
 	}
 	
 	/*---- USER DATA TO DISPLAY WITH PRINCIPAL -- START -----*/
+	public long getId() {
+		return user.getId();
+	}
     public String getName() {
         return user.getName();
     }

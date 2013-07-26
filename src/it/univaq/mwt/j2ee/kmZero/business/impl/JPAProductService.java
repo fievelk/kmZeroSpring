@@ -19,6 +19,7 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 public class JPAProductService implements ProductService{
@@ -43,6 +44,11 @@ public class JPAProductService implements ProductService{
 		product.setActive(true);
 		
         tx.begin();
+        
+		Seller seller = em.find(Seller.class, 126L); // Cambiare l'ID finchÃ© si fanno le prove. Poi eliminare del tutto questa parte
+		System.out.println("SELLERNAME " + seller.getName());
+		//em.merge(seller);
+		product.setSeller(seller);
         
        // em.persist(cat);
        // em.persist(cat2);
@@ -115,7 +121,7 @@ public class JPAProductService implements ProductService{
 
 	
 	@Override
-	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException {
+	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -136,10 +142,17 @@ public class JPAProductService implements ProductService{
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+/*		VERSIONE CON IL SELLER */
+ 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 and p.seller = :seller" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
 
+		query.setParameter("seller", seller);
+        
+/*		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
+				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+*/
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
 		
@@ -153,6 +166,7 @@ public class JPAProductService implements ProductService{
         
 		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
 	}
+
 
 	@Override
 	public List<Category> findAllCategories() throws BusinessException {
@@ -200,7 +214,7 @@ public class JPAProductService implements ProductService{
 		
 		tx.begin();
 		Product p = findProductById(id);
-		//riprendo la collezione di immagini giˆ associate all'oggetto e...
+		//riprendo la collezione di immagini giï¿½ associate all'oggetto e...
 		Collection<Image> c = new HashSet<Image>(p.getImages());
 		//...aggiungo la nuova collezione (le fondo assieme)
 		c.addAll(ci);
