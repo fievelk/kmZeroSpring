@@ -3,6 +3,7 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -21,11 +23,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -51,7 +51,7 @@ public class User implements java.io.Serializable{
 	private String email;
 	
 	@Column(name="password")
-	private String password;
+	private Password password;
 	
 	@Column(name="created",nullable=true) 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -71,7 +71,7 @@ public class User implements java.io.Serializable{
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
 	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<Role>();
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -84,8 +84,8 @@ public class User implements java.io.Serializable{
 		this.id = id;
 	}
 	
-	public User(String name, String surname, String email, String password,
-			Date created, Date date_of_birth, String address,Set<Role> roles) {
+	public User(String name, String surname, String email, Password password, Date created, 
+			Date date_of_birth, String address) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -94,12 +94,11 @@ public class User implements java.io.Serializable{
 		this.created = created;
 		this.date_of_birth = date_of_birth;
 		this.address = address;
-		this.roles = roles;
 	}
 
-	public User(long id, String name, String surname, String email, String password,
-			Date created, Date date_of_birth, String address,Set<Role> roles) {
-		this(name,surname,email,password,created,date_of_birth,address,roles);
+	public User(long id, String name, String surname, String email, Password password, 
+			Date created, Date date_of_birth, String address) {
+		this(name,surname,email,password,created,date_of_birth,address);
 		this.id = id;
 	}
 	
@@ -138,7 +137,7 @@ public class User implements java.io.Serializable{
 	}
 	
 	// Costruttore per il cambio password
-	public User(long id, String password) {
+	public User(long id, Password password) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -172,10 +171,11 @@ public class User implements java.io.Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
+	@Embedded
+	public Password getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public void setPassword(Password password) {
 		this.password = password;
 	}
 

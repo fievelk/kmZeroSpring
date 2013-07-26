@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,16 +29,21 @@ public class Role implements java.io.Serializable {
 	private String description;
 	
 	@ManyToMany(mappedBy="roles")
-	private Set<User> users;
+	private Set<User> users = new HashSet<User>();
 	
 	private static final long serialVersionUID = 1L;
 	
 	public Role() {
 		super();
 	}
+	
+	public Role(int id){
+		this.id = id;
+	}
 
-	public Role(String name, String description) {
+	public Role(int id, String name, String description) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
@@ -65,6 +71,14 @@ public class Role implements java.io.Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 

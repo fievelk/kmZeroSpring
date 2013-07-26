@@ -51,12 +51,15 @@
 			<div class="span9">
 				<h5 class="title">
 					<c:choose>
-			      		<c:when test="${requestScope.delete eq 'true'}">
+			      		<c:when test="${requestScope.delete}">
 							<spring:message code="user.delete"/>
 			      		</c:when>
-			      		<c:otherwise>
+			      		<c:when test="${requestScope.create}">
+							<spring:message code="user.create"/>
+			      		</c:when>
+			      		<c:when test="${requestScope.update}">
 			      			<spring:message code="user.edit"/>
-			      		</c:otherwise>
+			   			</c:when>
 			      	</c:choose>	
 		      	</h5>
 				<div class="form form-small">
@@ -66,25 +69,48 @@
 					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
 					    <div class="controls">
 					    	<form:input id="name" path="name"/>
+					    	<form:errors path="name"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="surname"><spring:message code="user.surname"/></label>
 					    <div class="controls">
 					    	<form:input id="surname" path="surname"/>
+					    	<form:errors path="surname"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="email"><spring:message code="user.email"/></label>
 					    <div class="controls">
 					    	<form:input id="email" path="email"/>
+					    	<form:errors path="email"/>
 					    </div>
 					</div>
+					
+					<c:choose>
+						<c:when test="${requestScope.create}">
+							<div class="control-group">
+							    <label class="control-label" for="password"><spring:message code="user.password"/></label>
+							    <div class="controls">
+							    	<form:password id="password" path="password.password"/>
+							    	<form:errors path="password.password"/>
+							    </div>
+							</div>
+							<div class="control-group">
+							    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
+							    <div class="controls">
+							    	<form:password id="confirm_password" path="password.confirm_password"/>
+							    	<form:errors path="password.confirm_password"/>
+							    </div>
+							</div>
+						</c:when>
+					</c:choose>
 					
 					<div class="control-group">
 					    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 						<div class="controls">
 							<form:input id="datepicker" path="date_of_birth"/>
+							<form:errors path="date_of_birth"/>
 						</div>
 					</div>
 					
@@ -92,6 +118,7 @@
 					    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 					    <div class="controls">
 							<form:input id="address" path="address"/>
+							<form:errors path="address"/>
 					    </div>
 					</div>
 					

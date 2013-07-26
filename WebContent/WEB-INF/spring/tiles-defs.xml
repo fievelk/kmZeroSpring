@@ -118,18 +118,18 @@
     </definition>
     
     <definition name="users.createform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/users/usercreateform.jsp"/>
         <put-attribute name="action" value="/users/create.do"/>
-        <!-- <put-attribute name="create" value="true"/> -->
-    </definition>
-    
-    <definition name="user.updateform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
-        <put-attribute name="action" value="/users/update.do"/>
-        <!-- <put-attribute name="update" value="true"/> -->
+        <put-attribute name="create" value="true"/>
     </definition>
     
-    <definition name="user.deleteform" extends="standard">
+    <definition name="users.updateform" extends="standard">
+        <put-attribute name="action" value="/users/update.do"/>
+        <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
+        <put-attribute name="update" value="true"/>
+    </definition>
+    
+    <definition name="users.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
         <put-attribute name="action" value="/users/delete.do"/>
         <put-attribute name="delete" value="true"/>
@@ -137,29 +137,33 @@
     
     <!-- SELLERS -->
     
-    <definition name="sellers.views" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/users/sellerviews.jsp"/>
+    <definition name="sellerstoenable.views" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellertoenableviews.jsp"/>
+    </definition>
+    
+    <definition name="sellersenabled.views" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerenabledviews.jsp"/>
     </definition>
     
     <definition name="sellers.createform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
         <put-attribute name="action" value="/sellers/create.do"/>
-        <!-- <put-attribute name="create" value="true"/> -->
+        <put-attribute name="create" value="true"/>
     </definition>
     
-    <definition name="seller.updateformadmin" extends="standard">
+    <definition name="sellers.updateformadmin" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
         <put-attribute name="action" value="/sellers/update_admin.do"/>
-        <!-- <put-attribute name="update" value="true"/> -->
+        <put-attribute name="update" value="true"/>
     </definition>
     
-    <definition name="seller.updateform" extends="standard">
+    <definition name="sellers.updateform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
         <put-attribute name="action" value="/sellers/update.do"/>
-        <!-- <put-attribute name="update" value="true"/> -->
+        <put-attribute name="update" value="true"/>
     </definition>
     
-    <definition name="seller.deleteform" extends="standard">
+    <definition name="sellers.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
         <put-attribute name="action" value="/sellers/delete.do"/>
         <put-attribute name="delete" value="true"/>

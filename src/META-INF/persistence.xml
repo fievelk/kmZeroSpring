@@ -19,14 +19,11 @@
      		<property name="javax.persistence.jdbc.user" value="j2eekmzero"/>
      		<property name="javax.persistence.jdbc.password" value="j2eekmzero"/>
 
-     		<property name="eclipselink.application-location" value="/Users/aleph/Home/Master/98_PROGETTI/progetto_km0/j2ee/WorkSpace/kmZeroSpring/ddl"/>
-
+     		<!-- <property name="eclipselink.application-location" value="/Users/aleph/Home/Master/98_PROGETTI/progetto_km0/j2ee/WorkSpace/kmZeroSpring/ddl"/> -->
      		<!-- <property name="eclipselink.application-location" value="/home/fievelk/Master/j2ee/casa/ddl"/> -->
 
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
-
-		
 
 			<!-- Mostra le query SQL nella console -->
 			<property name="eclipselink.logging.level" value="FINE"/>

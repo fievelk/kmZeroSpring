@@ -19,13 +19,13 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/sellers/update_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
+		                       return "<a href='${pageContext.request.contextPath}/sellers/update_start_admin.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
 		                       		  "<a href='${pageContext.request.contextPath}/sellers/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>";
 		                    	
 		                     }
 		                  }
             ],
-            "sAjaxSource": "${pageContext.request.contextPath}/sellers/viewAllSellersPaginated.do",
+            "sAjaxSource": "${pageContext.request.contextPath}/sellers/viewAllSellersEnabledPaginated.do",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},        
             "fnServerParams": addsortparams
 		});
@@ -60,9 +60,9 @@
 
           <!-- <h5 class="title">My Account</h5> -->
 
-          <h5 class="title"><spring:message code="seller.views"/></h5>
+          <h5 class="title"><spring:message code="seller.enabled"/></h5>
           	<div class="row-fluid">
-				<a class="btn" href="${pageContext.request.contextPath}/sellers/create_start.do"><spring:message code="seller.add"/></a>
+				<a class="btn" href="${pageContext.request.contextPath}/sellers/create_start.do"><spring:message code="seller.create"/></a>
 			</div>
 				<table id="user" class="table table-striped tcart">
 				    <thead>
