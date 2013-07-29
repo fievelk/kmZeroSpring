@@ -76,6 +76,31 @@
         <put-attribute name="delete" value="true"/>
     </definition>    
          
+    <!--  Categories Tiles -->     
+
+    <definition name="categories.views" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categorieslist.jsp"/>
+    </definition>
+
+    <definition name="categories.createform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/createCategory"/>
+        <put-attribute name="create" value="true"/>
+    </definition>
+    
+    <definition name="categories.updateform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/updateCategory"/> 
+        <put-attribute name="update" value="true"/>
+    </definition>    
+    
+    <definition name="categories.deleteform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/deleteCategory"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>        
+    
+    <!-- End of Categories Tiles -->         
         
  	<!--ALEPH TESTS START-->
     <definition name="test.test" extends="standard">

@@ -55,9 +55,6 @@ public class ProductsController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private SecurityService securityService;
-	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
@@ -163,6 +160,58 @@ public class ProductsController {
 		service.deleteProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
+	
+	// CATEGORIES
+	
+	@RequestMapping("/viewsCategories")
+	public String viewsCategories() {
+		return "categories.views";
+	}
+	
+	@RequestMapping("/createCategory_start")
+	public String createCategoryStart(Model model) throws BusinessException {
+		model.addAttribute("category", new Category());
+		return "categories.createform";
+	}
+	
+	@RequestMapping(value="/createCategory", method=RequestMethod.POST)
+	public String create(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
+		service.createCategory(category);
+		return "redirect:/products/viewsCategories";
+	}
+	
+	@RequestMapping("/updateCategory_start")
+	public String updateCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Category category = service.findCategoryById(id);
+		model.addAttribute("category", category);
+		model.addAttribute("id", id);
+		return "categories.updateform";
+	}
+	
+	
+	@RequestMapping(value="/updateCategory", method = RequestMethod.POST)
+	public String update(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
+		service.updateCategory(category);
+		return "redirect:/products/viewsCategories";
+	}	
+	
+	
+	@RequestMapping(value="/deleteCategory_start")
+	public String deleteCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		
+		Category category = service.findCategoryById(id);
+		model.addAttribute("category", category);
+		return "categories.deleteform";
+	}
+	
+	
+	@RequestMapping(value="/deleteCategory", method = RequestMethod.POST)
+	public String deleteCategory(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
+		service.deleteCategory(category);
+		return "redirect:/products/viewsCategories";
+	}	
+	
+	//IMAGES
 	
 	@RequestMapping(value="/addImages", method = RequestMethod.POST)
 	public @ResponseBody Collection<Image> addImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("prod_id") Long id) throws BusinessException, IOException {

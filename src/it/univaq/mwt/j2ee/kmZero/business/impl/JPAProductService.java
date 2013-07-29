@@ -169,6 +169,60 @@ public class JPAProductService implements ProductService{
 
 
 	@Override
+	public void createCategory(Category category) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.persist(category);
+        
+        tx.commit();
+        em.close();
+	}
+	
+	@Override
+	public void updateCategory(Category category) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.merge(category);
+           
+        tx.commit();
+        em.close();
+        		
+	}
+	
+	
+	@Override
+	public void deleteCategory(Category category) {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+
+		category = em.merge(category);
+		em.remove(category);
+
+		tx.commit();
+		em.close();
+	
+	}
+	
+	
+	@Override
+	public Category findCategoryById(long id) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		Category category = em.find(Category.class, id);	
+		em.close();
+		return category;
+	}
+	
+	@Override
 	public List<Category> findAllCategories() throws BusinessException {
 	
 		EntityManager em = this.emf.createEntityManager();
@@ -179,6 +233,7 @@ public class JPAProductService implements ProductService{
 		return categories;
 	}
 
+	
 	@Override
 	public Product findProductById(long id) throws BusinessException {
 		EntityManager em = this.emf.createEntityManager();
@@ -277,5 +332,8 @@ public class JPAProductService implements ProductService{
 		em.close();
 		return val;
 	}
+
+
+
 
 }
