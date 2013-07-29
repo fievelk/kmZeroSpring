@@ -24,14 +24,14 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/users/update_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" +  
-		                       		  "<a href='${pageContext.request.contextPath}/users/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>" + 
+		                       return "<a href='${pageContext.request.contextPath}/users/admin/update_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" +  
+		                       		  "<a href='${pageContext.request.contextPath}/users/admin/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>" + 
 		                       		  "<a href='${pageContext.request.contextPath}/users/edit_start_password.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-locked'></a>";
 		                    	
 		                     }
 		                  }
             ],
-            "sAjaxSource": "${pageContext.request.contextPath}/users/viewAllUsersPaginated.do",
+            "sAjaxSource": "${pageContext.request.contextPath}/users/admin/viewAllUsersPaginated.do",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},        
             "fnServerParams": addsortparams
 		});
