@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
@@ -26,6 +27,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,20 +45,41 @@ public class JPATestService implements TestService{
         System.out.println ("Transaction begins.");
         em.getTransaction().begin();
         try {
-			Role r1 = new Role("vendor", "vendor");
-			Role r2 = new Role("user", "user");
-			Set<Role> rs = new HashSet<Role>();
-			rs.add(r1); rs.add(r2);
+			Role r1 = new Role(1, "seller", "seller");
+			Role r2 = new Role(2, "user", "user");
+			Role r3 = new Role(3, "admin", "admin");
+			Set<Role> rs1 = new HashSet<Role>();
+			Set<Role> rs2 = new HashSet<Role>();
+			Set<Role> rs3 = new HashSet<Role>();
+			rs1.add(r1);
+			rs1.add(r2);
+			rs2.add(r2);
+			rs3.add(r3);
 			
 			em.persist(r1);
 			em.persist(r2);
+			em.persist(r3);
 			
-			User u1 = new User("paolo", "paolo","paolo@gmail.com","pp",null,null, "via brancastello", rs);
-			User u2 = new User("federico", "federico","federico@gmail.com","ff",null,null, "via paganica", rs);
+			User u1 = new User("paolo", "paolo", "paolo@gmail.com", null, null, null, "via brancastello");
+			User u2 = new User("federico", "federico","federico@gmail.com", null ,null, null, "via paganica");
+			User u3 = new User("admin", "admin", "admin@email.it", null, null, null, "via, admin 1");
+			Password p1 = new Password();
+			Password p2 = new Password();
+			Password p3 = new Password();
+			p1.setPassword(DigestUtils.md5Hex("p"));
+			p2.setPassword(DigestUtils.md5Hex("f"));
+			p3.setPassword(DigestUtils.md5Hex("a"));
+			u1.setPassword(p1);
+			u2.setPassword(p2);
+			u3.setPassword(p3);
+			u1.setRoles(rs1);
+			u2.setRoles(rs2);
+			u3.setRoles(rs3);
    
 			
 			em.persist(u1);
 			em.persist(u2);
+			em.persist(u3);
 			
 			em.getTransaction().commit();
 		} catch (Exception e) {
@@ -130,8 +153,8 @@ public class JPATestService implements TestService{
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
         EntityManager em = emf.createEntityManager();
         System.out.println("ROLESSSS:"+user.getRoles());
-        Role r1 = new Role("vendor", "vendor");
-		Role r2 = new Role("user", "user");
+        Role r1 = new Role(1, "seller", "seller");
+		Role r2 = new Role(2, "user", "user");
 		Set<Role> rs = new HashSet<Role>();
 		rs.add(r1); rs.add(r2);
 		user.setRoles(rs);

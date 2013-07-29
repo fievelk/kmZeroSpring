@@ -19,13 +19,13 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/sellers/update_start_admin.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
-		                       		  "<a href='${pageContext.request.contextPath}/sellers/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>";
+		                       return "<a href='${pageContext.request.contextPath}/sellers/admin/update_start_admin.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
+		                       		  "<a href='${pageContext.request.contextPath}/sellers/admin/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>";
 		                    	
 		                     }
 		                  }
             ],
-            "sAjaxSource": "${pageContext.request.contextPath}/sellers/viewAllSellersEnabledPaginated.do",
+            "sAjaxSource": "${pageContext.request.contextPath}/sellers/admin/viewAllSellersEnabledPaginated.do",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},        
             "fnServerParams": addsortparams
 		});

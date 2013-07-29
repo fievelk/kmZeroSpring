@@ -40,24 +40,24 @@ public class SellersController {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/viewsToEnable.do")
+	@RequestMapping("/admin/viewsToEnable.do")
 	public String viewsToEnable(){
 		return "sellerstoenable.views";
 	}
 	
-	@RequestMapping("/viewsEnabled.do")
+	@RequestMapping("/admin/viewsEnabled.do")
 	public String viewsEnabled(){
 		return "sellersenabled.views";
 	}
 	
-	@RequestMapping("/viewAllSellersToEnablePaginated.do")
+	@RequestMapping("/admin/viewAllSellersToEnablePaginated.do")
 	@ResponseBody
 	public ResponseGrid<Seller> findAllSellersToEnablePaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
 		ResponseGrid<Seller> result = service.viewAllSellersToEnablePaginated(requestGrid);
 		return result;
 	}
 	
-	@RequestMapping("/viewAllSellersEnabledPaginated.do")
+	@RequestMapping("/admin/viewAllSellersEnabledPaginated.do")
 	@ResponseBody
 	public ResponseGrid<Seller> findAllSellersEnabledPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
 		ResponseGrid<Seller> result = service.viewAllSellersEnabledPaginated(requestGrid);
@@ -77,11 +77,13 @@ public class SellersController {
 			return "sellers.createform";
 		}
 		service.createSeller(seller);
-		return "redirect:/sellers/viewsToEnable.do";
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/update_start.do")
-	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+	public String updateStart(Model model) throws BusinessException {
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
 		return "sellers.updateform";
@@ -95,15 +97,16 @@ public class SellersController {
 			return "sellers.updateform";
 		}
 		service.updateSeller(seller);
-		if (seller.getEnable()){
+		/*if (seller.getEnable()){
 			return "redirect:/sellers/viewsEnabled.do";
 		} else {
 			return "redirect:/sellers/viewsToEnable.do";
-		}
+		}*/
+		return "redirect:/";
 		
 	}
 	
-	@RequestMapping("/update_start_admin.do")
+	@RequestMapping("/admin/update_start.do")
 	public String updateStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
@@ -111,7 +114,7 @@ public class SellersController {
 	}
 	
 	
-	@RequestMapping(value="/update_admin.do", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/update.do", method = RequestMethod.POST)
 	public String updateByAdmin(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
 		validator.validate(seller, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -119,26 +122,26 @@ public class SellersController {
 		}
 		service.updateSellerByAdmin(seller);
 		if (seller.getEnable()){
-			return "redirect:/sellers/viewsEnabled.do";
+			return "redirect:/sellers/admin/viewsEnabled.do";
 		} else {
-			return "redirect:/sellers/viewsToEnable.do";
+			return "redirect:/sellers/admin/viewsToEnable.do";
 		}
 	}
 	
-	@RequestMapping("/delete_start.do")
+	@RequestMapping("/admin/delete_start.do")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
 		return "sellers.deleteform";
 	}
 	
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/delete.do", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Seller seller) throws BusinessException {
 		service.deleteSeller(seller);
 		if (seller.getEnable()){
-			return "redirect:/sellers/viewsEnabled.do";
+			return "redirect:/sellers/admin/viewsEnabled.do";
 		} else {
-			return "redirect:/sellers/viewsToEnable.do";
+			return "redirect:/sellers/admin/viewsToEnable.do";
 		}
 	}
 	
@@ -171,7 +174,7 @@ public class SellersController {
 			return "sellers.upgradeform";
 		}
 		service.upgradeSeller(seller);
-		return "redirect:/sellers/viewsToEnable.do";
+		return "redirect:/";
 	}
 
 }

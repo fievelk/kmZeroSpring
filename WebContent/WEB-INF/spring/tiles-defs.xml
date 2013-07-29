@@ -154,9 +154,15 @@
         <put-attribute name="update" value="true"/>
     </definition>
     
+    <definition name="users.updateformadmin" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
+        <put-attribute name="action" value="/users/admin/update.do"/>
+        <put-attribute name="update" value="true"/>
+    </definition>
+    
     <definition name="users.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
-        <put-attribute name="action" value="/users/delete.do"/>
+        <put-attribute name="action" value="/users/admin/delete.do"/>
         <put-attribute name="delete" value="true"/>
     </definition>
     
@@ -183,7 +189,7 @@
     
     <definition name="sellers.updateformadmin" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/update_admin.do"/>
+        <put-attribute name="action" value="/sellers/admin/update.do"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
@@ -195,7 +201,7 @@
     
     <definition name="sellers.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/delete.do"/>
+        <put-attribute name="action" value="/sellers/admin/delete.do"/>
         <put-attribute name="delete" value="true"/>
     </definition>
     
