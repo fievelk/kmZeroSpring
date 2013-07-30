@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -34,6 +35,9 @@ public class Seller extends User {
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
 	private Collection<Image> images;
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "seller_fk")
+	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -157,6 +161,14 @@ public class Seller extends User {
 
 	public void setImages(Collection<Image> images) {
 		this.images = images;
+	}
+
+	public Collection<SellerContent> getContents() {
+		return contents;
+	}
+
+	public void setContents(Collection<SellerContent> contents) {
+		this.contents = contents;
 	}
 	
 }

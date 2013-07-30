@@ -36,6 +36,8 @@
 	<link href="${pageContext.request.contextPath}/resources/custom/css/kmzero.css" rel="stylesheet">
 	<!-- Stylesheet for Color -->
 	<link href="${pageContext.request.contextPath}/resources/datatables/css/kmzero_datatables.css" rel="stylesheet">
+	<!-- CLEditor -->
+	<link href="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.css" rel="stylesheet"> <!-- CLEditor -->
 	
 	<!-- HTML5 Support for IE -->
 	<!--[if lt IE 9]>
@@ -47,7 +49,7 @@
 
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.9.1.min.js"></script> <!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
-
+	
 
     <tiles:insertAttribute name="optionalJS"/>
 <!-- Collegamenti per il jQuery datepicker -->    
@@ -90,7 +92,7 @@
 	<script src="${pageContext.request.contextPath}/resources/datatables/js/my.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.form.min.js"></script>
-   
+    <script src="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.min.js"></script> <!-- CLEditor -->
     
   </body>
   
