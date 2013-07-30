@@ -42,6 +42,10 @@
         <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
     </definition>
     
+    <definition name="common.accessdenied" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
+    </definition>
+    
     <definition name="productsFrontEnd.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productsview.jsp"/>
     </definition>
