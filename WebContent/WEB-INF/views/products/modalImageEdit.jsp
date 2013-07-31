@@ -10,9 +10,9 @@
     <button id="modalWindow_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h4><spring:message code="image.edit_title"/></h4>
     <p><spring:message code="image.edit_msg"/></p>
-    <div>
-    	<img src=""/>
-    </div>
+	<div>
+		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}"/>
+	</div>
   </div>
 	<div class="modal-body">
 		<div class="form">
@@ -21,9 +21,6 @@
 			<div class="span4">
 				<form:hidden path="id"/>
 				<input type="hidden" name="prod_id" value="${prod_id}">
-				<div>
-   				 	<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}"/>
-  				</div>
 				<div>
 				    <label for="altName"><spring:message code="image.altName"/></label>
 				    <div>

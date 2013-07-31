@@ -93,19 +93,19 @@ public class JPAProductService implements ProductService{
         System.out.println("MAXROWS:"+maxRows);
         String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 " +
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 AND :today BETWEEN p.date_in AND p.date_out" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND lower(p.name) LIKE '" + search.toLowerCase() + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() : ""), Product.class);
 
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
 		
-		//query.setParameter("today", today);
+		query.setParameter("today", today);
 		List<Product> products = query.getResultList();
 		Long records = (long) products.size();
 		
-		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1 " + ((!"".equals(requestGrid.getsSearch())) ? " AND lower(p.name) LIKE '" + search.toLowerCase() + "'" : ""));
-		//AND :today BETWEEN p.date_in AND p.date_outcount.setParameter("today", today);
+		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1 AND :today BETWEEN p.date_in AND p.date_out" + ((!"".equals(requestGrid.getsSearch())) ? " AND lower(p.name) LIKE '" + search.toLowerCase() + "'" : ""));
+		count.setParameter("today", today);
 		Long totalRecords = (Long) count.getSingleResult();
         
         tx.commit();
