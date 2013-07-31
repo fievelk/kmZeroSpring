@@ -129,10 +129,21 @@
         <put-attribute name="update" value="true"/>
     </definition>
     
+    <definition name="users.updateformadmin" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
+        <put-attribute name="action" value="/users/admin/update.do"/>
+        <put-attribute name="update" value="true"/>
+    </definition>
+    
     <definition name="users.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
-        <put-attribute name="action" value="/users/delete.do"/>
+        <put-attribute name="action" value="/users/admin/delete.do"/>
         <put-attribute name="delete" value="true"/>
+    </definition>
+    
+    <definition name="users.passwordform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/passwordform.jsp"/>
+        <put-attribute name="action" value="/users/edit_password.do"/>
     </definition>
     
     <!-- SELLERS -->
@@ -153,7 +164,7 @@
     
     <definition name="sellers.updateformadmin" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/update_admin.do"/>
+        <put-attribute name="action" value="/sellers/admin/update.do"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
@@ -165,10 +176,29 @@
     
     <definition name="sellers.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/delete.do"/>
+        <put-attribute name="action" value="/sellers/admin/delete.do"/>
         <put-attribute name="delete" value="true"/>
     </definition>
     
+    <definition name="sellers.upgradeform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
+        <put-attribute name="action" value="/sellers/upgrade.do"/>
+        <put-attribute name="upgrade" value="true"/>
+    </definition>
+    
+    <definition name="sellers.contentform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellercontentform.jsp"/>
+        <put-attribute name="action" value="/sellers/content.do"/>
+    </definition>
+    
+    <definition name="sellers.viewcontent" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellercontentview.jsp"/>
+    </definition>
+    
+    <definition name="sellers.list" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerviews.jsp"/>
+        <put-attribute name="action" value="/sellers/views.do"/>
+    </definition>
     <!-- USERS TILES END -->
 
 </tiles-definitions>

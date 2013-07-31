@@ -34,7 +34,7 @@ public class UserValidator implements Validator {
 		if (user.getPassword() != null){
 			ValidationUtils.rejectIfEmpty(errors, "password.password", "errors.required");
 			ValidationUtils.rejectIfEmpty(errors, "password.confirm_password", "errors.required");
-			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", user.getPassword());
+			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", user.getPassword().getPassword(), user.getPassword().getConfirm_password());
 		}
 		ValidationUtility.checkEmail(errors, "email", "errors.email", user.getEmail());
 	}

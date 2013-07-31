@@ -6,10 +6,12 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Product</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Category</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.User</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Password</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Role</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
-
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<!--<class>it.univaq.mwt.j2ee.library.business.model.TitleKind</class> -->
 		

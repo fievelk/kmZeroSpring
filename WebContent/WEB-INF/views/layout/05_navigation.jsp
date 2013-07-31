@@ -1,3 +1,6 @@
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <!-- Navigation -->
           <div class="navbar">
            <div class="navbar-inner">
@@ -18,7 +21,7 @@
                         <li><a href="${pageContext.request.contextPath}/products/viewsforsellers.do">Lista Prodotti Vista Seller</a></li>
                       </ul>
                    </li>                   
-                   <li class="dropdown">
+                   <%-- <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utenti<b class="caret"></b></a>
                       <ul class="dropdown-menu">
                         <li><a href="${pageContext.request.contextPath}/users/views.do">Lista Utenti</a></li>
@@ -26,8 +29,37 @@
 						<li><a href="${pageContext.request.contextPath}/sellers/viewsToEnable.do">Lista Venditori da Abilitare</a></li>
 						<li><a href="${pageContext.request.contextPath}/sellers/viewsEnabled.do">Lista Venditori Abilitati</a></li>
 					    <li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati come Venditore</a></li>
+					    <li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a Venditore</a></li>
                       </ul>
-                   </li>      
+                   </li>    --%>
+                   
+                   <security:authorize access="isAuthenticated()">
+                	   <li class="dropdown">
+	                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utenti<b class="caret"></b></a>
+	                      <ul class="dropdown-menu">
+	                            
+	                   <security:authorize access="hasRole('admin')">            
+                       <li><a href="${pageContext.request.contextPath}/users/admin/views.do">Lista Utenti</a></li>
+					   <li><a href="${pageContext.request.contextPath}/sellers/admin/viewsToEnable.do">Lista Venditori da Abilitare</a></li>
+					   <li><a href="${pageContext.request.contextPath}/sellers/admin/viewsEnabled.do">Lista Venditori Abilitati</a></li>
+				   	   <li><a href="${pageContext.request.contextPath}/users/edit_start_password.do">Modifica la password</a></li> 
+	                   </security:authorize>
+	                   <security:authorize access="hasRole('user')">            
+                      	<li><a href="${pageContext.request.contextPath}/users/edit_start_password.do">Modifica la password</a></li>
+                      	<li><a href="${pageContext.request.contextPath}/users/update_start.do">Modifica i tuoi dati</a></li>
+					    <li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a Venditore</a></li>   
+	                   </security:authorize>
+	                   <security:authorize access="hasRole('seller')">            
+		                <li><a href="${pageContext.request.contextPath}/sellers/update_start.do">Modifica i tuoi dati</a></li>   
+	                   </security:authorize>
+	                   </ul>
+	                 </li>  
+	                 <security:authorize access="hasRole('seller')">            
+		                <li><a href="${pageContext.request.contextPath}/sellers/content_start.do"><spring:message code="seller.content"/></a></li>   
+	                 </security:authorize>
+                   </security:authorize>
+                   <li><a href="${pageContext.request.contextPath}/sellers/list.do">Venditori</a></li>
+                   
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">TESTS<b class="caret"></b></a>
                       <ul class="dropdown-menu">
