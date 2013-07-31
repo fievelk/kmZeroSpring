@@ -21,8 +21,14 @@ public class Image implements Serializable{
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	private String name;
-	@Basic(fetch=FetchType.LAZY)//sembra non avere effetto...
+	
+	private String altName;
+	
+	@Column(name="pos")
+	private int position;
+	
 	@Lob
 	private byte [] imageData;
 	
@@ -42,10 +48,15 @@ public class Image implements Serializable{
 		this.id = id;
 		this.name = name;
 	}
-
-	public Image(long id, String name, byte[] imageData) {
-		this(name,imageData);
+	
+	public Image(long id, String name, String altName, int position,
+			byte[] imageData) {
+		super();
 		this.id = id;
+		this.name = name;
+		this.altName = altName;
+		this.position = position;
+		this.imageData = imageData;
 	}
 
 	public long getId() {
@@ -70,6 +81,22 @@ public class Image implements Serializable{
 
 	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
+	}
+
+	public String getAltName() {
+		return altName;
+	}
+
+	public void setAltName(String altName) {
+		this.altName = altName;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	

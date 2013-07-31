@@ -17,7 +17,7 @@ public interface ProductService {
 	
 	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
 	
-	void updateProduct(Product product) throws BusinessException;
+	void updateProduct(Product product,List<Image> images) throws BusinessException;
 	
 	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
 
@@ -28,13 +28,5 @@ public interface ProductService {
 	void deleteProduct(Product product);
 
 	void setProductImages(Long id, Collection<Image> ci) throws BusinessException;
-
-	Collection<Image> getProductImages(Long id) throws BusinessException;
-
-	Collection<Image> getProductImagesIdName(Long id) throws BusinessException;
-
-	boolean deleteImage(Long id, Long product_id) throws BusinessException;;
-
-
 
 }

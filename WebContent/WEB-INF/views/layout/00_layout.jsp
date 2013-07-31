@@ -36,6 +36,7 @@
 	<link href="${pageContext.request.contextPath}/resources/custom/css/kmzero.css" rel="stylesheet">
 	<!-- Stylesheet for Color -->
 	<link href="${pageContext.request.contextPath}/resources/datatables/css/kmzero_datatables.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/pagination/simplePagination.css" rel="stylesheet">
 	
 	<!-- HTML5 Support for IE -->
 	<!--[if lt IE 9]>
@@ -49,7 +50,7 @@
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
 
 
-    <tiles:insertAttribute name="optionalJS"/>
+    <script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
 <!-- Collegamenti per il jQuery datepicker -->    
 <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -66,8 +67,7 @@
 	<tiles:insertAttribute name="cartModal"/>
 	<tiles:insertAttribute name="loginModal"/>
 	<tiles:insertAttribute name="registerModal"/>
-	<tiles:insertAttribute name="addImagesModal"/>
-	<tiles:insertAttribute name="dialog"/>
+	<div id="modalWindow"></div>
 	
 	<!-- Cart, Login and Register form (Modal) END -->
 	
@@ -90,6 +90,8 @@
 	<script src="${pageContext.request.contextPath}/resources/datatables/js/my.js"></script>
     <script src="${pageContext.request.contextPath}/resources/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.form.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/pagination/jquery.simplePagination.js"></script> 
+   
    
     
   </body>

@@ -57,14 +57,11 @@ public class JPAProductService implements ProductService{
 	
 		
 	@Override
-	public void updateProduct(Product product) throws BusinessException {
+	public void updateProduct(Product product,List<Image> images) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        Collection<Image> images = getProductImages(product.getId());
-        
+        tx.begin();        
         product.setImages(images);
         em.merge(product);
            
@@ -92,25 +89,30 @@ public class JPAProductService implements ProductService{
         
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
+        System.out.println("MINROWS:"+minRows);    
+        System.out.println("MAXROWS:"+maxRows);
+        String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 AND :today BETWEEN p.date_in AND p.date_out" +
-				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
-				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 " +
+				 ((!"".equals(requestGrid.getsSearch())) ? " AND lower(p.name) LIKE '" + search.toLowerCase() + "'" : "") +
+				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() : ""), Product.class);
 
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
 		
-		query.setParameter("today", today);
+		//query.setParameter("today", today);
 		List<Product> products = query.getResultList();
+		Long records = (long) products.size();
 		
-		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1");
-		Long records = (Long) count.getSingleResult();
+		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1 " + ((!"".equals(requestGrid.getsSearch())) ? " AND lower(p.name) LIKE '" + search.toLowerCase() + "'" : ""));
+		//AND :today BETWEEN p.date_in AND p.date_outcount.setParameter("today", today);
+		Long totalRecords = (Long) count.getSingleResult();
         
         tx.commit();
         
         em.close();
         		
-		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
+		return new ResponseGrid(requestGrid.getsEcho(),totalRecords, records, products);
 	}
 
 	
@@ -135,6 +137,7 @@ public class JPAProductService implements ProductService{
 
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        
         
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
@@ -201,67 +204,15 @@ public class JPAProductService implements ProductService{
 		tx.begin();
 		Product p = findProductById(id);
 		//riprendo la collezione di immagini giˆ associate all'oggetto e...
-		Collection<Image> c = new HashSet<Image>(p.getImages());
+		List<Image> c = p.getImages();
 		//...aggiungo la nuova collezione (le fondo assieme)
 		c.addAll(ci);
 		p.setImages(c);
 		em.merge(p);
+		
 		tx.commit();
 		em.close();
 	}
-
-	//questo metodo recupera solo id e nome dell'immagine (se funzionasse lazy fetch...)
-	//Ritorna solo l'id e il nome dell'imagine senza i dati blob
-	@Override
-	public Collection<Image> getProductImagesIdName(Long id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-				
-		TypedQuery<Image> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.Image(i.id,i.name) FROM Image i JOIN Product p WHERE p.id=?1", Image.class);
-		query.setParameter(1, id);
-		List<Image> images = query.getResultList();
-		
-		em.close();
-		
-		return images;	
-	}
-
-
-	@Override
-	public Collection<Image> getProductImages(Long id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
 	
-		Product p = em.find(Product.class, id);
-
-		return p.getImages();
-	}
-
-
-
-	@Override
-	public boolean deleteImage(Long id, Long product_id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-
-		
-		boolean val=false;
-		try {		
-			tx.begin();
-			Image i = em.find(Image.class, id);
-			Product p = em.find(Product.class, product_id);
-			em.merge(p);
-			p.getImages().remove(i);
-			tx.commit();
-			val=true;
-			
-		} catch (Exception e) {
-			tx.rollback();
-			e.printStackTrace();
-		}
-		em.close();
-		return val;
-	}
 
 }
