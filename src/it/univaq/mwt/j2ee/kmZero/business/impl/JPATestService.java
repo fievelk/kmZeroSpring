@@ -166,7 +166,19 @@ public class JPATestService implements TestService{
 	
 	}
 	
-	
+	@Override
+	public List<User> getAllUsersTest() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query = em.createQuery("Select u FROM User u", User.class);
+   
+        List<User> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+       System.out.println("RISULTATO " + result);
+        return result;
+	}	
 
 		
 }
