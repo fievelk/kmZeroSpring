@@ -16,9 +16,16 @@
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prodotti<b class="caret"></b></a>
                       <ul class="dropdown-menu">
-                      	<li><a href="${pageContext.request.contextPath}/products/create_start.do">Aggiungi Prodotto</a></li>
-                        <li><a href="${pageContext.request.contextPath}/products">Lista Prodotti Vista User</a></li>
-                        <li><a href="${pageContext.request.contextPath}/products/viewsforsellers.do">Lista Prodotti Vista Seller</a></li>
+
+                      	<li><a href="${pageContext.request.contextPath}/products">Lista Prodotti Vista User</a></li>
+                      		<%-- <security:authorize access="hasRole('seller')"> --%>
+                      	<li><a href="${pageContext.request.contextPath}/products/create_start">Aggiungi Prodotto</a></li>
+                        <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Lista Prodotti Vista Seller</a></li>
+                        	<%-- </security:authorize> --%>
+                        	<%-- <security:authorize access="hasRole('seller')"> --%> <!-- Cambiare in "admin" -->
+                        <li><a href="${pageContext.request.contextPath}/products/createCategory_start">Aggiungi Categoria</a></li>
+                        <li><a href="${pageContext.request.contextPath}/products/viewsCategories">Lista Categorie vista Admin</a></li>
+                      		<%-- </security:authorize> --%>
                       </ul>
                    </li>                   
                    <%-- <li class="dropdown">
@@ -72,6 +79,7 @@
 						<li><a href="${pageContext.request.contextPath}/test/testNumberThree">Test #3</a></li>
 					    <li><a href="${pageContext.request.contextPath}/test/testNumberFour">Test #4</a></li>
 					    <li><a href="${pageContext.request.contextPath}/test/test_user_start">Test User</a></li>
+					    <li><a href="${pageContext.request.contextPath}/test/maptest">Google Maps Test</a></li>
 					    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                       </ul>
                    </li>                                

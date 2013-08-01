@@ -182,4 +182,7 @@ footer{
 
 #modalWindow img{width:50px;margin:0px 5px 5px 0px}
 
-
+#googleMap img {
+  max-width: none;
+}
+}

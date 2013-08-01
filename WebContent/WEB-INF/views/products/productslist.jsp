@@ -22,12 +22,12 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/products/update_start.do?id=" + oObj.aData['id'] + "'><i class='icon-edit'></i></a>" + " | " + 
-		                       		  "<a href='${pageContext.request.contextPath}/products/delete_start.do?id=" + oObj.aData['id'] + "'><i class='icon-trash'></i></a>";
+		                       return "<a href='${pageContext.request.contextPath}/products/update_start?id=" + oObj.aData['id'] + "'><i class='icon-edit'></i></a>" + " | " + 
+		                       		  "<a href='${pageContext.request.contextPath}/products/delete_start?id=" + oObj.aData['id'] + "'><i class='icon-trash'></i></a>";
 		                     }
 		                  }
             ],
-            //"sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated.do",
+            //"sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated",
             "sAjaxSource": "${pageContext.request.contextPath}/products/viewProducts",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},
             "fnServerParams": addsortparams
@@ -61,7 +61,7 @@
       <div class="span9">
       	<h5 class="title"><spring:message code="product.viewforuser"/></h5>
 		<div class="row-fluid">
-			<a class="btn" href="${pageContext.request.contextPath}/products/create_start.do"><spring:message code="product.create"/></a>
+			<a class="btn" href="${pageContext.request.contextPath}/products/create_start"><spring:message code="product.create"/></a>
 		</div>
 
 

@@ -14,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -22,9 +21,6 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -69,9 +65,9 @@ public class Product {
 	@Column(name="rating")
 	private float rating;
 	
-/*	@ManyToOne
+	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
-	private Seller seller;*/
+	private Seller seller;
 
 	public Product() {
 		super();
@@ -197,12 +193,12 @@ public class Product {
 		this.images = images;
 	}
 
-/*	public Seller getSeller() {
+	public Seller getSeller() {
 		return seller;
 	}
 	
 	public void setSeller(Seller seller) {
 		this.seller = seller;
-	}*/
+	}
 	
 }
