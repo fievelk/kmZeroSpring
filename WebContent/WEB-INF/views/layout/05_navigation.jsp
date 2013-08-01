@@ -58,6 +58,9 @@
 		                <li><a href="${pageContext.request.contextPath}/sellers/content_start.do"><spring:message code="seller.content"/></a></li>   
 	                 </security:authorize>
                    </security:authorize>
+                   <security:authorize access="!isAuthenticated()">
+                   	<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
+                   </security:authorize>
                    <li><a href="${pageContext.request.contextPath}/sellers/list.do">Venditori</a></li>
                    
                    <li class="dropdown">
