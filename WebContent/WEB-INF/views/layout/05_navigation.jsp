@@ -16,8 +16,8 @@
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prodotti<b class="caret"></b></a>
                       <ul class="dropdown-menu">
-                      	<li><a href="${pageContext.request.contextPath}/products/views">Lista Prodotti Vista User</a></li>
-                        
+
+                      	<li><a href="${pageContext.request.contextPath}/products">Lista Prodotti Vista User</a></li>
                       		<%-- <security:authorize access="hasRole('seller')"> --%>
                       	<li><a href="${pageContext.request.contextPath}/products/create_start">Aggiungi Prodotto</a></li>
                         <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Lista Prodotti Vista Seller</a></li>
