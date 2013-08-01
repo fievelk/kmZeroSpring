@@ -17,7 +17,7 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Prodotti<b class="caret"></b></a>
                       <ul class="dropdown-menu">
                       	<li><a href="${pageContext.request.contextPath}/products/create_start.do">Aggiungi Prodotto</a></li>
-                        <li><a href="${pageContext.request.contextPath}/products/views.do">Lista Prodotti Vista User</a></li>
+                        <li><a href="${pageContext.request.contextPath}/products">Lista Prodotti Vista User</a></li>
                         <li><a href="${pageContext.request.contextPath}/products/viewsforsellers.do">Lista Prodotti Vista Seller</a></li>
                       </ul>
                    </li>                   

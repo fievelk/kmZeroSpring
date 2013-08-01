@@ -423,4 +423,25 @@ public class JPAUserService implements UserService{
 		em.close();
 	}
 
+	@Override
+	public boolean emailExist(String email) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		boolean exist = false;
+		et.begin();
+		
+        Query query = em.createQuery("Select U FROM User U WHERE U.email = :email");
+        query.setParameter("email", email);
+        
+        User result = (User)query.getSingleResult();
+		
+		et.commit();
+		em.close();
+		
+		if (result != null){
+			exist = true;
+		}
+		return exist;
+	}
+
 }
