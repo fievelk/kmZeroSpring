@@ -8,22 +8,21 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.User</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Password</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Role</class>
-		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>		
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
-		<!--<class>it.univaq.mwt.j2ee.library.business.model.TitleKind</class> -->
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
      		<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
      		<property name="javax.persistence.jdbc.user" value="j2eekmzero"/>
      		<property name="javax.persistence.jdbc.password" value="j2eekmzero"/>
-
+     		
      		<!-- <property name="eclipselink.application-location" value="/Users/aleph/Home/Master/98_PROGETTI/progetto_km0/j2ee/WorkSpace/kmZeroSpring/ddl"/> -->
      		<!-- <property name="eclipselink.application-location" value="/home/fievelk/Master/j2ee/casa/ddl"/> -->
-
+			
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
 
@@ -32,7 +31,6 @@
 
 			<!-- <property name="eclipselink.ddl-generation" value="create-tables"/> -->
 		</properties>
-	
 	</persistence-unit>
 	
 </persistence>

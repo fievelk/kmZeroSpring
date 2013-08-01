@@ -1,7 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.common.spring.validation;
 
-import it.univaq.mwt.j2ee.kmZero.business.model.Password;
-
 import org.springframework.validation.Errors;
 
 public class ValidationUtility {
@@ -26,5 +24,12 @@ public class ValidationUtility {
 		if (!e.contains("@") && !e.equals("") ){
 			errors.rejectValue(fieldName, errorMessage);
 		}
+	}
+	
+	public static void existEmail(Errors errors, String fieldName, String errorMessage, boolean b){
+		if (b){
+			errors.rejectValue(fieldName, errorMessage);
+		}
+		
 	}
 }

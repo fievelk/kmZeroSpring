@@ -19,4 +19,5 @@ public interface TestService {
 	Set<Role> getAllRoles();
 	User getUser();
 	void updateUser(User user);
+	List<User> getAllUsersTest();
 }

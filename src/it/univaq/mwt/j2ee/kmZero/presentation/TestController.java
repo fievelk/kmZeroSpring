@@ -103,4 +103,15 @@ public class TestController {
 		return "redirect:/test/test_user_start";
 	}
 	
+	// MAP TEST
+	
+	@RequestMapping(value="/maptest")
+	public String viewMapTest(Model model) {
+		List<User> users = service.getAllUsersTest();
+		System.out.println("USERS DA CONTROLLER " + users);
+		model.addAttribute("users", users);
+		return "test.maptest";
+	}
+
+	
 }

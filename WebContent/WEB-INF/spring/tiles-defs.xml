@@ -36,6 +36,10 @@
         <put-attribute name="content" value="/WEB-INF/views/welcome.jsp"/>
     </definition>
     
+    <definition name="common.accessdenied" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
+    </definition>
+    
     <definition name="productsFrontEnd.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productsview.jsp"/>
     </definition>
@@ -50,21 +54,55 @@
      
     <definition name="products.createform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/create.do"/>
+        <put-attribute name="action" value="/products/create"/>
         <put-attribute name="create" value="true"/>
     </definition>
  
     <definition name="products.updateform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/update.do"/> 
+        <put-attribute name="action" value="/products/update"/> 
         <put-attribute name="update" value="true"/>
     </definition>
     
     <definition name="products.deleteform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/delete.do"/>
+        <put-attribute name="action" value="/products/delete"/>
         <put-attribute name="delete" value="true"/>
     </definition>    
+         
+    <!--  Categories Tiles -->     
+
+    <definition name="categories.views" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categorieslist.jsp"/>
+    </definition>
+
+    <definition name="categories.createform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/createCategory"/>
+        <put-attribute name="create" value="true"/>
+    </definition>
+    
+    <definition name="categories.updateform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/updateCategory"/> 
+        <put-attribute name="update" value="true"/>
+    </definition>    
+    
+    <definition name="categories.deleteform" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
+        <put-attribute name="action" value="/products/deleteCategory"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>        
+    
+    <!-- End of Categories Tiles -->
+
+	<!-- MAP TEST START -->
+        
+    <definition name="test.maptest" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/maptest.jsp"/>
+    </definition>    
+        
+    <!-- MAP TEST END -->
     
     <definition name="image.addform" template="/WEB-INF/views/common/modalImageAdd.jsp" />
     <definition name="image.updateform" template="/WEB-INF/views/common/modalImageEdit.jsp" />
@@ -83,27 +121,6 @@
         <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
     <!--ALEPH TESTS END-->
-    <!-- tile per la form di inserimento del Product -->
-    
-<!--      <definition name="products.insertproduct" extends="standard" 
-    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="action" value="/WEB-INF/views/products/insert.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
-    </definition>
--->
-<!--     
-    <definition name="products.updateproduct" extends="standard" 
-    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="action" value="/WEB-INF/views/products/update.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
-    </definition>    
-    
-    <definition name="products.deleteproduct" extends="standard" 
-    			controllerClass="it.univaq.mwt.j2ee.kmZero.presentation.products.CategoriesTilesAction">
-    	<put-attribute name="delete" value="true"></put>
-    	<put-attribute name="action" value="/WEB-INF/views/products/delete.do"></put>
-    	<put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"></put>
-    </definition>      -->  
     
     <!-- USERS TILES BEGIN -->
     

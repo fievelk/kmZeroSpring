@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
@@ -79,10 +80,17 @@ public class JPATestService implements TestService{
 			u2.setRoles(rs2);
 			u3.setRoles(rs3);
    
-			
 			em.persist(u1);
 			em.persist(u2);
 			em.persist(u3);
+
+			Category cat1 = new Category(1L, "Unclassified", 0);
+			Category cat2 = new Category(2L, "Frutta", 0);
+			Category cat3 = new Category(3L, "Verdura", 0);
+			
+			em.persist(cat1);
+			em.persist(cat2);
+			em.persist(cat3);
 			
 			em.getTransaction().commit();
 		} catch (Exception e) {
@@ -169,7 +177,19 @@ public class JPATestService implements TestService{
 	
 	}
 	
-	
+	@Override
+	public List<User> getAllUsersTest() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query = em.createQuery("Select u FROM User u", User.class);
+   
+        List<User> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+       System.out.println("RISULTATO " + result);
+        return result;
+	}	
 
 		
 }

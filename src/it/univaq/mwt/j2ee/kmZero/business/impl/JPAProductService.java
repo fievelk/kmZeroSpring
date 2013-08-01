@@ -2,7 +2,6 @@ package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,6 +18,7 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 public class JPAProductService implements ProductService{
@@ -31,24 +31,17 @@ public class JPAProductService implements ProductService{
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		//Questa parte delle categoria andrà rimossa (quando le categorie saranno già presenti nel DB)
-		/*Category cat = new Category();
-		cat.setName("Cat1");
-		Category cat2 = new Category();
-		cat2.setName("Cat2");
-		Category cat3 = new Category();
-		cat3.setName("Cat3");
-		
-		product.setCategory(cat);*/
+
 		product.setActive(true);
 		
         tx.begin();
         
-       // em.persist(cat);
-       // em.persist(cat2);
-       // em.persist(cat3);
+		//Seller seller = em.find(Seller.class, 209L); // Cambiare l'ID finché si fanno le prove. Poi eliminare del tutto questa parte
+		//System.out.println("SELLERNAME " + seller.getName());
+		//em.merge(seller);
+		//product.setSeller(seller);
+        
         em.persist(product);
-
         
         tx.commit();
         em.close();
@@ -114,7 +107,6 @@ public class JPAProductService implements ProductService{
         		
 		return new ResponseGrid(requestGrid.getsEcho(),totalRecords, records, products);
 	}
-
 	
 	@Override
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException {
@@ -157,6 +149,131 @@ public class JPAProductService implements ProductService{
 		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
 	}
 
+	
+/*	@Override
+	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		if ("id".equals(requestGrid.getSortCol())) {
+			requestGrid.setSortCol("p.id");
+		} else {
+			if ("category.name".equals(requestGrid.getSortCol())) {
+				requestGrid.setSortCol("p.category.name");
+			} else {
+				requestGrid.setSortCol("p." + requestGrid.getSortCol());
+			}
+			
+		} 
+		
+	    tx.begin();
+
+        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
+        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        
+		VERSIONE CON IL SELLER 
+ 		//TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 and p.seller = :seller" +
+        
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
+				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+
+		query.setParameter("seller", seller);
+        
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
+				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+
+		query.setMaxResults(maxRows);
+		query.setFirstResult(minRows);
+		
+		List<Product> products = query.getResultList();
+		
+		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1");
+		Long records = (Long) count.getSingleResult();
+        
+        tx.commit();
+        em.close();
+        
+		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
+	}*/
+
+	// CATEGORIES //
+	
+	@Override
+	public void createCategory(Category category) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.persist(category);
+        
+        tx.commit();
+        em.close();
+	}
+	
+	@Override
+	public void updateCategory(Category category) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.merge(category);
+           
+        tx.commit();
+        em.close();
+        		
+	}
+	
+	
+	@Override
+	public void deleteCategory(Category category) {
+		
+		if (!category.getName().equals("Unclassified")) {
+			
+		
+			EntityManager em = this.emf.createEntityManager();
+			EntityTransaction tx = em.getTransaction();
+			tx.begin();
+	
+			
+			TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category", Product.class);
+			query.setParameter("category", category);
+			List<Product> products = query.getResultList();
+			
+			TypedQuery<Category> categoryQuery = em.createQuery("SELECT c FROM Category c WHERE c.name='Unclassified'", Category.class);
+			Category unclassifiedCategory = categoryQuery.getSingleResult();
+			
+			for (Product p : products) {
+				p.setCategory(unclassifiedCategory);
+				em.merge(p); // Si deve fare per ogni p? Non si può fare una volta sola su tutta la collection di p?
+			}
+			
+			category = em.merge(category);
+			em.remove(category);
+	
+			tx.commit();
+			em.close();
+		
+		} else {
+			System.out.println("You cannot delete the Unclassified category!");
+		}
+	}
+	
+	
+	@Override
+	public Category findCategoryById(long id) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		Category category = em.find(Category.class, id);	
+		em.close();
+		return category;
+	}
+	
 	@Override
 	public List<Category> findAllCategories() throws BusinessException {
 	
@@ -168,6 +285,7 @@ public class JPAProductService implements ProductService{
 		return categories;
 	}
 
+	
 	@Override
 	public Product findProductById(long id) throws BusinessException {
 		EntityManager em = this.emf.createEntityManager();
@@ -193,6 +311,7 @@ public class JPAProductService implements ProductService{
 		em.close();
 	
 	}
-	
+
+
 
 }

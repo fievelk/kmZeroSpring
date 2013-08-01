@@ -128,7 +128,7 @@ public class JPAUserService implements UserService{
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND u.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), User.class);
 		
-		//System.out.println("Questa è la query:" + query);
+		//System.out.println("Questa ï¿½ la query:" + query);
 		
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
@@ -421,6 +421,27 @@ public class JPAUserService implements UserService{
 		
 		et.commit();
 		em.close();
+	}
+
+	@Override
+	public boolean emailExist(String email) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		boolean exist = false;
+		et.begin();
+		
+        Query query = em.createQuery("Select U FROM User U WHERE U.email = :email");
+        query.setParameter("email", email);
+        
+        User result = (User)query.getSingleResult();
+		
+		et.commit();
+		em.close();
+		
+		if (result != null){
+			exist = true;
+		}
+		return exist;
 	}
 
 }

@@ -1,8 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.validation.ValidationUtility;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -10,6 +13,9 @@ import org.springframework.validation.Validator;
 
 @Component
 public class UserValidator implements Validator {
+	
+	@Autowired
+	private UserService service;
 
 	@Override
 	public boolean supports(Class<?> klass) {
@@ -37,6 +43,13 @@ public class UserValidator implements Validator {
 			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", user.getPassword().getPassword(), user.getPassword().getConfirm_password());
 		}
 		ValidationUtility.checkEmail(errors, "email", "errors.email", user.getEmail());
+		if (!user.getEmail().equals("")){
+			try {
+				ValidationUtility.existEmail(errors, "email", "errors.emailexist", service.emailExist(user.getEmail()));
+			} catch (BusinessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
