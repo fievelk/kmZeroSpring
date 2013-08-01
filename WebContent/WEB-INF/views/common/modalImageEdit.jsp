@@ -11,16 +11,16 @@
     <h4><spring:message code="image.edit_title"/></h4>
     <p><spring:message code="image.edit_msg"/></p>
 	<div>
-		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}"/>
+		<img src="${pageContext.request.contextPath}/${owner_kind}/image/${image.id}/${image.name}"/>
 	</div>
   </div>
 	<div class="modal-body">
 		<div class="form">
-			<form:form id="imageEdit" modelAttribute="image" action="${pageContext.request.contextPath}/products/image/updateImage" method="POST">
+			<form:form id="imageEdit" modelAttribute="image" action="${pageContext.request.contextPath}${action}" method="POST">
 			 
 			<div class="span4">
 				<form:hidden path="id"/>
-				<input type="hidden" name="prod_id" value="${prod_id}">
+				<input type="hidden" name="owner_id" value="${owner_id}">
 				<div>
 				    <label for="altName"><spring:message code="image.altName"/></label>
 				    <div>

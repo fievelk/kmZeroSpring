@@ -1,8 +1,3 @@
-
-/*Ho dovuto rendere questo script una jsp invece di importarlo come semplice .js perchè necessita di sostituzione variabili(jstl)*/
-
-//Qui si impostano le opzioni per ajaxSubmit (comando di jquery.form: libreria jquery per la gestione dei form)
-
 var pathArray = window.location.pathname.split("/");
 var contextPath = window.location.origin+"/"+pathArray[1];
 
@@ -46,16 +41,17 @@ function processJson(data)  {
 	var imgs = '';
 	console.log(data);
 	/*dai dati json ritornati dal controller ricreo tutte le immagini e i relativi links per la cancellazione*/
-	var prod_id = data.id_product;
+	var prod_id = data.owner_id;
 	var images = data.images;
+	var owner_kind = data.owner_kind;
 	
 	$.each(images,function(i,item){
 		console.log(item);
 		
-		var paramsDelete = "'deleteImage','products','"+prod_id+"','image','"+item.id+"'";
-		var paramsUpdate = "'updateImage','products','"+prod_id+"','image','"+item.id+"'";
+		var paramsDelete = "'deleteImage','"+owner_kind+"','"+prod_id+"','image','"+item.id+"'";
+		var paramsUpdate = "'updateImage','"+owner_kind+"','"+prod_id+"','image','"+item.id+"'";
 		imgs += '<span id="image_'+item.id+'">'
-				+'<img src="'+contextPath+'/products/image/'+item.id+'/'+item.name+'" />'
+				+'<img src="'+contextPath+'/'+owner_kind+'/image/'+item.id+'/'+item.name+'" />'
 				+'<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('+paramsUpdate+')" ></a>'
 				+'<a href="#modalWindow" class="icon-remove" role="button" data-toggle="modal" onclick="createModalWindow('+paramsDelete+')" ></a>'
 				+'</span>';
@@ -63,7 +59,7 @@ function processJson(data)  {
 	/*non si capisce perch al primo giro del foreach viene stamapato 'undefined', 
 	ho cercato di debuggare ma firebug non lo mostra, alla fine ho dovuto stripparlo manualmente dalla stringa*/
 	imgs = imgs.replace('undefined','');
-	$('div#productImages').replaceWith('<div id="productImages">'+imgs+'</div>'); 
+	$('div#km0Images').replaceWith('<div id="km0Images">'+imgs+'</div>'); 
 	$('#modalWindow').modal('hide');
 	/*reset progress bar*/
 	$("div.bar").width("0%");
@@ -81,7 +77,8 @@ function upload(event, position, total, percentComplete)  {
 
 function createModalWindow(method,owner_kind,owner_id,obj_kind,obj_id){
 	var data;
-	if(data = doAjaxGetModalWindowContent(method+'_start',owner_kind,owner_id,obj_kind,obj_id)){
+	console.log(owner_kind);
+	if(data = doAjaxGetModalWindowContent(method+'_start',owner_kind,owner_id,obj_kind,obj_id)){	
 		$('#modalWindow').modal('show');
 	}else{
 		data = 'problem occurred!';
@@ -91,7 +88,7 @@ function createModalWindow(method,owner_kind,owner_id,obj_kind,obj_id){
 
 /*get the right form for...(add,update,delete) image/s*/
 function doAjaxGetModalWindowContent(method,owner_kind,owner_id,obj_kind,obj_id){
-	
+
 	var url = contextPath+"/"+owner_kind+"/"+owner_id;
 	if((obj_kind != null) && (obj_id != null)) url+= "/"+obj_kind+"/"+obj_id;
 	url += "/"+method;
@@ -100,11 +97,8 @@ function doAjaxGetModalWindowContent(method,owner_kind,owner_id,obj_kind,obj_id)
 		type: "POST",
 		url: url,
 		async: false,
-		success: function(data) {
-					
-					
+		success: function(data) {				
 					$('div#modalWindow').replaceWith(data);				
-					
 				}
 	});		
 	return false;

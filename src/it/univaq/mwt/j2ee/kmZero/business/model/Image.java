@@ -13,7 +13,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="image")
+@Table(name="images")
 public class Image implements Serializable{
 	
 

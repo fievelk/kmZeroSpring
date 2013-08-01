@@ -7,26 +7,34 @@ import java.util.List;
 public class ResponseImages {
 	
 	private List<Image> images;
-	private long id_product;
+	private long owner_id;
+	private String owner_kind;
 	
-	public ResponseImages(List<Image> images, long id_product) {
+	public ResponseImages(List<Image> images, long owner_id, String owner_kind) {
 		super();
 		this.images = images;
-		this.id_product = id_product;
+		this.owner_id = owner_id;
+		this.owner_kind = owner_kind;
 	}
-	
 	public List<Image> getImages() {
 		return images;
 	}
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	public long getId_product() {
-		return id_product;
+	public long getOwner_id() {
+		return owner_id;
 	}
-	public void setId_product(long id_product) {
-		this.id_product = id_product;
+	public void setOwner_id(long owner_id) {
+		this.owner_id = owner_id;
 	}
+	public String getOwner_kind() {
+		return owner_kind;
+	}
+	public void setOwner_kind(String owner_kind) {
+		this.owner_kind = owner_kind;
+	}
+	
 	
 
 }

@@ -46,29 +46,6 @@ public class JPAImageService implements ImageService{
 		
 	}
 	
-	@Override
-	public boolean deleteProductImage(Long id, Long product_id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-
-		boolean val=false;
-		try {		
-			tx.begin();
-			Image i = em.find(Image.class, id);
-			Product p = em.find(Product.class, product_id);
-			em.merge(p);
-			p.getImages().remove(i);
-			tx.commit();
-			val=true;
-			
-		} catch (Exception e) {
-			tx.rollback();
-			e.printStackTrace();
-		}
-		em.close();
-		return val;
-	}
 	
 	@Override
 	public List<Image> getProductImages(Long id) throws BusinessException {
@@ -80,6 +57,40 @@ public class JPAImageService implements ImageService{
 		return p.getImages();
 	}
 	
+	@Override
+	public void setProductImages(Long id, List<Image> ci) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		tx.begin();
+		Product p = em.find(Product.class, id);
+		//riprendo la collezione di immagini giˆ associate all'oggetto e...
+		List<Image> c = p.getImages();
+		//...aggiungo la nuova collezione (le fondo assieme)
+		c.addAll(ci);
+		p.setImages(c);
+		em.merge(p);
+		
+		tx.commit();
+		em.close();
+	}
+	
+	@Override
+	public void deleteProductImage(Long id, Long product_id) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+	
+		tx.begin();
+		Image i = em.find(Image.class, id);
+		Product p = em.find(Product.class, product_id);
+		em.merge(p);
+		p.getImages().remove(i);
+		tx.commit();	
+		em.close();
+		
+	}
 
 	
 	@Override
@@ -87,6 +98,42 @@ public class JPAImageService implements ImageService{
 		EntityManager em = this.emf.createEntityManager();
 		Seller s = em.find(Seller.class, id);
 		return s.getImages();
+	}
+	
+	@Override
+	public void setSellerImages(Long id, List<Image> ci) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		tx.begin();
+		Seller s = em.find(Seller.class, id);
+		//riprendo la collezione di immagini giˆ associate all'oggetto e...
+		List<Image> c = s.getImages();
+		//...aggiungo la nuova collezione (le fondo assieme)
+		c.addAll(ci);
+		s.setImages(c);
+		em.merge(s);
+		
+		tx.commit();
+		em.close();
+	}
+
+
+	@Override
+	public void deleteSellerImage(Long image_id, Long owner_id)	throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+	
+		tx.begin();
+		Image i = em.find(Image.class, image_id);
+		Seller s = em.find(Seller.class, owner_id);
+		em.merge(s);
+		s.getImages().remove(i);
+		tx.commit();	
+		em.close();
+		
 	}
 
 	//questo metodo recupera solo id e nome dell'immagine ma non funziona la query

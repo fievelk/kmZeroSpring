@@ -66,17 +66,11 @@
         <put-attribute name="delete" value="true"/>
     </definition>    
     
-    <definition name="products.image.addform" template="/WEB-INF/views/products/modalImageAdd.jsp">
-    </definition>
-    
-    <definition name="products.image.updateform" template="/WEB-INF/views/products/modalImageEdit.jsp">
-    	<put-attribute name="actionModal" value=""/>
-    </definition>
-    
-    <definition name="products.image.deleteform" template="/WEB-INF/views/products/modalImageDelete.jsp">
-    	<put-attribute name="actionModal" value="niente"/>
-    </definition>         
-        
+    <definition name="image.addform" template="/WEB-INF/views/common/modalImageAdd.jsp" />
+    <definition name="image.updateform" template="/WEB-INF/views/common/modalImageEdit.jsp" />
+    <definition name="image.deleteform" template="/WEB-INF/views/common/modalImageDelete.jsp" />
+ 
+     
  	<!--ALEPH TESTS START-->
     <definition name="test.test" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/test.jsp"/>

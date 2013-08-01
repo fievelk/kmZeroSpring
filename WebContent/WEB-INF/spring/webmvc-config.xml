@@ -66,6 +66,7 @@
 	<bean id="imageDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAImageService" /> 
 	<bean id="productDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAProductService" />
 	<bean id="userDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAUserService" />
+	<bean id="testDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPATestService" />
 	<!-- <bean id="securityDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPASecurityService" /> -->
 	<!-- END Configurazione JPA -->
 	

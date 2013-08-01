@@ -27,6 +27,5 @@ public interface ProductService {
 
 	void deleteProduct(Product product);
 
-	void setProductImages(Long id, Collection<Image> ci) throws BusinessException;
 
 }
