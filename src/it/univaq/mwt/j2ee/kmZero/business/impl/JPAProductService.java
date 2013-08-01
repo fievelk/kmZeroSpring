@@ -36,10 +36,10 @@ public class JPAProductService implements ProductService{
 		
         tx.begin();
         
-		Seller seller = em.find(Seller.class, 159L); // Cambiare l'ID finché si fanno le prove. Poi eliminare del tutto questa parte
-		System.out.println("SELLERNAME " + seller.getName());
+		//Seller seller = em.find(Seller.class, 209L); // Cambiare l'ID finché si fanno le prove. Poi eliminare del tutto questa parte
+		//System.out.println("SELLERNAME " + seller.getName());
 		//em.merge(seller);
-		product.setSeller(seller);
+		//product.setSeller(seller);
         
         em.persist(product);
         
@@ -107,9 +107,50 @@ public class JPAProductService implements ProductService{
         		
 		return new ResponseGrid(requestGrid.getsEcho(),totalRecords, records, products);
 	}
-
 	
 	@Override
+	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		if ("id".equals(requestGrid.getSortCol())) {
+			requestGrid.setSortCol("p.id");
+		} else {
+			if ("category.name".equals(requestGrid.getSortCol())) {
+				requestGrid.setSortCol("p.category.name");
+			} else {
+				requestGrid.setSortCol("p." + requestGrid.getSortCol());
+			}
+			
+		} 
+		
+	    tx.begin();
+
+        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
+        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        
+        
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
+				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+
+		query.setMaxResults(maxRows);
+		query.setFirstResult(minRows);
+		
+		List<Product> products = query.getResultList();
+		
+		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1");
+		Long records = (Long) count.getSingleResult();
+        
+        tx.commit();
+        em.close();
+        
+		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
+	}
+
+	
+/*	@Override
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
@@ -131,7 +172,7 @@ public class JPAProductService implements ProductService{
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         
-/*		VERSIONE CON IL SELLER */
+		VERSIONE CON IL SELLER 
  		//TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1 and p.seller = :seller" +
         
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
@@ -140,10 +181,10 @@ public class JPAProductService implements ProductService{
 
 		query.setParameter("seller", seller);
         
-/*		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
-*/
+
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
 		
@@ -156,7 +197,7 @@ public class JPAProductService implements ProductService{
         em.close();
         
 		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
-	}
+	}*/
 
 	// CATEGORIES //
 	

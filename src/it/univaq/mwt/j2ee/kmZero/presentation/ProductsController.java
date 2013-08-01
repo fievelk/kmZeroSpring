@@ -88,7 +88,7 @@ public class ProductsController {
 		return "products.viewsforsellers";
 	}
 	
-	@RequestMapping("/viewProductsBySellerIdPaginated")
+/*	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
 	      
@@ -99,7 +99,15 @@ public class ProductsController {
 		Seller seller = userService.findSellerById(userId);
 		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid, seller);
 		return result;
-	}
+	}*/
+	
+	@RequestMapping("/viewProductsBySellerIdPaginated")
+	@ResponseBody
+	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
+		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid);
+		
+		return result;
+	}	
 	
 	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {

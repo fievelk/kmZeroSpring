@@ -18,14 +18,14 @@
                       <ul class="dropdown-menu">
                       	<li><a href="${pageContext.request.contextPath}/products/views">Lista Prodotti Vista User</a></li>
                         
-                      		<security:authorize access="hasRole('seller')">
+                      		<%-- <security:authorize access="hasRole('seller')"> --%>
                       	<li><a href="${pageContext.request.contextPath}/products/create_start">Aggiungi Prodotto</a></li>
                         <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Lista Prodotti Vista Seller</a></li>
-                        	</security:authorize>
-                        	<security:authorize access="hasRole('seller')"> <!-- Cambiare in "admin" -->
+                        	<%-- </security:authorize> --%>
+                        	<%-- <security:authorize access="hasRole('seller')"> --%> <!-- Cambiare in "admin" -->
                         <li><a href="${pageContext.request.contextPath}/products/createCategory_start">Aggiungi Categoria</a></li>
                         <li><a href="${pageContext.request.contextPath}/products/viewsCategories">Lista Categorie vista Admin</a></li>
-                      		</security:authorize>
+                      		<%-- </security:authorize> --%>
                       </ul>
                    </li>                   
                    <%-- <li class="dropdown">

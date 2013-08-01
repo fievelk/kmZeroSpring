@@ -20,13 +20,15 @@ public interface ProductService {
 	
 	void deleteProduct(Product product) throws BusinessException;
 
-	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	
 	
 	void updateProduct(Product product,List<Image> images) throws BusinessException;
 	
 	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
 	
-	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
+	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	
+	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
 
 	Product findProductById(long id) throws BusinessException;
 	
