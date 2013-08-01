@@ -79,7 +79,7 @@ public class ProductsController {
 	
 	//BACKEND
 	
-	@RequestMapping("/views.do")
+	@RequestMapping("/views")
 	public String views() {
 		return "products.views";
 	}
@@ -93,7 +93,7 @@ public class ProductsController {
 	}
 	
 	
-	@RequestMapping("/viewsforsellers.do")
+	@RequestMapping("/viewsforsellers")
 	public String viewsForSellers() {
 		return "products.viewsforsellers";
 	}
@@ -113,7 +113,7 @@ public class ProductsController {
 	}
 	
 	
-	@RequestMapping("/create_start.do")
+	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {
 		model.addAttribute("product", new Product());
 		//Parte commentata: si è aggiunto @ModelAttribute
@@ -123,14 +123,14 @@ public class ProductsController {
 	}
 	
 	
-	@RequestMapping(value="/create.do", method=RequestMethod.POST)
+	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.createProduct(product);
-		return "redirect:/products/viewsforsellers.do";
+		return "redirect:/products/viewsforsellers";
 	}
 	
 	
-	@RequestMapping("/update_start.do")
+	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Product product = service.findProductById(id);
 		model.addAttribute("product", product);
@@ -139,14 +139,14 @@ public class ProductsController {
 	}
 	
 	
-	@RequestMapping(value="/update.do", method = RequestMethod.POST)
+	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.updateProduct(product);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
 	
-	@RequestMapping(value="/delete_start.do")
+	@RequestMapping(value="/delete_start")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
 		Product product = service.findProductById(id);
@@ -155,10 +155,10 @@ public class ProductsController {
 	}
 	
 	
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		service.deleteProduct(product);
-		return "redirect:/products/viewsforsellers.do";
+		return "redirect:/products/viewsforsellers";
 	}	
 	
 	// CATEGORIES

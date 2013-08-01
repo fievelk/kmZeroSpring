@@ -31,6 +31,7 @@
 	<mvc:view-controller path="/welcome" view-name="common.welcome"/>
 	<mvc:view-controller path="/login" view-name="common.login"/>
 	<mvc:view-controller path="/accessdenied" view-name="common.accessdenied"/>
+	
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving  up static resources in the ${webappRoot}/resources/ directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/"/>

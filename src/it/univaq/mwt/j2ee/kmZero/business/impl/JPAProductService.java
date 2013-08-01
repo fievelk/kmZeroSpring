@@ -32,29 +32,17 @@ public class JPAProductService implements ProductService{
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		//Questa parte delle categoria andrà rimossa (quando le categorie saranno già presenti nel DB)
-		/*Category cat = new Category();
-		cat.setName("Cat1");
-		Category cat2 = new Category();
-		cat2.setName("Cat2");
-		Category cat3 = new Category();
-		cat3.setName("Cat3");
-		
-		product.setCategory(cat);*/
+
 		product.setActive(true);
 		
         tx.begin();
         
-		Seller seller = em.find(Seller.class, 126L); // Cambiare l'ID finché si fanno le prove. Poi eliminare del tutto questa parte
+		Seller seller = em.find(Seller.class, 159L); // Cambiare l'ID finché si fanno le prove. Poi eliminare del tutto questa parte
 		System.out.println("SELLERNAME " + seller.getName());
 		//em.merge(seller);
 		product.setSeller(seller);
         
-       // em.persist(cat);
-       // em.persist(cat2);
-       // em.persist(cat3);
         em.persist(product);
-
         
         tx.commit();
         em.close();
@@ -167,7 +155,8 @@ public class JPAProductService implements ProductService{
 		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
 	}
 
-
+	// CATEGORIES //
+	
 	@Override
 	public void createCategory(Category category) throws BusinessException {
 		
@@ -199,16 +188,35 @@ public class JPAProductService implements ProductService{
 	@Override
 	public void deleteCategory(Category category) {
 		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-
-		category = em.merge(category);
-		em.remove(category);
-
-		tx.commit();
-		em.close();
+		if (!category.getName().equals("Unclassified")) {
+			
+		
+			EntityManager em = this.emf.createEntityManager();
+			EntityTransaction tx = em.getTransaction();
+			tx.begin();
 	
+			
+			TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category", Product.class);
+			query.setParameter("category", category);
+			List<Product> products = query.getResultList();
+			
+			TypedQuery<Category> categoryQuery = em.createQuery("SELECT c FROM Category c WHERE c.name='Unclassified'", Category.class);
+			Category unclassifiedCategory = categoryQuery.getSingleResult();
+			
+			for (Product p : products) {
+				p.setCategory(unclassifiedCategory);
+				em.merge(p); // Si deve fare per ogni p? Non si può fare una volta sola su tutta la collection di p?
+			}
+			
+			category = em.merge(category);
+			em.remove(category);
+	
+			tx.commit();
+			em.close();
+		
+		} else {
+			System.out.println("You cannot delete the Unclassified category!");
+		}
 	}
 	
 	

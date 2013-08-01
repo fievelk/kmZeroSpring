@@ -33,7 +33,7 @@ $(document).ready(function(){
       <div class="span9">
       	<h5 class="title"><spring:message code="category.view"/></h5>
 		<div class="row-fluid">
-			<a class="btn" href="${pageContext.request.contextPath}/products/createCategory_start.do"><spring:message code="category.create"/></a>
+			<a class="btn" href="${pageContext.request.contextPath}/products/createCategory_start"><spring:message code="category.create"/></a>
 		</div>
 
 <table class="table table-striped tcart">
@@ -52,8 +52,8 @@ $(document).ready(function(){
 		<td>${category.name}</td>
 		<td>${category.parent_id}</td>
 		<td>
-			<a href="${pageContext.request.contextPath}/products/updateCategory_start.do?id=${category.id}"><i class='icon-edit'></i></a> | 
-			<a id="deletelink" href="${pageContext.request.contextPath}/products/deleteCategory_start.do?id=${category.id}"><i class='icon-trash'></i></a>
+			<a href="${pageContext.request.contextPath}/products/updateCategory_start?id=${category.id}"><i class='icon-edit'></i></a> | 
+			<a id="deletelink" href="${pageContext.request.contextPath}/products/deleteCategory_start?id=${category.id}"><i class='icon-trash'></i></a>
 		</td>
 	</tr>
 	</c:forEach>
