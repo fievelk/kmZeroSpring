@@ -4,6 +4,7 @@ import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,7 +59,8 @@ public class Product {
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "product_fk")
-	private Collection<Image> images;
+	@OrderBy("position ASC")
+	private List<Image> images;
 	
 	@Column(name="rating")
 	private float rating;
@@ -71,7 +75,7 @@ public class Product {
 
 	public Product(long id, String name, String description, float price,
 			Date date_in, Date date_out, Category category,
-			Collection<Image> images, Seller seller) {
+			List<Image> images, Seller seller) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -181,11 +185,11 @@ public class Product {
 		this.active = active;
 	}
 
-	public Collection<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Collection<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 

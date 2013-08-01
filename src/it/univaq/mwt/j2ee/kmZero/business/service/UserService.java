@@ -1,10 +1,14 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 public interface UserService {
@@ -35,8 +39,14 @@ public interface UserService {
 	
 	ResponseGrid<Seller> viewAllSellersEnabledPaginated(RequestGrid requestGrid) throws BusinessException;
 	
+	List<Seller> viewAllSellers() throws BusinessException;
+	
+	List<Seller> getSellersFromPaidCarts() throws BusinessException;
+	
 	void editPassword(long id, String password) throws BusinessException;
 	
 	String oldPassword(long id) throws BusinessException;
+	
+	void editSellerContent(Seller seller) throws BusinessException;
 
 }

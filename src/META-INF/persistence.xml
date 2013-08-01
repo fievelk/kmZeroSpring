@@ -6,9 +6,12 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Product</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Category</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.User</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Password</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Role</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>		
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
+		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>
@@ -22,6 +25,11 @@
 
 			<!-- Mostra le query SQL nella console -->
 			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="log4j.logger.org.hibernate.SQL" value="TRACE"/>
+			<property name="log4j.logger.org.hibernate.type" value="TRACE"/>
+
+
+			<!-- <property name="eclipselink.ddl-generation" value="create-tables"/> -->
 		</properties>
 	</persistence-unit>
 	

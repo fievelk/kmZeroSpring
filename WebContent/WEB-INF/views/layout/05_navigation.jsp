@@ -57,17 +57,16 @@
 					    <li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a Venditore</a></li>   
 	                   </security:authorize>
 	                   <security:authorize access="hasRole('seller')">            
-		                   <li class="dropdown">
-		                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Utenti<b class="caret"></b></a>
-		                      <ul class="dropdown-menu">
-		                        <li><a href="${pageContext.request.contextPath}/sellers/update_start.do">Modifica i tuoi dati</a></li>
-		                      </ul>
-		                   </li>      
+		                <li><a href="${pageContext.request.contextPath}/sellers/update_start.do">Modifica i tuoi dati</a></li>   
 	                   </security:authorize>
 	                   </ul>
 	                 </li>  
+	                 <security:authorize access="hasRole('seller')">            
+		                <li><a href="${pageContext.request.contextPath}/sellers/content_start.do"><spring:message code="seller.content"/></a></li>   
+	                 </security:authorize>
                    </security:authorize>
-                      
+                   <li><a href="${pageContext.request.contextPath}/sellers/list.do">Venditori</a></li>
+                   
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">TESTS<b class="caret"></b></a>
                       <ul class="dropdown-menu">

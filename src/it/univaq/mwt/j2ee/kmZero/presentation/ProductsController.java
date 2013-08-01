@@ -62,28 +62,11 @@ public class ProductsController {
 	
 
 	//FRONTEND
-	@RequestMapping("/")
+	
+	@RequestMapping("")
 	public String productsFrontEnd() {
 		return "productsFrontEnd.views";
 	}
-	
-	@RequestMapping("/viewProducts2")
-	@ResponseBody
-	public void viewProducts2(@ModelAttribute RequestGrid requestGrid) throws BusinessException {
-		System.out.println(requestGrid.getSortCol());
-		//ResponseGrid<Product> result = service.viewProducts(requestGrid);
-		//return result;
-	}
-	
-	
-	
-	//BACKEND
-	
-	@RequestMapping("/views")
-	public String views() {
-		return "products.views";
-	}
-	
 	
 	@RequestMapping("/viewProducts")
 	@ResponseBody
@@ -91,13 +74,19 @@ public class ProductsController {
 		ResponseGrid<Product> result = service.viewProducts(requestGrid);
 		return result;
 	}
+
+	//BACKEND
 	
+	@RequestMapping("/views")
+	public String views() {
+		return "products.views";
+	}
 	
+
 	@RequestMapping("/viewsforsellers")
 	public String viewsForSellers() {
 		return "products.viewsforsellers";
 	}
-	
 	
 	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
@@ -111,7 +100,6 @@ public class ProductsController {
 		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid, seller);
 		return result;
 	}
-	
 	
 	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {
@@ -133,6 +121,12 @@ public class ProductsController {
 	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Product product = service.findProductById(id);
+		List<Image> ri = product.getImages();
+		for(Iterator i = ri.iterator(); i.hasNext();){
+			Image img = (Image) i.next();
+			System.out.println("PRODUCTS CONTROLLER IMAGE POSITION:"+img.getPosition());
+			
+		}
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
 		return "products.updateform";
@@ -141,7 +135,8 @@ public class ProductsController {
 	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		service.updateProduct(product);
+		List<Image> images = imageService.getProductImages(product.getId());
+		service.updateProduct(product,images);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
@@ -211,42 +206,6 @@ public class ProductsController {
 		return "redirect:/products/viewsCategories";
 	}	
 	
-	//IMAGES
-	
-	@RequestMapping(value="/addImages", method = RequestMethod.POST)
-	public @ResponseBody Collection<Image> addImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("prod_id") Long id) throws BusinessException, IOException {
-		
-			Collection<Image> ci = new HashSet<Image>();
-			List<MultipartFile> l = fileUpload.getFiles();
-	
-			for (Iterator<MultipartFile> i = l.iterator(); i.hasNext();){
-				MultipartFile mpf = (MultipartFile)i.next();
-				//File cannot be null 
-				if(!mpf.isEmpty()){
-					byte [] scaledimg = km0ImageUtility.getScaledImage(220, 410, mpf.getBytes(), mpf.getContentType());
-					Image img = new Image(mpf.getOriginalFilename(), scaledimg);
-					ci.add(img);
-				}
-	        }
-			service.setProductImages(id,ci);
-		
-		return service.getProductImagesIdName(id);
-	}
-	
-	@RequestMapping(value = {"/image/{id}/*","/image/{id}"})
-	@ResponseBody
-    public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
-		Image image = imageService.getImage(id);
-		return image.getImageData();
-	}
-	
-	
-	@RequestMapping(value ="/{prod_id}/image/{id}/delete", method = RequestMethod.POST)
-	@ResponseBody
-    public boolean deleteImage(@PathVariable("id")Long id,@PathVariable("prod_id")Long p_id)throws BusinessException {
-		return service.deleteImage(id,p_id);	
-	}
-
 	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {

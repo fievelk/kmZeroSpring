@@ -19,7 +19,7 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/sellers/admin/update_start_admin.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
+		                       return "<a href='${pageContext.request.contextPath}/sellers/admin/update_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
 		                       		  "<a href='${pageContext.request.contextPath}/sellers/admin/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>";
 		                    	
 		                     }

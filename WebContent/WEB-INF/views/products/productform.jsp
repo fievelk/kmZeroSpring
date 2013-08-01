@@ -103,9 +103,7 @@ $(function() {
 		    <div>
 		    	<form:input id="description" path="description"/>
 		    </div>
-		</div>
-		
-		
+		</div>		
 		<div>
 		    <label for="price"><spring:message code="product.price"/></label>
 		    <div>
@@ -160,13 +158,14 @@ $(function() {
 		<c:if test="${requestScope.update eq 'true'}">
 		<div class="span4 addImages">
 			<div class="row-fluid">
-				<a class="btn" href="#addImages" role="button" data-toggle="modal">Add Images...</a>
+				<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','products','${product.id}',null,null)">Add Images...</a>
 			</div>
 			<div id="productImages">
 		  	<c:forEach var="image" items="${product.images}">
 		  			<span id="image_${image.id}">
-			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}" alt="${image.name}">
-			       		<a href="#dialog" class="icon-remove-circle"  role="button" data-toggle="modal" onclick="dialog('${image.id}','${product.id}')"></a>	
+			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}" alt="${image.name}" />
+			       		<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','products','${product.id}','image','${image.id}')" ></a>	
+			       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','products','${product.id}','image','${image.id}')"></a>
 		       		</span>	
 	    	</c:forEach>
 	    	</div>

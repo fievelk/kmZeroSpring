@@ -5,12 +5,16 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -175,6 +179,59 @@ public class SellersController {
 		}
 		service.upgradeSeller(seller);
 		return "redirect:/";
+	}
+	
+	@RequestMapping("/content_start.do")
+	public String updateContentStart(Model model) throws BusinessException {
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
+		Seller seller = service.findSellerById(id);
+		model.addAttribute("seller", seller);
+		return "sellers.contentform";
+	}
+	
+	@RequestMapping("/admin/content_start.do")
+	public String updateContentStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Seller seller = service.findSellerById(id);
+		model.addAttribute("seller", seller);
+		return "sellers.contentform";
+	}
+	
+	
+	@RequestMapping(value="/content.do", method = RequestMethod.POST)
+	public String updateContent(@RequestParam("title") String t, @RequestParam("input") String d,  @ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
+		/*validator.validate(seller, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "sellers.updateform";
+		}*/
+		SellerContent content = new SellerContent(t, d);
+		Collection<SellerContent> contents = new ArrayList<SellerContent>();
+		contents.add(content);
+		seller.setContents(contents);
+		service.editSellerContent(seller);
+		/*if (seller.getEnable()){
+			return "redirect:/sellers/viewsEnabled.do";
+		} else {
+			return "redirect:/sellers/viewsToEnable.do";
+		}*/
+		return "redirect:views.do?id=" + seller.getId();
+	}
+	
+	@RequestMapping("/views.do")
+	public String viewContent(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Seller seller = service.findSellerById(id);
+		if (seller.getEnable()){
+			model.addAttribute("seller", seller);
+			return "sellers.viewcontent";
+		}
+		return "/404 pagina non trovata";
+	}
+	
+	@RequestMapping("/list.do")
+	public String viewAllSellers(Model model) throws BusinessException {
+		List<Seller> sellers = service.viewAllSellers();
+		model.addAttribute("sellers", sellers);
+		return "sellers.list";
 	}
 
 }
