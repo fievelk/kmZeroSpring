@@ -174,13 +174,13 @@ public class ProductsController {
 	
 	@RequestMapping(value="/createCategory", method=RequestMethod.POST)
 	public String create(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.createCategory(category);
+		productService.createCategory(category);
 		return "redirect:/products/viewsCategories";
 	}
 	
 	@RequestMapping("/updateCategory_start")
 	public String updateCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		Category category = service.findCategoryById(id);
+		Category category = productService.findCategoryById(id);
 		model.addAttribute("category", category);
 		model.addAttribute("id", id);
 		return "categories.updateform";
@@ -189,7 +189,7 @@ public class ProductsController {
 	
 	@RequestMapping(value="/updateCategory", method = RequestMethod.POST)
 	public String update(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.updateCategory(category);
+		productService.updateCategory(category);
 		return "redirect:/products/viewsCategories";
 	}	
 	
@@ -197,7 +197,7 @@ public class ProductsController {
 	@RequestMapping(value="/deleteCategory_start")
 	public String deleteCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
-		Category category = service.findCategoryById(id);
+		Category category = productService.findCategoryById(id);
 		model.addAttribute("category", category);
 		return "categories.deleteform";
 	}
@@ -205,7 +205,7 @@ public class ProductsController {
 	
 	@RequestMapping(value="/deleteCategory", method = RequestMethod.POST)
 	public String deleteCategory(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.deleteCategory(category);
+		productService.deleteCategory(category);
 		return "redirect:/products/viewsCategories";
 	}	
 	
