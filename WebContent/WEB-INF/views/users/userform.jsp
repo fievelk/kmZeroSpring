@@ -28,7 +28,6 @@
 
 <!-- Address autocompletion scripts-->
 
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAxHFavr74ns3tBVjamE2MSxUszOe5gLyU&sensor=false"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
        
 <script>
@@ -40,6 +39,7 @@ function initialize() {
 		
 	var input = (document.getElementById('address_autocompleted'));
 	var autocomplete_options = {
+			  types:['geocode'],
 			  componentRestrictions: {country: 'it'}
 			};
 	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
@@ -54,7 +54,7 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
-<!-- End of Address autocompletion scripts -->
+<!-- End of Address autocompletion -->
 
 <div class="items">
 	<div class="container">
