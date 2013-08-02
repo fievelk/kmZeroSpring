@@ -11,8 +11,8 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>		
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
-		
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Cart</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.CartLine</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
