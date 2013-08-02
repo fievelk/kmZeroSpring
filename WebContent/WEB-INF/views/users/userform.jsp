@@ -26,6 +26,35 @@
 	});
 </script>
 
+<!-- Address autocompletion scripts-->
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+       
+<script>
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+
+function initialize() {
+		
+	var input = (document.getElementById('address_autocompleted'));
+	var autocomplete_options = {
+			  types:['geocode'],
+			  componentRestrictions: {country: 'it'}
+			};
+	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
+
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var place = autocomplete.getPlace();
+        console.log(place.address_components);
+    }); 
+	
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<!-- End of Address autocompletion -->
 
 <div class="items">
 	<div class="container">
@@ -117,7 +146,7 @@
 					<div class="control-group">
 					    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 					    <div class="controls">
-							<form:input id="address" path="address"/>
+							<form:input id="address_autocompleted" path="address"/>
 							<form:errors path="address"/>
 					    </div>
 					</div>
@@ -143,3 +172,6 @@
 		</div>
 	</div>
 </div>
+
+
+

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAxHFavr74ns3tBVjamE2MSxUszOe5gLyU&sensor=false">
-</script>
-
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAxHFavr74ns3tBVjamE2MSxUszOe5gLyU&sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        
 <script>
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
@@ -10,9 +10,35 @@ var map;
 
 function initialize() {
 		
-	directionsDisplay = new google.maps.DirectionsRenderer();
-	
 	var chieti = new google.maps.LatLng(42.348395, 14.108963);
+	
+	/* Input text Autocompletion */
+	
+/* 	var defaultBounds = new google.maps.LatLngBounds(
+  		new google.maps.LatLng(47.100045, 6.348610),
+  		new google.maps.LatLng(36.279707,18.977966)); */
+
+	
+	var input = (document.getElementById('searchTextField'));
+	var autocomplete_options = {
+			  //bounds: defaultBounds,
+			  componentRestrictions: {country: 'it'}
+			};
+
+	
+	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
+
+	google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var place = autocomplete.getPlace();
+        console.log(place.address_components);
+    }); 
+	
+	/* End of Autocompletion */
+	
+	/* Map */
+	
+	
+	directionsDisplay = new google.maps.DirectionsRenderer();
 	
 	var mapOptions = {
 	  center: chieti,
@@ -20,8 +46,12 @@ function initialize() {
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };
 	
-	map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+	var map_canvas = document.getElementById("googleMap");
+	
+	map = new google.maps.Map(map_canvas, mapOptions);
 	directionsDisplay.setMap(map);
+	
+	
 	
 }
 
@@ -66,6 +96,18 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 		<!-- Sidebar menu -->    
           <div class="span5 side-menu">
+          <input type="text" id="searchTextField">
+
+		  <p id="outputadd"></p>
+          
+          <script>
+          function functiona() {
+          var buttalo = document.getElementById("searchTextField").value;
+          document.getElementById("outputadd").innerHTML=buttalo;
+          }
+          </script>
+          
+          <input type="submit" onclick="functiona()" value="prova">
           
 		 	<div>
 				<label for="startpoint"><strong>Start point:</strong></label>
@@ -122,6 +164,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			<div id="googleMap" style="width:500px;height:380px;"></div>
 
 		</div>	
+
 
     </div>
   </div>
