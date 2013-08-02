@@ -3,6 +3,7 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -34,7 +36,8 @@ public class Seller extends User {
 	private boolean enable;
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
-	private Collection<Image> images;
+	@OrderBy("position ASC")
+	private List<Image> images;
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
 	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
@@ -155,11 +158,11 @@ public class Seller extends User {
 		this.enable = enable;
 	}
 
-	public Collection<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Collection<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 

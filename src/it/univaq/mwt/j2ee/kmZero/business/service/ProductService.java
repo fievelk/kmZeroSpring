@@ -46,6 +46,5 @@ public interface ProductService {
 	
 	// Metodi per le immagini dei prodotti
 
-	void setProductImages(Long id, Collection<Image> ci) throws BusinessException;
 
 }

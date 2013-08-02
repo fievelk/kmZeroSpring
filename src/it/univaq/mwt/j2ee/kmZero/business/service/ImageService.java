@@ -14,9 +14,14 @@ public interface ImageService {
 
 	public List<Image> getProductImages(Long id) throws BusinessException;
 	
+	void setProductImages(Long id, List<Image> ci) throws BusinessException;
+	
+	public void deleteProductImage(Long id, Long product_id) throws BusinessException;
+	
 	public List<Image> getSellerImages(Long id) throws BusinessException;
 
-	public boolean deleteProductImage(Long id, Long product_id) throws BusinessException;
+	void setSellerImages(Long id, List<Image> ci) throws BusinessException;
 
+	public void deleteSellerImage(Long image_id, Long owner_id) throws BusinessException;
 
 }

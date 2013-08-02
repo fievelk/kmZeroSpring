@@ -154,25 +154,24 @@ $(function() {
       		  </button>
 			</div>
 		</div>
-		</div>
-		<c:if test="${requestScope.update eq 'true'}">
-		<div class="span4 addImages">
+	</div>
+	  </form:form>
+	  <c:if test="${requestScope.update eq 'true'}">
+		<div class="span4 productImages">
 			<div class="row-fluid">
-				<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','products','${product.id}',null,null)">Add Images...</a>
+				<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','prod','${product.id}',null,null)">Add Images...</a>
 			</div>
-			<div id="productImages">
+			<div id="km0Images">
 		  	<c:forEach var="image" items="${product.images}">
 		  			<span id="image_${image.id}">
-			       		<img src="${pageContext.request.contextPath}/products/image/${image.id}/${image.name}" alt="${image.name}" />
-			       		<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','products','${product.id}','image','${image.id}')" ></a>	
-			       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','products','${product.id}','image','${image.id}')"></a>
+			       		<img src="${pageContext.request.contextPath}/prod/image/${image.id}/${image.name}" alt="${image.name}" />
+			       		<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','prod','${product.id}','image','${image.id}')" ></a>	
+			       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','prod','${product.id}','image','${image.id}')"></a>
 		       		</span>	
 	    	</c:forEach>
 	    	</div>
       	</div>	
    		</c:if>
-		
-	  </form:form>
 	</div>
 	
 </div>

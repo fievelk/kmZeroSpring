@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,72 +46,101 @@ public class ImagesController {
 	@Autowired
 	private UserService  userService;
 
-	@RequestMapping(value="/products/{prod_id}/addImages_start",method = RequestMethod.POST)
-	public String addImageStart(@PathVariable("prod_id")Long prod_id, Model model) throws BusinessException {
-		model.addAttribute("prod_id", prod_id);
-		return "products.image.addform";
+	/*ADD IMAGES*/
+	/*i metodi start sono parametrizzati per tutti i modelli che utilizzano le immagini (product e seller nel nostro caso)*/
+	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che è unica) */
+	/*prima di ritornare vengono impostarti i parametri da sotituire compresa la action del form presente nella jsp*/
+	@RequestMapping(value="/{owner_kind}/{owner_id}/addImages_start",method = RequestMethod.POST)
+	public String productAddImagesStart(@PathVariable("owner_kind")String owner_kind,@PathVariable("owner_id")Long owner_id, Model model) throws BusinessException {
+		model.addAttribute("owner_id", owner_id);
+		model.addAttribute("action", "/"+owner_kind+"/image/addImages");
+		return "image.addform";
 	}
 	
-	@RequestMapping(value="/products/image/addImages", method = RequestMethod.POST)
-	public @ResponseBody ResponseImages addImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("prod_id") Long prod_id) throws BusinessException, IOException {
+	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo precedente). Ne sono uno per modello perchè abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
+	@RequestMapping(value="/prod/image/addImages", method = RequestMethod.POST)
+	public @ResponseBody ResponseImages productAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("owner_id") Long owner_id) throws BusinessException, IOException {
 		
-		Collection<Image> ci = new HashSet<Image>();
-		List<MultipartFile> l = fileUpload.getFiles();
-
-		for (Iterator<MultipartFile> i = l.iterator(); i.hasNext();){
-			MultipartFile mpf = (MultipartFile)i.next();
-			//File cannot be null 
-			if(!mpf.isEmpty()){
-				byte [] scaledimg = km0ImageUtility.getScaledImage(220, 410, mpf.getBytes(), mpf.getContentType());
-				Image img = new Image(mpf.getOriginalFilename(), scaledimg);
-				ci.add(img);
-			}
-        }
-		productService.setProductImages(prod_id,ci);
-		return reloadImages(prod_id);	
+		List<MultipartFile> files = fileUpload.getFiles();
+		List<Image> images = km0ImageUtility.generateImages(files,220,410);
+		imageService.setProductImages(owner_id,images);
+		return reloadProductImages(owner_id);	
+	}
+		
+	@RequestMapping(value="/selr/image/addImages", method = RequestMethod.POST)
+	public @ResponseBody ResponseImages sellerAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("owner_id") Long owner_id) throws BusinessException, IOException {
+		
+		List<MultipartFile> files = fileUpload.getFiles();
+		List<Image> images = km0ImageUtility.generateImages(files,640,269);
+		imageService.setSellerImages(owner_id,images);
+		return reloadSellerImages(owner_id);	
 	}
 	
-	@RequestMapping(value="/products/{prod_id}/image/{image_id}/updateImage_start",method = RequestMethod.POST)
-	public String updateImageStart(@PathVariable("prod_id")Long prod_id,@PathVariable("image_id")Long image_id, Model model) throws BusinessException {
+	
+	/*UPDATE IMAGE*/
+	@RequestMapping(value="/{owner_kind}/{owner_id}/image/{image_id}/updateImage_start",method = RequestMethod.POST)
+	public String updateImageStart(@PathVariable("owner_kind")String owner_kind,@PathVariable("owner_id")Long owner_id,@PathVariable("image_id")Long image_id, Model model) throws BusinessException {
 		Image image = imageService.getImage(image_id);
 		model.addAttribute("image", image);
-		model.addAttribute("prod_id", prod_id);
-		return "products.image.updateform";
+		model.addAttribute("owner_id", owner_id);
+		model.addAttribute("owner_kind", owner_kind);
+		model.addAttribute("action", "/"+owner_kind+"/image/updateImage");
+		return "image.updateform";
 	}
 	
-	@RequestMapping(value ="/products/image/updateImage", method = RequestMethod.POST)
+	@RequestMapping(value ="/prod/image/updateImage", method = RequestMethod.POST)
 	@ResponseBody
-    public ResponseImages updateImage(@ModelAttribute Image image,@ModelAttribute("prod_id") Long prod_id)throws BusinessException {
+    public ResponseImages productUpdateImage(@ModelAttribute Image image,@ModelAttribute("owner_id") Long owner_id)throws BusinessException {
 		imageService.updateImage(image);
-		return reloadImages(prod_id);	
+		return reloadProductImages(owner_id);	
 	}
 	
-	@RequestMapping(value="/products/{prod_id}/image/{image_id}/deleteImage_start",method = RequestMethod.POST)
-	public String deleteImageStart(@PathVariable("prod_id")Long prod_id,@PathVariable("image_id")Long image_id, Model model) throws BusinessException {
+	@RequestMapping(value ="/selr/image/updateImage", method = RequestMethod.POST)
+	@ResponseBody
+    public ResponseImages sellerUpdateImage(@ModelAttribute Image image,@ModelAttribute("owner_id") Long owner_id)throws BusinessException {
+		imageService.updateImage(image);
+		return reloadSellerImages(owner_id);	
+	}
+	
+	/*DELETE IMAGE*/
+	@RequestMapping(value="/{owner_kind}/{owner_id}/image/{image_id}/deleteImage_start",method = RequestMethod.POST)
+	public String deleteImageStart(@PathVariable("owner_kind")String owner_kind,@PathVariable("owner_id")Long owner_id,@PathVariable("image_id")Long image_id, Model model) throws BusinessException {
 		Image image = imageService.getImage(image_id);
 		model.addAttribute("image", image);
-		model.addAttribute("prod_id", prod_id);
-		return "products.image.deleteform";
+		model.addAttribute("owner_id", owner_id);
+		model.addAttribute("owner_kind", owner_kind);
+		model.addAttribute("action", "/"+owner_kind+"/image/deleteImage");
+		return "image.deleteform";
 	}
 	
-	@RequestMapping(value ="/products/image/deleteImage", method = RequestMethod.POST)
+	@RequestMapping(value ="/prod/image/deleteImage", method = RequestMethod.POST)
 	@ResponseBody
-    public ResponseImages deleteImage(@ModelAttribute("id") Long image_id,@ModelAttribute("prod_id") Long prod_id)throws BusinessException {
-		imageService.deleteProductImage(image_id,prod_id);	
-		return reloadImages(prod_id);	
+    public ResponseImages productDeleteImage(@ModelAttribute("id") Long image_id,@ModelAttribute("owner_id") Long owner_id)throws BusinessException {
+		imageService.deleteProductImage(image_id,owner_id);	
+		return reloadProductImages(owner_id);	
 	}
 	
-	public ResponseImages reloadImages(long prod_id) throws BusinessException{
+	@RequestMapping(value ="/selr/image/deleteImage", method = RequestMethod.POST)
+	@ResponseBody
+    public ResponseImages sellerDeleteImage(@ModelAttribute("id") Long image_id,@ModelAttribute("owner_id") Long owner_id)throws BusinessException {
+		imageService.deleteSellerImage(image_id,owner_id);	
+		return reloadSellerImages(owner_id);	
+	}
+	
+	/*Metodi per ricaricare le immagini ogni volta che si effettua una CRUD*/
+	/*Necessario differenziare ResponseImages in prod e selr per poter passare i giusti parametri al javascript (images.js) function ProcessJson*/
+	public ResponseImages reloadProductImages(long prod_id) throws BusinessException{
 		List<Image> ri = imageService.getProductImages(prod_id);
-		for(Iterator i = ri.iterator(); i.hasNext();){
-			Image img = (Image) i.next();
-			System.out.println("IMAGES CONTROLLER IMAGE POSITION:"+img.getPosition());
-		}
-		return new ResponseImages(ri, prod_id);
+		return new ResponseImages(ri, prod_id,"prod");
+	}
+	
+	public ResponseImages reloadSellerImages(long prod_id) throws BusinessException{
+		List<Image> ri = imageService.getSellerImages(prod_id);
+		return new ResponseImages(ri, prod_id,"selr");
 	}
 
-	//img src
-	@RequestMapping(value = {"/products/image/{id}/*","/products/image/{id}","/sellers/image/{id}/*","/sellers/image/{id}"})
+	//<img src="">
+	@RequestMapping(value = {"/prod/image/{id}/*","/prod/image/{id}","/selr/image/{id}/*","/selr/image/{id}"})
 	@ResponseBody
     public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
 		Image image = imageService.getImage(id);

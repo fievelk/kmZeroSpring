@@ -170,17 +170,19 @@ footer{
 
 /* Add Images to Product /products/update_start/ */
 
-.addImages img{width:50px;margin:0px 5px 5px 0px}
-.addImages .row-fluid{margin-bottom:10px}
+.sellerImages img{width:200px;margin:0px 5px 5px 0px}
+.productImages img{width:50px;margin:0px 5px 5px 0px}
+.sellerImages .row-fluid{margin-bottom:10px}
+.productImages .row-fluid{margin-bottom:10px}
 
-#productImages span a{
+#km0Images span a{
 	position:relative;
 	width:100%;
 	bottom:40px;
 	right:10px;	
 }
 
-#modalWindow img{width:50px;margin:0px 5px 5px 0px}
+#modalWindow img{height:50px;margin:5px 5px 5px 0px}
 
 #googleMap img {
   max-width: none;

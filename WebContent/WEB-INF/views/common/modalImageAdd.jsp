@@ -13,8 +13,8 @@
   </div>
   <div class="modal-body">
 	<div class="form">
-		<form id="fileUpload" name="fileUpload" action="${pageContext.request.contextPath}/products/image/addImages" method="POST" enctype="multipart/form-data" >
-			<input type="hidden" name="prod_id" value="${prod_id}">
+		<form id="fileUpload" name="fileUpload" action="${pageContext.request.contextPath}${action}" method="POST" enctype="multipart/form-data" >
+			<input type="hidden" name="owner_id" value="${owner_id}">
 			<div>
 				<input  name="files" type="file" multiple/>
 			</div>

@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 
 
 
@@ -34,13 +35,15 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service
+
 public class JPATestService implements TestService{
 
+	@PersistenceUnit
+	private EntityManagerFactory emf;
+	
 	@Override
 	public void testNumberOne() {
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
         EntityManager em = emf.createEntityManager();
         
         System.out.println ("Transaction begins.");

@@ -47,7 +47,7 @@ import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 public class ProductsController {
 
 	@Autowired
-	private ProductService service;
+	private ProductService productService;
 	
 	@Autowired
 	private ImageService imageService;
@@ -61,6 +61,7 @@ public class ProductsController {
 	}
 	
 
+
 	//FRONTEND
 	
 	@RequestMapping("")
@@ -71,7 +72,7 @@ public class ProductsController {
 	@RequestMapping("/viewProducts")
 	@ResponseBody
 	public ResponseGrid<Product> viewProducts(@ModelAttribute RequestGrid requestGrid) throws BusinessException {
-		ResponseGrid<Product> result = service.viewProducts(requestGrid);
+		ResponseGrid<Product> result = productService.viewProducts(requestGrid);
 		return result;
 	}
 
@@ -104,7 +105,7 @@ public class ProductsController {
 	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid);
+		ResponseGrid<Product> result = productService.viewProductsBySellerIdPaginated(requestGrid);
 		
 		return result;
 	}	
@@ -121,20 +122,14 @@ public class ProductsController {
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		service.createProduct(product);
-		return "redirect:/products/viewsforsellers";
+		productService.createProduct(product);
+		return "redirect:/products/viewsforsellers.do";
 	}
 	
 	
 	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		Product product = service.findProductById(id);
-		List<Image> ri = product.getImages();
-		for(Iterator i = ri.iterator(); i.hasNext();){
-			Image img = (Image) i.next();
-			System.out.println("PRODUCTS CONTROLLER IMAGE POSITION:"+img.getPosition());
-			
-		}
+		Product product = productService.findProductById(id);
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
 		return "products.updateform";
@@ -144,7 +139,7 @@ public class ProductsController {
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		List<Image> images = imageService.getProductImages(product.getId());
-		service.updateProduct(product,images);
+		productService.updateProduct(product,images);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
@@ -152,7 +147,7 @@ public class ProductsController {
 	@RequestMapping(value="/delete_start")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
-		Product product = service.findProductById(id);
+		Product product = productService.findProductById(id);
 		model.addAttribute("product", product);
 		return "products.deleteform";
 	}
@@ -160,8 +155,8 @@ public class ProductsController {
 	
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		service.deleteProduct(product);
-		return "redirect:/products/viewsforsellers";
+		productService.deleteProduct(product);
+		return "redirect:/products/viewsforsellers.do";
 	}	
 	
 	// CATEGORIES
@@ -179,13 +174,13 @@ public class ProductsController {
 	
 	@RequestMapping(value="/createCategory", method=RequestMethod.POST)
 	public String create(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.createCategory(category);
+		productService.createCategory(category);
 		return "redirect:/products/viewsCategories";
 	}
 	
 	@RequestMapping("/updateCategory_start")
 	public String updateCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		Category category = service.findCategoryById(id);
+		Category category = productService.findCategoryById(id);
 		model.addAttribute("category", category);
 		model.addAttribute("id", id);
 		return "categories.updateform";
@@ -194,7 +189,7 @@ public class ProductsController {
 	
 	@RequestMapping(value="/updateCategory", method = RequestMethod.POST)
 	public String update(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.updateCategory(category);
+		productService.updateCategory(category);
 		return "redirect:/products/viewsCategories";
 	}	
 	
@@ -202,7 +197,7 @@ public class ProductsController {
 	@RequestMapping(value="/deleteCategory_start")
 	public String deleteCategoryStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		
-		Category category = service.findCategoryById(id);
+		Category category = productService.findCategoryById(id);
 		model.addAttribute("category", category);
 		return "categories.deleteform";
 	}
@@ -210,14 +205,14 @@ public class ProductsController {
 	
 	@RequestMapping(value="/deleteCategory", method = RequestMethod.POST)
 	public String deleteCategory(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		service.deleteCategory(category);
+		productService.deleteCategory(category);
 		return "redirect:/products/viewsCategories";
 	}	
 	
 	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
-		List<Category> categories = service.findAllCategories();
+		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
 	}
 	

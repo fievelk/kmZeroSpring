@@ -313,29 +313,5 @@ public class JPAProductService implements ProductService{
 	}
 
 
-	@Override
-	public void setProductImages(Long id, Collection<Image> ci) throws BusinessException {
-
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		
-		tx.begin();
-		Product p = findProductById(id);
-
-		//riprendo la collezione di immagini gi� associate all'oggetto e...
-		List<Image> c = p.getImages();
-
-		//...aggiungo la nuova collezione (le fondo assieme)
-		c.addAll(ci);
-		p.setImages(c);
-		em.merge(p);
-		
-		tx.commit();
-		em.close();
-	}
-	
-
-
-
 
 }
