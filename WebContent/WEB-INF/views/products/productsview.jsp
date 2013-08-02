@@ -88,7 +88,7 @@ function buildItem(item){
 		'<div class="item">'+
 	  <!-- Item image -->
 			'<div class="item-image">'+
-			  '<a href="single-item.html"><img src="${pageContext.request.contextPath}/products/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>'+
+			  '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>'+
 			'</div>'+
 	<!-- Item details -->
 			'<div class="item-details">'+
