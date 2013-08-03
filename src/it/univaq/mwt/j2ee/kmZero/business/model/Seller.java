@@ -49,15 +49,15 @@ public class Seller extends User {
 	}
 	
 	// Construttore con solo l'id
-	public Seller(long user_oid){
-		super (user_oid);
+	public Seller(long user_id){
+		super (user_id);
 	}
 
 	// Costruttore da utilizzare quando il venditore si registra da zero.
-	public Seller(long oid, String name, String surname, String email, Password password, Date created, 
+	public Seller(long id, String name, String surname, String email, Password password, Date created, 
 			Date date_of_birth, String address, String p_iva, String cod_fisc, String company, 
-			String url, String phone, int enable) {
-		super(oid, name, surname, email, password, created, date_of_birth, address);
+			String url, String phone, boolean enable) {
+		super(id, name, surname, email, password, created, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
@@ -77,17 +77,17 @@ public class Seller extends User {
 	}
 	
 	// Costruttore da utilizzare per visualizzare un venditore all'interno di una Datatables (Admin)
-	public Seller(long oid, String name, String surname, String p_iva, String company, String phone){
-		super(oid, name, surname);
+	public Seller(long id, String name, String surname, String p_iva, String company, String phone){
+		super(id, name, surname);
 		this.p_iva = p_iva;
 		this.company = company;
 		this.phone = phone;
 	}
 	
 	// Costruttore da utilizzare al momento della cancellazione e delle modifica di un venditore
-	public Seller(long oid, String name, String surname, String email, Date date_of_birth,
+	public Seller(long id, String name, String surname, String email, Date date_of_birth,
 			String address, String p_iva, String cod_fisc, String company, String url, String phone){
-		super(oid, name, surname, email, date_of_birth, address);
+		super(id, name, surname, email, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;
@@ -96,17 +96,17 @@ public class Seller extends User {
 	}
 	
 	// Costruttore da utilizzare al momento della modifica di un venditore da parte di quest'ultimo
-		public Seller(long oid, String name, String surname, String email, Date date_of_birth,
+		public Seller(long id, String name, String surname, String email, Date date_of_birth,
 				String address, String url, String phone){
-			super(oid, name, surname, email, date_of_birth, address);
+			super(id, name, surname, email, date_of_birth, address);
 			this.url = url;
 			this.phone = phone;
 		}
 	
 	// Costruttore con Id User e nome della Company utilizzato per la visualizzazione dei prodotti di un venditore e
 	// per far visualizzare ad un utente la lista dei venditori.
-	 public Seller(long oid, String company) {
-		super(oid);
+	 public Seller(long id, String company) {
+		super(id);
 		this.company = company;
 	 }
 
