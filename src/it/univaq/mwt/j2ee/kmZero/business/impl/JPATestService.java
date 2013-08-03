@@ -5,6 +5,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 import java.util.ArrayList;
@@ -88,6 +89,11 @@ public class JPATestService implements TestService{
 			s.setRoles(rs2);
 			u3.setRoles(rs3);
    
+			SellerContent content = new SellerContent("Titolo", "Descrizione");
+			Collection<SellerContent> contents = new ArrayList<SellerContent>();
+			contents.add(content);
+			s.setContents(contents);
+			
 			em.persist(u1);
 			em.persist(s);
 			em.persist(u3);
