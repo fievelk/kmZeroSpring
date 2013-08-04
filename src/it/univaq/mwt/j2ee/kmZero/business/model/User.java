@@ -27,6 +27,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -71,6 +73,7 @@ public class User implements java.io.Serializable{
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
 	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
+	@JsonManagedReference
 	private Set<Role> roles = new HashSet<Role>();
 	
 	private static final long serialVersionUID = 1L;
@@ -128,7 +131,7 @@ public class User implements java.io.Serializable{
 	}
 
 
-	/* Costruttore che serve al Seller quando verrà visualizzata la lista tramite Datatables */
+	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
 	public User(long id, String name, String surname) {
 		super();
 		this.id = id;
