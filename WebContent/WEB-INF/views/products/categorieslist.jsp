@@ -3,12 +3,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script>
-$(document).ready(function(){
- 	  alert("Attenzione: Cancellare soltanto categorie alle quali non sono stati ancora associati prodotti! \n(Altrimenti presumibilmente sfancula tutto)");
-});
-</script>
-
 <div class="items">
   <div class="container">
     <div class="row">
