@@ -31,53 +31,120 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
        
 <script>
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
 var map;
 
 function initialize() {
 		
+	var chieti = new google.maps.LatLng(42.348395, 14.108963);
+	
+	/* Input text Autocompletion */
+	
+/* 	var defaultBounds = new google.maps.LatLngBounds(
+  		new google.maps.LatLng(47.100045, 6.348610),
+  		new google.maps.LatLng(36.279707,18.977966)); */
+
+	
 	var input = (document.getElementById('address_autocompleted'));
 	var autocomplete_options = {
-			  types:['geocode'],
+			  //bounds: defaultBounds,
 			  componentRestrictions: {country: 'it'}
 			};
+
+	
 	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
+
+	//autocomplete.bindTo('bounds', map);
+
 
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
         var place = autocomplete.getPlace();
         console.log(place.address_components);
     }); 
 	
+	/* End of Autocompletion */
+	
+	/* Map */
+	
+	// Enable the visual refresh
+	google.maps.visualRefresh = true;
+	
+	
+	var mapOptions = {
+	  center: chieti,
+	  zoom:9,
+	  disableDefaultUI: true,
+	  mapTypeId:google.maps.MapTypeId.ROADMAP
+	  };
+	
+	var map_canvas = document.getElementById("googleMap");
+	
+	map = new google.maps.Map(map_canvas, mapOptions);
+	autocomplete.bindTo('bounds', map);
+
+	var infowindow = new google.maps.InfoWindow();
+	var marker = new google.maps.Marker({
+    map: map,
+    //animation: google.maps.Animation.BOUNCE,
+  });
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    input.className = '';
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      // Inform the user that the place was not found and return.
+      input.className = 'notfound';
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[3] && place.address_components[3].short_name || ''),
+        (place.address_components[4] && place.address_components[4].short_name || ''),
+      ].join(', ');
+    }
+
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+  });
+
 }
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-
-<!-- End of Address autocompletion -->
 
 <div class="items">
 	<div class="container">
 		<div class="row">
 
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
+
 			
 			<!-- Main content -->
 			
-			<div class="span9">
+			<div class="span6 side-menu">
 				<h5 class="title">
 					<c:choose>
 			      		<c:when test="${requestScope.delete}">
@@ -91,7 +158,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			   			</c:when>
 			      	</c:choose>	
 		      	</h5>
-				<div class="form form-small">
+				<div class="form">
 					<form:form modelAttribute="user" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
 					<div class="control-group">
@@ -169,9 +236,22 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					</form:form>
 				</div>
 			</div>
+			
+	    	<div class="span6">
+	
+				<h5 class="title"><spring:message code="common.map" /></h5>
+
+				<div id="googleMap" style="width:500px;height:380px;"></div>
+
+			</div>
+						
 		</div>
 	</div>
 </div>
+
+
+
+
 
 
 
