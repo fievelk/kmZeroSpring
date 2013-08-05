@@ -4,6 +4,8 @@ import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 import java.util.ArrayList;
@@ -66,6 +68,13 @@ public class JPATestService implements TestService{
 			
 			User u1 = new User("paolo", "paolo", "paolo@gmail.com", null, null, null, "via brancastello");
 			User u2 = new User("federico", "federico","federico@gmail.com", null ,null, null, "via paganica");
+			Seller s = new Seller ("3453", "fff3254", "fedecompany", "www.fede.it", "385784");
+			s.setName(u2.getName());
+			s.setSurname(u2.getSurname());
+			s.setEmail(u2.getEmail());
+			s.setAddress(u2.getAddress());
+			s.setCreated(new Date());
+			s.setEnable(true);
 			User u3 = new User("admin", "admin", "admin@email.it", null, null, null, "via, admin 1");
 			Password p1 = new Password();
 			Password p2 = new Password();
@@ -74,14 +83,19 @@ public class JPATestService implements TestService{
 			p2.setPassword(DigestUtils.md5Hex("f"));
 			p3.setPassword(DigestUtils.md5Hex("a"));
 			u1.setPassword(p1);
-			u2.setPassword(p2);
+			s.setPassword(p2);
 			u3.setPassword(p3);
 			u1.setRoles(rs1);
-			u2.setRoles(rs2);
+			s.setRoles(rs2);
 			u3.setRoles(rs3);
    
+			SellerContent content = new SellerContent("Titolo", "Descrizione");
+			Collection<SellerContent> contents = new ArrayList<SellerContent>();
+			contents.add(content);
+			s.setContents(contents);
+			
 			em.persist(u1);
-			em.persist(u2);
+			em.persist(s);
 			em.persist(u3);
 
 			Category cat1 = new Category(1L, "Unclassified", 0);
