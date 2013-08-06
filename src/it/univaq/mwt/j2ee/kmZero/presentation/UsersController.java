@@ -9,6 +9,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +134,7 @@ public class UsersController {
 	
 	@RequestMapping(value="/edit_password.do", method = RequestMethod.POST)
 	public String editPassword(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
-		/* Metodo che restituisce la password vecchia che è nel DB e poi fare il confronto
+		/* Metodo che restituisce la password vecchia che ï¿½ nel DB e poi fare il confronto
 		 * Ricordare che bisogna mettere l'hash altrimenti il confronto non funziona. */
 		Password password = user.getPassword();
 		password.setDb_password(service.oldPassword(user.getId()));
@@ -147,4 +148,12 @@ public class UsersController {
 		return "redirect:/";
 	}
 
+	
+	@ModelAttribute
+	public void findWarehouse(Model model) {
+		float wareLat = Warehouse.getLatitude();
+		float wareLon = Warehouse.getLongitude();
+		model.addAttribute("wareLat", wareLat);
+		model.addAttribute("wareLon", wareLon);
+	}
 }

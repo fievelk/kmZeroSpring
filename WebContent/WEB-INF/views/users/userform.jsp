@@ -26,7 +26,7 @@
 	});
 </script>
 
-<!-- Address autocompletion scripts-->
+<!-- Google Maps API scripts-->
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
        
@@ -35,19 +35,14 @@ var map;
 
 function initialize() {
 		
-	var chieti = new google.maps.LatLng(42.348395, 14.108963);
+	/* Coordinate del centro di distribuzione, prese dalla classe Warehouse */
+	var warehouse = new google.maps.LatLng('${wareLat}','${wareLon}');
 	
 	/* Input text Autocompletion */
 	
-/* 	var defaultBounds = new google.maps.LatLngBounds(
-  		new google.maps.LatLng(47.100045, 6.348610),
-  		new google.maps.LatLng(36.279707,18.977966)); */
-
-	
 	var input = (document.getElementById('address_autocompleted'));
 	var autocomplete_options = {
-			  //bounds: defaultBounds,
-			  componentRestrictions: {country: 'it'}
+			  componentRestrictions: {country: 'it'} // si potrebbe eliminare la restrizione
 			};
 
 	
@@ -70,7 +65,7 @@ function initialize() {
 	
 	
 	var mapOptions = {
-	  center: chieti,
+	  center: warehouse,
 	  zoom:9,
 	  disableDefaultUI: true,
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
@@ -130,7 +125,42 @@ function initialize() {
     infowindow.open(map, marker);
   });
 
+  /* CALCOLO DISTANZA */
+
+  var directionsService = new google.maps.DirectionsService();
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    var start = warehouse;
+    var end = document.getElementById("address_autocompleted").value;
+    var request = {
+      origin: start,
+      destination: end,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+         
+
+    directionsService.route(request, function(response, status) {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        
+      if (status == google.maps.DirectionsStatus.OK) {  
+        var distanceFromStart = response.routes[0].legs[0].distance.value;
+        var distanceFromStart = (distanceFromStart / 1000).toFixed(2); // conversion from meters to kilometers
+        
+        if (distanceFromStart < 50) {
+            document.getElementById("addressDistanceError").innerHTML="<img src='${pageContext.request.contextPath}/resources/custom/img/ok.png'/>";
+        } else {
+        	document.getElementById("addressDistanceError").innerHTML="<spring:message code='error.addressDistance'/>";
+        }
+      } 
+    });
+
+  });
+  
+  /* Fine CALCOLO DISTANZA */
 }
+
+
+
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -164,21 +194,21 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<div class="control-group">
 					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
 					    <div class="controls">
-					    	<form:input id="name" path="name"/>
+					    	<form:input id="name" path="name"/><br />
 					    	<form:errors path="name"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="surname"><spring:message code="user.surname"/></label>
 					    <div class="controls">
-					    	<form:input id="surname" path="surname"/>
+					    	<form:input id="surname" path="surname"/><br />
 					    	<form:errors path="surname"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="email"><spring:message code="user.email"/></label>
 					    <div class="controls">
-					    	<form:input id="email" path="email"/>
+					    	<form:input id="email" path="email"/><br />
 					    	<form:errors path="email"/>
 					    </div>
 					</div>
@@ -188,14 +218,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 							<div class="control-group">
 							    <label class="control-label" for="password"><spring:message code="user.password"/></label>
 							    <div class="controls">
-							    	<form:password id="password" path="password.password"/>
+							    	<form:password id="password" path="password.password"/><br />
 							    	<form:errors path="password.password"/>
 							    </div>
 							</div>
 							<div class="control-group">
 							    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
 							    <div class="controls">
-							    	<form:password id="confirm_password" path="password.confirm_password"/>
+							    	<form:password id="confirm_password" path="password.confirm_password"/><br />
 							    	<form:errors path="password.confirm_password"/>
 							    </div>
 							</div>
@@ -205,7 +235,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<div class="control-group">
 					    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 						<div class="controls">
-							<form:input id="datepicker" path="date_of_birth"/>
+							<form:input id="datepicker" path="date_of_birth"/><br />
 							<form:errors path="date_of_birth"/>
 						</div>
 					</div>
@@ -213,14 +243,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<div class="control-group">
 					    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 					    <div class="controls">
-							<form:input id="address_autocompleted" path="address"/>
+							<form:input id="address_autocompleted" path="address"/><br />
 							<form:errors path="address"/>
+							<p id="addressDistanceError"></p>
 					    </div>
 					</div>
 					
 					<div class="control-group">
 					    <div class="controls">
-					      <button type="submit" class="btn">
+					      <button type="submit" class="btn" id="submitbutton">
 					      	<c:choose>
 					      		<c:when test="${!requestScope.delete}">
 									<spring:message code="common.submit"/>
@@ -240,7 +271,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	    	<div class="span6">
 	
 				<h5 class="title"><spring:message code="common.map" /></h5>
-
 				<div id="googleMap" style="width:500px;height:380px;"></div>
 
 			</div>
