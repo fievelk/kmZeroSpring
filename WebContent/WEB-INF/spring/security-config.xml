@@ -28,6 +28,8 @@
 		<security:intercept-url pattern="/sellers/*" access="hasAnyRole('admin', 'seller')"/>
 		<security:intercept-url pattern="/sellers/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/titles/**" access="hasAnyRole('librarian', 'masterlibrarian')"/>
+
+		<security:intercept-url pattern="/products/findWarehouseAddress" access="permitAll"/> 		
  		
 		<security:form-login login-page="/login" 
 							 authentication-failure-url="/login" 

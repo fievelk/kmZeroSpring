@@ -9,7 +9,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
-import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import java.util.ArrayList;
@@ -234,13 +233,5 @@ public class SellersController {
 		model.addAttribute("sellers", sellers);
 		return "sellers.list";
 	}
-	
-	@ModelAttribute
-	public void findWarehouse(Model model) {
-		float wareLat = Warehouse.getLatitude();
-		float wareLon = Warehouse.getLongitude();
-		model.addAttribute("wareLat", wareLat);
-		model.addAttribute("wareLon", wareLon);
-	}	
 
 }

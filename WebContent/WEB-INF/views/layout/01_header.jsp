@@ -11,7 +11,7 @@
             <p class="meta">Se non ci dovesse andare bene con il master la zappa è sempre un'ottima alternativa!</p>
           </div>
         </div>
-
+		
         <div class="span5 offset3">
           
           <!-- Search form -->

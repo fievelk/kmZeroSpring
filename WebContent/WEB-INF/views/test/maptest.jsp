@@ -1,93 +1,10 @@
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAxHFavr74ns3tBVjamE2MSxUszOe5gLyU&sensor=false"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
         
-<script>
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-
-function initialize() {
-		
-	var chieti = new google.maps.LatLng(42.348395, 14.108963);
-	
-	/* Input text Autocompletion */
-	
-/* 	var defaultBounds = new google.maps.LatLngBounds(
-  		new google.maps.LatLng(47.100045, 6.348610),
-  		new google.maps.LatLng(36.279707,18.977966)); */
-
-	
-	var input = (document.getElementById('searchTextField'));
-	var autocomplete_options = {
-			  //bounds: defaultBounds,
-			  componentRestrictions: {country: 'it'}
-			};
-
-	
-	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
-
-	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        console.log(place.address_components);
-    }); 
-	
-	/* End of Autocompletion */
-	
-	/* Map */
-	
-	
-	directionsDisplay = new google.maps.DirectionsRenderer();
-	
-	var mapOptions = {
-	  center: chieti,
-	  zoom:9,
-	  mapTypeId:google.maps.MapTypeId.ROADMAP
-	  };
-	
-	var map_canvas = document.getElementById("googleMap");
-	
-	map = new google.maps.Map(map_canvas, mapOptions);
-	directionsDisplay.setMap(map);
-	
-	
-	
-}
-
-function calcRoute() {
-	var start = document.getElementById("start").value;
-	var end = document.getElementById("end").value;
-	var waypts = [];
-	
-
-	var checkboxArray = document.getElementsByName("waypoints");
-	for (var i = 0; i < checkboxArray.length; i++) {
-		if (checkboxArray[i].checked) {
-			waypts.push({
-				location:checkboxArray[i].value,
-				stopover:true	
-			});
-		}
-	}
-	
-	var request = {
-			origin:start,
-			destination:end,
-			waypoints: waypts,
-			optimizeWaypoints: true,
-			travelMode: google.maps.TravelMode.DRIVING
-	};
-	directionsService.route(request, function(response, status) {
-		if (status == google.maps.DirectionsStatus.OK) {
-			directionsDisplay.setDirections(response);
-		}
-	});
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
+<p id="stampadata"></p>
 <!-- Importante: per visualizzare correttamente la mappa bisogna modificare i css di bootstrap modificando img { max-width: } da 100% a "none" -->
 
 <div class="items">
@@ -96,13 +13,27 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 		<!-- Sidebar menu -->    
           <div class="span5 side-menu">
-          <input type="text" id="searchTextField">
-
+          <input type="text" id="address_autocompleted">
+		
+			<p id="addressDistanceError"></p>
 		  <p id="outputadd"></p>
+          <p id="stampami"></p>
+                    <script>
+          function stampalo() {
+          //var coordinates = '${warehouse}';
+  		  //var warehouse = new google.maps.LatLng(coordinates);
+          document.getElementById("stampami").innerHTML=coordinates;
+          }
+          </script>
+          
+          <input type="button" onclick="stampalo()" value="provacoordinatewarehouse">
+          
+          
+          
           
           <script>
           function functiona() {
-          var buttalo = document.getElementById("searchTextField").value;
+          var buttalo = document.getElementById("address_autocompleted").value;
           document.getElementById("outputadd").innerHTML=buttalo;
           }
           </script>
@@ -113,6 +44,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				<label for="startpoint"><strong>Start point:</strong></label>
 				<select id="start">
 				  <option value="l'aquila, it">L'Aquila</option>
+				  <%-- <option value="${requestScope.warehouse}">Warehouse</option> --%>
 				  <option value="chieti, it">Chieti</option>
 				  <option value="rome, it">Roma</option>
 				</select>
