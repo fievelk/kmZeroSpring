@@ -2,6 +2,7 @@ package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
@@ -105,6 +106,16 @@ public class JPATestService implements TestService{
 			em.persist(cat1);
 			em.persist(cat2);
 			em.persist(cat3);
+			
+			Measure meas1 = new Measure(1L, "Grammi");
+			Measure meas2 = new Measure(2L, "Kilogrammi");
+			Measure meas3 = new Measure(3L, "Litri");
+			Measure meas4 = new Measure(4L, "Numero");
+			
+			em.persist(meas1);
+			em.persist(meas2);
+			em.persist(meas3);
+			em.persist(meas4);
 			
 			em.getTransaction().commit();
 		} catch (Exception e) {
