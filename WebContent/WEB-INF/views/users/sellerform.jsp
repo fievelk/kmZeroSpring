@@ -20,25 +20,6 @@ $(function() {
 });
 </script>
 
-<div class="items">
-	<div class="container">
-		<div class="row">
-
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
-			
 			<!-- Main content -->
 			
 			<div class="span9">
@@ -151,17 +132,18 @@ $(function() {
 						</div>
 						<div id="km0Images">
 					  	<c:forEach var="image" items="${seller.images}">
-					  			<span id="image_${image.id}">
-						       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
-						       		<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
-						       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
-					       		</span>	
+						  	<div id="km0Image">
+						  		<div>
+						  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
+							       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
+						  		</div>
+						  			<span id="image_${image.id}">
+							       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
+						       		</span>	
+						    </div>
 				    	</c:forEach>
 				    	</div>
 			      	</div>	
 			   		</c:if>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>

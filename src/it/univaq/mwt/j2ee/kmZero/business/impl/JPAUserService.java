@@ -15,6 +15,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,9 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
+import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
+import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
@@ -443,5 +449,140 @@ public class JPAUserService implements UserService{
 		}
 		return exist;
 	}
+
+	/*SELLER CONTENTS*/
+	
+	@Override
+	public boolean checkSellerContentProperty(long sellerId, long sellerContentId) throws BusinessException{
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		SellerContent sc = em.find(SellerContent.class, sellerContentId);
+		long id = sc.getSeller().getId();
+		tx.commit();
+		return (id == sellerId);
+		
+	}
+
+	@Override
+	public ResponseGrid<SellerContent> viewAllPageContentsPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+	    tx.begin();
+	    
+	    //Dati per la query
+        String sortCol = requestGrid.getSortCol();
+        String sortDir = requestGrid.getSortDir();
+        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
+        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
+        
+        //Criteria Builder
+        User u = em.find(User.class, seller_id);
+        if(u.getRoles().contains(new Role(3))){
+        	u = em.find(Seller.class, seller_id);
+        }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SellerContent> q = cb.createQuery(SellerContent.class);
+        Root<SellerContent> p = q.from(SellerContent.class);
+        
+        //La clausola cb.and() è sempre vera - viene usata se l'utente loggato ha ruolo admin
+        Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
+              
+        Predicate predicate = cb.and(
+        							adminOrSeller,	
+									cb.or(
+					        				cb.like(p.get("title").as(String.class),search),
+					        				cb.like(p.get("description").as(String.class),search)		
+					    			)
+		);
+        
+        q.select(p);
+        //setto il where della query principale
+        q.where(predicate);
+        
+        CriteriaQuery<Long> qc = cb.createQuery(Long.class);
+        qc.select(cb.count(p));
+        //setto il where della query count 
+        qc.where(predicate);
+        
+        Long totalRecords = em.createQuery(qc).getSingleResult();
+        
+        //orderby asc or desc
+        if(sortDir.equals("asc"))
+        	q.orderBy(cb.asc(p.get(sortCol)));
+        else
+        	q.orderBy(cb.desc(p.get(sortCol)));
+      
+        TypedQuery<SellerContent> query = em.createQuery(q);
+        query.setMaxResults(maxRows);
+        query.setFirstResult(minRows);
+        List<SellerContent> sellercontents = query.getResultList();
+      
+        tx.commit();
+        em.close();
+        
+		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, sellercontents);
+	}
+
+	@Override
+	public void createPageContent(SellerContent content, long userId) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+	    tx.begin();
+	    	Seller s = em.find(Seller.class,userId);
+	    	content.setSeller(s);
+	    	em.persist(content);
+	    tx.commit();
+	    em.close();
+		
+	}
+	
+
+
+	@Override
+	public SellerContent findSellerContentById(long id) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+	    tx.begin();
+	    	SellerContent sc = em.find(SellerContent.class,id);
+	    tx.commit();
+	    em.close();
+	    return sc;
+	}
+
+	@Override
+	public void updatePageContent(SellerContent content, long userId) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+	    tx.begin();
+	    	Seller s = em.find(Seller.class,userId);
+	    	SellerContent sc = em.find(SellerContent.class, content.getId());
+	    	Image i = sc.getImage();
+	    	content.setSeller(s);
+	    	content.setImage(i);
+	    	em.merge(content);
+	    tx.commit();
+	    em.close();	
+	}
+
+	@Override
+	public void deletePageContent(long contentId, long userId) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+	    tx.begin();
+	    	SellerContent sc = em.find(SellerContent.class,contentId);
+	    	em.remove(sc);
+	    tx.commit();
+	    em.close();	
+		
+	}
+
 
 }

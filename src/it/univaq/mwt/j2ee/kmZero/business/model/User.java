@@ -27,6 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -40,50 +41,51 @@ public class User implements java.io.Serializable{
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(name="name")
 	private String name;
-	
+
 	@Column(name="surname")
 	private String surname;
-	
+
 	@Column(name="email")
 	private String email;
-	
+
 	@Column(name="password")
 	private Password password;
-	
+
 	@Column(name="created",nullable=true) 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
-	
+
 	@Column(name="date_of_birth",nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_of_birth;
-	
+
 	@Column(name="last_access",nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date last_access;
-	
+
 	@Column(name="address")
 	private String address;
-	
+
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
 	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
+	@JsonManagedReference
 	private Set<Role> roles = new HashSet<Role>();
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public User() {
-		
+
 	}
 
 	// Costruttore dello User con solo l'id
 	public User(long id){
 		this.id = id;
 	}
-	
+
 	public User(String name, String surname, String email, Password password, Date created, 
 			Date date_of_birth, String address) {
 		super();
@@ -101,7 +103,7 @@ public class User implements java.io.Serializable{
 		this(name,surname,email,password,created,date_of_birth,address);
 		this.id = id;
 	}
-	
+
 	/* Costruttore per visualizzare la lista degli utenti senza il campo password */
 	public User(long id, String name, String surname, String email,
 			Date created, Date date_of_birth, Date last_access, String address) {
@@ -114,7 +116,7 @@ public class User implements java.io.Serializable{
 		this.last_access = last_access;
 		this.address = address;
 	}
-	
+
 	/* Costruttore per aggiornare il profilo utente */
 	public User(long id, String name, String surname, String email,
 			Date date_of_birth, String address) {
@@ -128,14 +130,14 @@ public class User implements java.io.Serializable{
 	}
 
 
-	/* Costruttore che serve al Seller quando verrà visualizzata la lista tramite Datatables */
+	/* Costruttore che serve al Seller quando verrˆ visualizzata la lista tramite Datatables */
 	public User(long id, String name, String surname) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 	}
-	
+
 	// Costruttore per il cambio password
 	public User(long id, Password password) {
 		super();
@@ -205,7 +207,7 @@ public class User implements java.io.Serializable{
 	public void setLast_access(Date last_access) {
 		this.last_access = last_access;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}
@@ -221,5 +223,5 @@ public class User implements java.io.Serializable{
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 }

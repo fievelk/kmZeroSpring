@@ -4,6 +4,7 @@ import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ public class JPATestService implements TestService{
 			Set<Role> rs2 = new HashSet<Role>();
 			Set<Role> rs3 = new HashSet<Role>();
 			rs1.add(r1);
-			rs1.add(r2);
 			rs2.add(r2);
 			rs3.add(r3);
 			
@@ -64,23 +64,32 @@ public class JPATestService implements TestService{
 			em.persist(r2);
 			em.persist(r3);
 			
-			User u1 = new User("paolo", "paolo", "paolo@gmail.com", null, null, null, "via brancastello");
+			
+			Seller s1 = new Seller("pippo", "marjiuana", "pippo@gmail.com", null, null, null, "topolinia", "78969678", "87696879", null, null, null, 1);
+			Seller s2 = new Seller("topolino", "lalala", "topolino@gmail.com", null, null, null, "topolinia", "78969678", "87696879", null, null, null, 1);
+
 			User u2 = new User("federico", "federico","federico@gmail.com", null ,null, null, "via paganica");
 			User u3 = new User("admin", "admin", "admin@email.it", null, null, null, "via, admin 1");
 			Password p1 = new Password();
 			Password p2 = new Password();
 			Password p3 = new Password();
+			Password p4 = new Password();
 			p1.setPassword(DigestUtils.md5Hex("p"));
 			p2.setPassword(DigestUtils.md5Hex("f"));
 			p3.setPassword(DigestUtils.md5Hex("a"));
-			u1.setPassword(p1);
+			p4.setPassword(DigestUtils.md5Hex("t"));
+
+			s1.setPassword(p1);
 			u2.setPassword(p2);
 			u3.setPassword(p3);
-			u1.setRoles(rs1);
+			s2.setPassword(p4);
+			s1.setRoles(rs1);
+			s2.setRoles(rs1);
 			u2.setRoles(rs2);
 			u3.setRoles(rs3);
    
-			em.persist(u1);
+			em.persist(s1);
+			em.persist(s2);
 			em.persist(u2);
 			em.persist(u3);
 

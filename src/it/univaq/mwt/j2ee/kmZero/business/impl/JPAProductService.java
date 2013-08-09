@@ -1,8 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -11,6 +14,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.eclipse.persistence.internal.expressions.ParameterExpression;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
@@ -18,7 +27,9 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 public class JPAProductService implements ProductService{
@@ -27,44 +38,43 @@ public class JPAProductService implements ProductService{
 	private EntityManagerFactory emf;
 
 	@Override
-	public void createProduct(Product product) throws BusinessException {
+	public void createProduct(Product product, long seller_id) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
-		product.setActive(true);
 		
         tx.begin();
-        
-		//Seller seller = em.find(Seller.class, 209L); // Cambiare l'ID finch√© si fanno le prove. Poi eliminare del tutto questa parte
-		//System.out.println("SELLERNAME " + seller.getName());
-		//em.merge(seller);
-		//product.setSeller(seller);
-        
+       
+        product.setActive(true);
+        Seller s = em.find(Seller.class, seller_id);
+        product.setSeller(s);
         em.persist(product);
-        
+
         tx.commit();
         em.close();
-       
+
 	}	
 	
-		
 	@Override
-	public void updateProduct(Product product,List<Image> images) throws BusinessException {
+	public void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-        tx.begin();        
+        tx.begin();  
+        
+        Seller s = em.find(Seller.class, seller_id);
         product.setImages(images);
+        product.setSeller(s);
         em.merge(product);
-           
+    
         tx.commit();
         em.close();
         		
 	}
 
 	// Mostra tutti i prodotti con active=1 e date nel range (lato User)
-	@Override
+	/*@Override
 	public ResponseGrid<Product> viewProducts(RequestGrid requestGrid) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
@@ -106,47 +116,136 @@ public class JPAProductService implements ProductService{
         em.close();
         		
 		return new ResponseGrid(requestGrid.getsEcho(),totalRecords, records, products);
+	}*/
+	
+	@Override
+	public ResponseGrid<Product> viewProducts(RequestGrid requestGrid) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+	    tx.begin();
+	    
+	    //Dati per la query
+	    boolean active = true;
+        Date today = new Date();
+        String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
+        String sortDir = requestGrid.getSortDir();
+        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
+        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
+        
+        //Criteria Builider
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> p = q.from(Product.class);
+               
+        q.select(p);
+        Predicate predicate = cb.and(
+									cb.equal(p.get("active").as(Boolean.class), active),
+									cb.lessThanOrEqualTo(p.get("date_in").as(Date.class), today),
+									cb.greaterThanOrEqualTo(p.get("date_out").as(Date.class), today),
+									cb.or(
+					        				cb.like(p.get("name").as(String.class),search),
+					        				cb.like(p.get("description").as(String.class),search),
+					        				cb.like(p.get("price").as(String.class),search)
+					    			)
+		);
+        
+        q.where(predicate);
+        
+        CriteriaQuery<Long> qc = cb.createQuery(Long.class);
+        qc.select(cb.count(p));
+        qc.where(predicate);
+        
+        Long totalRecords = em.createQuery(qc).getSingleResult();
+        
+        //orderby asc or desc
+        if(sortDir.equals("asc"))
+        	q.orderBy(cb.asc(p.get(sortCol)));
+        else
+        	q.orderBy(cb.desc(p.get(sortCol)));
+        
+        TypedQuery<Product> query = em.createQuery(q);
+        query.setMaxResults(maxRows);
+        query.setFirstResult(minRows);
+        List<Product> products = query.getResultList();
+        Long records = (long) products.size();
+
+        tx.commit();
+        em.close();
+              
+		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, records, products);
+        //return null;
 	}
 	
 	@Override
-	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException {
+	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-
-		if ("id".equals(requestGrid.getSortCol())) {
-			requestGrid.setSortCol("p.id");
-		} else {
-			if ("category.name".equals(requestGrid.getSortCol())) {
-				requestGrid.setSortCol("p.category.name");
-			} else {
-				requestGrid.setSortCol("p." + requestGrid.getSortCol());
-			}
-			
-		} 
 		
 	    tx.begin();
-
+	    
+	    //Dati per la query
+	    boolean active = true;
+        Date today = new Date();
+        String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
+        String sortDir = requestGrid.getSortDir();
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
+        //Criteria Builider
+        User u = em.find(User.class, seller_id);
+        if(u.getRoles().contains(new Role(3))){
+        	u = em.find(Seller.class, seller_id);
+        }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> q = cb.createQuery(Product.class);
+        Root<Product> p = q.from(Product.class);
         
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=1" +
-				 ((!"".equals(requestGrid.getsSearch())) ? " AND p.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
-				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), Product.class);
+        //La clausola cb.and() è sempre vera - viene usata se l'utente loggato ha ruolo admin
+        Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
+              
+        Predicate predicate = cb.and(
+        							adminOrSeller,
+									cb.equal(p.get("active").as(Boolean.class), active),	
+									cb.or(
+					        				cb.like(p.get("name").as(String.class),search),
+					        				cb.like(p.get("description").as(String.class),search),
+					        				cb.like(p.get("price").as(String.class),search)
+					        				
+					    			)
+		);
+        
+        q.select(p);
+        //setto il where della query principale
+        q.where(predicate);
+        
+        CriteriaQuery<Long> qc = cb.createQuery(Long.class);
+        qc.select(cb.count(p));
+        //setto il where della query count 
+        qc.where(predicate);
+        
+        Long totalRecords = em.createQuery(qc).getSingleResult();
+        
+        //orderby asc or desc
+        if(sortDir.equals("asc"))
+        	q.orderBy(cb.asc(p.get(sortCol)));
+        else
+        	q.orderBy(cb.desc(p.get(sortCol)));
+        
+        TypedQuery<Product> query = em.createQuery(q);
+        query.setMaxResults(maxRows);
+        query.setFirstResult(minRows);
+        List<Product> products = query.getResultList();
 
-		query.setMaxResults(maxRows);
-		query.setFirstResult(minRows);
-		
-		List<Product> products = query.getResultList();
-		
-		Query count = em.createQuery("SELECT COUNT (p) FROM Product p WHERE p.active=1");
-		Long records = (Long) count.getSingleResult();
-        
         tx.commit();
         em.close();
-        
-		return new ResponseGrid(requestGrid.getsEcho(), records, records, products);
+        System.out.println("DATI RESPONSEGRID USER - ECHO:"+requestGrid.getsEcho()+"TOTREC:"+ totalRecords+"TOTREC:"+ totalRecords+"ROWS:"+ products);      
+
+		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, products);
+        //return null;
 	}
 
 	
@@ -298,20 +397,40 @@ public class JPAProductService implements ProductService{
 
 
 	@Override
-	public void deleteProduct(Product product) {
+	public void deleteProduct(Product product,long seller_id) {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-
-		product = em.merge(product); // Esegue l'attachment del product
-		product.setActive(false);
+		Seller s = em.find(Seller.class,seller_id);
+		product = em.merge(product);
+		s.deleteProduct(product);
+		//product = em.merge(product); // Esegue l'attachment del product
+		//product.setActive(false);
 		
 		tx.commit();
 		em.close();
-	
 	}
 
-
+	@Override
+	public boolean checkProductProperty(long sellerId, long prodId) throws BusinessException{
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		long sp;
+		try {
+			Product p = findProductById(prodId);
+			sp = p.getSeller().getId();
+			tx.commit();
+			return (sp == sellerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		}
+		
+		
+	}
 
 }

@@ -5,21 +5,24 @@
  	   <div class="row">
 			<div class="span6">
 			  <div class="formy well">
-			    <h4 class="title">Login to Your Account</h4>
+			    
 			    <div class="form">
+			    
 					<security:authorize access="!isAuthenticated()">
+					<h4 class="title">Login to Your Account</h4>
 				         <form name="loginform" action="${pageContext.request.contextPath}/j_spring_security_check" method="post" class="navbar-form pull-right">
 				           <input class="span2" type="text" placeholder="Username" name="j_username">
 				           <input class="span2" type="password" placeholder="Password" name="j_password">
 				           <button type="submit" class="btn"><spring:message code="common.signin"/></button>
 				         </form>
-				    </security:authorize>
-				    <security:authorize access="isAuthenticated()">
-				    	LOGOUT
-				    </security:authorize>
-			        <hr />
+				         <hr />
 			        <h5>New Account</h5>
 			               Don't have an Account? <a href="register.html">Register</a>
+				    </security:authorize>
+				    <security:authorize access="isAuthenticated()">
+				    	<a href="${pageContext.request.contextPath}/j_spring_security_logout">logout</a>
+				    </security:authorize>
+			        
 			    </div> 
 			  </div>
 			</div>

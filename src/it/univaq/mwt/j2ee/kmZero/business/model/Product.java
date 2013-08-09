@@ -1,8 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import it.univaq.mwt.j2ee.kmZero.common.Comparators;
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -32,28 +36,28 @@ public class Product {
 	@Column(name="product_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(name="name", nullable=false)
 	private String name;
-	
+
 	@Column(name="description")
 	private String description;
 
 	@Column(name="price")	
 	private float price;
-	
+
 	@Column(name="date_in")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_in;
-	
+
 	@Column(name="date_out")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_out;
-	
+
 	@Column(name="active")
 	private boolean active;
-	
-	@ManyToOne
+
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "categories_id")
 	private Category category;
 
@@ -61,12 +65,13 @@ public class Product {
 	@JoinColumn(name = "product_fk")
 	@OrderBy("position ASC")
 	private List<Image> images;
-	
+
 	@Column(name="rating")
 	private float rating;
-	
+
 	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
+	@JsonBackReference
 	private Seller seller;
 
 	public Product() {
@@ -87,7 +92,7 @@ public class Product {
 		this.images = images;
 		this.seller = seller;
 	}
-	
+
 	/* Costruttore per l'inserimento senza immagini */
 	public Product(long id, String name, String description, float price,
 			Category category, Seller seller, Date date_in, Date date_out) {
@@ -101,7 +106,7 @@ public class Product {
 		this.date_in = date_in;
 		this.date_out = date_out;
 	}	
-	
+
 	/* Costruttore per l'inserimento senza immagini e date */
 	public Product(long id, String name, String description, float price,
 			Category category, Seller seller) {
@@ -138,7 +143,7 @@ public class Product {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	
+
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
 	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getDate_in() {
@@ -147,7 +152,7 @@ public class Product {
 	public void setDate_in(Date date_in) {
 		this.date_in = date_in;
 	}
-	
+
 	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getDate_out() {
 		return date_out;
@@ -161,7 +166,7 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 /*	public Collection<Image> getImages() {
 		return images;
 	}
@@ -176,7 +181,7 @@ public class Product {
 	public void setRating(float rating) {
 		this.rating = rating;
 	}
-	
+
 	public boolean isActive() {
 		return active;
 	}
@@ -196,9 +201,9 @@ public class Product {
 	public Seller getSeller() {
 		return seller;
 	}
-	
+
 	public void setSeller(Seller seller) {
 		this.seller = seller;
 	}
-	
+
 }

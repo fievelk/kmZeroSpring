@@ -16,17 +16,15 @@ public interface ProductService {
 	
 	// Metodi per i prodotti
 		
-	void createProduct(Product product) throws BusinessException;
+	void createProduct(Product product, long seller_id) throws BusinessException;
 	
-	void deleteProduct(Product product) throws BusinessException;
-
+	void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException;
 	
-	
-	void updateProduct(Product product,List<Image> images) throws BusinessException;
+	void deleteProduct(Product product, long seller_id);
 	
 	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
 	
-	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, long seller_id) throws BusinessException;
 	
 	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
 
@@ -43,8 +41,12 @@ public interface ProductService {
 	List<Category> findAllCategories() throws BusinessException;
 	
 	Category findCategoryById(long id) throws BusinessException;
+
+	// Metodi per la validazione (chiamato da ImageValidator)
 	
-	// Metodi per le immagini dei prodotti
+	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
+
+
 
 
 }

@@ -56,24 +56,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 <!-- End of Address autocompletion -->
 
-<div class="items">
-	<div class="container">
-		<div class="row">
 
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
 			
 			<!-- Main content -->
 			
@@ -94,6 +77,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				<div class="form form-small">
 					<form:form modelAttribute="user" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
+					<form:errors path="id"/>
+					<div id="identity"></div>
 					<div class="control-group">
 					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
 					    <div class="controls">
@@ -169,9 +154,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					</form:form>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
+
 
 
 
