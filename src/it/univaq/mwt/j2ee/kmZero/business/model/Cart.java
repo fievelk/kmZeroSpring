@@ -2,6 +2,7 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -52,7 +53,7 @@ public class Cart {
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "cartline_fk")
-	private Collection<CartLine> cartLines;
+	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
 
 	public Cart() {
 		super();

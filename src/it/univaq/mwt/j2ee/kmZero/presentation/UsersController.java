@@ -133,7 +133,7 @@ public class UsersController {
 	
 	@RequestMapping(value="/edit_password.do", method = RequestMethod.POST)
 	public String editPassword(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
-		/* Metodo che restituisce la password vecchia che è nel DB e poi fare il confronto
+		/* Metodo che restituisce la password vecchia che ï¿½ nel DB e poi fare il confronto
 		 * Ricordare che bisogna mettere l'hash altrimenti il confronto non funziona. */
 		Password password = user.getPassword();
 		password.setDb_password(service.oldPassword(user.getId()));

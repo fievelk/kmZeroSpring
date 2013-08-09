@@ -1,7 +1,7 @@
  <!-- Sidebar -->
       <div class="span3 hidden-phone">
 
-        <h5 class="title">Categories</h5>
+        <h5 class="title">Categories <span style="color:red"> - NIY</span></h5>
         <!-- Sidebar navigation -->
         <nav>
             <ul id="nav">
@@ -42,11 +42,11 @@
               </div>
               <div class="onethree-right">
                 <!-- Title -->
-                <a href="single-item.html">HTC One V</a>
+                <a href="single-item.html">product 1</a>
                 <!-- Para -->
                 <p>Aenean ullamcorper justo tincidunt justo aliquet.</p>
                 <!-- Price -->
-                <p class="bold">$199</p>
+                <p class="bold">19 EURO</p>
               </div>
               <div class="clearfix"></div>
             </div>             

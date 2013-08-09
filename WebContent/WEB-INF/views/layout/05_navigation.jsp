@@ -17,9 +17,8 @@
                    <li><a href="${pageContext.request.contextPath}/sellers">Venditori <span style="color:red">- NIY</span></a></li>  
                    <security:authorize access="!isAuthenticated()">
                    	<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
-                   </security:authorize>      
 
-                   
+                   </security:authorize>      
                    <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">TESTS<b class="caret"></b></a>
                       <ul class="dropdown-menu">

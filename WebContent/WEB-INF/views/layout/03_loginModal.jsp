@@ -12,9 +12,9 @@
 		<security:authorize access="!isAuthenticated()">
 			<form name="addressForm" action="${pageContext.request.contextPath}/" method="post" class="form-horizontal">
 	          	    <div class="control-group">
-                       <label class="control-label" for="address">Type your address</label>
+                       <label class="control-label" for="address"><spring:message code="user.address"/></label>
                        <div class="controls">
-                         <input type="text" id="address" class="input-large" placeholder="Address" name="address">
+                         <input type="text" id="address" class="input-large" placeholder="<spring:message code='user.address'/>" name="address">
                        </div>
                      </div>
           
@@ -26,15 +26,15 @@
 	         </form>
 	         <form id="loginform" name="loginform" action="${pageContext.request.contextPath}/j_spring_security_check" method="post" class="form-horizontal">
 	          	    <div class="control-group">
-                       <label class="control-label" for="username">Username</label>
+                       <label class="control-label" for="username"><spring:message code="user.email"/></label>
                        <div class="controls">
-                         <input type="text" id="username" class="input-large" placeholder="Username" name="j_username">
+                         <input type="text" id="username" class="input-large" placeholder="<spring:message code='user.email'/>" name="j_username">
                        </div>
                      </div>
                      <div class="control-group">
-                       <label class="control-label" for="email">Password</label>
+                       <label class="control-label" for="email"><spring:message code="user.password"/></label>
                        <div class="controls">
-                         <input type="password" id="password" class="input-large" placeholder="Password" name="j_password">
+                         <input type="password" id="password" class="input-large" placeholder="<spring:message code='user.password'/>" name="j_password">
                        </div>
                      </div>
                      <div class="form-actions">
@@ -48,7 +48,7 @@
 
   </div>
   <div class="modal-footer">
-    <p>Dont have account? <a href="register.html">Register</a> here.</p>
+    <p><a href="${pageContext.request.contextPath}/users/create_start.do"><spring:message code="common.signUp"/></a></p>
   </div>
 </div>
 

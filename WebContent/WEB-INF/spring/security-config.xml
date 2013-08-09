@@ -18,6 +18,8 @@
 <!-- 	<security:intercept-url pattern="/common/**" access="isAuthenticated()" /> -->
 		<security:intercept-url pattern="/users/create_start.do" access="permitAll"/>
 		<security:intercept-url pattern="/users/create.do" access="permitAll"/>
+		<security:intercept-url pattern="/sellers/create_start.do" access="permitAll"/>
+		<security:intercept-url pattern="/sellers/create.do" access="permitAll"/>		
 		<security:intercept-url pattern="/sellers/views.do" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/list.do" access="permitAll"/>
 		<security:intercept-url pattern="/users/*" access="hasAnyRole('admin', 'user', 'seller')"/>
@@ -29,7 +31,9 @@
 		
 		<security:intercept-url pattern="/sellers/*" access="hasAnyRole('admin', 'seller')"/>
 		<security:intercept-url pattern="/sellers/**" access="hasAnyRole('admin')"/>
-		
+
+
+		<security:intercept-url pattern="/products/findWarehouseAddress" access="permitAll"/> 		
 
  		
 		<security:form-login login-page="/login" 

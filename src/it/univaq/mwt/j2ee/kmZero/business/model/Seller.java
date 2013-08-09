@@ -65,8 +65,7 @@ public class Seller extends User {
 	}
 
 	public Seller(String name, String surname, String email, Password password, Date created, 
-			Date date_of_birth, String address, String p_iva, String cod_fisc, String company, 
-			String url, String phone, int enable) {
+			Date date_of_birth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
 		super(name, surname, email, password, created, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
@@ -75,10 +74,10 @@ public class Seller extends User {
 		this.phone = phone;
 		this.enable = false;
 	}
+
 	// Costruttore da utilizzare quando il venditore si registra da zero.
 	public Seller(long id, String name, String surname, String email, Password password, Date created, 
-			Date date_of_birth, String address, String p_iva, String cod_fisc, String company, 
-			String url, String phone, boolean enable) {
+			Date date_of_birth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
 		super(id, name, surname, email, password, created, date_of_birth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;

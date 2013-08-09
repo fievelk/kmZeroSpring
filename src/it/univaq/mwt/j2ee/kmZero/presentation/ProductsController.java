@@ -33,7 +33,13 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
+
+import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
+import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
+import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
+
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 
@@ -194,6 +200,17 @@ public class ProductsController {
 		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
 	}
-	
 
+	
+	@RequestMapping("/findWarehouseAddress")
+	@ResponseBody
+	/*The @ResponseBody annotation can be put on a method and indicates that the return type 
+	 * should be written straight to the HTTP response body (and not placed in a Model, or 
+	 * interpreted as a view name).*/
+	public String findWarehouseAddress() {
+		String address = Warehouse.getAddress();		
+		
+	return address;
+	}
+	
 }

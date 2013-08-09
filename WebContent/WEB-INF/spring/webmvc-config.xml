@@ -12,6 +12,7 @@
 
 	<!-- ================= MISC. ================= -->
 	<!-- in classpath: va indicato il nome del file .properties con i messagggi -->
+	<!-- ad es. kmZeroSpring vuol dire che Spring deve cercare i file properties di nome kmZeroSpring_* -->
 	<!-- Message properties -->
 
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

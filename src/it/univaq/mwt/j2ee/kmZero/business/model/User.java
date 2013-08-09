@@ -27,6 +27,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -130,7 +133,11 @@ public class User implements java.io.Serializable{
 	}
 
 
+
 	/* Costruttore che serve al Seller quando verrˆ visualizzata la lista tramite Datatables */
+
+	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
+
 	public User(long id, String name, String surname) {
 		super();
 		this.id = id;

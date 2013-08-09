@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
@@ -433,20 +434,22 @@ public class JPAUserService implements UserService{
 	public boolean emailExist(String email) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
-		boolean exist = false;
+		
+		boolean exist = true;
 		et.begin();
 		
-        Query query = em.createQuery("Select U FROM User U WHERE U.email = :email");
+		Query query = em.createQuery("Select u FROM User u WHERE u.email = :email");
         query.setParameter("email", email);
         
-        User result = (User)query.getSingleResult();
-		
+        try {
+        	query.getSingleResult();
+        } catch (NoResultException e){
+        	exist = false;
+        }
+        
 		et.commit();
 		em.close();
 		
-		if (result != null){
-			exist = true;
-		}
 		return exist;
 	}
 

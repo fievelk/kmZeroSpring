@@ -155,12 +155,12 @@ function paginate() {
       
       <div class="span9">
 
-        <!-- Breadcrumb -->
+<!--         Breadcrumb
         <ul class="breadcrumb">
           <li><a href="index.html">Home</a> <span class="divider">/</span></li>
           <li><a href="items.html">Prodotti</a> <span class="divider">/</span></li>
           <li class="active">km0</li>
-        </ul>
+        </ul> -->
 
                             <!-- Title -->
                               <h4 class="pull-left">I prodotti</h4>

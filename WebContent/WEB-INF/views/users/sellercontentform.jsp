@@ -81,7 +81,9 @@ $(document).ready(function() {
 		<div class="row-fluid">
 			<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr_content','${sellercontent.id}',null,null)"><spring:message code="image.add"/></a>
 		</div>
+		
 		<div id="km0Images">
+		<c:if test="${image != null}">
 			<div>
 				<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr_content','${sellercontent.id}','image','${image.id}')" ></a>	
 	       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr_content','${sellercontent.id}','image','${image.id}')"></a>
@@ -89,6 +91,8 @@ $(document).ready(function() {
   			<span id="image_${image.id}">
 	       		<img src="${pageContext.request.contextPath}/selr_content/image/${image.id}/${image.name}" alt="${image.name}" />
        		</span>	
+     	</c:if>      		
     	</div>
+
 	</div>	
 </c:if>

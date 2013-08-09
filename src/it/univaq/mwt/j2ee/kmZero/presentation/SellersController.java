@@ -113,7 +113,7 @@ public class SellersController {
 		} else {
 			return "redirect:/sellers/viewsToEnable.do";
 		}*/
-		return "redirect:/";
+		return "redirect:/welcome";
 		
 	}
 	

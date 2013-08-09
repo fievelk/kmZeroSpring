@@ -192,7 +192,7 @@
 
     <definition name="sellers.view" extends="standard_logged">
     	<put-attribute name="header" value="/WEB-INF/views/users/sellerpagehead.jsp"/>
-    	<put-attribute name="sidebar" value="/WEB-INF/views/layout/05_sidebarNavigation.jsp"/>
+    	<put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/users/sellerpage.jsp"/>
     </definition>
     
