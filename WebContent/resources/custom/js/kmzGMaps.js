@@ -108,7 +108,7 @@ function initialize() {
 		      ].join(', ');
 		    }
 
-		    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+		    infowindow.setContent('<div id="googleMapInfowindow"><strong>' + place.name + '</strong><br>' + address);
 		    infowindow.open(map, marker);
 		  });
 

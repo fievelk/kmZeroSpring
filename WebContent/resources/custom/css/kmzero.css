@@ -189,6 +189,9 @@ footer{
 #googleMap img {
   max-width: none;
 }
+
+#googleMapInfowindow {
+	width: 200px;
 }
 
 /* Modal window for address */
