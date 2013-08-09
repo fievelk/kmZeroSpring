@@ -25,6 +25,8 @@
                         	<%-- <security:authorize access="hasRole('seller')"> --%> <!-- Cambiare in "admin" -->
                         <li><a href="${pageContext.request.contextPath}/products/createCategory_start">Aggiungi Categoria</a></li>
                         <li><a href="${pageContext.request.contextPath}/products/viewsCategories">Lista Categorie vista Admin</a></li>
+                        <li><a href="${pageContext.request.contextPath}/products/createMeasure_start">Aggiungi Measure</a></li>
+                        <li><a href="${pageContext.request.contextPath}/products/viewMeasures">Lista Measure</a></li>
                       		<%-- </security:authorize> --%>
                       </ul>
                    </li>                   
