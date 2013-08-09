@@ -1,4 +1,5 @@
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!-- Header starts -->
   <header>
     <div class="container">
@@ -18,7 +19,7 @@
           <form class="form-search">
             <div class="input-append">
               <input class="span3" id="appendedInputButton" type="text" placeholder="Cerca tra i prodotti...">
-              <button class="btn" type="button">Cerca</button>
+              <button class="btn" type="button"><spring:message code="menu.search" /></button>
             </div>
           </form>
 
