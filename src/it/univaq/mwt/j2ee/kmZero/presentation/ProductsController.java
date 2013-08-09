@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
@@ -210,11 +211,68 @@ public class ProductsController {
 		return "redirect:/products/viewsCategories";
 	}	
 	
+// MEASURES
+	
+	@RequestMapping("/viewMeasures")
+	public String viewMeasures() {
+		return "measures.views";
+	}
+	
+	@RequestMapping("/createMeasure_start")
+	public String createMeasureStart(Model model) throws BusinessException {
+		model.addAttribute("measure", new Measure());
+		return "measures.createform";
+	}
+
+	@RequestMapping(value="/createMeasure", method=RequestMethod.POST)
+	public String create(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.createMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}
+	
+	@RequestMapping("/updateMeasure_start")
+	public String updateMeasureStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Measure measure = productService.findMeasureById(id);
+		model.addAttribute("measure", measure);
+		model.addAttribute("id", id);
+		return "measures.updateform";
+	}
+	
+	@RequestMapping(value="/updateMeasure", method=RequestMethod.POST)
+	public String update(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.updateMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}	
+
+	
+	@RequestMapping(value="/deleteMeasure_start")
+	public String deleteMeasureStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		
+		Measure measure = productService.findMeasureById(id);
+		model.addAttribute("measure", measure);
+		return "measures.deleteform";
+	}
+	
+	
+	@RequestMapping(value="/deleteMeasure", method = RequestMethod.POST)
+	public String deleteMeasure(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.deleteMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}	
+	
+// Model Attributes	
+	
 	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
 		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
+	}
+	
+	@ModelAttribute
+	public void findAllMeasures(Model model) throws BusinessException {
+		List<Measure> measures = productService.findAllMeasures();
+		model.addAttribute("measures", measures);
 	}
 
 	
@@ -228,5 +286,8 @@ public class ProductsController {
 		
 	return address;
 	}
+	
+	
+	
 	
 }

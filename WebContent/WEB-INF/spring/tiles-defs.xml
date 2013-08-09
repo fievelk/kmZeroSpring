@@ -88,13 +88,39 @@
         <put-attribute name="update" value="true"/>
     </definition>    
     
-    <definition name="categories.deleteform" extends="standard">
+    <definition name="categories.deleteform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
         <put-attribute name="action" value="/products/deleteCategory"/>
         <put-attribute name="delete" value="true"/>
     </definition>        
     
     <!-- End of Categories Tiles -->
+    
+	<!-- Measure unit tiles -->
+
+    <definition name="measures.views" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measuresview.jsp"/>
+    </definition>
+   
+    <definition name="measures.createform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/createMeasure"/>
+        <put-attribute name="create" value="true"/>
+    </definition>
+
+    <definition name="measures.updateform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/updateMeasure"/> 
+        <put-attribute name="update" value="true"/>
+    </definition>  
+    
+    <definition name="measures.deleteform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/deleteMeasure"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>      
+    
+	<!-- End of Measure unit tiles -->
 
 	<!-- MAP TEST START -->
         

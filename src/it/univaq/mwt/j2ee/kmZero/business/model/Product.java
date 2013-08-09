@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -64,6 +65,13 @@ public class Product {
 	
 	@Column(name="rating")
 	private float rating;
+
+	@Column(name="stock")
+	private int stock;
+	
+	@ManyToOne
+	@JoinColumn(name="measures_id")
+	private Measure measure;
 	
 	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
@@ -200,5 +208,23 @@ public class Product {
 	public void setSeller(Seller seller) {
 		this.seller = seller;
 	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public Measure getMeasure() {
+		return measure;
+	}
+
+	public void setMeasure(Measure measure) {
+		this.measure = measure;
+	}
+
+	
 	
 }

@@ -17,6 +17,7 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
@@ -244,6 +245,14 @@ public class JPAProductService implements ProductService{
 			query.setParameter("category", category);
 			List<Product> products = query.getResultList();
 			
+			Query count = em.createQuery("SELECT COUNT (c) FROM Category c WHERE c.name='Unclassified'");
+			Long countResult = (Long) count.getSingleResult();
+			
+			if (countResult == 0L) {
+				Category unclassifiedCategory = new Category("Unclassified");
+				em.persist(unclassifiedCategory);
+			}
+			
 			TypedQuery<Category> categoryQuery = em.createQuery("SELECT c FROM Category c WHERE c.name='Unclassified'", Category.class);
 			Category unclassifiedCategory = categoryQuery.getSingleResult();
 			
@@ -312,6 +321,92 @@ public class JPAProductService implements ProductService{
 	
 	}
 
+	/* Measures */
+
+	@Override
+	public List<Measure> findAllMeasures() throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		
+		TypedQuery<Measure> query = em.createQuery("SELECT m FROM Measure m", Measure.class);
+		List<Measure> measures = query.getResultList();
+		em.close();
+		return measures;
+		
+	}
 
 
+	@Override
+	public void createMeasure(Measure measure) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.persist(measure);
+        
+        tx.commit();
+        em.close();
+		
+	}
+
+
+	@Override
+	public void updateMeasure(Measure measure) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        em.merge(measure);
+        
+        tx.commit();
+        em.close();
+		
+	}
+	
+	@Override
+	public Measure findMeasureById(long id) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		Measure measure = em.find(Measure.class, id);	
+		em.close();
+		return measure;
+	}	
+
+	
+	@Override
+	public void deleteMeasure(Measure measure) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.measure=:measure", Product.class);
+		query.setParameter("measure", measure);
+		List<Product> products = query.getResultList();
+		
+		Query count = em.createQuery("SELECT COUNT (m) FROM Measure m WHERE m.name='Unclassified'");
+		Long countResult = (Long) count.getSingleResult();
+		
+		if (countResult == 0L) {
+			Measure unclassifiedMeasure = new Measure("Unclassified");
+			em.persist(unclassifiedMeasure);
+		}
+		
+		TypedQuery<Measure> measureQuery = em.createQuery("SELECT m FROM Measure m WHERE m.name='Unclassified'", Measure.class);
+
+		Measure unclassifiedMeasure = measureQuery.getSingleResult();
+		
+		for (Product p : products) {
+			p.setMeasure(unclassifiedMeasure);
+			em.merge(p);
+		}
+		
+		measure = em.merge(measure);
+		em.remove(measure);
+		
+		tx.commit();
+		em.close();
+	}	
 }

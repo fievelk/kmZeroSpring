@@ -112,6 +112,22 @@ $(function() {
 		</div>
 		
 		<div>
+		    <label for="stock"><spring:message code="product.stock" /></label>
+		    <div>
+		    	<form:input id="stock" path="stock"/>
+		    </div>
+		</div>		
+		
+		<div>
+		    <label for="Measure"><spring:message code="product.measure" /></label>
+		    <div>
+				<form:select id="measureId" path="measure.id">
+					<form:options items="${measures}" itemValue="id" itemLabel="name"/>
+				</form:select>
+		    </div>
+		</div>		
+		
+		<div>
 		    <label for="CategoryId"><spring:message code="product.category"/></label>
 		    <div>
 				<form:select id="categoryId" path="category.id">
