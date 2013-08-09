@@ -5,6 +5,7 @@
 	
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Product</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Category</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Measure</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.User</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Password</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Role</class>
@@ -24,6 +25,7 @@
      		<!-- <property name="eclipselink.application-location" value="/home/fievelk/Master/j2ee/casa/ddl"/> -->
 			
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
+<!-- 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
 
 			<!-- Mostra le query SQL nella console -->
