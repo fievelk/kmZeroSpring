@@ -171,7 +171,7 @@ $(function() {
 	    	<div class="span6">
 	
 				<h5 class="title"><spring:message code="common.map" /></h5>
-				<div id="googleMap" style="width:500px;height:380px;"></div>
+				<div id="googleMap" style="height:380px;"></div>
 
 			</div>
 									
