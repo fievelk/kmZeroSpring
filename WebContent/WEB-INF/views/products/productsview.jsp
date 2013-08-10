@@ -112,9 +112,10 @@ function buildItem(item){
 			<!-- Price -->
 			'<div class="item-price pull-left">'+item.price+'</div>'+
 			<!-- Add to cart -->
-			'<div class="button pull-right"><a href="#">Add to Cart</a></div>'+
+			'<button value="' + item.id + '" class="button pull-right" onclick="addCart('+ item.id +')">Add to Cart</button>'+
+			/*'<div class="button pull-right" onclick="addCart('+ item.id +')"><a href="">Add to Cart</a></div>'+*/
 			'<div class="clearfix"></div>'+
-			'<div class="clearfix"></div>'+
+			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1" style="width:23%;"/></label></div>'+
 		'</div></div></div>';
 	
 	return result;
@@ -147,6 +148,15 @@ function paginate() {
         				console.log("iDisplayStart:"+iDisplayStart);
         			}
     });	
+}
+
+
+function addCart(id){
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/create.do?id=" + id + "&q=" + quantity,
+	});
 }
 
 </script>

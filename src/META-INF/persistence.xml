@@ -12,8 +12,8 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>		
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
-		<class>it.univaq.mwt.j2ee.kmZero.business.model.Cart</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.CartLine</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Cart</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
@@ -25,7 +25,7 @@
      		<!-- <property name="eclipselink.application-location" value="/home/fievelk/Master/j2ee/casa/ddl"/> -->
 			
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
-<!-- 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
+ 			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
 
 			<!-- Mostra le query SQL nella console -->

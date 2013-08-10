@@ -2,6 +2,7 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -23,12 +24,18 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="carts")
-public class Cart {
-	
+public class Cart implements Serializable{
+
 	@Id
 	@Column(name="cart_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(name="session_id")
+	private String session_id;
+	
+	@Column(name="transaction_id")
+	private String transaction_id;
 	
 	@Column(name="created", nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -52,19 +59,23 @@ public class Cart {
 	private String surname;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "cartline_fk")
+	@JoinColumn(name = "cart_fk")
 	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
+	
+	private static final long serialVersionUID = 1L;
 
 	public Cart() {
 		super();
 	}
 
 	
-	public Cart(long id, Date created, Date dispatched, Date paid,
+	public Cart(long id, String session_id, String transaction_id, Date created, Date dispatched, Date paid,
 			Collection<CartLine> cartLines, String address, String name,
 			String surname) {
 		super();
 		this.id = id;
+		this.session_id = session_id;
+		this.transaction_id = transaction_id;
 		this.created = created;
 		this.dispatched = dispatched;
 		this.paid = paid;
@@ -81,7 +92,22 @@ public class Cart {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+	public String getSession_id() {
+		return session_id;
+	}
+	public void setSession_id(String session_id) {
+		this.session_id = session_id;
+	}
+	public String getTransaction_id() {
+		return transaction_id;
+	}
+
+
+	public void setTransaction_id(String transaction_id) {
+		this.transaction_id = transaction_id;
+	}
+
+
 	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getCreated() {
 		return created;

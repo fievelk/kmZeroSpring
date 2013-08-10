@@ -56,6 +56,7 @@
 	
 
     <script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/custom/js/carts.js"></script> <!-- Cart -->
 <!-- Collegamenti per il jQuery datepicker -->    
 <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -119,7 +120,6 @@
     <script src="${pageContext.request.contextPath}/resources/pagination/jquery.simplePagination.js"></script> 
    
    
-
     <script src="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.min.js"></script> <!-- CLEditor -->
 
     
