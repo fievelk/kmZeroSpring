@@ -160,7 +160,7 @@
         <put-attribute name="content" value="/WEB-INF/views/users/sellerenabledviews.jsp"/>
     </definition>
     
-    <definition name="sellers.createform" extends="standard_logged">
+    <definition name="sellers.createform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
         <put-attribute name="action" value="/sellers/create.do"/>
         <put-attribute name="create" value="true"/>
