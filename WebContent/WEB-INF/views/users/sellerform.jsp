@@ -133,35 +133,29 @@ $(function() {
 				</div>
 				</div>
 				<div class="span4">
-		
-					
-					<div id="googleMap" style="height:380px;"></div>
-	
+					<div id="googleMap" style="height:380px;"></div>	
 				</div>	
-					<c:if test="${requestScope.update eq 'true'}">
-					<div class="span9 sellerImages">
-						<div class="row-fluid">
-							<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr','${seller.id}',null,null)">Add Images...</a>
-						</div>
-						<div id="km0Images">
-					  	<c:forEach var="image" items="${seller.images}">
-						  	<div id="km0Image">
-						  		<div>
-						  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
-							       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
-						  		</div>
-						  			<span id="image_${image.id}">
-							       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
-						       		</span>	
-						    </div>
-				    	</c:forEach>
-				    	</div>
-			      	</div>	
-			   		</c:if>
-			</div>
-		
-			
-				
-			</div>
+				<c:if test="${requestScope.update eq 'true'}">
+				<div class="span9 sellerImages">
+					<div class="row-fluid">
+						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr','${seller.id}',null,null)">Add Images...</a>
+					</div>
+					<div id="km0Images">
+				  	<c:forEach var="image" items="${seller.images}">
+					  	<div id="km0Image">
+					  		<div>
+					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
+						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
+					  		</div>
+					  			<span id="image_${image.id}">
+						       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
+					       		</span>	
+					    </div>
+			    	</c:forEach>
+			    	</div>
+		      	</div>	
+		   		</c:if>
+	</div>
+</div>
 			
 

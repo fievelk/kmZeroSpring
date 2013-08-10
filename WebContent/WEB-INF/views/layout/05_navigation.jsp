@@ -17,6 +17,8 @@
                    <li><a href="${pageContext.request.contextPath}/sellers">Venditori <span style="color:red">- NIY</span></a></li>  
                    <security:authorize access="!isAuthenticated()">
                    	<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
+                   	<li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati Venditore</a></li>
+           
 
                    </security:authorize>      
                    <li class="dropdown">
