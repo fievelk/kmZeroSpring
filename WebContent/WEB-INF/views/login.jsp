@@ -19,7 +19,7 @@
 				    </security:authorize>
 			        <hr />
 			        <h5>New Account</h5>
-			               Don't have an Account? <a href="register.html">Register</a>
+			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create.do">Register</a>
 			    </div> 
 			  </div>
 			</div>

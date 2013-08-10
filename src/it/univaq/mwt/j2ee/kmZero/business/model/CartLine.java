@@ -1,17 +1,20 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="cartlines")
-public class CartLine {
+public class CartLine implements Serializable{
 
 	@Id
 	@Column(name="cartline_id")
@@ -24,49 +27,51 @@ public class CartLine {
 	@Column(name="lineTotal")
 	private float lineTotal;
 	
-	@Column(name="comment")
-	private String comment;
+	@Column(name="review", nullable=true)
+	private String review;
 	
-	@Column(name="rating")
+	@Column(name="rating", nullable=true)
 	private int rating;
 	
 	@OneToOne
 	@JoinColumn(name="product_fk")
 	private Product product;
 	
+	private static final long serialVersionUID = 1L;
+	
 	public CartLine() {
 		super();
 	}
 	
-	public CartLine(int quantity, float lineTotal, String comment) {
+	public CartLine(int quantity, float lineTotal, String review) {
 		super();
 		this.quantity = quantity;
 		this.lineTotal = lineTotal;
-		this.comment = comment;
+		this.review = review;
 	}
 
-	public CartLine(int quantity, float lineTotal, String comment, int rating,
+	public CartLine(int quantity, float lineTotal, String review, int rating,
 			Product product) {
 		super();
 		this.quantity = quantity;
 		this.lineTotal = lineTotal;
-		this.comment = comment;
+		this.review = review;
 		this.rating = rating;
 		this.product = product;
 	}
 
-	public CartLine(long id, int quantity, float lineTotal, String comment,
+	public CartLine(long id, int quantity, float lineTotal, String review,
 			int rating, Product product) {
 		super();
 		this.id = id;
 		this.quantity = quantity;
 		this.lineTotal = lineTotal;
-		this.comment = comment;
+		this.review = review;
 		this.rating = rating;
 		this.product = product;
 	}
 
-	public long getOid() {
+	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -84,11 +89,11 @@ public class CartLine {
 	public void setLineTotal(float lineTotal) {
 		this.lineTotal = lineTotal;
 	}
-	public String getComment() {
-		return comment;
+	public String getReview() {
+		return review;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setReview(String review) {
+		this.review = review;
 	}
 	public int getRating() {
 		return rating;

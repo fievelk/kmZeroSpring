@@ -11,8 +11,8 @@
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Image</class>		
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.Seller</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.SellerContent</class>
-		<class>it.univaq.mwt.j2ee.kmZero.business.model.Cart</class>
 		<class>it.univaq.mwt.j2ee.kmZero.business.model.CartLine</class>
+		<class>it.univaq.mwt.j2ee.kmZero.business.model.Cart</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
@@ -29,7 +29,7 @@
 			<!-- Mostra le query SQL nella console -->
 			<property name="eclipselink.logging.level" value="FINE"/>
 
-			<!-- <property name="eclipselink.ddl-generation" value="create-tables"/> -->
+			<!-- <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
 		</properties>
 	</persistence-unit>
 	
