@@ -9,7 +9,7 @@
   <head>
   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>TITOLO</title>
+    <title><spring:message code="common.title" /></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -62,11 +62,15 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
 
+	<!-- Google Places -->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+
   </head>
 
   <body>
   
-	<tiles:insertAttribute name="header"/>
+	<tiles:insertAttribute name="head"/>
 	
 	<!-- Cart, Login and Register form (Modal) START-->
 	
@@ -78,7 +82,23 @@
 	<!-- Cart, Login and Register form (Modal) END -->
 	
 	<tiles:insertAttribute name="navigation"/>
-	<tiles:insertAttribute name="content"/>
+	<tiles:insertAttribute name="header" defaultValue=""/>
+	<div class="content">
+		<div class="container">
+			<div class="row">
+				<tiles:insertAttribute name="sidebar" defaultValue=""/>
+				<tiles:insertAttribute name="content" defaultValue=""/>
+			</div>
+		</div>
+	</div>
+	
+<%-- <div class="items">
+		<div class="container">
+			<div class="row">
+				<tiles:insertAttribute name="content"/>
+			</div>
+		</div>
+	</div> --%>
     <tiles:insertAttribute name="footer"/>
 
 	<!-- Scroll to top -->

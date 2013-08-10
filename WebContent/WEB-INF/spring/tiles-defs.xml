@@ -6,7 +6,7 @@
 <tiles-definitions>
 
     <definition name="standard" template="/WEB-INF/views/layout/00_layout.jsp">
-        <put-attribute name="header" value="/WEB-INF/views/layout/01_header.jsp"/>
+        <put-attribute name="head" value="/WEB-INF/views/layout/01_head.jsp"/>
         <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
         <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
         <put-attribute name="registerModal" value="/WEB-INF/views/layout/04_registerModal.jsp"/>
@@ -21,7 +21,7 @@
         <put-attribute name="sidebar" value="/WEB-INF/views/layout/05_sidebarNavigation.jsp"/>
     </definition>
     
-    <definition name="common.index" extends="standard">
+	<definition name="common.index" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
@@ -65,7 +65,6 @@
     </definition>
          
     <!-- Categories Tiles -->
-
     <definition name="categories.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/categorieslist.jsp"/>
     </definition>
@@ -87,11 +86,9 @@
         <put-attribute name="action" value="/products/deleteCategory"/>
         <put-attribute name="delete" value="true"/>
     </definition>
-    
     <!-- End of Categories Tiles -->
     
-<!-- Measure unit tiles -->
-
+	<!-- Measure unit tiles -->
     <definition name="measures.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/measuresview.jsp"/>
     </definition>
@@ -113,15 +110,12 @@
         <put-attribute name="action" value="/products/deleteMeasure"/>
         <put-attribute name="delete" value="true"/>
     </definition>
-    
-<!-- End of Measure unit tiles -->
+	<!-- End of Measure unit tiles -->
 
-<!-- MAP TEST START -->
-        
+	<!-- MAP TEST START -->
     <definition name="test.maptest" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/maptest.jsp"/>
     </definition>
-        
     <!-- MAP TEST END -->
     
     <definition name="image.addform" template="/WEB-INF/views/common/modalImageAdd.jsp" />
@@ -237,7 +231,7 @@
         <put-attribute name="action" value="/sellers/updatepagecontent"/>
         <put-attribute name="update" value="true"/>
     </definition>
-<definition name="sellers.pagecontent.deleteform" extends="standard_logged">
+	<definition name="sellers.pagecontent.deleteform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercontentform.jsp"/>
         <put-attribute name="action" value="/sellers/deletepagecontent"/>
         <put-attribute name="delete" value="true"/>

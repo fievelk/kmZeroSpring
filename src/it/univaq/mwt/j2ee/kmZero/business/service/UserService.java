@@ -51,4 +51,17 @@ public interface UserService {
 	
 	boolean emailExist(String email) throws BusinessException;
 
+	
+	boolean checkSellerContentProperty(long sellerId, long sellerContentId) throws BusinessException;
+
+	ResponseGrid<SellerContent> viewAllPageContentsPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException;
+
+	void createPageContent(SellerContent content, long userId);
+
+	void updatePageContent(SellerContent content, long userId);
+
+	void deletePageContent(long contentId, long userId);
+	
+	SellerContent findSellerContentById(long id) throws BusinessException;
+
 }

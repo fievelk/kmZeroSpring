@@ -16,7 +16,7 @@
 		<form id="fileUpload" name="fileUpload" action="${pageContext.request.contextPath}${action}" method="POST" enctype="multipart/form-data" >
 			<input type="hidden" name="owner_id" value="${owner_id}">
 			<div>
-				<input  name="files" type="file" multiple/>
+				<input multiple name="files" type="file" />
 			</div>
 			<div class="control-group">
 			    <div class="controls">

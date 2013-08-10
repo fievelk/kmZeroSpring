@@ -20,6 +20,8 @@ public class SellerValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Seller seller = (Seller) target;
 		
+		//ValidationUtility.checkIdentity(errors,"id","errors.idInjection", seller.getId());
+		
 		ValidationUtils.rejectIfEmpty(errors, "name", "errors.required");
 		ValidationUtils.rejectIfEmpty(errors, "surname", "errors.required");
 		ValidationUtils.rejectIfEmpty(errors, "email", "errors.required");

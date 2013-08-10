@@ -81,7 +81,7 @@
 							  <input type="hidden" name="item_name" value="Km Zero & C">
 							  <input id="totpaypal" type="hidden" name="amount">
 							  <input type="hidden" name="custom" value="${cart.id}">
-							  <input type="image" src="http://img.opsonline.it/images/liberamente/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
+							  <input type="image" src="${pageContext.request.contextPath}/resources/custom/img/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
 							  <!-- <input type="image" src="https://www.sandbox.paypal.com/it_IT/IT/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."> -->
 						    </div>
 						</div>

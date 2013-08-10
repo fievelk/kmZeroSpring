@@ -25,20 +25,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
-import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
-import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
+
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
+
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
+import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
+
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 
@@ -55,18 +57,21 @@ public class ProductsController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private LoggedUser loggedUser;
+	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-
+	
 
 	//FRONTEND
 	
 	@RequestMapping("")
-	public String productsFrontEnd() {
-		return "productsFrontEnd.views";
+	public String views() {
+		return "products.views";
 	}
 	
 	@RequestMapping("/viewProducts")
@@ -75,13 +80,6 @@ public class ProductsController {
 		ResponseGrid<Product> result = productService.viewProducts(requestGrid);
 		return result;
 	}
-
-	//BACKEND
-	
-	@RequestMapping("/views")
-	public String views() {
-		return "products.views";
-	}
 	
 
 	@RequestMapping("/viewsforsellers")
@@ -89,23 +87,12 @@ public class ProductsController {
 		return "products.viewsforsellers";
 	}
 	
-/*	@RequestMapping("/viewProductsBySellerIdPaginated")
-	@ResponseBody
-	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-	      
-		// L'utente loggato è sicuramente un Seller (altrimenti non avrebbe potuto accedere alla pagina)
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetailsImpl udi = (UserDetailsImpl)auth.getPrincipal();
-		long userId = udi.getId();
-		Seller seller = userService.findSellerById(userId);
-		ResponseGrid<Product> result = service.viewProductsBySellerIdPaginated(requestGrid, seller);
-		return result;
-	}*/
 	
 	@RequestMapping("/viewProductsBySellerIdPaginated")
 	@ResponseBody
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<Product> result = productService.viewProductsBySellerIdPaginated(requestGrid);
+		long userId = loggedUser.getUserDetails().getId();
+		ResponseGrid<Product> result = productService.viewProductsBySellerIdPaginated(requestGrid,userId);
 		
 		return result;
 	}	
@@ -113,16 +100,14 @@ public class ProductsController {
 	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {
 		model.addAttribute("product", new Product());
-		//Parte commentata: si è aggiunto @ModelAttribute
-/*		List<Category> categories = service.findAllCategories();
-		model.addAttribute("categories", categories);*/
 		return "products.createform";
 	}
 	
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		productService.createProduct(product);
+		long sellerid = loggedUser.getUserDetails().getId();
+		productService.createProduct(product,sellerid);
 		return "redirect:/products/viewsforsellers.do";
 	}
 	
@@ -138,15 +123,15 @@ public class ProductsController {
 	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		long sellerid = loggedUser.getUserDetails().getId();
 		List<Image> images = imageService.getProductImages(product.getId());
-		productService.updateProduct(product,images);
+		productService.updateProduct(product,images,sellerid);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
 	
 	@RequestMapping(value="/delete_start")
-	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
-		
+	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {	
 		Product product = productService.findProductById(id);
 		model.addAttribute("product", product);
 		return "products.deleteform";
@@ -155,7 +140,8 @@ public class ProductsController {
 	
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
-		productService.deleteProduct(product);
+		long sellerid = loggedUser.getUserDetails().getId();
+		productService.deleteProduct(product,sellerid);
 		return "redirect:/products/viewsforsellers.do";
 	}	
 	
@@ -209,6 +195,57 @@ public class ProductsController {
 		return "redirect:/products/viewsCategories";
 	}	
 	
+// MEASURES
+	
+	@RequestMapping("/viewMeasures")
+	public String viewMeasures() {
+		return "measures.views";
+	}
+	
+	@RequestMapping("/createMeasure_start")
+	public String createMeasureStart(Model model) throws BusinessException {
+		model.addAttribute("measure", new Measure());
+		return "measures.createform";
+	}
+
+	@RequestMapping(value="/createMeasure", method=RequestMethod.POST)
+	public String create(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.createMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}
+	
+	@RequestMapping("/updateMeasure_start")
+	public String updateMeasureStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Measure measure = productService.findMeasureById(id);
+		model.addAttribute("measure", measure);
+		model.addAttribute("id", id);
+		return "measures.updateform";
+	}
+	
+	@RequestMapping(value="/updateMeasure", method=RequestMethod.POST)
+	public String update(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.updateMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}	
+
+	
+	@RequestMapping(value="/deleteMeasure_start")
+	public String deleteMeasureStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		
+		Measure measure = productService.findMeasureById(id);
+		model.addAttribute("measure", measure);
+		return "measures.deleteform";
+	}
+	
+	
+	@RequestMapping(value="/deleteMeasure", method = RequestMethod.POST)
+	public String deleteMeasure(@ModelAttribute Measure measure, BindingResult bindingResult) throws BusinessException {
+		productService.deleteMeasure(measure);
+		return "redirect:/products/viewMeasures";
+	}	
+	
+// Model Attributes	
+	
 	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
@@ -216,5 +253,25 @@ public class ProductsController {
 		model.addAttribute("categories", categories);
 	}
 	
+	@ModelAttribute
+	public void findAllMeasures(Model model) throws BusinessException {
+		List<Measure> measures = productService.findAllMeasures();
+		model.addAttribute("measures", measures);
+	}
 
+	
+	@RequestMapping("/findWarehouseAddress")
+	@ResponseBody
+	/*The @ResponseBody annotation can be put on a method and indicates that the return type 
+	 * should be written straight to the HTTP response body (and not placed in a Model, or 
+	 * interpreted as a view name).*/
+	public String findWarehouseAddress() {
+		String address = Warehouse.getAddress();		
+		
+	return address;
+	}
+	
+	
+	
+	
 }

@@ -3,6 +3,7 @@ package it.univaq.mwt.j2ee.kmZero.common.spring.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
@@ -59,6 +60,9 @@ public class UserDetailsImpl implements UserDetails {
     public String getP_Iva(){
     	Seller s = (Seller)user;
     	return s.getP_iva();
+    }
+    public Set<Role> getRoles() {
+        return user.getRoles();
     }
     /*---- USER DATA TO DISPLAY WITH PRINCIPAL -- END -----*/
 	

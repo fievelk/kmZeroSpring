@@ -14,6 +14,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +48,13 @@ public class TestController {
 	public String testNumberTwo(Model model) throws BusinessException {
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
 		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
-		System.out.println("DATAILS;"+wad.getSessionId());
-		System.out.println("PRINCIPAL;"+a.getPrincipal());
+		System.out.println("SESSION_ID;"+wad.getSessionId());
+		/*System.out.println("PRINCIPAL;"+a.getPrincipal());
 		System.out.println("CREDENTIAL;"+a.getCredentials());
 		System.out.println("CREDENTIAL;"+a.getDetails());
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		System.out.println("NAME;"+udi.getUser().getName());
+		System.out.println("NAME;"+udi.getUser().getName());*/
 		
 	
 		return "test.test";
@@ -113,5 +114,17 @@ public class TestController {
 		return "test.maptest";
 	}
 
+//	@ModelAttribute
+//	public void findWarehouse(Model model) {
+//		//String warehouse = Warehouse.getCoordinates();
+//		//model.addAttribute("warehouse", warehouse);
+//		
+//		float wareLat = Warehouse.getLatitude();
+//		float wareLon = Warehouse.getLongitude();
+//		
+//		model.addAttribute("wareLat", wareLat);
+//		model.addAttribute("wareLon", wareLon);
+//		System.out.println("WAREHOUSE " + wareLat +"," + wareLon);
+//	}
 	
 }

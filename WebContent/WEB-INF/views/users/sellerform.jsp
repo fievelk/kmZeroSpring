@@ -4,6 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
 
 <script>
 $(function() {
@@ -19,43 +20,28 @@ $(function() {
 	});
 });
 </script>
-
-<div class="items">
-	<div class="container">
-		<div class="row">
-
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
-			
+<div class="span9">
+<div class="row">
 			<!-- Main content -->
 			
-			<div class="span9">
-				<h5 class="title">
-					<c:choose>
-			      		<c:when test="${requestScope.upgrade}">
-							<spring:message code="seller.upgrade"/>
-			      		</c:when>
-			      		<c:when test="${requestScope.update}">
-			      			<spring:message code="seller.edit"/>
-			   			</c:when>
-			      	</c:choose>	
-				</h5>
-				<div class="form form-small">
+				<div class="span9">
+					<h5 class="title">
+						<c:choose>
+				      		<c:when test="${requestScope.upgrade}">
+								<spring:message code="seller.upgrade"/>
+				      		</c:when>
+				      		<c:when test="${requestScope.update}">
+				      			<spring:message code="seller.edit"/>
+				   			</c:when>
+				      	</c:choose>	
+					</h5>
+				</div>
+		
+			<div class="span5">
+				<div class="form">
 				
 					<form:form modelAttribute="seller" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
-					<div class="span4">
+					
 						<form:hidden path="id"/>
 						<div class="control-group">
 						    <label class="control-label" for="name"><spring:message code="user.name"/></label>
@@ -89,8 +75,9 @@ $(function() {
 						<div class="control-group">
 						    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 						    <div class="controls">
-								<form:input id="address" path="address"/>
+								<form:input id="address_autocompleted" path="address"/><br />
 								<form:errors path="address"/>
+								<p id="addressDistanceError"></p>
 						    </div>
 						</div>
 						
@@ -137,31 +124,38 @@ $(function() {
 						
 						<div class="control-group">
 						    <div class="controls">
-						      <button type="submit" class="btn">
+						      <button type="submit" id="submitIfValidAddress" class="btn">
 						      	<spring:message code="common.submit"/>
 						      </button>
 							</div>
 						</div>
-					</div>
 					</form:form>
-					<c:if test="${requestScope.update eq 'true'}">
-					<div class="span4 sellerImages">
-						<div class="row-fluid">
-							<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr','${seller.id}',null,null)">Add Images...</a>
-						</div>
-						<div id="km0Images">
-					  	<c:forEach var="image" items="${seller.images}">
+				</div>
+				</div>
+				<div class="span4">
+					<div id="googleMap" style="height:380px;"></div>	
+				</div>	
+				<c:if test="${requestScope.update eq 'true'}">
+				<div class="span9 sellerImages">
+					<div class="row-fluid">
+						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr','${seller.id}',null,null)">Add Images...</a>
+					</div>
+					<div id="km0Images">
+				  	<c:forEach var="image" items="${seller.images}">
+					  	<div id="km0Image">
+					  		<div>
+					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
+						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
+					  		</div>
 					  			<span id="image_${image.id}">
 						       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
-						       		<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
-						       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
 					       		</span>	
-				    	</c:forEach>
-				    	</div>
-			      	</div>	
-			   		</c:if>
-				</div>
-			</div>
-		</div>
+					    </div>
+			    	</c:forEach>
+			    	</div>
+		      	</div>	
+		   		</c:if>
 	</div>
 </div>
+			
+

@@ -4,6 +4,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		var del = "${requestScope.delete}"; 
@@ -25,59 +27,11 @@
 		});
 	});
 </script>
-
-<!-- Address autocompletion scripts-->
-
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
        
-<script>
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-
-function initialize() {
-		
-	var input = (document.getElementById('address_autocompleted'));
-	var autocomplete_options = {
-			  types:['geocode'],
-			  componentRestrictions: {country: 'it'}
-			};
-	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
-
-	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        console.log(place.address_components);
-    }); 
-	
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
-<!-- End of Address autocompletion -->
-
-<div class="items">
-	<div class="container">
-		<div class="row">
-
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
 			
 			<!-- Main content -->
 			
-			<div class="span9">
+			<div class="span6 side-menu">
 				<h5 class="title">
 					<c:choose>
 			      		<c:when test="${requestScope.delete}">
@@ -91,27 +45,29 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			   			</c:when>
 			      	</c:choose>	
 		      	</h5>
-				<div class="form form-small">
+				<div class="form">
 					<form:form modelAttribute="user" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
+					<form:errors path="id"/>
+					<div id="identity"></div>
 					<div class="control-group">
 					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
 					    <div class="controls">
-					    	<form:input id="name" path="name"/>
+					    	<form:input id="name" path="name"/><br />
 					    	<form:errors path="name"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="surname"><spring:message code="user.surname"/></label>
 					    <div class="controls">
-					    	<form:input id="surname" path="surname"/>
+					    	<form:input id="surname" path="surname"/><br />
 					    	<form:errors path="surname"/>
 					    </div>
 					</div>
 					<div class="control-group">
 					    <label class="control-label" for="email"><spring:message code="user.email"/></label>
 					    <div class="controls">
-					    	<form:input id="email" path="email"/>
+					    	<form:input id="email" path="email"/><br />
 					    	<form:errors path="email"/>
 					    </div>
 					</div>
@@ -121,14 +77,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 							<div class="control-group">
 							    <label class="control-label" for="password"><spring:message code="user.password"/></label>
 							    <div class="controls">
-							    	<form:password id="password" path="password.password"/>
+							    	<form:password id="password" path="password.password"/><br />
 							    	<form:errors path="password.password"/>
 							    </div>
 							</div>
 							<div class="control-group">
 							    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
 							    <div class="controls">
-							    	<form:password id="confirm_password" path="password.confirm_password"/>
+							    	<form:password id="confirm_password" path="password.confirm_password"/><br />
 							    	<form:errors path="password.confirm_password"/>
 							    </div>
 							</div>
@@ -138,7 +94,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<div class="control-group">
 					    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 						<div class="controls">
-							<form:input id="datepicker" path="date_of_birth"/>
+							<form:input id="datepicker" path="date_of_birth"/><br />
 							<form:errors path="date_of_birth"/>
 						</div>
 					</div>
@@ -146,8 +102,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<div class="control-group">
 					    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 					    <div class="controls">
-							<form:input id="address_autocompleted" path="address"/>
+							<form:input id="address_autocompleted" path="address"/><br />
 							<form:errors path="address"/>
+							<p id="addressDistanceError"></p>
 					    </div>
 					</div>
 					
@@ -169,9 +126,19 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					</form:form>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
+
+			
+	    	<div class="span6">
+	
+				<h5 class="title"><spring:message code="common.map" /></h5>
+				<div id="googleMap" style="width:500px;height:380px;"></div>
+
+			</div>
+						
+
+
+
+
 
 
 

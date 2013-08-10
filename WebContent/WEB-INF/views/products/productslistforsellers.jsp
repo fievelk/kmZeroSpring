@@ -37,26 +37,6 @@
 	});
 </script>
 
-<div class="items">
-  <div class="container">
-    <div class="row">
-
-      <div class="span3 side-menu">
-
-        <!-- Sidebar navigation -->
-        <h5 class="title">Menu</h5>
-        <!-- Sidebar navigation -->
-          <nav>
-            <ul id="navi">
-              <li><a href="myaccount.html">Gestione Ordini</a></li>
-              <li><a href="wish-list.html">Storico Ordini</a></li>
-              <li><a href="order-history.html">Gestione Utenti</a></li>
-              <li><a href="edit-profile.html">Gestione Venditori</a></li>
-            </ul>
-          </nav>
-
-      </div>
-
 <!-- Main content -->
       <div class="span9">
       	<h5 class="title"><spring:message code="product.viewforseller"/></h5>
@@ -83,6 +63,4 @@
 		</table>
 		
       </div>
-    </div>
-  </div>
-</div>
+
