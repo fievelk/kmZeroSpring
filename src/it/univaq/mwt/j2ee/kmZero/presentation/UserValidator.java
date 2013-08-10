@@ -42,14 +42,14 @@ public class UserValidator implements Validator {
 			ValidationUtils.rejectIfEmpty(errors, "password.confirm_password", "errors.required");
 			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", user.getPassword().getPassword(), user.getPassword().getConfirm_password());
 		}
-		ValidationUtility.checkEmail(errors, "email", "errors.email", user.getEmail());
+		/*ValidationUtility.checkEmail(errors, "email", "errors.email", user.getEmail());
 		if (!user.getEmail().equals("")){
 			try {
 				ValidationUtility.existEmail(errors, "email", "errors.emailexist", service.emailExist(user.getEmail()));
 			} catch (BusinessException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 
 }
