@@ -63,9 +63,12 @@ function setCriteria(){
 	/*valore della search*/
 	sSearch = $(".form-search input").val();
 	/*valore della sortBy*/
-	sortCol = $('#sortBy select').find(":selected").val();
+	sortBy = $('#sortBy select').find(":selected").val();
+	sortBy_parts = sortBy.split("-");
+	sortCol = sortBy_parts[0];
+	sortDir = sortBy_parts[1];
 	/*Infine creo la stringa serializzata per l'ajax call*/
-	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sSearch="+sSearch;
+	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch;
 	console.log(criteria);
 }
 
@@ -83,12 +86,18 @@ function buildItems(data){
 
 function buildItem(item){
 	
+	var image;
+	if(item.images[0] != null){
+		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
+	}else{
+		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
+	}
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+
 	  <!-- Item image -->
 			'<div class="item-image">'+
-			  '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>'+
+			  image+
 			'</div>'+
 	<!-- Item details -->
 			'<div class="item-details">'+
@@ -125,7 +134,10 @@ function paginate() {
 			        	if(pageNumber == 1){
 							iDisplayStart = 0;
 						}else{
+							console.log("PAGE"+pageNumber);
+							console.log("iDisplayLength1:"+iDisplayLength);
 							iDisplayStart = ((pageNumber-1)*iDisplayLength);
+							console.log("start"+iDisplayStart);
 						}
 			        	setCriteria();
         				ajaxCall();	
@@ -140,67 +152,15 @@ function paginate() {
 </script>
 
 <!-- Items - START -->
-
-<div class="items">
-  <div class="container">
-    <div class="row">
-
-      <!-- Sidebar -->
-      <div class="span3 hidden-phone">
-
-        <h5 class="title">Categories</h5>
-        <!-- Sidebar navigation -->
-          <nav>
-            <ul id="nav">
-              <!-- Main menu. Use the class "has_sub" to "li" tag if it has submenu. -->
-              <li><a href="index.html">Home</a></li>
-              <li class="has_sub"><a href="#">Aziende</a>
-                <!-- Submenu -->
-                <ul>
-                              <li><a href="items.html">Azienda 1</a></li>
-                              <li><a href="items.html">Azienda 2</a></li>
-                              <li><a href="items.html">Azienda 3</a></li>
-                              <li><a href="items.html">Azienda 4</a></li>
-                              <li><a href="items.html">Azienda 5</a></li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-<br />
-          <!-- Sidebar items (featured items)-->
-
-          <div class="sidebar-items">
-
-            <h5 class="title">Featured Items</h5>
-
-            <!-- Item #1 -->
-            <div class="sitem">
-              <!-- Don't forget the class "onethree-left" and "onethree-right" -->
-              <div class="onethree-left">
-                <!-- Image -->
-                <a href="single-item.html"><img src="" alt="" /></a>
-              </div>
-              <div class="onethree-right">
-                <!-- Title -->
-                <a href="single-item.html">HTC One V</a>
-                <!-- Para -->
-                <p>Aenean ullamcorper justo tincidunt justo aliquet.</p>
-                <!-- Price -->
-                <p class="bold">$199</p>
-              </div>
-              <div class="clearfix"></div>
-            </div>             
-          </div>
-      </div>
       
       <div class="span9">
 
-        <!-- Breadcrumb -->
+<!--         Breadcrumb
         <ul class="breadcrumb">
           <li><a href="index.html">Home</a> <span class="divider">/</span></li>
           <li><a href="items.html">Prodotti</a> <span class="divider">/</span></li>
           <li class="active">km0</li>
-        </ul>
+        </ul> -->
 
                             <!-- Title -->
                               <h4 class="pull-left">I prodotti</h4>
@@ -218,11 +178,11 @@ function paginate() {
                                           <!-- Sorting -->
                                             <div id="sortBy" class="controls pull-right">                               
                                                 <select>
-	                                                <option value="name ASC" selected>Name (A-Z)</option>
-	                                                <option value="name DESC">Name (Z-A)</option>
-	                                                <option value="price ASC">Price (Low-High)</option>
-	                                                <option value="price DESC">Price (High-Low)</option>
-	                                                <option value="rating ASC">Ratings</option>
+	                                                <option value="name-ASC" selected>Name (A-Z)</option>
+	                                                <option value="name-DESC">Name (Z-A)</option>
+	                                                <option value="price-ASC">Price (Low-High)</option>
+	                                                <option value="price-DESC">Price (High-Low)</option>
+	                                                <option value="rating-ASC">Ratings</option>
                                                 </select>  
                                             </div>
                                             
@@ -238,7 +198,5 @@ function paginate() {
                 </div> 
               </div>
             </div>    
-           </div>
-          </div>
-          </div>                          
+                         
 <!-- Items  - END-->

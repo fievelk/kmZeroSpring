@@ -69,7 +69,7 @@
 
   <body>
   
-	<tiles:insertAttribute name="header"/>
+	<tiles:insertAttribute name="head"/>
 	
 	<!-- Cart, Login and Register form (Modal) START-->
 	
@@ -81,7 +81,23 @@
 	<!-- Cart, Login and Register form (Modal) END -->
 	
 	<tiles:insertAttribute name="navigation"/>
-	<tiles:insertAttribute name="content"/>
+	<tiles:insertAttribute name="header" defaultValue=""/>
+	<div class="content">
+		<div class="container">
+			<div class="row">
+				<tiles:insertAttribute name="sidebar" defaultValue=""/>
+				<tiles:insertAttribute name="content" defaultValue=""/>
+			</div>
+		</div>
+	</div>
+	
+<%-- <div class="items">
+		<div class="container">
+			<div class="row">
+				<tiles:insertAttribute name="content"/>
+			</div>
+		</div>
+	</div> --%>
     <tiles:insertAttribute name="footer"/>
 
 	<!-- Scroll to top -->

@@ -24,12 +24,17 @@
 		<security:intercept-url pattern="/sellers/list.do" access="permitAll"/>
 		<security:intercept-url pattern="/users/*" access="hasAnyRole('admin', 'user', 'seller')"/>
 		<security:intercept-url pattern="/users/**" access="hasAnyRole('admin')"/>
-		<!-- <security:intercept-url pattern="/products/**" access="hasAnyRole('admin')"/> -->
+		<security:intercept-url pattern="/products" access="permitAll"/>
+		<security:intercept-url pattern="/products/viewProducts" access="permitAll"/>
+		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
+		
+		
 		<security:intercept-url pattern="/sellers/*" access="hasAnyRole('admin', 'seller')"/>
 		<security:intercept-url pattern="/sellers/**" access="hasAnyRole('admin')"/>
-		<security:intercept-url pattern="/titles/**" access="hasAnyRole('librarian', 'masterlibrarian')"/>
+
 
 		<security:intercept-url pattern="/products/findWarehouseAddress" access="permitAll"/> 		
+
  		
 		<security:form-login login-page="/login" 
 							 authentication-failure-url="/login" 

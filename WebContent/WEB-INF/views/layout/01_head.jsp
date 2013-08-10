@@ -12,7 +12,7 @@
             <p class="meta">Se non ci dovesse andare bene con il master la zappa è sempre un'ottima alternativa!</p>
           </div>
         </div>
-		
+
         <div class="span5 offset3">
           
           <!-- Search form -->
@@ -33,15 +33,20 @@
 
 			
 			<!-- Login and Register link -->
-              <span class="lr">
+              
               	<security:authorize access="!isAuthenticated()">
+              	<span class="lr">
               		<a href="#login" role="button" data-toggle="modal">Login</a> or <a href="#register" role="button" data-toggle="modal">Register</a>
+				</span>
 				</security:authorize>
 				<security:authorize access="isAuthenticated()">
-					<span><security:authentication property="principal.name"/> |</span>
+				<span class="lr">
+					<span><a href="${pageContext.request.contextPath}/welcome"><security:authentication property="principal.name"/></a> |</span>
 					<a href="${pageContext.request.contextPath}/j_spring_security_logout" role="button" data-toggle="modal">Logout</a>
+				</span>	
 				</security:authorize>
-              </span>
+            
+              
           
           </div>
 

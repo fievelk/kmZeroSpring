@@ -1,5 +1,12 @@
 package it.univaq.mwt.j2ee.kmZero.common.spring.validation;
 
+import java.util.Collection;
+
+import it.univaq.mwt.j2ee.kmZero.business.model.Role;
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 public class ValidationUtility {
@@ -32,4 +39,16 @@ public class ValidationUtility {
 		}
 		
 	}
+	
+	public static void checkIdentity(Errors errors, String fieldName, String errorMessage, long id){
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long userid = udi.getId();/*
+		if (id != userid && !udi.getRoles().contains(new Role(3))){
+
+			errors.rejectValue(fieldName, errorMessage);
+		}*/
+		
+	}
+	
+	
 }

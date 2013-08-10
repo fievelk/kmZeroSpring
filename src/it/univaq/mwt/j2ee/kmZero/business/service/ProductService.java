@@ -1,6 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
@@ -10,24 +9,21 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
-import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 
 
 public interface ProductService {
 	
 	// Metodi per i prodotti
 		
-	void createProduct(Product product) throws BusinessException;
+	void createProduct(Product product, long seller_id) throws BusinessException;
 	
-	void deleteProduct(Product product) throws BusinessException;
-
+	void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException;
 	
-	
-	void updateProduct(Product product,List<Image> images) throws BusinessException;
+	void deleteProduct(Product product, long seller_id);
 	
 	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
 	
-	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid) throws BusinessException;
+	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, long seller_id) throws BusinessException;
 	
 	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
 
@@ -57,5 +53,7 @@ public interface ProductService {
 
 	void deleteMeasure(Measure measure) throws BusinessException;
 	
-
+	// Metodi per la validazione (chiamato da ImageValidator)
+	
+	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
 }

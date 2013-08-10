@@ -30,10 +30,6 @@ $(function() {
 </script>
 
 
-<div class="items">
-	<div class="container">
-		<div class="row">
-
 			<!-- Main content -->
 			
 			<div class="span6 side-menu">
@@ -180,6 +176,4 @@ $(function() {
 			</div>
 									
 			
-		</div>
-	</div>
-</div>
+

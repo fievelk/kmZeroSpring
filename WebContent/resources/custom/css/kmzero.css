@@ -168,18 +168,25 @@ footer{
 	
 }
 
+
+
 /* Add Images to Product /products/update_start/ */
 
-.sellerImages img{width:200px;margin:0px 5px 5px 0px}
+.sellerImages img{width:300px;margin:0px 5px 5px 0px}
 .productImages img{width:50px;margin:0px 5px 5px 0px}
 .sellerImages .row-fluid{margin-bottom:10px}
 .productImages .row-fluid{margin-bottom:10px}
 
-#km0Images span a{
-	position:relative;
-	width:100%;
-	bottom:40px;
-	right:10px;	
+#km0Image div a{
+	margin:0px;
+	padding:0px;
+	margin-right: 5px;	
+	margin-left: 0px;	
+}
+
+div#km0Image{
+	float:left;
+	margin-right: 10px;
 }
 
 #modalWindow img{height:50px;margin:5px 5px 5px 0px}
@@ -190,8 +197,37 @@ footer{
   max-width: none;
 }
 
+
+/*SELLER PAGE*/
+
+#seller_content{
+	width:700px;
+	
+}
+#seller_content_title{
+	width:700px;
+	margin:0;
+}
+#seller_content_desc{
+	 margin:0;
+	min-width:200px;
+	/*max-width:420px;
+	width: 100%; */
+
+}
+#seller_content_image_left{
+	margin:0;
+	margin-right:20px
+	
+}
+#seller_content_image_right{
+	
+	margin-left:20px;
+}
+
 #googleMapInfowindow {
 	width: 200px;
+
 }
 
 /* Modal window for address */

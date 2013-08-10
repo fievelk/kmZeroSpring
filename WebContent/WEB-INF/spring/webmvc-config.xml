@@ -64,6 +64,8 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 	    <property name="persistenceUnitName" value="kmz"/>
 	</bean>
+	
+	<bean id="loggedUser" class="it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser" /> 
 
 	<!-- Configurazione JPA - Data Access Object Beans necessari per l'inject dell'entityManagerFactory -->
 	<bean id="imageDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAImageService" /> 

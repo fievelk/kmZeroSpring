@@ -15,6 +15,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 
 public class JPAImageService implements ImageService{
@@ -36,14 +37,11 @@ public class JPAImageService implements ImageService{
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		Query query = em.createQuery("UPDATE Image SET altName= :altName, position= :position WHERE id= :id");
-		query.setParameter("altName", image.getAltName());
-		query.setParameter("position", image.getPosition());
-		query.setParameter("id", image.getId());
-		query.executeUpdate();
+		Image i = em.find(Image.class,image.getId());
+		i.setAltName(image.getAltName());
+		i.setPosition(image.getPosition());
 		tx.commit();
-		em.close();
-		
+		em.close();	
 	}
 	
 	
@@ -52,7 +50,9 @@ public class JPAImageService implements ImageService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
+		System.out.println("ProdottoID:"+id);
 		Product p = em.find(Product.class, id);
+		System.out.println("Prodotto:"+p.getName());
 		tx.commit();
 		return p.getImages();
 	}
@@ -70,7 +70,7 @@ public class JPAImageService implements ImageService{
 		//...aggiungo la nuova collezione (le fondo assieme)
 		c.addAll(ci);
 		p.setImages(c);
-		em.merge(p);
+		//em.merge(p);
 		
 		tx.commit();
 		em.close();
@@ -132,26 +132,48 @@ public class JPAImageService implements ImageService{
 		em.merge(s);
 		s.getImages().remove(i);
 		tx.commit();	
-		em.close();
-		
+		em.close();	
 	}
-
-	//questo metodo recupera solo id e nome dell'immagine ma non funziona la query
-	//Ritorna solo l'id e il nome dell'imagine senza i dati blob
-	/*
+	
 	@Override
-	public Collection<Image> getProductImagesIdName(Long id) throws BusinessException {
-		System.out.println("id prodotto:"+id);
+	public void setSellerContentImage(Long id, Image i) throws BusinessException {
+
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
-		TypedQuery<Image> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.Image(i.id,i.name) FROM Image i JOIN Product p WHERE p.id= :id", Image.class);
-		query.setParameter("id", id);
-		tx.begin();	
-		List<Image> images = (List<Image>)query.getResultList();
+		tx.begin();
+		SellerContent sc = em.find(SellerContent.class, id);
+		sc.setImage(i);
+		
+		
 		tx.commit();
 		em.close();
-		return images;	
-	}*/
+	}
+
+
+	@Override
+	public Image getSellerContentImages(long sellercontentId) {
+		EntityManager em = this.emf.createEntityManager();
+		SellerContent sc = em.find(SellerContent.class, sellercontentId);
+		return sc.getImage();
+	}
+
+
+	@Override
+	public void deleteSellerContentImage(Long image_id, Long owner_id) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+	
+		tx.begin();
+		Image i = em.find(Image.class, image_id);
+		SellerContent sc = em.find(SellerContent.class,owner_id);
+		sc.setImage(null);
+		em.merge(sc);
+		tx.commit();	
+		em.close();	
+		
+	}
+	
+
 	
 }

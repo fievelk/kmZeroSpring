@@ -48,13 +48,13 @@ public class TestController {
 	public String testNumberTwo(Model model) throws BusinessException {
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
 		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
-		System.out.println("DATAILS;"+wad.getSessionId());
-		System.out.println("PRINCIPAL;"+a.getPrincipal());
+		System.out.println("SESSION_ID;"+wad.getSessionId());
+		/*System.out.println("PRINCIPAL;"+a.getPrincipal());
 		System.out.println("CREDENTIAL;"+a.getCredentials());
 		System.out.println("CREDENTIAL;"+a.getDetails());
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		System.out.println("NAME;"+udi.getUser().getName());
+		System.out.println("NAME;"+udi.getUser().getName());*/
 		
 	
 		return "test.test";

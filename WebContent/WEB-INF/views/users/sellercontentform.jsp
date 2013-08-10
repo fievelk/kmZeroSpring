@@ -9,92 +9,90 @@
 
 <script>
 $(document).ready(function() {
+	
 	$(".cleditor").cleditor({
 		controls: "bold italic underline | undo redo | cut copy paste pastetext | print"
 	});
-});
-</script>
-
-<div class="items">
-	<div class="container">
-		<div class="row">
-
-	    	<div class="span3 side-menu">
 	
-				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-				    </ul>
-				  </nav>
-			</div>
-			
-			<!-- Main content -->
-			
-			<div class="span9">
-				<h5 class="title"><spring:message code="seller.content"/></h5>
-				<div class="form form-small">
-					<form:form modelAttribute="seller" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
-					<form:hidden path="id"/>
-					
-					<!-- <div class="control-group">
-					    <div class="controls"> -->
-					    <!-- <div class="text-area"> -->
-					    <%-- <c:forEach items="${seller.contents}" var="contents">
-				            <div class="control-group">
-							    <label class="control-label" for="title">Titolo</label>
-							    <div class="controls">
-							    	<form:textarea value="${sellerContent.title}" path="contents.title" id="title"/>
-							    	<form:errors path="name"/>
-							    </div>
-							</div>
-							<div class="control-group">
-							    <label class="control-label" for="description">Descrizione</label>
-							    <div class="controls">
-							    	<form:textarea value="${sellerContent.description}" path="contents.description" id="cleditor" cssClass="cleditor"/>
-							    	<form:errors path="name"/>
-							    </div>
-							</div>
-				        </c:forEach> --%>
-				        <c:forEach items="${seller.contents}" var="contents">
-				            <div class="control-group">
-							    <label class="control-label" for="title">Titolo</label>
-							    <div class="controls">
-							    	<input type="text" value="${contents.title}" name="title" id="contents.title">
-							    </div>
-							</div>
-							<div class="control-group">
-							    <label class="control-label" for="description">Descrizione</label>
-							    <div class="controls">
-							    	<div class="text-area">
-			                        	<textarea class="cleditor" name="input" id="contents.description">${contents.description}</textarea>
-			                   		</div>
-							    </div>
-							</div>
-				        </c:forEach>
-				        
-				        <!-- </div> 
-					    </div>
-					</div> -->
-					
-					<!-- <div class="text-area">
-                        <textarea class="cleditor" name="input"></textarea>
-                   	</div> -->
+	/*--------SETUP READONLY FIELDS IF DELETING - START--------*/
+	var del = "${requestScope.delete}"; 
+	if (del == "true" ) {
+		$(":input[type='text']").each(function () { $(this).attr('readonly','readonly'); });
+		$("#description").cleditor()[0].disable("true");
+	}		
 
-                      
-					<div class="control-group">
-					    <div class="controls">
-					      <button type="submit"><spring:message code="common.submit"/></button>
-						</div>
-					</div>
-					</form:form>
-				</div>
+});
+
+
+</script>
+<!-- Main content -->
+
+<div class="span4">
+	<h5 class="title">
+		<c:choose>
+			<c:when test="${requestScope.delete eq 'true'}">
+				<spring:message code="sellercontent.delete"/>
+			</c:when>
+			<c:when test="${requestScope.create eq 'true'}">
+				<spring:message code="sellercontent.create"/>
+			</c:when>
+			<c:when test="${requestScope.update eq 'true'}">
+				<spring:message code="sellercontent.update"/>
+			</c:when>
+		</c:choose>	
+	</h5>
+	<div class="form form-small">
+		<form:form modelAttribute="sellercontent" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
+		<form:hidden path="id"/>
+			<div class="control-group">
+			    <label class="control-label" for="name"><spring:message code="sellercontent.title"/></label>
+			    <div class="controls">
+			    	<form:input id="title" path="title"/>
+			    </div>
+			</div>				        
+			<div class="control-group">
+			    <label class="control-label" for="description"><spring:message code="sellercontent.description"/></label>
+			    <div class="controls">
+			    	<div class="text-area">
+                    	<textarea class="cleditor" name="description" id="description">${sellercontent.description}</textarea>
+               		</div>
+			    </div>
+			</div>                     
+		<div class="control-group">
+		    <div class="controls">
+		      <button class="btn" type="submit">
+		      	<c:choose>
+					<c:when test="${requestScope.delete eq 'true'}">
+						<spring:message code="common.delete"/>
+					</c:when>
+					<c:otherwise>
+						<spring:message code="common.submit"/>
+					</c:otherwise>
+				</c:choose>	
+		      </button>
 			</div>
 		</div>
+		</form:form>
+			
 	</div>
 </div>
+<c:if test="${requestScope.update eq 'true'}">
+	<div class="span4 productImages">
+		<div class="row-fluid">
+			<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr_content','${sellercontent.id}',null,null)"><spring:message code="image.add"/></a>
+		</div>
+		
+		<div id="km0Images">
+		<c:if test="${image != null}">
+			<div>
+				<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr_content','${sellercontent.id}','image','${image.id}')" ></a>	
+	       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr_content','${sellercontent.id}','image','${image.id}')"></a>
+			</div>
+  			<span id="image_${image.id}">
+	       		<img src="${pageContext.request.contextPath}/selr_content/image/${image.id}/${image.name}" alt="${image.name}" />
+       		</span>	
+     	</c:if>      		
+    	</div>
+
+	</div>	
+</c:if>
