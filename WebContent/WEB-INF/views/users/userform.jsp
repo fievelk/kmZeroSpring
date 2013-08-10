@@ -27,39 +27,7 @@
 		});
 	});
 </script>
-
-
-<!-- Address autocompletion scripts-->
-
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
        
-<script>
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-
-function initialize() {
-		
-	var input = (document.getElementById('address_autocompleted'));
-	var autocomplete_options = {
-			  types:['geocode'],
-			  componentRestrictions: {country: 'it'}
-			};
-	var autocomplete = new google.maps.places.Autocomplete(input, autocomplete_options);
-
-	google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-        console.log(place.address_components);
-    }); 
-	
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
-<!-- End of Address autocompletion -->
-
-
 			
 			<!-- Main content -->
 			
