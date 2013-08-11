@@ -1,7 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.common.spring.validation;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
@@ -47,6 +51,27 @@ public class ValidationUtility {
 
 			errors.rejectValue(fieldName, errorMessage);
 		}*/
+		
+	}
+
+	public static void checkDelivery_date(Errors errors, String fieldName, String errorMessage,
+			Collection<CartLine> cartLines, Date delivery_date) {
+		Iterator<CartLine> i = cartLines.iterator();
+		System.out.println("&&&&&&&&&&&&&&&&&" + cartLines.size());
+		int x = 0;
+		while (i.hasNext()){
+			CartLine cl = i.next();
+			Product p = cl.getProduct();
+			if (delivery_date.after(p.getDate_out())){
+				x++;
+			}
+			System.out.println("&&&&&&&&&&&&&" + p.getDate_out());
+		}
+		
+		//System.out.println("&&&&&&&&&&&&&&&&&&&&&" + x);
+		if (x > 0){
+			errors.rejectValue(fieldName, errorMessage);
+		}
 		
 	}
 	

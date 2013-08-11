@@ -49,6 +49,10 @@ public class Cart implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date paid;
 	
+	@Column(name="delivery_date", nullable=true)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date delivery_date;
+	
 	@Column(name="address", nullable=true)
 	private String address;
 	
@@ -70,7 +74,7 @@ public class Cart implements Serializable{
 
 	
 	public Cart(long id, String session_id, String transaction_id, Date created, Date dispatched, Date paid,
-			Collection<CartLine> cartLines, String address, String name,
+			Date delivery_date,Collection<CartLine> cartLines, String address, String name,
 			String surname) {
 		super();
 		this.id = id;
@@ -79,6 +83,7 @@ public class Cart implements Serializable{
 		this.created = created;
 		this.dispatched = dispatched;
 		this.paid = paid;
+		this.delivery_date = delivery_date;
 		this.cartLines = cartLines;
 		this.address = address;
 		this.name = name;
@@ -130,6 +135,13 @@ public class Cart implements Serializable{
 	}
 	public void setPaid(Date paid) {
 		this.paid = paid;
+	}
+	@JsonSerialize(using=DateJsonSerializer.class)
+	public Date getDelivery_date() {
+		return delivery_date;
+	}
+	public void setDelivery_date(Date delivery_date) {
+		this.delivery_date = delivery_date;
 	}
 	
 	public String getAddress() {
