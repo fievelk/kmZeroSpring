@@ -225,10 +225,10 @@ div#km0Image{
 	margin-left:20px;
 }
 
-#googleMapInfowindow {
+.googleMapInfowindow {
 	width: 200px;
-
 }
+
 
 /* Modal window for address */
 

@@ -133,6 +133,10 @@
     <definition name="test.testuser" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
+    
+    <definition name="test.addressValidation" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/addressValidation.jsp"/>
+    </definition>
     <!--ALEPH TESTS END-->
     
     <!-- USERS TILES BEGIN -->

@@ -127,4 +127,11 @@ public class TestController {
 //		System.out.println("WAREHOUSE " + wareLat +"," + wareLon);
 //	}
 	
+	@RequestMapping(value="/addressValidationTest")
+	public String addressValidationTest(Model model) throws BusinessException {
+//		service.testNumberOne();	
+//		model.addAttribute("test", 1);
+		return "test.addressValidation";
+	}
+	
 }
