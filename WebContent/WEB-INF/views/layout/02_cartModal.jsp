@@ -29,6 +29,6 @@
   <!-- Gestire i pulsanti per il checkout e per continuare lo shopping -->
   <div class="modal-footer">
     <a href="" class="btn" data-dismiss="modal" aria-hidden="true">Torna allo Shopping</a>
-    <a id="checkout" href="${pageContext.request.contextPath}/carts/checkout_start.do" class="btn btn-danger">Vai alla cassa</a>
+    <a id="checkout" href="${pageContext.request.contextPath}/carts/confirmcart.do" class="btn btn-danger">Vai alla cassa</a>
   </div>
 </div>

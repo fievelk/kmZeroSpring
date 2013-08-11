@@ -110,13 +110,18 @@ public class JPACartService implements CartService{
 	}
 
 	@Override
-	public void deleteCartLine(long id) throws BusinessException {
+	public void deleteCartLine(long id_cartline, long id_cart) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		
-		CartLine cl = em.find(CartLine.class, id);
+		CartLine cl = em.find(CartLine.class, id_cartline);
 		em.remove(cl);
+		Cart cart = em.find(Cart.class, id_cart);
+		int size = cart.getCartLines().size();
+		if (size == 0){
+			em.remove(cart);
+		}
 		et.commit();
 		em.getEntityManagerFactory().getCache().evictAll();
 		em.close();
@@ -220,6 +225,22 @@ public class JPACartService implements CartService{
 		
 		et.commit();
 		em.close();
+	}
+
+	@Override
+	public void confirmCart(long id_cart, Date delivery_date) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		Query query = em.createQuery("UPDATE Cart SET delivery_date = :delivery_date WHERE id = :id");
+		query.setParameter("delivery_date", delivery_date);
+		query.setParameter("id", id_cart);
+		query.executeUpdate();
+		
+		et.commit();
+		em.close();
+		
 	}
 
 }
