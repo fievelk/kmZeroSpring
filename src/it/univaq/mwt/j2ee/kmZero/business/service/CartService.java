@@ -13,7 +13,7 @@ public interface CartService {
 	
 	void addCartLine(long id_product, int quantity, String session_id) throws BusinessException;
 	
-	void deleteCartLine(long id) throws BusinessException;
+	void deleteCartLine(long id_cartline, long id_cart) throws BusinessException;
 	
 	// Visualizza le CartLine
 	ResponseCarts<CartLine> viewCartlines(String session_id) throws BusinessException;
@@ -28,5 +28,8 @@ public interface CartService {
 
 	// Il carrello è stato pagato
 	void paid(String transaction_id, long cart_id) throws BusinessException;
+
+	// Conferma il carrello prima di fare il checkout
+	void confirmCart(long id_cart, Date delivery_date) throws BusinessException;
 
 }

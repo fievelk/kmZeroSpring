@@ -6,7 +6,27 @@
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <script type="text/javascript">
-	$(document).ready(createModalCart2());
+	$(document).ready(createModalCart());
+	
+	var mindate = new Date();
+	var maxdate = new Date();
+	
+	var minday = mindate.getDate() + 3;
+	var maxday = maxdate.getDate() + 12;
+	
+	mindate.setDate(minday);
+	maxdate.setDate(maxday);
+	
+	$(function() {
+		$( "#cartpicker" ).datepicker({
+			minDate: mindate,
+			maxDate: maxdate,
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'dd/mm/yy',
+			showAnim: "slideDown"
+		});
+	});
 </script>
 
 <security:authorize access="!isAuthenticated()">
@@ -58,7 +78,7 @@
 				<div class="span9">
 					<h5 class="title">Carrello</h5>
 					<div class="form form-small">
-						<form:form modelAttribute="cart" cssClass="form-horizontal" action="${requestScope.action}" method="POST">
+						<form:form modelAttribute="cart" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 						<form:hidden path="id"/>
 						<table class="table table-striped tcart">
 				          <thead>
@@ -66,22 +86,22 @@
 				              <th>Name</th>
 				              <th>Quantity</th>
 				              <th>Price</th>
+				              <th>Delete</th>
 				            </tr>
 				          </thead>
 				          	<tbody id="cartlines">
 				          	</tbody>
 						</table>
 						<div class="control-group">
+						    <label class="control-label" for="delivery_date">Scegli la data nella quale vorresti che l'ordine ti venisse consegnato: </label>
+							<div class="controls">
+								<form:input id="cartpicker" path="delivery_date"/><br />
+								<form:errors path="delivery_date"/>
+							</div>
+						</div>
+						<div class="control-group">
 						    <div class="controls">
-							  <input type="hidden" name="cmd" value="_xclick">
-							  <input type="hidden" name="return" value="${pageContext.request.contextPath}/carts/payed.do">
-							  <input type="hidden" name="business" value="km_seller@email.it">
-							  <input type="hidden" name="currency_code" value="EUR">
-							  <input type="hidden" name="item_name" value="Km Zero & C">
-							  <input id="totpaypal" type="hidden" name="amount">
-							  <input type="hidden" name="custom" value="${cart.id}">
-							  <input type="image" src="${pageContext.request.contextPath}/resources/custom/img/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
-							  <!-- <input type="image" src="https://www.sandbox.paypal.com/it_IT/IT/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."> -->
+							  <button type="submit" class="btn">Conferma il carrello</button>
 						    </div>
 						</div>
 						</form:form>
