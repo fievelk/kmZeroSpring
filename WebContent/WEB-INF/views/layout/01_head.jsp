@@ -27,7 +27,7 @@
             <span>
 
               <!-- item details with price -->
-              <a href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">3 Item(s) in your <i class="icon-shopping-cart"></i></a> -<span class="bold">$25</span>   
+              <a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">0 Item(s) in your <i class="icon-shopping-cart"></i></a> -<span class="bold">$25</span>   
 
             </span>
 

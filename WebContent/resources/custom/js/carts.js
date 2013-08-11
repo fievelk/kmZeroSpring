@@ -1,3 +1,17 @@
+$(document).ready(function(){
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/existcart.do",
+		success: cartExistJson
+	});
+});
+
+function cartExistJson(data){
+	var exist = data.exist;
+	$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
+}
+
+
 function createModalCart(){
 	$.ajax({
 		type: "POST",

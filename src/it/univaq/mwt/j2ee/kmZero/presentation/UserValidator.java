@@ -30,7 +30,7 @@ public class UserValidator implements Validator {
 		
 		User user = (User) target;
 		
-			ValidationUtility.checkIdentity(errors,"id","errors.idInjection", user.getId());
+			//ValidationUtility.checkIdentity(errors,"id","errors.idInjection", user.getId());
 		
 			ValidationUtils.rejectIfEmpty(errors, "name", "errors.required");
 			ValidationUtils.rejectIfEmpty(errors, "surname", "errors.required");
