@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-
-
 <script type="text/javascript" charset="utf-8">
 
 /*inizializzazione variabili globali per la paginazione*/
@@ -259,6 +257,7 @@ function addCartLine(id){
 					    
 					    <div class="controls">
 							<input id="address_autocompletedModal"/><br />
+							<input id="inventato" /><br />
 					    </div>
 					    
 					    <p id="addressDistanceErrorModal"></p>

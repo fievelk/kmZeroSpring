@@ -225,6 +225,8 @@ div#km0Image{
 	margin-left:20px;
 }
 
+/* Google Maps */
+
 .googleMapInfowindow {
 	width: 200px;
 }
@@ -285,3 +287,13 @@ div#km0Image{
 }
 
 .closeAddress:hover { background: #00d9ff; }
+
+/* overwrite bootstrap z-index for index autocompletion in modal windows */
+
+.modal{
+    z-index: 20;   
+}
+
+.modal-backdrop{
+    z-index: 10;        
+}
