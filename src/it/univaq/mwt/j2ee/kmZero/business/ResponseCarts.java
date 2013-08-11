@@ -8,11 +8,13 @@ import java.util.List;
 public class ResponseCarts<CartLine> implements Serializable{
 	
 	private long id;
+	private int exist;
 	private Collection<CartLine> cartlines = new ArrayList<CartLine>();
-
-	public ResponseCarts(long id, Collection<CartLine> cartlines) {
+	
+	public ResponseCarts(long id, int exist, Collection<CartLine> cartlines) {
 		super();
 		this.id = id;
+		this.exist = exist;
 		this.cartlines = cartlines;
 	}
 
@@ -23,6 +25,15 @@ public class ResponseCarts<CartLine> implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
+
+	public int getExist() {
+		return exist;
+	}
+
+	public void setExist(int exist) {
+		this.exist = exist;
+	}
+
 	public Collection<CartLine> getCartlines() {
 		return cartlines;
 	}

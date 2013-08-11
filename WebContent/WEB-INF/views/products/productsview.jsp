@@ -112,8 +112,8 @@ function buildItem(item){
 			<!-- Price -->
 			'<div class="item-price pull-left">'+item.price+'</div>'+
 			<!-- Add to cart -->
-			'<button value="' + item.id + '" class="button pull-right" onclick="addCart('+ item.id +')">Add to Cart</button>'+
-			/*'<div class="button pull-right" onclick="addCart('+ item.id +')"><a href="">Add to Cart</a></div>'+*/
+			'<button value="' + item.id + '" class="button pull-right" onclick="existCart('+ item.id +')">Add to Cart</button>'+
+			//'<div class="button pull-right" onclick="existCart('+ item.id +')"><a href="#modalDialogAddress">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
 			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1" style="width:23%;"/></label></div>'+
 		'</div></div></div>';
@@ -150,8 +150,38 @@ function paginate() {
     });	
 }
 
+function existCart(id){
+	
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/existcart.do",
+		success: function(data){
+			var exist = data.exist;
+			if (exist == 0){
+				// fai partire la finestra modale per l'indirizzo
+				$('#modalDialogAddress').modal('show');
+				$('#submitIfValidAddress').replaceWith('<button id="submitIfValidAddress" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');
+			} else {
+				// L'indirizzo è già stato validato
+				addCartLine(id);
+			}
+		}
+	});
+	// Aggiornare il link per l'apertura della finestra modale: non riuscito!
+	//$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
+}
 
-function addCart(id){
+function validAddress(id){
+	var address = $('#address_autocompleted').val();
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/addressvalidated.do?id=" + id + "&q=" + quantity + "&a=" + address,
+	});
+}
+
+
+function addCartLine(id){
 	var quantity = $('#'+id).val();
 	$.ajax({
 		type: "POST",
@@ -210,3 +240,35 @@ function addCart(id){
             </div>    
                          
 <!-- Items  - END-->
+
+
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
+
+		<div id="modalDialogAddress" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-header">
+		    <button id="modalDialogAddress_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h5 class="title">Address Validation test</h5>
+		  </div>
+		  <div class="modal-body">
+				
+				<div id="googleMap" style="height:200px;"></div>				
+					
+					<div class="control-group">
+					    <label class="control-label" for="address"><spring:message code="user.address" /></label>
+					    
+					    <div class="controls">
+							<input id="address_autocompleted"/><br />
+					    </div>
+					    
+					    <p id="addressDistanceError"></p>
+					
+						<div class="controls">
+					      <button id="submitIfValidAddress" type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Add to cart</button>
+					    </div>
+					
+					</div>
+					
+					<div class="control-group">
+					</div>
+			</div>
+		</div>

@@ -27,6 +27,27 @@ public class CartsController {
 	@Autowired
 	private CartService service;
 	
+	/*@RequestMapping("/addressvalidation.do")
+	@ResponseBody
+	public ResponseCarts<CartLine> addressValidation() throws BusinessException{
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
+		String s = wad.getSessionId();
+		ResponseCarts<CartLine> result = service.viewCartlines(s);
+		return result;
+	}*/
+	
+	@RequestMapping("/addressvalidated.do")
+	@ResponseBody
+	public String modalAddressStart(@RequestParam("a") String address, 
+			@RequestParam("id") long id_product, @RequestParam("q") int quantity) throws BusinessException{
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
+		String s = wad.getSessionId();
+		service.createCart(address, s, id_product, quantity);
+		return null;
+	}
+	
 	@RequestMapping("/viewcartpaginated.do")
 	@ResponseBody
 	public ResponseCarts<CartLine> findAllUsersPaginated() throws BusinessException{
@@ -37,13 +58,24 @@ public class CartsController {
 		return result;
 	}
 	
-	@RequestMapping("/create.do")
+	@RequestMapping("/existcart.do")
 	@ResponseBody
-	public String createCart(@RequestParam("id") long id, @RequestParam("q") int q) throws BusinessException{
+	public ResponseCarts<CartLine> existCart() throws BusinessException{
 		Authentication a = SecurityContextHolder.getContext().getAuthentication();
 		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
 		String s = wad.getSessionId();
-		service.createCart(id, q, s);
+		ResponseCarts<CartLine> result = service.existCart(s);
+		return result;
+	}
+	
+	@RequestMapping("/create.do")
+	@ResponseBody
+	public String addCartLine(@RequestParam("id") long id_product, @RequestParam("q") int q) 
+			throws BusinessException{
+		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
+		String s = wad.getSessionId();
+		service.addCartLine(id_product, q, s);
 		return null;
 	}
 	
@@ -58,7 +90,7 @@ public class CartsController {
 	public String checkoutStart(@RequestParam("id") long id, Model model) throws BusinessException{
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//TODO: Qui, oltre al nome, il cognome e la data di creazione, bisogna anche passargli l'indirizzo.
-		Cart cart = service.findCartToCheckout(id, udi.getName(), udi.getSurname(), new Date());
+		Cart cart = service.findCartToCheckout(id, udi.getName(), udi.getSurname());
 		model.addAttribute("cart", cart);
 		return "carts.checkout";
 	}
