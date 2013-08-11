@@ -5,8 +5,13 @@ var geocoderModal = new google.maps.Geocoder();
 
 /* Chiamata AJAX per indirizzo del centro di distribuzione, preso dalla classe Warehouse */
 
-google.maps.event.addDomListener(window, 'load', function(){
+//modalWindow = document.getElementById("modalDialogAddress");
+//google.maps.event.addDomListener(window, 'load', function(){
+
+//google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'show', function(){
 	
+//$('#modalDialogAddress').modal('shown', function () {
+function executeOnModal() {
 	$.ajax({
 		type:"POST",
 	    url:contextPath+"/products/findWarehouseAddress",  
@@ -18,7 +23,7 @@ google.maps.event.addDomListener(window, 'load', function(){
 	    			});
 	    }
 	});
-});
+};
 
 function initializeModal() {
 	

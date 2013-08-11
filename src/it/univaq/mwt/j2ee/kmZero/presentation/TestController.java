@@ -10,6 +10,8 @@ import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
@@ -29,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/test")
@@ -114,18 +117,6 @@ public class TestController {
 		return "test.maptest";
 	}
 
-//	@ModelAttribute
-//	public void findWarehouse(Model model) {
-//		//String warehouse = Warehouse.getCoordinates();
-//		//model.addAttribute("warehouse", warehouse);
-//		
-//		float wareLat = Warehouse.getLatitude();
-//		float wareLon = Warehouse.getLongitude();
-//		
-//		model.addAttribute("wareLat", wareLat);
-//		model.addAttribute("wareLon", wareLon);
-//		System.out.println("WAREHOUSE " + wareLat +"," + wareLon);
-//	}
 	
 	@RequestMapping(value="/addressValidationTest")
 	public String addressValidationTest(Model model) throws BusinessException {
@@ -134,4 +125,19 @@ public class TestController {
 		return "test.addressValidation";
 	}
 	
+
+	@RequestMapping(value="/cartstodeliver")
+	public String cartsToDeliver(Model model) {
+		List<Cart> cartsToDeliver = service.getCartsToDeliverTest();
+		
+		model.addAttribute("cartsToDeliver", cartsToDeliver);
+		return "test.cartsToDeliver";
+	}
+	
+	
+	@ModelAttribute
+	public void findWarehouse(Model model) throws BusinessException {
+		String warehouseAddress = Warehouse.getAddress();
+		model.addAttribute("warehouseAddress", warehouseAddress);
+	}
 }

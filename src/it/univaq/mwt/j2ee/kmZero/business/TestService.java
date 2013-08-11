@@ -5,6 +5,7 @@ import java.util.List;
 
 import java.util.Set;
 
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
@@ -20,4 +21,5 @@ public interface TestService {
 	User getUser();
 	void updateUser(User user);
 	List<User> getAllUsersTest();
+	List<Cart> getCartsToDeliverTest();
 }

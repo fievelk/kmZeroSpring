@@ -31,6 +31,7 @@
 					    <li><a href="${pageContext.request.contextPath}/test/testNumberFour">Test #4</a></li>
 					    <li><a href="${pageContext.request.contextPath}/test/test_user_start">Test User</a></li>
 					    <li><a href="${pageContext.request.contextPath}/test/maptest">Google Maps Test</a></li>
+					    <li><a href="${pageContext.request.contextPath}/test/cartstodeliver">Carts To Deliver</a></li>
 					    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
                       </ul>
                    </li>                                

@@ -37,7 +37,7 @@ function setProducts(){
 	setCriteria();
 	ajaxCall();
 	paginate();
-}
+};
 
 function ajaxCall(){
 
@@ -53,7 +53,7 @@ function ajaxCall(){
 				}
 	});		
 	return false;
-}
+};
 
 
 function setCriteria(){
@@ -70,7 +70,7 @@ function setCriteria(){
 	/*Infine creo la stringa serializzata per l'ajax call*/
 	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch;
 	console.log(criteria);
-}
+};
 
 function buildItems(data){
 	var products = "";
@@ -82,7 +82,7 @@ function buildItems(data){
 		$('#products').replaceWith('<div id="products" class="row">'+products+'</div>'); 
 		$('#products').hide();
 		$('#products').fadeIn('slow');
-}
+};
 
 function buildItem(item){
 	
@@ -91,27 +91,27 @@ function buildItem(item){
 		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
 	}else{
 		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
-	}
+	};
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+
-	  <!-- Item image -->
+// 	  <!-- Item image -->
 			'<div class="item-image">'+
 			  image+
 			'</div>'+
-	<!-- Item details -->
+// 	<!-- Item details -->
 			'<div class="item-details">'+
-		  <!-- Name -->
-		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
+// 		  <!-- Name -->
+// 		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
 				'<h5><a href="single-item.html">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
 				'<div class="clearfix"></div>'+
-		<!-- Para. Note more than 2 lines. -->
+// 		<!-- Para. Note more than 2 lines. -->
 			'<p>'+item.description+'</p>'+
 			'<div class="rateit" data-rateit-resetable="false"></div>'+
 			'<hr />'+
-			<!-- Price -->
+// 			<!-- Price -->
 			'<div class="item-price pull-left">'+item.price+'</div>'+
-			<!-- Add to cart -->
+// 			<!-- Add to cart -->
 			'<button value="' + item.id + '" class="button pull-right" onclick="existCart('+ item.id +')">Add to Cart</button>'+
 			//'<div class="button pull-right" onclick="existCart('+ item.id +')"><a href="#modalDialogAddress">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
@@ -119,7 +119,7 @@ function buildItem(item){
 		'</div></div></div>';
 	
 	return result;
-}
+};
 
 function paginate() {
 	console.log("totrecords:"+iTotalRecords);
@@ -139,7 +139,7 @@ function paginate() {
 							console.log("iDisplayLength1:"+iDisplayLength);
 							iDisplayStart = ((pageNumber-1)*iDisplayLength);
 							console.log("start"+iDisplayStart);
-						}
+						};
 			        	setCriteria();
         				ajaxCall();	
         				console.log(criteria);
@@ -148,7 +148,7 @@ function paginate() {
         				console.log("iDisplayStart:"+iDisplayStart);
         			}
     });	
-}
+};
 
 function existCart(id){
 	
@@ -160,25 +160,26 @@ function existCart(id){
 			if (exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
-				$('#submitIfValidAddress').replaceWith('<button id="submitIfValidAddress" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');
+				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');
+				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 			} else {
 				// L'indirizzo è già stato validato
 				addCartLine(id);
-			}
+			};
 		}
 	});
 	// Aggiornare il link per l'apertura della finestra modale: non riuscito!
 	//$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
-}
+};
 
 function validAddress(id){
-	var address = $('#address_autocompleted').val();
+	var address = $('#address_autocompletedModal').val();
 	var quantity = $('#'+id).val();
 	$.ajax({
 		type: "POST",
 		url: contextPath+"/carts/addressvalidated.do?id=" + id + "&q=" + quantity + "&a=" + address,
 	});
-}
+};
 
 
 function addCartLine(id){
@@ -187,7 +188,7 @@ function addCartLine(id){
 		type: "POST",
 		url: contextPath+"/carts/create.do?id=" + id + "&q=" + quantity,
 	});
-}
+};
 
 </script>
 
@@ -242,7 +243,7 @@ function addCartLine(id){
 <!-- Items  - END-->
 
 
-<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMapsModal.js"></script>
 
 		<div id="modalDialogAddress" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="modal-header">
@@ -251,19 +252,19 @@ function addCartLine(id){
 		  </div>
 		  <div class="modal-body">
 				
-				<div id="googleMap" style="height:200px;"></div>				
+				<div id="googleMapModal" style="height:200px;"></div>				
 					
 					<div class="control-group">
 					    <label class="control-label" for="address"><spring:message code="user.address" /></label>
 					    
 					    <div class="controls">
-							<input id="address_autocompleted"/><br />
+							<input id="address_autocompletedModal"/><br />
 					    </div>
 					    
-					    <p id="addressDistanceError"></p>
+					    <p id="addressDistanceErrorModal"></p>
 					
 						<div class="controls">
-					      <button id="submitIfValidAddress" type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Add to cart</button>
+					      <button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Add to cart</button>
 					    </div>
 					
 					</div>

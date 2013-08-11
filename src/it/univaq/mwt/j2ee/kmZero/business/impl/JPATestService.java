@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
@@ -239,6 +240,22 @@ public class JPATestService implements TestService{
         emf.close();
        System.out.println("RISULTATO " + result);
         return result;
+	}
+
+	@Override
+	public List<Cart> getCartsToDeliverTest() {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL", Cart.class);
+   
+        List<Cart> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+		
+		return result;
 	}	
 
 		

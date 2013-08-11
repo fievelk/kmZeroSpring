@@ -4,6 +4,8 @@
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
         
+        
+        
 <p id="stampadata"></p>
 <!-- Importante: per visualizzare correttamente la mappa bisogna modificare i css di bootstrap modificando img { max-width: } da 100% a "none" -->
 
@@ -40,14 +42,14 @@
           
           <input type="submit" onclick="functiona()" value="prova">
           
-		 	<div>
+		 	<div><p id="start">${warehouseAddress}</p>
 				<label for="startpoint"><strong>Start point:</strong></label>
-				<select id="start">
-				  <option value="l'aquila, it">L'Aquila</option>
-				  <%-- <option value="${requestScope.warehouse}">Warehouse</option> --%>
-				  <option value="chieti, it">Chieti</option>
-				  <option value="rome, it">Roma</option>
-				</select>
+<!-- 				<select id="start"> -->
+<%-- 				  <option value="${warehouseAddress}">Warehouse</option> --%>
+<%-- 				  <option value="${requestScope.warehouse}">Warehouse</option> --%>
+<!-- 				  <option value="chieti, it">Chieti</option> -->
+<!-- 				  <option value="rome, it">Roma</option> -->
+<!-- 				</select> -->
 			</div>
 			<div>
 				<label for="startpoint"><strong>End point:</strong></label>
