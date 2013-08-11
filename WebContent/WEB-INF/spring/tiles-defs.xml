@@ -14,8 +14,7 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
     </definition>
     
-    <definition name="standard_logged" template="/WEB-INF/views/layout/00_layout.jsp">
-    	<put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
+    <definition name="standard_logged" extends="standard">
         <put-attribute name="loginModal" value=""/>
         <put-attribute name="registerModal" value=""/>
         <put-attribute name="sidebar" value="/WEB-INF/views/layout/05_sidebarNavigation.jsp"/>
