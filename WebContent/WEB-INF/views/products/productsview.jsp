@@ -257,7 +257,6 @@ function addCartLine(id){
 					    
 					    <div class="controls">
 							<input id="address_autocompletedModal"/><br />
-							<input id="inventato" /><br />
 					    </div>
 					    
 					    <p id="addressDistanceErrorModal"></p>
