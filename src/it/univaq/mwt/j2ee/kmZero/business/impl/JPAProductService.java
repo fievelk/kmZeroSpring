@@ -3,8 +3,10 @@ package it.univaq.mwt.j2ee.kmZero.business.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -23,6 +26,7 @@ import org.eclipse.persistence.internal.expressions.ParameterExpression;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
+import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
@@ -119,7 +123,7 @@ public class JPAProductService implements ProductService{
 	}*/
 	
 	@Override
-	public ResponseGrid<Product> viewProducts(RequestGrid requestGrid) throws BusinessException {
+	public ResponseGrid<Product> viewProducts(RequestGridProducts requestGrid) throws BusinessException {
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
@@ -128,26 +132,47 @@ public class JPAProductService implements ProductService{
 	    //Dati per la query
 	    boolean active = true;
         Date today = new Date();
-        String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
+        String sortCol = requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
+        Long categoryId = requestGrid.getCategoryId();
+
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
-        String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
+        String search = ConversionUtility.addPercentSuffix(requestGrid.getsSearch().toLowerCase());
         //Criteria Builider
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
         Root<Product> p = q.from(Product.class);
-               
+        
+        Predicate categoryPredicate;
+        
+		if(categoryId != null){
+			Category category = em.find(Category.class, categoryId);
+			if(!category.getChilds().isEmpty()){
+				List<Predicate> lp= new ArrayList<Predicate>();
+				for(Iterator<Category> i = category.getChilds().iterator(); i.hasNext();){
+					Category c = (Category)i.next();
+					lp.add(cb.equal(p.get("category").as(Category.class),c));
+				}
+				categoryPredicate = cb.or(lp.toArray(new Predicate[lp.size()]));
+			}else{
+				categoryPredicate = cb.equal(p.get("category").as(Category.class),category);
+			}	
+		}else{
+			categoryPredicate = cb.and();
+		}
+        
         q.select(p);
         Predicate predicate = cb.and(
 									cb.equal(p.get("active").as(Boolean.class), active),
 									cb.lessThanOrEqualTo(p.get("date_in").as(Date.class), today),
 									cb.greaterThanOrEqualTo(p.get("date_out").as(Date.class), today),
+									categoryPredicate,
 									cb.or(
-					        				cb.like(p.get("name").as(String.class),search),
-					        				cb.like(p.get("description").as(String.class),search),
-					        				cb.like(p.get("price").as(String.class),search)
+					        				cb.like(cb.lower(p.get("name").as(String.class)),search),
+					        				cb.like(cb.lower(p.get("description").as(String.class)),search),
+					        				cb.like(cb.lower(p.get("price").as(String.class)),search)
 					    			)
 		);
         
@@ -160,7 +185,7 @@ public class JPAProductService implements ProductService{
         Long totalRecords = em.createQuery(qc).getSingleResult();
         
         //orderby asc or desc
-        if(sortDir.equals("asc"))
+        if(sortDir.equals("ASC"))
         	q.orderBy(cb.asc(p.get(sortCol)));
         else
         	q.orderBy(cb.desc(p.get(sortCol)));
@@ -175,7 +200,7 @@ public class JPAProductService implements ProductService{
         em.close();
               
 		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, records, products);
-        //return null;
+
 	}
 	
 	@Override
@@ -242,7 +267,6 @@ public class JPAProductService implements ProductService{
 
         tx.commit();
         em.close();
-        System.out.println("DATI RESPONSEGRID USER - ECHO:"+requestGrid.getsEcho()+"TOTREC:"+ totalRecords+"TOTREC:"+ totalRecords+"ROWS:"+ products);      
 
 		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, products);
         //return null;
@@ -306,9 +330,13 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
         tx.begin();
-        
-        em.persist(category);
-        
+        Category parent = em.find(Category.class, category.getParent().getId());
+        if(parent != null){
+        	parent.addChild(category);	
+        }else{
+        	category.setParent(null);
+        	em.persist(category);
+        }   
         tx.commit();
         em.close();
 	}
@@ -319,18 +347,51 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
         tx.begin();
-        
+        Category c = em.find(Category.class, category.getId());
+        //prendo il parent precedente
+        if(c.getParent() != null){
+        	Category oldParent = em.find(Category.class,c.getParent().getId());
+            //rimuovo la referenza al figlio (se il padre è null non faccio niente)
+        	oldParent.removeChild(c);
+        }
+        //riassegno il figlio al nuovo parent
+        Category newParent = em.find(Category.class, category.getParent().getId());
+        if(newParent != null) newParent.addChild(c); else category.setParent(null);
         em.merge(category);
-           
         tx.commit();
-        em.close();
-        		
+        em.close();      		
 	}
 	
 	
 	@Override
-	public void deleteCategory(Category category) {
+	public void deleteCategory(long categoryId) {
 		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		
+		tx.begin();
+		Category c = em.find(Category.class,categoryId);
+		//per ogni child setto il parent a null
+		List<Category> childs = c.getChilds();	
+		for(Iterator<Category> i = childs.iterator();i.hasNext();){
+			Category child = i.next();
+			child.setParent(null);
+		}	
+		//se esiste il padre, da questo rimuovo la referenza al figlio
+		if(c.getParent()!=null){
+			Category parent = em.find(Category.class, c.getParent().getId());
+			parent.getChilds().remove(c);
+			//em.merge(parent);
+		}
+		//se ho prodotti associati, elimino l'associazione
+		c.getProducts().clear();
+		
+		//infine rimuovo il nodo 
+		em.remove(c);
+
+		tx.commit();
+		em.close();
+		/*
 		if (!category.getName().equals("Unclassified")) {
 			
 		
@@ -359,7 +420,7 @@ public class JPAProductService implements ProductService{
 		
 		} else {
 			System.out.println("You cannot delete the Unclassified category!");
-		}
+		}*/
 	}
 	
 	
@@ -380,6 +441,17 @@ public class JPAProductService implements ProductService{
 		
 		TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c", Category.class);
 		List<Category> categories = query.getResultList();
+		em.close();
+		return categories;
+	}
+	
+
+	@Override
+	public List<Category> findAllRootCategories() throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		TypedQuery<Category>  query = em.createQuery("SELECT c FROM Category c WHERE c.parent IS NULL", Category.class);
+		List<Category> categories =   query.getResultList();
 		em.close();
 		return categories;
 	}
@@ -432,5 +504,6 @@ public class JPAProductService implements ProductService{
 		
 		
 	}
+
 
 }

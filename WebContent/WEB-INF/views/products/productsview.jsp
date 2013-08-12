@@ -10,6 +10,7 @@
 var iDisplayStart = 0; /*primo elemento della pagina ((pageNumber-1)*iDisplayLength)*/
 var iTotalRecords = 10;/*numero totale di elementi*/
 var iDisplayLength = 10;/*numero di elementi per pagina*/
+var categoryId = "";
 var sSearch = '';
 var sortCol = '';
 var criteria = ''; /*stringa serializzata che contiene i parametri per l'ajax call*/
@@ -27,6 +28,12 @@ $(document).ready(function() {
 		setProducts();
 	});
 	$(".form-search button").click(function(){
+		iDisplayStart = 0;
+		setProducts();
+	});
+	
+	$("#categ #nav a").click(function(){
+		categoryId = $(this).attr("id").replace("cat_","");
 		iDisplayStart = 0;
 		setProducts();
 	});
@@ -68,7 +75,7 @@ function setCriteria(){
 	sortCol = sortBy_parts[0];
 	sortDir = sortBy_parts[1];
 	/*Infine creo la stringa serializzata per l'ajax call*/
-	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch;
+	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId;
 	console.log(criteria);
 }
 
@@ -121,10 +128,7 @@ function buildItem(item){
 }
 
 function paginate() {
-	console.log("totrecords:"+iTotalRecords);
-	console.log("iDisplayLength:"+iDisplayLength);
-	console.log("iDisplayStart:"+iDisplayStart);
-		
+	
 	$(".pagging").pagination({
         items: iTotalRecords,
         itemsOnPage: iDisplayLength,
@@ -134,17 +138,10 @@ function paginate() {
 			        	if(pageNumber == 1){
 							iDisplayStart = 0;
 						}else{
-							console.log("PAGE"+pageNumber);
-							console.log("iDisplayLength1:"+iDisplayLength);
 							iDisplayStart = ((pageNumber-1)*iDisplayLength);
-							console.log("start"+iDisplayStart);
 						}
 			        	setCriteria();
         				ajaxCall();	
-        				console.log(criteria);
-        				console.log("totrecords:"+iTotalRecords);
-        				console.log("iDisplayLength:"+iDisplayLength);
-        				console.log("iDisplayStart:"+iDisplayStart);
         			}
     });	
 }
@@ -162,29 +159,29 @@ function paginate() {
           <li class="active">km0</li>
         </ul> -->
 
-                            <!-- Title -->
-                              <h4 class="pull-left">I prodotti</h4>
+      <!-- Title -->
+        <h4 class="pull-left">I prodotti</h4>
 
 <!--Items Per Page -->
-                                            <div id="perPage" class="controls pull-right perpage">                               
-                                                <select>
-	                                                <option value="10" selected>10</option>
-	                                                <option value="2">2</option>
-	                                                <option value="20">20</option>
-	                                                <option value="50">50</option>
-	                                                <option value="100">100</option>
-                                                </select>  
-                                            </div>
-                                          <!-- Sorting -->
-                                            <div id="sortBy" class="controls pull-right">                               
-                                                <select>
-	                                                <option value="name-ASC" selected>Name (A-Z)</option>
-	                                                <option value="name-DESC">Name (Z-A)</option>
-	                                                <option value="price-ASC">Price (Low-High)</option>
-	                                                <option value="price-DESC">Price (High-Low)</option>
-	                                                <option value="rating-ASC">Ratings</option>
-                                                </select>  
-                                            </div>
+                      <div id="perPage" class="controls pull-right perpage">                               
+                          <select>
+                           <option value="10" selected>10</option>
+                           <option value="2">2</option>
+                           <option value="20">20</option>
+                           <option value="50">50</option>
+                           <option value="100">100</option>
+                          </select>  
+                      </div>
+                    <!-- Sorting -->
+                      <div id="sortBy" class="controls pull-right">                               
+                          <select>
+                           <option value="name-ASC" selected>Name (A-Z)</option>
+                           <option value="name-DESC">Name (Z-A)</option>
+                           <option value="price-ASC">Price (Low-High)</option>
+                           <option value="price-DESC">Price (High-Low)</option>
+                           <option value="rating-ASC">Ratings</option>
+                          </select>  
+                      </div>
                                             
 
               <div class="clearfix"></div>

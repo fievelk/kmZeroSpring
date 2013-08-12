@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
+import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.SecurityService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
@@ -69,14 +71,16 @@ public class ProductsController {
 	//FRONTEND
 	
 	@RequestMapping("")
-	public String views() {
+	public String views(Model model) throws BusinessException{
+		List<Category> categoryTree = productService.findAllRootCategories();
+		model.addAttribute("categoryTree", categoryTree);
 		return "products.views";
 	}
 	
 	@RequestMapping("/viewProducts")
 	@ResponseBody
-	public ResponseGrid<Product> viewProducts(@ModelAttribute RequestGrid requestGrid) throws BusinessException {
-		ResponseGrid<Product> result = productService.viewProducts(requestGrid);
+	public ResponseGrid<Product> viewProducts(@ModelAttribute RequestGridProducts requestGridProducts) throws BusinessException {
+		ResponseGrid<Product> result = productService.viewProducts(requestGridProducts);
 		return result;
 	}
 	
@@ -99,6 +103,8 @@ public class ProductsController {
 	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {
 		model.addAttribute("product", new Product());
+		List<Category> categories = productService.findAllCategories();
+		model.addAttribute("categories", categories);
 		return "products.createform";
 	}
 	
@@ -114,6 +120,8 @@ public class ProductsController {
 	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Product product = productService.findProductById(id);
+		List<Category> categories = productService.findAllCategories();
+		model.addAttribute("categories", categories);
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
 		return "products.updateform";
@@ -147,12 +155,16 @@ public class ProductsController {
 	// CATEGORIES
 	
 	@RequestMapping("/viewsCategories")
-	public String viewsCategories() {
+	public String viewsCategories(Model model) throws BusinessException {
+		List<Category> categories = productService.findAllCategories();
+		model.addAttribute("categories", categories);
 		return "categories.views";
 	}
 	
 	@RequestMapping("/createCategory_start")
 	public String createCategoryStart(Model model) throws BusinessException {
+		List<Category> categories = productService.findAllCategories();
+		model.addAttribute("categories", categories);
 		model.addAttribute("category", new Category());
 		return "categories.createform";
 	}
@@ -160,6 +172,7 @@ public class ProductsController {
 	@RequestMapping(value="/createCategory", method=RequestMethod.POST)
 	public String create(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
 		productService.createCategory(category);
+		
 		return "redirect:/products/viewsCategories";
 	}
 	
@@ -168,6 +181,15 @@ public class ProductsController {
 		Category category = productService.findCategoryById(id);
 		model.addAttribute("category", category);
 		model.addAttribute("id", id);
+		List<Category> categories = productService.findAllCategories();
+		//per non permettere di associare una categoria a se stessa non la facciamo visualizzare rimuovendola dalla lista
+		Category toRemove = null;
+		for(Iterator<Category> i = categories.iterator(); i.hasNext();){
+			Category c = i.next();
+			if(c.getId() == (category.getId())) toRemove = c; 
+		}
+		categories.remove(toRemove);
+		model.addAttribute("categories", categories);
 		return "categories.updateform";
 	}
 	
@@ -190,17 +212,14 @@ public class ProductsController {
 	
 	@RequestMapping(value="/deleteCategory", method = RequestMethod.POST)
 	public String deleteCategory(@ModelAttribute Category category, BindingResult bindingResult) throws BusinessException {
-		productService.deleteCategory(category);
+		productService.deleteCategory(category.getId());
 		return "redirect:/products/viewsCategories";
 	}	
 	
-	
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
-		List<Category> categories = productService.findAllCategories();
-		model.addAttribute("categories", categories);
+		
 	}
-
 	
 	@RequestMapping("/findWarehouseAddress")
 	@ResponseBody

@@ -1,12 +1,22 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="categories")
@@ -19,8 +29,18 @@ public class Category {
 	private String name;
 	
 	//@Column(name="parent_id")
-	private long parent_id;
+	@OneToOne
+	@JoinColumn(name = "parent_id")
+	@JsonBackReference
+	private Category parent;
 
+	@OneToMany(mappedBy="parent",cascade=CascadeType.PERSIST)
+	@JsonManagedReference
+	private List<Category> childs = new ArrayList<Category>();
+	
+	@OneToMany(mappedBy="category")
+	@JsonManagedReference
+	private List<Product> products = new ArrayList<Product>();
 
 	public Category() {
 		super();
@@ -37,11 +57,11 @@ public class Category {
 		this.name = name;
 	}
 
-	public Category(long id, String name, long parent_id) {
+	public Category(long id, String name, Category parent) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.parent_id = parent_id;
+		this.setParent(parent);
 	}
 
 	public long getId() {
@@ -59,13 +79,36 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public long getParent_id() {
-		return parent_id;
+
+	public Category getParent() {
+		return parent;
 	}
 
-	public void setParent_id(long parent_id) {
-		this.parent_id = parent_id;
+	public void setParent(Category parent) {
+		this.parent = parent;
+	}
+
+	public List<Category> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(List<Category> childs) {
+		this.childs = childs;
 	}
 	
+	public void addChild(Category child){
+		this.childs.add(child);
+	}
+	
+	public void removeChild(Category child){
+		this.childs.remove(child);
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 }

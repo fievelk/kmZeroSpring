@@ -59,6 +59,7 @@ public class Product {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "categories_id")
+	@JsonBackReference
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)

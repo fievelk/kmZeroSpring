@@ -3,12 +3,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script>
-$(document).ready(function(){
- 	  alert("Attenzione: Cancellare soltanto categorie alle quali non sono stati ancora associati prodotti! \n(Altrimenti presumibilmente sfancula tutto)");
-});
-</script>
-
 <!-- Main content -->
       <div class="span9">
       	<h5 class="title"><spring:message code="category.view"/></h5>
@@ -30,7 +24,7 @@ $(document).ready(function(){
 				<tr>
 					<td>${category.id}</td>
 					<td>${category.name}</td>
-					<td>${category.parent_id}</td>
+					<td>${category.parent.name}</td>
 					<td>
 						<a href="${pageContext.request.contextPath}/products/updateCategory_start?id=${category.id}"><i class='icon-edit'></i></a> | 
 						<a id="deletelink" href="${pageContext.request.contextPath}/products/deleteCategory_start?id=${category.id}"><i class='icon-trash'></i></a>
