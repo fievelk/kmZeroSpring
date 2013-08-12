@@ -163,12 +163,12 @@ function existCart(id){
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 			} else {
 				// L'indirizzo è già stato validato
+				var num_item = exist + 1;
+				$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + num_item + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 				addCartLine(id);
 			};
 		}
 	});
-	// Aggiornare il link per l'apertura della finestra modale: non riuscito!
-	//$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 };
 
 function validAddress(id){

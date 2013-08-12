@@ -18,12 +18,13 @@ function createModalCart(){
 		url: contextPath+"/carts/viewcartpaginated.do",
 		success: function(data){
 			var exist = data.exist;
+			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 			if (exist == 0){
 				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"><tr><th>Il carrello ï¿½ vuoto</th></tbody>');
 				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"></tbody><center><div><label>Il carrello \u00E8 vuoto</label></div></center>');
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
 				//$('a#checkout').attr('disabled','disabled');
-				//non ci deve proprio piï¿½ essere quel bottone
+				//non ci deve proprio più essere quel bottone
 				$('a#checkout').replaceWith('<div></div>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
 				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
@@ -88,7 +89,7 @@ function deleteCartLine(id_item, id_tr, id_cart){
 	$.ajax({
 		type: "POST",
 		url: contextPath+"/carts/delete_cartline.do?idcl=" + id_item + "&idc=" + id_cart,
-		success: function(){
+		success: function(data){
 			$('tr#'+id_tr).fadeOut('slow', function() {$('tr#'+id_tr).remove(); createModalCart();});
 		}
 	});
