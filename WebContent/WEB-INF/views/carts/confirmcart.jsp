@@ -95,7 +95,7 @@
 				          	<tbody id="cartlines">
 				          	</tbody>
 						</table>
-						<div class="control-group">
+						<div class="control-group" id="delivery_checkout">
 						    <label class="control-label" for="delivery_date">Scegli la data nella quale vorresti che l'ordine ti venisse consegnato: </label>
 							<div class="controls">
 								<form:input id="cartpicker" path="delivery_date"/><br />
@@ -104,7 +104,7 @@
 						</div>
 						<div class="control-group">
 						    <div class="controls">
-							  <button type="submit" class="btn">Conferma il carrello</button>
+							  <button type="submit" class="btn" id="button_checkout">Conferma il carrello</button>
 						    </div>
 						</div>
 						</form:form>

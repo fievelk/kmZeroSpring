@@ -285,3 +285,9 @@ div#km0Image{
 }
 
 .closeAddress:hover { background: #00d9ff; }
+
+
+/* Spinner per scegliere la quantità dei prodotti */
+input[type="number"] {
+	width:23%;
+}
