@@ -156,6 +156,7 @@ function existCart(id){
 		success: function(data){
 			var cart_id = data.id;
 			var exist = data.exist;
+			var num_item = exist + 1;
 			if (cart_id == 0 && exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
@@ -163,10 +164,9 @@ function existCart(id){
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 			} else {
 				// L'indirizzo è già stato validato
-				var num_item = exist + 1;
-				$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + num_item + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 				addCartLine(id);
 			};
+			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + num_item + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 		}
 	});
 };
