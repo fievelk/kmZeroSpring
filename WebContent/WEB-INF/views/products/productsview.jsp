@@ -154,8 +154,9 @@ function existCart(id){
 		type: "POST",
 		url: contextPath+"/carts/existcart.do",
 		success: function(data){
+			var cart_id = data.id;
 			var exist = data.exist;
-			if (exist == 0){
+			if (cart_id == 0 && exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
 				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');

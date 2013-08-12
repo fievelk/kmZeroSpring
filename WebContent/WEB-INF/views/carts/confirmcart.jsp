@@ -80,7 +80,10 @@
 					<div class="form form-small">
 						<form:form modelAttribute="cart" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 						<form:hidden path="id"/>
-						<table class="table table-striped tcart">
+						<form:hidden path="name"/>
+						<form:hidden path="surname"/>
+						<form:hidden path="address"/>
+						<table class="table table-striped tcart" id="tablecart">
 				          <thead>
 				            <tr>
 				              <th>Name</th>
