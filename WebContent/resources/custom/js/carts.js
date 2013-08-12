@@ -25,7 +25,7 @@ function createModalCart(){
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
 				//$('a#checkout').attr('disabled','disabled');
 				//non ci deve proprio più essere quel bottone
-				$('a#checkout').replaceWith('<div></div>');
+				$('a#checkout').replaceWith('<a id=checkout></a>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
 				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
 			} else {
