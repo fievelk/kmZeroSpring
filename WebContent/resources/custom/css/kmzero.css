@@ -292,7 +292,13 @@ div#km0Image{
 
 .closeAddress:hover { background: #00d9ff; }
 
-/* overwrite bootstrap z-index for index autocompletion in modal windows */
+
+/* Spinner per scegliere la quantit� dei prodotti */
+input[type="number"] {
+	width:23%;
+}
+
+/* Overwrites bootstrap z-index for index autocompletion in modal windows */
 
 .modal{
     z-index: 20;   

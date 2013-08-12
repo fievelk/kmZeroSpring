@@ -113,7 +113,7 @@ function buildItem(item){
 			'<button value="' + item.id + '" class="button pull-right" onclick="existCart('+ item.id +')">Add to Cart</button>'+
 			//'<div class="button pull-right" onclick="existCart('+ item.id +')"><a href="#modalDialogAddress">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
-			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1" style="width:23%;"/></label></div>'+
+			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1"/></label></div>'+
 		'</div></div></div>';
 	
 	return result;

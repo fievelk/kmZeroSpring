@@ -25,6 +25,8 @@ function createModalCart(){
 				//$('a#checkout').attr('disabled','disabled');
 				//non ci deve proprio pi� essere quel bottone
 				$('a#checkout').replaceWith('<div></div>');
+				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
+				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
 			} else {
 				$('div#divcart').replaceWith('<table class="table table-striped tcart" id="tablecart">'
 						+ '<thead><tr><th>Name</th><th>Quantity</th><th>Price</th><th>Delete</th></tr></thead>'
