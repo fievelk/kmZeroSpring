@@ -108,7 +108,7 @@ function buildItem(item){
 			'<div class="rateit" data-rateit-resetable="false"></div>'+
 			'<hr />'+
 // 			<!-- Price -->
-			'<div class="item-price pull-left">'+item.price+'</div>'+
+			'<div class="item-price pull-left">\u20ac '+item.price+'</div>'+
 // 			<!-- Add to cart -->
 			'<button value="' + item.id + '" class="button pull-right" onclick="existCart('+ item.id +')">Add to Cart</button>'+
 			//'<div class="button pull-right" onclick="existCart('+ item.id +')"><a href="#modalDialogAddress">Add to Cart</a></div>'+
