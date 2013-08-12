@@ -2,7 +2,9 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.Comparators;
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
+import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,9 +46,12 @@ public class Product {
 	@Column(name="description")
 	private String description;
 
-	@Column(name="price")	
-	private float price;
+//	@Column(name="price")	
+//	private float price;
 
+	@Column(name="price")	
+	private BigDecimal price;
+	
 	@Column(name="date_in")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_in;
@@ -86,7 +91,7 @@ public class Product {
 		super();
 	}
 
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, Category category,
 			List<Image> images, Seller seller) {
 		super();
@@ -102,7 +107,7 @@ public class Product {
 	}
 
 	/* Costruttore per l'inserimento senza immagini */
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Category category, Seller seller, Date date_in, Date date_out) {
 		super();
 		this.id = id;
@@ -116,7 +121,7 @@ public class Product {
 	}	
 
 	/* Costruttore per l'inserimento senza immagini e date */
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Category category, Seller seller) {
 		super();
 		this.id = id;
@@ -145,12 +150,12 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
-	}
+//	public float getPrice() {
+//		return price;
+//	}
+//	public void setPrice(float price) {
+//		this.price = price;
+//	}
 
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
 	@JsonSerialize(using=DateJsonSerializer.class)
@@ -230,5 +235,15 @@ public class Product {
 		this.measure = measure;
 	}
 
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public BigDecimal getPrice() {
+		return price;
+	}
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	
 	
 }
