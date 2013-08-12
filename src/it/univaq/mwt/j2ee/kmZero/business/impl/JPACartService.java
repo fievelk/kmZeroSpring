@@ -175,14 +175,7 @@ public class JPACartService implements CartService{
         	Cart cart = (Cart)query2.getSingleResult();
         	Collection<CartLine> cls = cart.getCartLines();
         	e = cls.size();
-        	/*Iterator<CartLine> i = cls.iterator();
-        	while (i.hasNext()){
-        		exist++;
-        		i.next();
-        	}*/
         }
-        
-        System.out.println("%%%%%%%%%%%%%%" + e);
         
 		et.commit();
 		em.close();
