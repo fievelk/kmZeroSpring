@@ -101,7 +101,7 @@ public class CartsController {
 	}
 	
 	@RequestMapping(value="/confirmcart.do", method=RequestMethod.POST)
-	public String checkoutStart(@ModelAttribute Cart cart, BindingResult bindingResult) throws BusinessException{
+	public String checkout(@ModelAttribute Cart cart, BindingResult bindingResult) throws BusinessException{
 		validator.validate(cart, bindingResult);
 		if (bindingResult.hasErrors()){
 			return "carts.confirm";

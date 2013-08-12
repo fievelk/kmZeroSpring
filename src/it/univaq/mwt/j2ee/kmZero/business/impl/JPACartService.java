@@ -135,22 +135,25 @@ public class JPACartService implements CartService{
 		
 		Cart cart = null;
 		Collection<CartLine> cartlines = null;
-		Query query = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
-        query.setParameter("session_id", session_id);
-        int size = 0;
-        
-        try{
-        	cart = (Cart) query.getSingleResult();
+		int size = 0;
+		long id = 0;
+		Query querycount = em.createQuery("Select Count (c) FROM Cart c WHERE c.session_id = :session_id");
+		querycount.setParameter("session_id", session_id);
+		Long count = (Long) querycount.getSingleResult();
+		
+		if (count != 0){
+			Query query = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
+	        query.setParameter("session_id", session_id);
+	        cart = (Cart) query.getSingleResult();
     		cartlines = cart.getCartLines();
     		size = cartlines.size();
-        } catch (NoResultException e){
-        	throw new BusinessException();
-        }
+    		id = cart.getId();
+		}
         
 		et.commit();
 		em.close();
 		
-		return new ResponseCarts<CartLine>(cart.getId(), size, cartlines);
+		return new ResponseCarts<CartLine>(id, size, cartlines);
 	}
 	
 	@Override
@@ -177,10 +180,12 @@ public class JPACartService implements CartService{
         	}*/
         }
         
+        System.out.println("%%%%%%%%%%%%%%" + e);
+        
 		et.commit();
 		em.close();
 		
-		return new ResponseCarts<CartLine>(0, e, null);
+		return new ResponseCarts<CartLine>(exist, e, null);
 	}
 
 	@Override
@@ -202,10 +207,22 @@ public class JPACartService implements CartService{
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		
-		Cart cart = em.find(Cart.class, id);
+		/*Cart cart = em.find(Cart.class, id);
 		cart.setName(name);
 		cart.setSurname(surname);
-		em.merge(cart);
+		em.merge(cart);*/
+		
+		Query query = em.createQuery("UPDATE Cart SET name = :name, surname = :surname WHERE id = :id");
+		query.setParameter("name", name);
+		query.setParameter("surname", surname);
+		query.setParameter("id", id);
+		query.executeUpdate();
+		et.commit();
+		
+		et.begin();
+		
+		Cart cart = em.find(Cart.class, id);
+		em.persist(cart);
 		
 		et.commit();
 		em.close();

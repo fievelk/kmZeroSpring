@@ -57,7 +57,7 @@ public class ValidationUtility {
 	public static void checkDelivery_date(Errors errors, String fieldName, String errorMessage,
 			Collection<CartLine> cartLines, Date delivery_date) {
 		Iterator<CartLine> i = cartLines.iterator();
-		System.out.println("&&&&&&&&&&&&&&&&&" + cartLines.size());
+		//System.out.println("&&&&&&&&&&&&&&&&&" + cartLines.size());
 		int x = 0;
 		while (i.hasNext()){
 			CartLine cl = i.next();
@@ -65,7 +65,7 @@ public class ValidationUtility {
 			if (delivery_date.after(p.getDate_out())){
 				x++;
 			}
-			System.out.println("&&&&&&&&&&&&&" + p.getDate_out());
+			//System.out.println("&&&&&&&&&&&&&" + p.getDate_out());
 		}
 		
 		//System.out.println("&&&&&&&&&&&&&&&&&&&&&" + x);
