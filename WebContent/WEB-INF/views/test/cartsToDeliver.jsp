@@ -4,42 +4,6 @@
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
         
-    <style>
-      #directions-panel {
-        height: 100%;
-        float: right;
-        width: 390px;
-        overflow: auto;
-      }
-
-      #map-canvas {
-        margin-right: 400px;
-      }
-
-      #control {
-        background: #fff;
-        padding: 5px;
-        font-size: 14px;
-        font-family: Arial;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-        display: none;
-      }
-
-      @media print {
-        #map-canvas {
-          height: 500px;
-          margin: 0;
-        }
-
-        #directions-panel {
-          float: none;
-          width: auto;
-        }
-      }
-    </style>
-        
-        
 <p id="stampadata"></p>
 <!-- Importante: per visualizzare correttamente la mappa bisogna modificare i css di bootstrap modificando img { max-width: } da 100% a "none" -->
 
