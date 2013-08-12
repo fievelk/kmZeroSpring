@@ -4,6 +4,40 @@
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
         
+    <style>
+      #directions-panel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+      }
+
+      #map-canvas {
+        margin-right: 400px;
+      }
+
+      #control {
+        background: #fff;
+        padding: 5px;
+        font-size: 14px;
+        font-family: Arial;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        display: none;
+      }
+
+      @media print {
+        #map-canvas {
+          height: 500px;
+          margin: 0;
+        }
+
+        #directions-panel {
+          float: none;
+          width: auto;
+        }
+      }
+    </style>
         
         
 <p id="stampadata"></p>
@@ -26,6 +60,7 @@
 				
 		<!-- Waypoints table -->
 		
+		<div id="addressTable">
 		<table class="table table-striped tcart">
 		    <thead>
 		    	<tr>
@@ -44,18 +79,16 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		
+		</div>
 		<!-- End of Waypoints table -->
 		
       </div>
 	
 		<!-- Main map div -->
 	    <div class="span7">
-
 			<div id="googleMap" style="width:500px;height:380px;"></div>
-
+			<div id="directions-panel"></div>
 		</div>	
-
 
     </div>
   </div>

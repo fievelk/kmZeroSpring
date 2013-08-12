@@ -39,6 +39,9 @@ function initialize() {
 	
 	map = new google.maps.Map(map_canvas, mapOptions);
 	directionsDisplay.setMap(map);
+	if (document.getElementById("directions-panel")) {
+		directionsDisplay.setPanel(document.getElementById("directions-panel"));
+	}
 
 	/* Address Autocompletion */
 if (document.getElementById('address_autocompleted')) {
@@ -154,6 +157,10 @@ if (document.getElementById('address_autocompleted')) {
 		  });
 		  
 		  /* Fine CALCOLO DISTANZA */
+		  
+		  /* Aggiunta percorso in div apposito */
+		  
+		  
 
 }
 }

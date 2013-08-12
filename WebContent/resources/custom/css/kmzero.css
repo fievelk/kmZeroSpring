@@ -231,6 +231,10 @@ div#km0Image{
 	width: 200px;
 }
 
+#addressTable {
+	height:380px;
+	overflow:auto;
+}
 
 /* Modal window for address */
 
