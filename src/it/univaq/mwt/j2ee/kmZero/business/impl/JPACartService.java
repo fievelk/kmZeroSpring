@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -39,7 +40,8 @@ public class JPACartService implements CartService{
 		CartLine cl = new CartLine();
 		cl.setProduct(p);
 		cl.setQuantity(quantity);
-		cl.setLineTotal(p.getPrice() * quantity);
+		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(quantity)));
+		
 		Collection<CartLine> cls = new ArrayList<CartLine>();
 		cls.add(cl);
 		Cart c = new Cart();
@@ -82,19 +84,19 @@ public class JPACartService implements CartService{
     		}
     	}
     	if (!clExist){
-    		// Questo prodotto non è stato ancora inserito nel carrello
+    		// Questo prodotto non ï¿½ stato ancora inserito nel carrello
     		cl = new CartLine();
     		cl.setQuantity(quantity);
-    		float tot = cl.getQuantity() * p.getPrice();
+    		BigDecimal tot = p.getPrice().multiply(new BigDecimal(cl.getQuantity()));
     		cl.setLineTotal(tot);
     		cl.setProduct(p);
     		cls = c.getCartLines();
         	cls.add(cl);
     	} else {
-    		// Questo prodotto è stato già inserito nel carrello
+    		// Questo prodotto ï¿½ stato giï¿½ inserito nel carrello
     		Query update = em.createQuery("UPDATE CartLine SET quantity = :quantity, lineTotal = :lineTotal WHERE id = :id");
     		cl.setQuantity(cl.getQuantity() + quantity);
-    		cl.setLineTotal(p.getPrice() * cl.getQuantity());
+    		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(cl.getQuantity())));
     		update.setParameter("quantity", cl.getQuantity());
     		update.setParameter("lineTotal", cl.getLineTotal());
     		update.setParameter("id", cl.getId());

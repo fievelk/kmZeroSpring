@@ -1,6 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
+import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="cartlines")
@@ -25,7 +30,7 @@ public class CartLine implements Serializable{
 	private int quantity;
 	
 	@Column(name="lineTotal")
-	private float lineTotal;
+	private BigDecimal lineTotal;
 	
 	@Column(name="review", nullable=true)
 	private String review;
@@ -43,14 +48,14 @@ public class CartLine implements Serializable{
 		super();
 	}
 	
-	public CartLine(int quantity, float lineTotal, String review) {
+	public CartLine(int quantity, BigDecimal lineTotal, String review) {
 		super();
 		this.quantity = quantity;
 		this.lineTotal = lineTotal;
 		this.review = review;
 	}
 
-	public CartLine(int quantity, float lineTotal, String review, int rating,
+	public CartLine(int quantity, BigDecimal lineTotal, String review, int rating,
 			Product product) {
 		super();
 		this.quantity = quantity;
@@ -60,7 +65,7 @@ public class CartLine implements Serializable{
 		this.product = product;
 	}
 
-	public CartLine(long id, int quantity, float lineTotal, String review,
+	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
 			int rating, Product product) {
 		super();
 		this.id = id;
@@ -83,10 +88,12 @@ public class CartLine implements Serializable{
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public float getLineTotal() {
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public BigDecimal getLineTotal() {
 		return lineTotal;
 	}
-	public void setLineTotal(float lineTotal) {
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public void setLineTotal(BigDecimal lineTotal) {
 		this.lineTotal = lineTotal;
 	}
 	public String getReview() {

@@ -19,11 +19,11 @@ function createModalCart(){
 		success: function(data){
 			var exist = data.exist;
 			if (exist == 0){
-				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"><tr><th>Il carrello è vuoto</th></tbody>');
+				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"><tr><th>Il carrello ï¿½ vuoto</th></tbody>');
 				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"></tbody><center><div><label>Il carrello \u00E8 vuoto</label></div></center>');
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
 				//$('a#checkout').attr('disabled','disabled');
-				//non ci deve proprio più essere quel bottone
+				//non ci deve proprio piï¿½ essere quel bottone
 				$('a#checkout').replaceWith('<div></div>');
 			} else {
 				$('div#divcart').replaceWith('<table class="table table-striped tcart" id="tablecart">'
@@ -47,11 +47,11 @@ function cartJson(data)  {
 					+ '<td>' + item.lineTotal + '</td>'
 					+ '<td>' + '<a href="#" class="icon-remove" role="button" data-toggle="modal" onclick="deleteCartLine(' + item.id + ',' + i + ',' + data.id + ')"></a>' + '</td>'
 					+ '</tr>';
-		tot += item.lineTotal;
+		tot += parseFloat(item.lineTotal); /* trasforma in float perchÃ© @JsonSerialize nel modello passa una stringa, non un float */
 	});
 	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('tbody#cartlinesconfirmed').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th>Total</th><th id="total"></th></tr></tbody>');
-	$('th#total').replaceWith('<th id="total">\u20ac ' + tot + '</th>');
+	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
 	$('a#checkout').replaceWith('<a id="checkout" href="' + contextPath + '/carts/confirmcart_start.do?id=' + data.id + '" class="btn btn-danger">Vai alla cassa</a>');
 	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot + '">');
 }

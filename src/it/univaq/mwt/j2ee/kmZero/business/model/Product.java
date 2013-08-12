@@ -46,9 +46,6 @@ public class Product {
 	@Column(name="description")
 	private String description;
 
-//	@Column(name="price")	
-//	private float price;
-
 	@Column(name="price")	
 	private BigDecimal price;
 	
@@ -150,12 +147,6 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-//	public float getPrice() {
-//		return price;
-//	}
-//	public void setPrice(float price) {
-//		this.price = price;
-//	}
 
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
 	@JsonSerialize(using=DateJsonSerializer.class)
