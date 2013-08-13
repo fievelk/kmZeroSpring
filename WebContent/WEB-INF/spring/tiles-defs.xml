@@ -19,8 +19,8 @@
         <put-attribute name="registerModal" value=""/>
         <put-attribute name="sidebar" value="/WEB-INF/views/layout/05_sidebarNavigation.jsp"/>
     </definition>
-        
-    <definition name="common.index" extends="standard">
+    
+	<definition name="common.index" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
@@ -37,7 +37,7 @@
     </definition>
     
     <definition name="products.views" extends="standard">
-   		<put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
+    <put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/products/productsview.jsp"/>
     </definition>
     
@@ -53,7 +53,7 @@
  
     <definition name="products.updateform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/update"/> 
+        <put-attribute name="action" value="/products/update"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
@@ -61,10 +61,14 @@
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
         <put-attribute name="action" value="/products/delete"/>
         <put-attribute name="delete" value="true"/>
-    </definition>    
+    </definition>
+    
+    <definition name="products.product" extends="standard">
+    	<put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productview.jsp"/>
+    </definition>
          
-    <!--  Categories Tiles -->     
-
+    <!-- Categories Tiles -->
     <definition name="categories.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/categorieslist.jsp"/>
     </definition>
@@ -77,24 +81,45 @@
     
     <definition name="categories.updateform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
-        <put-attribute name="action" value="/products/updateCategory"/> 
+        <put-attribute name="action" value="/products/updateCategory"/>
         <put-attribute name="update" value="true"/>
-    </definition>    
+    </definition>
     
     <definition name="categories.deleteform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/categoryform.jsp"/>
         <put-attribute name="action" value="/products/deleteCategory"/>
         <put-attribute name="delete" value="true"/>
-    </definition>        
-    
+    </definition>
     <!-- End of Categories Tiles -->
+    
+	<!-- Measure unit tiles -->
+    <definition name="measures.views" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measuresview.jsp"/>
+    </definition>
+   
+    <definition name="measures.createform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/createMeasure"/>
+        <put-attribute name="create" value="true"/>
+    </definition>
+
+    <definition name="measures.updateform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/updateMeasure"/>
+        <put-attribute name="update" value="true"/>
+    </definition>
+    
+    <definition name="measures.deleteform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/products/measureform.jsp"/>
+        <put-attribute name="action" value="/products/deleteMeasure"/>
+        <put-attribute name="delete" value="true"/>
+    </definition>
+	<!-- End of Measure unit tiles -->
 
 	<!-- MAP TEST START -->
-        
     <definition name="test.maptest" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/maptest.jsp"/>
-    </definition>    
-        
+    </definition>
     <!-- MAP TEST END -->
     
     <definition name="image.addform" template="/WEB-INF/views/common/modalImageAdd.jsp" />
@@ -102,18 +127,31 @@
     <definition name="image.deleteform" template="/WEB-INF/views/common/modalImageDelete.jsp" />
  
      
- 	<!--ALEPH TESTS START-->
+  <!--ALEPH TESTS START-->
     <definition name="test.test" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/test.jsp"/>
     </definition>
     <definition name="test.test_user_start" extends="standard">
-   		<put-attribute name="action" value="/test/test_user_create"/>
+    <put-attribute name="action" value="/test/test_user_create"/>
         <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
     <definition name="test.testuser" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/testform.jsp"/>
     </definition>
+    
     <!--ALEPH TESTS END-->
+
+	<!-- PIERP TEST -->
+	
+    <definition name="test.addressValidation" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/addressValidation.jsp"/>
+    </definition>	
+
+    <definition name="test.cartsToDeliver" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/cartsToDeliver.jsp"/>
+    </definition>
+    
+    <!-- PIERP TEST END -->	
     
     <!-- USERS TILES BEGIN -->
     
@@ -191,8 +229,8 @@
     </definition>
 
     <definition name="sellers.view" extends="standard_logged">
-    	<put-attribute name="header" value="/WEB-INF/views/users/sellerpagehead.jsp"/>
-    	<put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
+     <put-attribute name="header" value="/WEB-INF/views/users/sellerpagehead.jsp"/>
+     <put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/users/sellerpage.jsp"/>
     </definition>
     
@@ -222,5 +260,22 @@
         <put-attribute name="action" value="/sellers/views.do"/>
     </definition>
     <!-- USERS TILES END -->
+    
+    <!-- CARTS BEGIN -->
+    <definition name="carts.confirm" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/carts/confirmcart.jsp"/>
+        <put-attribute name="action" value="/carts/confirmcart.do"/>
+    </definition>
+    
+    <definition name="carts.checkout" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/carts/checkout.jsp"/>
+        <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/>
+    </definition>
+    
+    <definition name="carts.paid" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/carts/paid.jsp"/>
+        <!-- <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/> -->
+    </definition>
+    <!-- CARTS END -->
 
 </tiles-definitions>

@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-
-
 <script type="text/javascript" charset="utf-8">
 
 /*inizializzazione variabili globali per la paginazione*/
@@ -32,6 +30,13 @@ $(document).ready(function() {
 		setProducts();
 	});
 	
+	$(".form-search input").keypress(function(event) {
+		if(event.which == 13) {
+			iDisplayStart = 0;
+			setProducts();
+		}
+	});
+	
 	$("#categ #nav a").click(function(){
 		categoryId = $(this).attr("id").replace("cat_","");
 		iDisplayStart = 0;
@@ -44,7 +49,7 @@ function setProducts(){
 	setCriteria();
 	ajaxCall();
 	paginate();
-}
+};
 
 function ajaxCall(){
 
@@ -60,7 +65,7 @@ function ajaxCall(){
 				}
 	});		
 	return false;
-}
+};
 
 
 function setCriteria(){
@@ -77,7 +82,7 @@ function setCriteria(){
 	/*Infine creo la stringa serializzata per l'ajax call*/
 	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId;
 	console.log(criteria);
-}
+};
 
 function buildItems(data){
 	var products = "";
@@ -89,43 +94,44 @@ function buildItems(data){
 		$('#products').replaceWith('<div id="products" class="row">'+products+'</div>'); 
 		$('#products').hide();
 		$('#products').fadeIn('slow');
-}
+};
 
 function buildItem(item){
 	
 	var image;
+	var url = '${pageContext.request.contextPath}/products/'+item.id+'/'+item.name;
 	if(item.images[0] != null){
-		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
+		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
 	}else{
-		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
-	}
+		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
+	};
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+
-	  <!-- Item image -->
+// 	  <!-- Item image -->
 			'<div class="item-image">'+
 			  image+
 			'</div>'+
-	<!-- Item details -->
+// 	<!-- Item details -->
 			'<div class="item-details">'+
-		  <!-- Name -->
-		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
-				'<h5><a href="single-item.html">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
+// 		  <!-- Name -->
+// 		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
+				'<h5><a href="'+url+'">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
 				'<div class="clearfix"></div>'+
-		<!-- Para. Note more than 2 lines. -->
+// 		<!-- Para. Note more than 2 lines. -->
 			'<p>'+item.description+'</p>'+
 			'<div class="rateit" data-rateit-resetable="false"></div>'+
 			'<hr />'+
-			<!-- Price -->
-			'<div class="item-price pull-left">'+item.price+'</div>'+
-			<!-- Add to cart -->
-			'<div class="button pull-right"><a href="#">Add to Cart</a></div>'+
+// 			<!-- Price -->
+			'<div class="item-price pull-left">\u20ac '+item.price+'</div>'+
+// 			<!-- Add to cart -->
+			'<div class="button pull-right"><a href="#" id="" onclick="existCart('+ item.id +');return null">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
-			'<div class="clearfix"></div>'+
+			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1"/></label></div>'+
 		'</div></div></div>';
 	
 	return result;
-}
+};
 
 function paginate() {
 	
@@ -135,16 +141,57 @@ function paginate() {
         cssStyle: 'light-theme',
         hrefTextPrefix: '#page-',
         onPageClick: function(pageNumber, event){
-			        	if(pageNumber == 1){
-							iDisplayStart = 0;
-						}else{
-							iDisplayStart = ((pageNumber-1)*iDisplayLength);
-						}
-			        	setCriteria();
-        				ajaxCall();	
-        			}
+					        	if(pageNumber == 1){
+									iDisplayStart = 0;
+								}else{
+									iDisplayStart = ((pageNumber-1)*iDisplayLength);
+								}
+					        	setCriteria();
+								ajaxCall();	
+							}
     });	
-}
+};
+
+function existCart(id){
+	
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/existcart.do",
+		success: function(data){
+			var cart_id = data.id;
+			var exist = data.exist;
+			var num_item = exist + 1;
+			if (cart_id == 0 && exist == 0){
+				// fai partire la finestra modale per l'indirizzo
+				$('#modalDialogAddress').modal('show');
+				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');
+				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
+			} else {
+				// L'indirizzo è già stato validato
+				addCartLine(id);
+			};
+			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + num_item + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
+		}
+	});
+};
+
+function validAddress(id){
+	var address = $('#address_autocompletedModal').val();
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/addressvalidated.do?id=" + id + "&q=" + quantity + "&a=" + address,
+	});
+};
+
+
+function addCartLine(id){
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/create.do?id=" + id + "&q=" + quantity,
+	});
+};
 
 </script>
 
@@ -197,3 +244,35 @@ function paginate() {
             </div>    
                          
 <!-- Items  - END-->
+
+
+<script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMapsModal.js"></script>
+
+		<div id="modalDialogAddress" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-header">
+		    <button id="modalDialogAddress_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h5 class="title">Address Validation test</h5>
+		  </div>
+		  <div class="modal-body">
+				
+				<div id="googleMapModal" style="height:200px;"></div>				
+					
+					<div class="control-group">
+					    <label class="control-label" for="address"><spring:message code="user.address" /></label>
+					    
+					    <div class="controls">
+							<input id="address_autocompletedModal"/><br />
+					    </div>
+					    
+					    <p id="addressDistanceErrorModal"></p>
+					
+						<div class="controls">
+					      <button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Add to cart</button>
+					    </div>
+					
+					</div>
+					
+					<div class="control-group">
+					</div>
+			</div>
+		</div>

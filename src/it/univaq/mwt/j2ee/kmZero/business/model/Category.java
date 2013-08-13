@@ -39,7 +39,7 @@ public class Category {
 	private List<Category> childs = new ArrayList<Category>();
 	
 	@OneToMany(mappedBy="category")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Product> products = new ArrayList<Product>();
 
 	public Category() {

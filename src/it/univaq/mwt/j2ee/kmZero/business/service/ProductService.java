@@ -1,6 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +9,8 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
-import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 
 
 public interface ProductService {
@@ -46,12 +45,22 @@ public interface ProductService {
 	
 	Category findCategoryById(long id) throws BusinessException;
 
+	// Metodi per le unità di misura
+	
+	List<Measure> findAllMeasures() throws BusinessException;
+
+	void createMeasure(Measure measure) throws BusinessException;
+
+	void updateMeasure(Measure measure) throws BusinessException;
+
+	Measure findMeasureById(long id) throws BusinessException;
+
+	void deleteMeasure(Measure measure) throws BusinessException;
+	
 	// Metodi per la validazione (chiamato da ImageValidator)
 	
 	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
 
-
-
-
+	List<Product> getFavouriteProducts();
 
 }

@@ -5,8 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-// Classe creata per implementare l'InitBinder dei Controller. Ma al momento non la usiamo (non funziona).
-
 public class DateEditor extends PropertyEditorSupport {
 	
 	public void setAsText(String value) {

@@ -175,7 +175,3 @@ $(function() {
 		</div>
 	</div>
 </div>
-		
-									
-			
-

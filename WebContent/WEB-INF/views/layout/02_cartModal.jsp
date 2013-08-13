@@ -1,48 +1,34 @@
-    <!-- Cart Modal starts -->
-<div id="cart" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<div id="modalCart" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4>Shopping Cart</h4>
+    <button id="modalCart_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
+    <h4>Carrello</h4>
   </div>
   <div class="modal-body">
-
-            <table class="table table-striped tcart">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a href="single-item.html">HTC One</a></td>
-                  <td>2</td>
-                  <td>$250</td>
-                </tr>
-                <tr>
-                  <td><a href="single-item.html">Apple iPhone</a></td>
-                  <td>1</td>
-                  <td>$502</td>
-                </tr>
-                <tr>
-                  <td><a href="single-item.html">Galaxy Note</a></td>
-                  <td>4</td>
-                  <td>$1303</td>
-                </tr>
-                <tr>
-                  <th></th>
-                  <th>Total</th>
-                  <th>$2405</th>
-                </tr>
-              </tbody>
-            </table>
+	
+	<table class="table table-striped tcart" id="tablecart">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="cartlines">
+          </tbody>
+        </table>
 
   </div>
+  
+  <!-- Gestire i pulsanti per il checkout e per continuare lo shopping -->
   <div class="modal-footer">
-    <a href="index.html" class="btn">Continue Shopping</a>
-    <a href="checkout.html" class="btn btn-danger">Checkout</a>
+    <a href="" class="btn" data-dismiss="modal" aria-hidden="true">Torna allo Shopping</a>
+    <a id="checkout" href="${pageContext.request.contextPath}/carts/confirmcart.do" class="btn btn-danger">Vai alla cassa</a>
   </div>
 </div>
-
-<!-- Cart modal ends -->

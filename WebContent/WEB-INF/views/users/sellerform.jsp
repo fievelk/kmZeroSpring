@@ -129,8 +129,8 @@ $(function() {
 						      </button>
 							</div>
 						</div>
-					</div>
 					</form:form>
+				</div>
 				</div>
 				<div class="span4">
 					<div id="googleMap" style="height:380px;"></div>	

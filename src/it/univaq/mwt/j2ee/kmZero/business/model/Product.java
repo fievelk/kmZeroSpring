@@ -2,7 +2,9 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.Comparators;
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
+import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +13,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -44,8 +48,8 @@ public class Product {
 	private String description;
 
 	@Column(name="price")	
-	private float price;
-
+	private BigDecimal price;
+	
 	@Column(name="date_in")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_in;
@@ -59,7 +63,7 @@ public class Product {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "categories_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
@@ -70,6 +74,13 @@ public class Product {
 	@Column(name="rating")
 	private float rating;
 
+	@Column(name="stock")
+	private int stock;
+	
+	@ManyToOne
+	@JoinColumn(name="measures_id")
+	private Measure measure;
+	
 	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
 	@JsonBackReference
@@ -79,7 +90,7 @@ public class Product {
 		super();
 	}
 
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, Category category,
 			List<Image> images, Seller seller) {
 		super();
@@ -95,7 +106,7 @@ public class Product {
 	}
 
 	/* Costruttore per l'inserimento senza immagini */
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Category category, Seller seller, Date date_in, Date date_out) {
 		super();
 		this.id = id;
@@ -109,7 +120,7 @@ public class Product {
 	}	
 
 	/* Costruttore per l'inserimento senza immagini e date */
-	public Product(long id, String name, String description, float price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Category category, Seller seller) {
 		super();
 		this.id = id;
@@ -117,6 +128,28 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.category = category;
+		this.seller = seller;
+	}
+
+	
+	
+	public Product(long id, String name, String description, BigDecimal price,
+			Date date_in, Date date_out, boolean active, Category category,
+			List<Image> images, float rating, int stock, Measure measure,
+			Seller seller) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.active = active;
+		this.category = category;
+		this.images = images;
+		this.rating = rating;
+		this.stock = stock;
+		this.measure = measure;
 		this.seller = seller;
 	}
 
@@ -137,12 +170,6 @@ public class Product {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public float getPrice() {
-		return price;
-	}
-	public void setPrice(float price) {
-		this.price = price;
 	}
 
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
@@ -207,4 +234,31 @@ public class Product {
 		this.seller = seller;
 	}
 
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public Measure getMeasure() {
+		return measure;
+	}
+
+	public void setMeasure(Measure measure) {
+		this.measure = measure;
+	}
+
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public BigDecimal getPrice() {
+		return price;
+	}
+	@JsonSerialize(using=PriceJsonSerializer.class)
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	
+	
 }

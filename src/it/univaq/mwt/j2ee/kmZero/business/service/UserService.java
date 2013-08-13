@@ -64,4 +64,6 @@ public interface UserService {
 	
 	SellerContent findSellerContentById(long id) throws BusinessException;
 
+	List<Seller> getFavouriteSellers();
+
 }

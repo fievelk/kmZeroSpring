@@ -587,5 +587,14 @@ public class JPAUserService implements UserService{
 		
 	}
 
+	@Override
+	public List<Seller> getFavouriteSellers() {
+		EntityManager em = this.emf.createEntityManager();
+		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
+		List<Seller> sellers = query.getResultList();
+		em.close();
+		return sellers;
+	}
+
 
 }

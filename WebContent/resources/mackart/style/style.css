@@ -554,7 +554,7 @@ header .lr{
 }
 
 .content ul li{
-	list-style-type: circle;
+	list-style-type: none;
 	padding: 1px 0px;
 }
 

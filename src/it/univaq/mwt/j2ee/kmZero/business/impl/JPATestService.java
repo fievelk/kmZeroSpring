@@ -1,7 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
@@ -123,13 +125,21 @@ public class JPATestService implements TestService{
 
 			em.persist(u3);
 
-			Category cat1 = new Category(1L, "Unclassified", null);
 			Category cat2 = new Category(2L, "Frutta", null);
 			Category cat3 = new Category(3L, "Verdura", null);
 			
-			em.persist(cat1);
 			em.persist(cat2);
 			em.persist(cat3);
+			
+			Measure meas1 = new Measure(1L, "Grammi");
+			Measure meas2 = new Measure(2L, "Kilogrammi");
+			Measure meas3 = new Measure(3L, "Litri");
+			Measure meas4 = new Measure(4L, "Numero");
+			
+			em.persist(meas1);
+			em.persist(meas2);
+			em.persist(meas3);
+			em.persist(meas4);
 			
 			em.getTransaction().commit();
 		} catch (Exception e) {
@@ -228,6 +238,22 @@ public class JPATestService implements TestService{
         emf.close();
        System.out.println("RISULTATO " + result);
         return result;
+	}
+
+	@Override
+	public List<Cart> getCartsToDeliverTest() {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL", Cart.class);
+   
+        List<Cart> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+		
+		return result;
 	}	
 
 		

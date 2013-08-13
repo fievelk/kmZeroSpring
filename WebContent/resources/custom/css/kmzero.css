@@ -225,9 +225,15 @@ div#km0Image{
 	margin-left:20px;
 }
 
-#googleMapInfowindow {
-	width: 200px;
+/* Google Maps */
 
+.googleMapInfowindow {
+	width: 200px;
+}
+
+#addressTable {
+	height:380px;
+	overflow:auto;
 }
 
 /* Modal window for address */
@@ -285,3 +291,19 @@ div#km0Image{
 }
 
 .closeAddress:hover { background: #00d9ff; }
+
+
+/* Spinner per scegliere la quantit� dei prodotti */
+input[type="number"] {
+	width:23%;
+}
+
+/* Overwrites bootstrap z-index for index autocompletion in modal windows */
+
+.modal{
+    z-index: 20;   
+}
+
+.modal-backdrop{
+    z-index: 10;        
+}

@@ -8,7 +8,7 @@
 	<li>Password: <security:authentication property="principal.password"/></li>
 	<li>Email: <security:authentication property="principal.email"/></li>
 	<li>Name: <security:authentication property="principal.name"/></li>
-	<li>Surname: <security:authentication property="principal.surName"/></li>
+	<li>Surname: <security:authentication property="principal.surname"/></li>
 	<li>Address: <security:authentication property="principal.address"/></li>
 	<security:authorize access="hasRole('seller')">
 	<li>Piva: <security:authentication property="principal.p_Iva"/></li>
