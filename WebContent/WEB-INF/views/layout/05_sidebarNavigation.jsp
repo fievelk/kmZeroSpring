@@ -20,7 +20,7 @@
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
 			</security:authorize>
-			<security:authorize access="hasRole('admin')"> 
+			<security:authorize access="hasRole('admin')">
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
 		      <li><a href="${pageContext.request.contextPath}/products/viewsCategories">Categorie</a></li>
 		      <li><a href="${pageContext.request.contextPath}/users/admin/views.do">Utenti</a></li>
@@ -32,10 +32,10 @@
 		      	</ul>	
 		      </li>
 		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password.do">Modifica Password</a></li> 
+			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses">Warehouse</a></li>
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
 		      <li><a href="">Percorsi <span style="color:red">- NIY</span></a></li>
 			</security:authorize>
 	     </security:authorize>
 	    </ul>
-	  </nav>
 </div>

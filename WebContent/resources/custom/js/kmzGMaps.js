@@ -3,13 +3,13 @@ var directionsService = new google.maps.DirectionsService();
 var map;
 var geocoder = new google.maps.Geocoder();
 
-/* Chiamata AJAX per indirizzo del centro di distribuzione, preso dalla classe Warehouse */
+/* Chiamata AJAX per indirizzo del centro di distribuzione */
 
 google.maps.event.addDomListener(window, 'load', function(){
 	
 	$.ajax({
 		type:"POST",
-	    url:contextPath+"/products/findWarehouseAddress",  
+	    url:contextPath+"/sellers/findWarehouseAddress",
 	    success:function(data){
 	    			warehouseAddress = data;
 	    			geocoder.geocode({'address': warehouseAddress }, function(results) {

@@ -26,7 +26,7 @@
 		<security:intercept-url pattern="/users/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/products" access="permitAll"/>
 		<security:intercept-url pattern="/products/viewProducts" access="permitAll"/>
-		<security:intercept-url pattern="/products/findWarehouseAddress" access="permitAll"/> 
+		<security:intercept-url pattern="/sellers/findWarehouseAddress" access="permitAll"/> 
 		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
 		
 		

@@ -7,6 +7,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 
@@ -140,6 +141,10 @@ public class JPATestService implements TestService{
 			em.persist(meas2);
 			em.persist(meas3);
 			em.persist(meas4);
+			
+			Warehouse warehouse = new Warehouse("Warehouse", "Via dei Vestini, 66100 Chieti CH, Italia");
+			em.persist(warehouse);
+			
 			
 			em.getTransaction().commit();
 		} catch (Exception e) {

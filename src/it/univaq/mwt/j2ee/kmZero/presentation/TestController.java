@@ -16,7 +16,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,10 +133,4 @@ public class TestController {
 		return "test.cartsToDeliver";
 	}
 	
-	
-	@ModelAttribute
-	public void findWarehouse(Model model) throws BusinessException {
-		String warehouseAddress = Warehouse.getAddress();
-		model.addAttribute("warehouseAddress", warehouseAddress);
-	}
 }

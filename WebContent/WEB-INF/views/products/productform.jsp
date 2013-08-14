@@ -11,6 +11,7 @@ $(document).ready(function() {
 	var del = "${requestScope.delete}"; 
 	if (del == "true" ) {
 		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
+		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });				
 	}		
 });
 

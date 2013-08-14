@@ -277,5 +277,19 @@
         <!-- <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/> -->
     </definition>
     <!-- CARTS END -->
+    
+    <!-- WAREHOUSE BEGIN -->
+    
+    <definition name="warehouses.views" extends="standard_logged">
+    	<put-attribute name="content" value="/WEB-INF/views/warehouses/warehousesview.jsp"></put-attribute>
+    </definition>
+    
+    <definition name="warehouses.updateform" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/warehouses/warehouseform.jsp"/>
+        <put-attribute name="action" value="/sellers/admin/updateWarehouse"/>
+        <put-attribute name="update" value="true"/>
+    </definition>
+    
+    <!-- WAREHOUSE END -->
 
 </tiles-definitions>

@@ -42,7 +42,6 @@ import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
-import it.univaq.mwt.j2ee.kmZero.common.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
 
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
@@ -286,32 +285,18 @@ public class ProductsController {
 	
 // Model Attributes	
 	
-/*
+
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {
 		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
 	}
-*/
 	
 	@ModelAttribute
 	public void findAllMeasures(Model model) throws BusinessException {
 		List<Measure> measures = productService.findAllMeasures();
 		model.addAttribute("measures", measures);
 	}
-	
-	@RequestMapping("/findWarehouseAddress")
-	@ResponseBody
-	/*The @ResponseBody annotation can be put on a method and indicates that the return type 
-	 * should be written straight to the HTTP response body (and not placed in a Model, or 
-	 * interpreted as a view name).*/
-	public String findWarehouseAddress() {
-		String address = Warehouse.getAddress();		
-		
-	return address;
-	}
-	
-	
-	
+
 	
 }
