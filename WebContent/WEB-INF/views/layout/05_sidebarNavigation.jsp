@@ -22,7 +22,8 @@
 			</security:authorize>
 			<security:authorize access="hasRole('admin')">
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
-		      <li><a href="${pageContext.request.contextPath}/products/viewsCategories">Categorie</a></li>
+		      <li><a href="${pageContext.request.contextPath}/products/viewCategories">Categorie</a></li>
+		      <li><a href="${pageContext.request.contextPath}/products/viewMeasures">Misure</a></li>
 		      <li><a href="${pageContext.request.contextPath}/users/admin/views.do">Utenti</a></li>
 		      <li class="has_sub"><a href="#">Venditori</a>
 		      <!-- Submenu -->

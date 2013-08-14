@@ -70,7 +70,7 @@
          
     <!-- Categories Tiles -->
     <definition name="categories.views" extends="standard_logged">
-        <put-attribute name="content" value="/WEB-INF/views/products/categorieslist.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/categoriesview.jsp"/>
     </definition>
 
     <definition name="categories.createform" extends="standard_logged">
