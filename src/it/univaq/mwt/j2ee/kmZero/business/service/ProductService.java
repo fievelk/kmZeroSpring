@@ -1,9 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
 import java.util.List;
+import java.util.Map;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
+import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
@@ -21,7 +23,7 @@ public interface ProductService {
 	
 	void deleteProduct(Product product, long seller_id);
 	
-	ResponseGrid<Product> viewProducts(RequestGrid requestGrid)	throws BusinessException;
+	ResponseGrid<Product> viewProducts(RequestGridProducts requestGrid)	throws BusinessException;
 	
 	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, long seller_id) throws BusinessException;
 	
@@ -35,9 +37,11 @@ public interface ProductService {
 	
 	void updateCategory(Category category) throws BusinessException;
 	
-	void deleteCategory(Category category) throws BusinessException;
+	void deleteCategory(long categoryId) throws BusinessException;
 	
 	List<Category> findAllCategories() throws BusinessException;
+	
+	List<Category> findAllRootCategories() throws BusinessException;
 	
 	Category findCategoryById(long id) throws BusinessException;
 
@@ -56,4 +60,7 @@ public interface ProductService {
 	// Metodi per la validazione (chiamato da ImageValidator)
 	
 	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
+
+	List<Product> getFavouriteProducts();
+
 }

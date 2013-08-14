@@ -50,9 +50,7 @@ public class JPAImageService implements ImageService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		System.out.println("ProdottoID:"+id);
 		Product p = em.find(Product.class, id);
-		System.out.println("Prodotto:"+p.getName());
 		tx.commit();
 		return p.getImages();
 	}

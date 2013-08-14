@@ -8,6 +8,7 @@
 var iDisplayStart = 0; /*primo elemento della pagina ((pageNumber-1)*iDisplayLength)*/
 var iTotalRecords = 10;/*numero totale di elementi*/
 var iDisplayLength = 10;/*numero di elementi per pagina*/
+var categoryId = "";
 var sSearch = '';
 var sortCol = '';
 var criteria = ''; /*stringa serializzata che contiene i parametri per l'ajax call*/
@@ -25,6 +26,19 @@ $(document).ready(function() {
 		setProducts();
 	});
 	$(".form-search button").click(function(){
+		iDisplayStart = 0;
+		setProducts();
+	});
+	
+	$(".form-search input").keypress(function(event) {
+		if(event.which == 13) {
+			iDisplayStart = 0;
+			setProducts();
+		}
+	});
+	
+	$("#categ #nav a").click(function(){
+		categoryId = $(this).attr("id").replace("cat_","");
 		iDisplayStart = 0;
 		setProducts();
 	});
@@ -66,7 +80,7 @@ function setCriteria(){
 	sortCol = sortBy_parts[0];
 	sortDir = sortBy_parts[1];
 	/*Infine creo la stringa serializzata per l'ajax call*/
-	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch;
+	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId;
 	console.log(criteria);
 };
 
@@ -85,10 +99,11 @@ function buildItems(data){
 function buildItem(item){
 	
 	var image;
+	var url = '${pageContext.request.contextPath}/products/'+item.id+'/'+item.name;
 	if(item.images[0] != null){
-		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
+		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
 	}else{
-		image = '<a href="single-item.html"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
+		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};
 	var result = 
 		'<div class="span3">'+
@@ -101,7 +116,7 @@ function buildItem(item){
 			'<div class="item-details">'+
 // 		  <!-- Name -->
 // 		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
-				'<h5><a href="single-item.html">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
+				'<h5><a href="'+url+'">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
 				'<div class="clearfix"></div>'+
 // 		<!-- Para. Note more than 2 lines. -->
 			'<p>'+item.description+'</p>'+
@@ -110,8 +125,7 @@ function buildItem(item){
 // 			<!-- Price -->
 			'<div class="item-price pull-left">\u20ac '+item.price+'</div>'+
 // 			<!-- Add to cart -->
-			'<button value="' + item.id + '" class="button pull-right" onclick="existCart('+ item.id +')">Add to Cart</button>'+
-			//'<div class="button pull-right" onclick="existCart('+ item.id +')"><a href="#modalDialogAddress">Add to Cart</a></div>'+
+			'<div class="button pull-right"><a href="#" id="" onclick="existCart('+ item.id +');return null">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
 			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1"/></label></div>'+
 		'</div></div></div>';
@@ -120,31 +134,21 @@ function buildItem(item){
 };
 
 function paginate() {
-	console.log("totrecords:"+iTotalRecords);
-	console.log("iDisplayLength:"+iDisplayLength);
-	console.log("iDisplayStart:"+iDisplayStart);
-		
+	
 	$(".pagging").pagination({
         items: iTotalRecords,
         itemsOnPage: iDisplayLength,
         cssStyle: 'light-theme',
         hrefTextPrefix: '#page-',
         onPageClick: function(pageNumber, event){
-			        	if(pageNumber == 1){
-							iDisplayStart = 0;
-						}else{
-							console.log("PAGE"+pageNumber);
-							console.log("iDisplayLength1:"+iDisplayLength);
-							iDisplayStart = ((pageNumber-1)*iDisplayLength);
-							console.log("start"+iDisplayStart);
-						};
-			        	setCriteria();
-        				ajaxCall();	
-        				console.log(criteria);
-        				console.log("totrecords:"+iTotalRecords);
-        				console.log("iDisplayLength:"+iDisplayLength);
-        				console.log("iDisplayStart:"+iDisplayStart);
-        			}
+					        	if(pageNumber == 1){
+									iDisplayStart = 0;
+								}else{
+									iDisplayStart = ((pageNumber-1)*iDisplayLength);
+								}
+					        	setCriteria();
+								ajaxCall();	
+							}
     });	
 };
 
@@ -202,29 +206,29 @@ function addCartLine(id){
           <li class="active">km0</li>
         </ul> -->
 
-                            <!-- Title -->
-                              <h4 class="pull-left">I prodotti</h4>
+      <!-- Title -->
+        <h4 class="pull-left">I prodotti</h4>
 
 <!--Items Per Page -->
-                                            <div id="perPage" class="controls pull-right perpage">                               
-                                                <select>
-	                                                <option value="10" selected>10</option>
-	                                                <option value="2">2</option>
-	                                                <option value="20">20</option>
-	                                                <option value="50">50</option>
-	                                                <option value="100">100</option>
-                                                </select>  
-                                            </div>
-                                          <!-- Sorting -->
-                                            <div id="sortBy" class="controls pull-right">                               
-                                                <select>
-	                                                <option value="name-ASC" selected>Name (A-Z)</option>
-	                                                <option value="name-DESC">Name (Z-A)</option>
-	                                                <option value="price-ASC">Price (Low-High)</option>
-	                                                <option value="price-DESC">Price (High-Low)</option>
-	                                                <option value="rating-ASC">Ratings</option>
-                                                </select>  
-                                            </div>
+                      <div id="perPage" class="controls pull-right perpage">                               
+                          <select>
+                           <option value="10" selected>10</option>
+                           <option value="2">2</option>
+                           <option value="20">20</option>
+                           <option value="50">50</option>
+                           <option value="100">100</option>
+                          </select>  
+                      </div>
+                    <!-- Sorting -->
+                      <div id="sortBy" class="controls pull-right">                               
+                          <select>
+                           <option value="name-ASC" selected>Name (A-Z)</option>
+                           <option value="name-DESC">Name (Z-A)</option>
+                           <option value="price-ASC">Price (Low-High)</option>
+                           <option value="price-DESC">Price (High-Low)</option>
+                           <option value="rating-ASC">Ratings</option>
+                          </select>  
+                      </div>
                                             
 
               <div class="clearfix"></div>

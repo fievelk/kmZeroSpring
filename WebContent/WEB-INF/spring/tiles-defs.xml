@@ -62,6 +62,11 @@
         <put-attribute name="action" value="/products/delete"/>
         <put-attribute name="delete" value="true"/>
     </definition>
+    
+    <definition name="products.product" extends="standard">
+    	<put-attribute name="sidebar" value="/WEB-INF/views/products/sidebaritems.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/products/productview.jsp"/>
+    </definition>
          
     <!-- Categories Tiles -->
     <definition name="categories.views" extends="standard_logged">

@@ -10,7 +10,7 @@
 $(document).ready(function() {
 	var del = "${requestScope.delete}"; 
 	if (del == "true" ) {
-		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
+		$(":input[type='text'],select[id='parent']").each(function () { $(this).attr('readonly','readonly'); });				
 	}		
 });
 
@@ -50,20 +50,12 @@ $(document).ready(function() {
 		</div>
 		
 		<div>
-		    <label for="parent_id"><spring:message code="category.parent"/></label>
-		    <div>
-		    	<form:input id="parent_id" path="parent_id"/>
-		    </div>
+		    <label for="parent"><spring:message code="category.parent"/></label>
+		    <form:select id="parent" path="parent.id">
+		    	<option value="">Undefined</option>
+				<form:options items="${categories}" itemValue="id" itemLabel="name"/>
+			</form:select>
 		</div>		
-		
-<%--		<div>
-		    <label for="CategoryId"><spring:message code="category.parent"/></label> 
-		    <div>
-				<form:select id="categoryId" path="category.id">
-					<form:options items="${categories}" itemValue="id" itemLabel="id"/>
-				</form:select>
-		    </div>
-		</div>--%>
 		
 		
 		<div class="control-group">

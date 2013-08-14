@@ -29,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -62,6 +63,7 @@ public class Product {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "categories_id")
+	@JsonManagedReference
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
@@ -126,6 +128,28 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.category = category;
+		this.seller = seller;
+	}
+
+	
+	
+	public Product(long id, String name, String description, BigDecimal price,
+			Date date_in, Date date_out, boolean active, Category category,
+			List<Image> images, float rating, int stock, Measure measure,
+			Seller seller) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.active = active;
+		this.category = category;
+		this.images = images;
+		this.rating = rating;
+		this.stock = stock;
+		this.measure = measure;
 		this.seller = seller;
 	}
 

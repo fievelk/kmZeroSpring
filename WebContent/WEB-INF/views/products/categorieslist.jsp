@@ -24,7 +24,7 @@
 				<tr>
 					<td>${category.id}</td>
 					<td>${category.name}</td>
-					<td>${category.parent_id}</td>
+					<td>${category.parent.name}</td>
 					<td>
 						<a href="${pageContext.request.contextPath}/products/updateCategory_start?id=${category.id}"><i class='icon-edit'></i></a> | 
 						<a id="deletelink" href="${pageContext.request.contextPath}/products/deleteCategory_start?id=${category.id}"><i class='icon-trash'></i></a>

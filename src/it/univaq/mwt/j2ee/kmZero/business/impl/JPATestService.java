@@ -125,11 +125,9 @@ public class JPATestService implements TestService{
 
 			em.persist(u3);
 
-			Category cat1 = new Category(1L, "Unclassified", 0);
-			Category cat2 = new Category(2L, "Frutta", 0);
-			Category cat3 = new Category(3L, "Verdura", 0);
+			Category cat2 = new Category(2L, "Frutta", null);
+			Category cat3 = new Category(3L, "Verdura", null);
 			
-			em.persist(cat1);
 			em.persist(cat2);
 			em.persist(cat3);
 			
