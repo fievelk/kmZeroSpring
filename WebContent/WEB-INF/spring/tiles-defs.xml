@@ -150,7 +150,11 @@
     <definition name="test.cartsToDeliver" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/test/cartsToDeliver.jsp"/>
     </definition>
-    
+
+    <definition name="test.userOrderViewTest" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/test/userOrderViewTest.jsp"/>
+    </definition>
+        
     <!-- PIERP TEST END -->	
     
     <!-- USERS TILES BEGIN -->

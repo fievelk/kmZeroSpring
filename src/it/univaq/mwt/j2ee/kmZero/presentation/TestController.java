@@ -9,13 +9,16 @@ import java.util.Set;
 
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
+import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,9 @@ public class TestController {
 	
 	@Autowired
 	private TestService service;
+
+	@Autowired
+	private CartService cartService;
 	
 	@RequestMapping(value="/testNumberOne")
 	public String testNumberOne(Model model) throws BusinessException {
@@ -131,6 +137,18 @@ public class TestController {
 		
 		model.addAttribute("cartsToDeliver", cartsToDeliver);
 		return "test.cartsToDeliver";
+	}
+	
+	
+	@RequestMapping(value="/userOrderViewTest")
+	public String userOrderViewTest(Model model) throws BusinessException {
+//		Authentication a = SecurityContextHolder.getContext().getAuthentication();
+//		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
+//		String s = wad.getSessionId();
+//		ResponseCarts<CartLine> cartLines = cartService.viewCartlines(s);
+//		
+//		model.addAttribute("cartLines", cartLines);
+		return "test.userOrderViewTest";
 	}
 	
 }
