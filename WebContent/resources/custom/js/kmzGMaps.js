@@ -31,6 +31,8 @@ function initialize() {
 	var mapOptions = {
 	  center: warehouse,
 	  zoom:10,
+	  scrollwheel: false,
+	  draggable: false,
 	  disableDefaultUI: true,
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };
