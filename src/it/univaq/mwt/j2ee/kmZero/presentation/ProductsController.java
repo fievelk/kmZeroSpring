@@ -63,6 +63,9 @@ public class ProductsController {
 	@Autowired
 	private LoggedUser loggedUser;
 	
+	@Autowired
+	private ProductValidator validator;
+	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
@@ -120,6 +123,10 @@ public class ProductsController {
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		validator.validate(product, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "products.createform";
+		}
 		long sellerid = loggedUser.getUserDetails().getId();
 		productService.createProduct(product,sellerid);
 		return "redirect:/products/viewsforsellers.do";
@@ -139,6 +146,10 @@ public class ProductsController {
 	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		validator.validate(product, bindingResult);
+		if (bindingResult.hasErrors()){
+			return "products.createform";
+		}
 		long sellerid = loggedUser.getUserDetails().getId();
 		List<Image> images = imageService.getProductImages(product.getId());
 		productService.updateProduct(product,images,sellerid);
