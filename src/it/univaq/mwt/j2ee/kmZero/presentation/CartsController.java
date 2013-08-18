@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -132,18 +133,30 @@ public class CartsController {
 	@RequestMapping(value="/userOrderView")
 	public String userOrderViewTest(Model model) throws BusinessException {
 
-		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
-		
-		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+//		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
+//		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 			long id = udi.getId();
 			User user = userService.findUserById(id);
-			Collection<Cart> carts = user.getCart(); // In questo modo trova anche i carrelli non ancora pagati. Modificare
-			model.addAttribute("carts", carts);
+			
+			// Trovo tutti i carrelli
+			Collection<Cart> carts = user.getCart(); 
+			
+			// Seleziono solo i carrelli pagati e li aggiungo al model
+			Collection<Cart> paidCarts = new ArrayList<Cart>();
+
+			for (Cart cart : carts) {
+				if (cart.getPaid() != null) {
+					paidCarts.add(cart);
+				}
+			}
+			
+			model.addAttribute("carts", paidCarts);
 			return "carts.userOrderView";
-		} else {
-			return "common.login";	
-		}
+			
+//		} else {
+//			return "common.login";	
+//		}
 	}
 	
 	
