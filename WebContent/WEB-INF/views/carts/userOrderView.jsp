@@ -31,6 +31,7 @@ $(document).ready(function () {
 			number: function(){
 						return $(this).attr('id');
 					},
+			hints: ['1', '2', '3', '4', '5'],
 			readOnly: true,
 			noRatedMsg: "You already rated this cartLine!"
 		});

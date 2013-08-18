@@ -26,10 +26,14 @@ public interface CartService {
 	// Trova il carrello sul quale fare il Checkout passandogli i dati dell'utente
 	Cart findCartToCheckout(long id, String name, String surname) throws BusinessException;
 
-	// Il carrello è stato pagato
+	// Il carrello ï¿½ stato pagato
 	void paid(String transaction_id, long cart_id) throws BusinessException;
 
 	// Conferma il carrello prima di fare il checkout
 	void confirmCart(long id_cart, Date delivery_date) throws BusinessException;
+
+	CartLine findCartLineById(long cartLineId);
+
+	void updateCartLineRating(CartLine cartLine, int rating);
 
 }

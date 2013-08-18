@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
@@ -17,12 +16,9 @@ import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.PostRemove;
 import javax.persistence.Query;
 
-import org.springframework.transaction.annotation.Transactional;
 
 public class JPACartService implements CartService{
 	
@@ -252,6 +248,34 @@ public class JPACartService implements CartService{
 		
 		et.commit();
 		em.close();
+		
+	}
+
+	@Override
+	public CartLine findCartLineById(long id) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		CartLine cartLine = em.find(CartLine.class, id);
+		
+		et.commit();
+		em.close();
+		return cartLine;
+	}
+
+	@Override
+	public void updateCartLineRating(CartLine cartLine, int rating) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        cartLine.setRating(rating);
+        em.merge(cartLine);
+        
+        tx.commit();
+        em.close();
+
 		
 	}
 

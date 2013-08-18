@@ -1,31 +1,24 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
-import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
-import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
-import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
+import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -42,6 +36,9 @@ public class TestController {
 	@Autowired
 	private TestService service;
 
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private CartService cartService;
 	
@@ -142,13 +139,29 @@ public class TestController {
 	
 	@RequestMapping(value="/userOrderViewTest")
 	public String userOrderViewTest(Model model) throws BusinessException {
-//		Authentication a = SecurityContextHolder.getContext().getAuthentication();
-//		WebAuthenticationDetails wad = (WebAuthenticationDetails) a.getDetails();
-//		String s = wad.getSessionId();
-//		ResponseCarts<CartLine> cartLines = cartService.viewCartlines(s);
-//		
-//		model.addAttribute("cartLines", cartLines);
-		return "test.userOrderViewTest";
+
+		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
+		
+		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+			long id = udi.getId();
+			User user = userService.findUserById(id);
+			Collection<Cart> carts = user.getCart(); // In questo modo trova anche i carrelli non ancora pagati. Modificare
+//			System.out.println("STO FACENDO QUALCOSA "+user+" ," +carts);
+			model.addAttribute("carts", carts);
+			return "test.userOrderViewTest";
+		} else {
+			return "common.login";	
+		}
+	}
+	
+	
+	@RequestMapping(value="/updateCartLineRating")
+	@ResponseBody
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) {
+		CartLine cartLine = cartService.findCartLineById(cartLineId);
+		cartService.updateCartLineRating(cartLine, rating);
+		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
 	}
 	
 }

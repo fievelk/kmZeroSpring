@@ -148,7 +148,7 @@ public class User implements java.io.Serializable{
 
 
 
-	/* Costruttore che serve al Seller quando verrˆ visualizzata la lista tramite Datatables */
+	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
 
 	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
 

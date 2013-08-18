@@ -1,14 +1,15 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import java.util.Collection;
 import java.util.Date;
-
-import javax.xml.ws.BindingType;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
+import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
@@ -33,6 +34,9 @@ public class CartsController {
 	
 	@Autowired
 	private CartService service;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private CartsValidator validator;
@@ -123,6 +127,32 @@ public class CartsController {
 	public String paid(@RequestParam("tx") String transaction_id, @RequestParam("cm") long cart_id) throws BusinessException{
 		service.paid(transaction_id, cart_id);
 		return "carts.paid";
+	}
+	
+	@RequestMapping(value="/userOrderView")
+	public String userOrderViewTest(Model model) throws BusinessException {
+
+		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
+		
+		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+			long id = udi.getId();
+			User user = userService.findUserById(id);
+			Collection<Cart> carts = user.getCart(); // In questo modo trova anche i carrelli non ancora pagati. Modificare
+			model.addAttribute("carts", carts);
+			return "carts.userOrderView";
+		} else {
+			return "common.login";	
+		}
+	}
+	
+	
+	@RequestMapping(value="/updateCartLineRating")
+	@ResponseBody
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) {
+		CartLine cartLine = service.findCartLineById(cartLineId);
+		service.updateCartLineRating(cartLine, rating);
+		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
 	}
 
 }
