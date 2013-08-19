@@ -6,14 +6,21 @@
       <div class="row">
 
         <div class="span4">
-          <!-- Logo. Use class "color" to add color to the text. -->
+          <!-- Logo 
+          <div class="logo row">     	
+          	<div class="span2" id="logo"><img src="${pageContext.request.contextPath}/resources/custom/img/healty1.png" /></div>
+           	<div class="span2" id="logotext">
+	            <h1><a href="#">Kilometro<span class="color bold">Zero</span></a></h1>
+	            <p class="meta">Se non ci dovesse andare bene con il master la zappa è sempre un'ottima alternativa!</p>
+            </div>
+          </div>-->
           <div class="logo">
             <h1><a href="#">Kilometro<span class="color bold">Zero</span></a></h1>
-            <p class="meta">Se non ci dovesse andare bene con il master la zappa è sempre un'ottima alternativa!</p>
+            <p class="meta">Se non ci dovesse andare bene con il master la zappa Ë sempre un'ottima alternativa!</p>
           </div>
         </div>
 
-        <div class="span5 offset3">
+        <div class="span4 offset4">
           
           <!-- Search form -->
           <form class="form-search">

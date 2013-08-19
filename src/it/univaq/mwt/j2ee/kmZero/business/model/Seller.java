@@ -19,6 +19,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -40,7 +41,7 @@ public class Seller extends User {
 	@Column(name="enable")
 	private boolean enable;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
 	@OrderBy("position ASC")
 	private List<Image> images;
@@ -52,7 +53,7 @@ public class Seller extends User {
 	private static final long serialVersionUID = 1L;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval=true)
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Product> products;
 
 	public Seller() {
@@ -180,6 +181,8 @@ public class Seller extends User {
 	}
 
 	public List<Image> getImages() {
+		Comparators c = new Comparators();
+		Collections.sort(images,c.getImagePositionComparator());
 		return images;
 	}
 
@@ -196,6 +199,8 @@ public class Seller extends User {
 	}
 
 	public List<Product> getProducts() {
+		Comparators c = new Comparators();
+		Collections.sort(products,c.getProductPositionComparator());
 		return products;
 	}
 

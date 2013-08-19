@@ -17,6 +17,7 @@
 		                {"mData":"category.name"},
 		                {"mData":"date_in"},
 		                {"mData":"date_out"},
+		                {"mData":"position"},
 		                { "sName": "id",
 		                    "bSearchable": false,
 		                    "bSortable": false,
@@ -55,6 +56,7 @@
 				    <th><spring:message code="product.category"/></th>
 				    <th><spring:message code="product.date_in"/></th>
 				    <th><spring:message code="product.date_out"/></th>
+				    <th><spring:message code="product.position"/></th>
 		   	   	    <th><spring:message code="common.actions"/></th>
 			    </tr>
 		    </thead>

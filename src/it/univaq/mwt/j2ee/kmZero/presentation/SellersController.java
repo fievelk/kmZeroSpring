@@ -6,9 +6,11 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
+import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
@@ -17,6 +19,7 @@ import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class SellersController {
 	
 	@Autowired
 	private SellerValidator validator;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private LoggedUser loggedUser;
@@ -284,6 +290,7 @@ public class SellersController {
 		model.addAttribute("id", id);
 		return "sellers.pagecontent.deleteform";
 	}
+	
 	@RequestMapping(value="/deletepagecontent", method = RequestMethod.POST)
 	public String updatePageContent(@ModelAttribute("id") long contentId , BindingResult bindingResult) throws BusinessException {
 		service.deletePageContent(contentId,loggedUser.getUserDetails().getId());
@@ -297,11 +304,23 @@ public class SellersController {
 		return result;
 	}	
 	
-	@RequestMapping(value="/{sellerid}")
+	@RequestMapping(value="/{sellerid}/*")
 	public String updateImageStart(@PathVariable("sellerid")Long sellerid, Model model) throws BusinessException {
 		Seller s = service.findSellerById(sellerid);
 		model.addAttribute("seller", s);
+		List<Seller> ls = service.getAllSellers();
+		model.addAttribute("sellers", ls);	
 		model.addAttribute("contents", s.getContents());
+		return "seller.view";
+	}
+	
+	@RequestMapping(value="")
+	public String sellersView(Model model) throws BusinessException {
+		List<Seller> ls = service.getAllSellers();
+		model.addAttribute("sellers", ls);
+		List<Product> lp = productService.getAllProducts();
+		model.addAttribute("products", lp);
 		return "sellers.view";
 	}
+	
 }

@@ -83,8 +83,11 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Seller seller;
+	
+	@Column(name="pos")
+	private int position;
 
 	public Product() {
 		super();
@@ -136,7 +139,7 @@ public class Product {
 	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
 			List<Image> images, float rating, int stock, Measure measure,
-			Seller seller) {
+			Seller seller, int position) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -151,6 +154,7 @@ public class Product {
 		this.stock = stock;
 		this.measure = measure;
 		this.seller = seller;
+		this.position = position;
 	}
 
 	public long getId() {
@@ -219,6 +223,8 @@ public class Product {
 	}
 
 	public List<Image> getImages() {
+		Comparators c = new Comparators();
+		Collections.sort(images,c.getImagePositionComparator());
 		return images;
 	}
 
@@ -257,6 +263,14 @@ public class Product {
 	@JsonSerialize(using=PriceJsonSerializer.class)
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	

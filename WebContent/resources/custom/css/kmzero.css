@@ -225,15 +225,9 @@ div#km0Image{
 	margin-left:20px;
 }
 
-/* Google Maps */
-
-.googleMapInfowindow {
+#googleMapInfowindow {
 	width: 200px;
-}
 
-#addressTable {
-	height:380px;
-	overflow:auto;
 }
 
 /* Modal window for address */
@@ -306,4 +300,25 @@ input[type="number"] {
 
 .modal-backdrop{
     z-index: 10;        
+}
+
+/*FUELUX Spinner*/
+.fuelux.row{margin-left:0}
+
+.logo{
+	width:100%;
+}
+
+.logo > #logo{
+	margin-right:10px
+	width:100px;
+	float:left;
+}
+
+.logo > #logotext{	
+	margin:0px;
+	text-align:left
+}
+.logo > #logotext >h1{
+color:#67a94c;
 }

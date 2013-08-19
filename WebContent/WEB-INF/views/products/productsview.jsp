@@ -9,6 +9,7 @@ var iDisplayStart = 0; /*primo elemento della pagina ((pageNumber-1)*iDisplayLen
 var iTotalRecords = 10;/*numero totale di elementi*/
 var iDisplayLength = 10;/*numero di elementi per pagina*/
 var categoryId = "";
+var sellerId = "";
 var sSearch = '';
 var sortCol = '';
 var criteria = ''; /*stringa serializzata che contiene i parametri per l'ajax call*/
@@ -39,6 +40,12 @@ $(document).ready(function() {
 	
 	$("#categ #nav a").click(function(){
 		categoryId = $(this).attr("id").replace("cat_","");
+		iDisplayStart = 0;
+		setProducts();
+	});
+	
+	$("#seller #nav a").click(function(){
+		sellerId = $(this).attr("id").replace("seller_","");
 		iDisplayStart = 0;
 		setProducts();
 	});
@@ -80,7 +87,7 @@ function setCriteria(){
 	sortCol = sortBy_parts[0];
 	sortDir = sortBy_parts[1];
 	/*Infine creo la stringa serializzata per l'ajax call*/
-	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId;
+	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId+"&sellerId="+sellerId;
 	console.log(criteria);
 };
 
@@ -99,12 +106,15 @@ function buildItems(data){
 function buildItem(item){
 	
 	var image;
-	var url = '${pageContext.request.contextPath}/products/'+item.id+'/'+item.name;
+	var baseurl = '${pageContext.request.contextPath}';
+	var producturl = baseurl+'/products/'+item.id+'/'+item.name;
+	var sellerurl = baseurl+'/sellers/'+item.seller.id+'/'+item.seller.company;
 	if(item.images[0] != null){
-		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
+		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
 	}else{
-		image = '<a href="'+url+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
+		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};
+	var description = (item.description != null) ? (item.description.substring(0,30)+'...') : "";
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+
@@ -119,7 +129,8 @@ function buildItem(item){
 				'<h5><a href="'+url+'">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
 				'<div class="clearfix"></div>'+
 // 		<!-- Para. Note more than 2 lines. -->
-			'<p>'+item.description+'</p>'+
+			'<p>'+description+'</p>'+
+			'<p><a href="'+sellerurl+'">'+item.seller.company+'</a></p>'+
 			'<div class="rateit" data-rateit-resetable="false"></div>'+
 			'<hr />'+
 // 			<!-- Price -->

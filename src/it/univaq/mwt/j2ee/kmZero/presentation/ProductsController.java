@@ -69,22 +69,17 @@ public class ProductsController {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/index")
-	public String getFavouriteSllers(Model model) throws BusinessException{
-		List<Seller> l = userService.getFavouriteSellers(); 
-		List<Product> p = productService.getFavouriteProducts();
-		model.addAttribute("sellers", l);
-		model.addAttribute("products", p);
-		
-		return "common.index";
-	}
-
+	
 	//FRONTEND
 	
 	@RequestMapping("")
 	public String views(Model model) throws BusinessException{
 		List<Category> categoryTree = productService.findAllRootCategories();
 		model.addAttribute("categoryTree", categoryTree);
+		List<Seller> sellers = userService.getAllSellers();
+		model.addAttribute("sellers", sellers);
+		List<Product> products = productService.getFavouriteProducts();
+		model.addAttribute("products", products);
 		return "products.views";
 	}
 	
@@ -166,6 +161,8 @@ public class ProductsController {
 	public String viewProduct(@PathVariable("prod_id")Long prod_id, Model model) throws BusinessException {
 		Product p = productService.findProductById(prod_id);
 		model.addAttribute("product", p);
+		List<Product> lp = productService.getSameCategoryProducts(prod_id);
+		model.addAttribute("sameCategoryProducts", lp);
 		return "products.product";
 	}
 	

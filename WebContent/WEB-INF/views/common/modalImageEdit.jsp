@@ -3,8 +3,14 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<!-- Dialog Modal starts -->
 
+<script>
+$(document).ready(function() {
+	$('.fuelux div.spinner').spinner('value', ${image.position});
+});
+</script>
+
+<!-- Dialog Modal starts -->
 <div id="modalWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-header">
     <button id="modalWindow_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -27,13 +33,24 @@
 				    	<form:input id="altName" path="altName"/>
 				    </div>
 				</div>
-				 
-				<div>
-				    <label for="position"><spring:message code="image.position"/></label>
-				    <div>
-				    	<form:input id="position" path="position"/>
-				    </div>
+				<!-- SPINNER -->
+				
+				<div class="fuelux row">
+					<label for="position"><spring:message code="image.position"/></label>
+					<div class="spinner">
+						<form:input id="position" path="position" class="input-mini spinner-input" maxlength="3" />
+						<div class="spinner-buttons	 btn-group btn-group-vertical">
+							<button type="button" class="btn spinner-up">
+								<i class="icon-chevron-up"></i>
+							</button>
+							<button type="button" class="btn spinner-down">
+								<i class="icon-chevron-down"></i>
+							</button>
+						</div>
+					</div>
 				</div>
+				<!-- END SPINNER -->
+			
 				<div class="control-group">
 			    <div class="controls">
 			    	<input id="modalWindow_ok" type="button" class="btn" value="<spring:message code="common.submit"/>" onclick="doAjaxPost('#imageEdit')" /> 

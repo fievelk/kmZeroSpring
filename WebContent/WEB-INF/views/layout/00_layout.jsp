@@ -40,8 +40,13 @@
 	<link href="${pageContext.request.contextPath}/resources/pagination/simplePagination.css" rel="stylesheet">
 
 	<!-- CLEditor -->
-	<link href="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.css" rel="stylesheet"> <!-- CLEditor -->
-
+	<link href="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.css" rel="stylesheet"> 
+	<!-- CLEditor -->
+	
+	<!-- FUELUX Spinner -->
+	<link href="${pageContext.request.contextPath}/resources/fuelux/css/fuelux.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/resources/fuelux/css/fuelux-responsive.css" rel="stylesheet" />
+	<!-- END FUELUX Spinner -->
 	
 	<!-- HTML5 Support for IE -->
 	<!--[if lt IE 9]>
@@ -57,6 +62,11 @@
 
     <script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
     <script src="${pageContext.request.contextPath}/resources/custom/js/carts.js"></script> <!-- Cart -->
+    
+  
+	<script src="${pageContext.request.contextPath}/resources/fuelux/spinner.js"></script> <!-- FUELUX Spinner -->
+  
+  
 <!-- Collegamenti per il jQuery datepicker -->    
 <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>

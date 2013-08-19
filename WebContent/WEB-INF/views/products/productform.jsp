@@ -10,8 +10,18 @@
 $(document).ready(function() {
 	var del = "${requestScope.delete}"; 
 	if (del == "true" ) {
-		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
-	}		
+		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });
+		$('.fuelux div.spinner div.spinner-buttons').remove();
+		$('.fuelux div.spinner').spinner({
+				disabled: true,
+				max:	4		
+		});
+	}	
+	$('.fuelux div.spinner').spinner({
+				value: ${product.position},
+				max:	4	
+				}
+	);
 });
 
 /*--------SETUP READONLY FIELDS IF DELETING - END--------*/
@@ -134,6 +144,24 @@ $(function() {
 				
 				<!-- fine DATEPICKER -->
 				
+				<!-- SPINNER -->
+				
+				<div class="fuelux row">
+					<label for="position"><spring:message code="product.position"/></label>
+					<div class="spinner">
+						<form:input id="position" path="position" class="input-mini spinner-input" maxlength="3" />
+						<div class="spinner-buttons	 btn-group btn-group-vertical">
+							<button type="button" class="btn spinner-up">
+								<i class="icon-chevron-up"></i>
+							</button>
+							<button type="button" class="btn spinner-down">
+								<i class="icon-chevron-down"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- END SPINNER -->
+				
 				<div class="control-group">
 				    <div class="controls">
 				      <button type="submit" class="btn">
@@ -148,6 +176,7 @@ $(function() {
 		      		  </button>
 					</div>
 				</div>
+				
 			</div>
 			  </form:form>
 				<c:if test="${requestScope.update eq 'true'}">

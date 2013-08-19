@@ -532,7 +532,7 @@ public class JPAUserService implements UserService{
 	}
 
 	@Override
-	public void createPageContent(SellerContent content, long userId) {
+	public void createPageContent(SellerContent content, long userId) throws BusinessException{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		
@@ -561,7 +561,7 @@ public class JPAUserService implements UserService{
 	}
 
 	@Override
-	public void updatePageContent(SellerContent content, long userId) {
+	public void updatePageContent(SellerContent content, long userId) throws BusinessException{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 	    tx.begin();
@@ -576,7 +576,7 @@ public class JPAUserService implements UserService{
 	}
 
 	@Override
-	public void deletePageContent(long contentId, long userId) {
+	public void deletePageContent(long contentId, long userId) throws BusinessException{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 	    tx.begin();
@@ -586,15 +586,27 @@ public class JPAUserService implements UserService{
 	    em.close();	
 		
 	}
+	
+	/*Featured Items*/
 
 	@Override
-	public List<Seller> getFavouriteSellers() {
+	public List<Seller> getFavouriteSellers() throws BusinessException{
 		EntityManager em = this.emf.createEntityManager();
 		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
 		List<Seller> sellers = query.getResultList();
 		em.close();
 		return sellers;
 	}
+
+	@Override
+	public List<Seller> getAllSellers() throws BusinessException{
+		EntityManager em = this.emf.createEntityManager();
+		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
+		List<Seller> sellers = query.getResultList();
+		em.close();
+		return sellers;
+	}
+
 
 
 }
