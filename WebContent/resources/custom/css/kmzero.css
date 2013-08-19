@@ -307,3 +307,17 @@ input[type="number"] {
 .modal-backdrop{
     z-index: 10;        
 }
+
+/* Orders table layout */
+
+.tableFixed { table-layout: fixed; }
+.tableFixed th, td { overflow: hidden; }
+.tableFixed th{ text-align: center; }
+.tableFixed td{ text-align: center; }
+.tableFixed .star{ margin-left:auto; margin-right:auto; }
+.tableFixed .starBlocked{ margin-left:auto; margin-right:auto; }
+.tableFixed th#product {width: 35%; text-align:left;}
+.tableFixed th#quantity {width: 20%;}
+.tableFixed th#price {width: 20%;}
+.tableFixed th#rating {width: 25%;}
+.tableFixed td#productId {text-align:left;}

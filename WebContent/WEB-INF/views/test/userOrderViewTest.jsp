@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.raty.js"></script>
 
@@ -39,19 +40,6 @@ $(document).ready(function () {
 </script>
 <!-- end of rating script -->
 
-<style>
- .tableFixed { table-layout: fixed; }
- .tableFixed th, table td { overflow: hidden; }
- .tableFixed th{ text-align: center; }
- .tableFixed td{ text-align: center; }
- .tableFixed .star{ margin-left:auto; margin-right:auto; }
- .tableFixed .starBlocked{ margin-left:auto; margin-right:auto; }
- .tableFixed th#product {width: 35%; text-align:left;}
- .tableFixed th#quantity {width: 20%;}
- .tableFixed th#price {width: 20%;}
- .tableFixed th#rating {width: 25%;}
- .tableFixed td#productId {text-align:left;}
-</style>
 
 
 <!-- Main content -->
@@ -61,7 +49,7 @@ $(document).ready(function () {
 		<c:forEach items="${requestScope.carts}" var="cart">
 		<ul>
 		<li>		
-			<b>Carrello #${cart.id}, pagato il ${cart.paid}, destinazione: ${cart.address} </b>
+			<b>Carrello #${cart.id}, pagato il <fmt:formatDate pattern="yyyy-MM-dd" value="${cart.paid}" />, destinazione: ${cart.address} </b>
 			<table class="table table-striped tcart tableFixed">
 			
 			    <thead>
