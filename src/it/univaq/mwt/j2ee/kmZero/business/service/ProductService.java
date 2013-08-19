@@ -63,4 +63,8 @@ public interface ProductService {
 
 	List<Product> getFavouriteProducts();
 
+	List<Product> getSameCategoryProducts(Long prodId);
+
+	List<Product> getAllProducts();
+
 }

@@ -14,7 +14,7 @@
                  <ul class="nav">
                    <li><a href="${pageContext.request.contextPath}"><i class="icon-home"></i></a></li>
                    <li><a href="${pageContext.request.contextPath}/products">Prodotti</a></li>
-                   <li><a href="${pageContext.request.contextPath}/sellers">Venditori <span style="color:red">- NIY</span></a></li>  
+                   <li><a href="${pageContext.request.contextPath}/sellers">Venditori</a></li>  
                    <security:authorize access="!isAuthenticated()">
                    	<li><a href="${pageContext.request.contextPath}/users/create_start.do">Registrati</a></li>
                    	<li><a href="${pageContext.request.contextPath}/sellers/create_start.do">Registrati Venditore</a></li>

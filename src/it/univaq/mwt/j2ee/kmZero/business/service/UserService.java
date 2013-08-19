@@ -56,14 +56,18 @@ public interface UserService {
 
 	ResponseGrid<SellerContent> viewAllPageContentsPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException;
 
-	void createPageContent(SellerContent content, long userId);
+	void createPageContent(SellerContent content, long userId) throws BusinessException;
 
-	void updatePageContent(SellerContent content, long userId);
+	void updatePageContent(SellerContent content, long userId) throws BusinessException;
 
-	void deletePageContent(long contentId, long userId);
+	void deletePageContent(long contentId, long userId) throws BusinessException;
 	
 	SellerContent findSellerContentById(long id) throws BusinessException;
 
-	List<Seller> getFavouriteSellers();
+	/*Featured Items*/
+	
+	List<Seller> getFavouriteSellers() throws BusinessException;
+
+	List<Seller> getAllSellers() throws BusinessException;
 
 }

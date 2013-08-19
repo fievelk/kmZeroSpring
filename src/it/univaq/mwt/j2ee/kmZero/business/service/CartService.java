@@ -19,12 +19,12 @@ public interface CartService {
 	ResponseCarts<CartLine> viewCartlines(String session_id) throws BusinessException;
 	
 	// Il carrello esiste oppure no
-	ResponseCarts<CartLine> existCart(String session_id) throws BusinessException;
+	//ResponseCarts<CartLine> existCart(String session_id) throws BusinessException;
 
 	Cart findCartById(long id) throws BusinessException;
 	
 	// Trova il carrello sul quale fare il Checkout passandogli i dati dell'utente
-	Cart findCartToCheckout(long id, String name, String surname) throws BusinessException;
+	Cart findCartToCheckout(long id, String email) throws BusinessException;
 
 	// Il carrello � stato pagato
 	void paid(String transaction_id, long cart_id) throws BusinessException;

@@ -1,0 +1,246 @@
+.fuelux button,
+.fuelux input,
+.fuelux select,
+.fuelux textarea {
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle;
+}
+
+.fuelux button,
+.fuelux input {
+  *overflow: visible;
+  line-height: normal;
+}
+
+.fuelux select,
+.fuelux textarea,
+.fuelux input[type="text"],
+.fuelux input[type="password"],
+.fuelux input[type="datetime"],
+.fuelux input[type="datetime-local"],
+.fuelux input[type="date"],
+.fuelux input[type="month"],
+.fuelux input[type="time"],
+.fuelux input[type="week"],
+.fuelux input[type="number"],
+.fuelux input[type="email"],
+.fuelux input[type="url"],
+.fuelux input[type="search"],
+.fuelux input[type="tel"],
+.fuelux input[type="color"],
+.fuelux .uneditable-input {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.fuelux input,
+.fuelux textarea,
+.fuelux .uneditable-input {
+  width: 206px;
+}
+
+.fuelux textarea,
+.fuelux input[type="text"],
+.fuelux input[type="password"],
+.fuelux input[type="datetime"],
+.fuelux input[type="datetime-local"],
+.fuelux input[type="date"],
+.fuelux input[type="month"],
+.fuelux input[type="time"],
+.fuelux input[type="week"],
+.fuelux input[type="number"],
+.fuelux input[type="email"],
+.fuelux input[type="url"],
+.fuelux input[type="search"],
+.fuelux input[type="tel"],
+.fuelux input[type="color"],
+.fuelux .uneditable-input {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+     -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+       -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+          transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+
+.fuelux .input-mini {
+  width: 60px;
+}
+
+.fuelux input,
+.fuelux textarea,
+.fuelux .uneditable-input {
+  margin-left: 0;
+}
+
+.fuelux .btn:first-child {
+  *margin-left: 0;
+}
+
+.fuelux .btn-group {
+  position: relative;
+  display: inline-block;
+  *display: inline;
+  *margin-left: .3em;
+  font-size: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  *zoom: 1;
+}
+
+.fuelux .btn-group > .btn {
+  position: relative;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+
+.fuelux .btn-group > .btn {
+  position: relative;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+
+.fuelux .btn-group > .btn + .btn {
+  margin-left: -1px;
+}
+
+.fuelux .btn-group > .btn,
+.fuelux .btn-group > .dropdown-menu,
+.fuelux .btn-group > .popover {
+  font-size: 14px;
+}
+
+.fuelux .btn-group > .btn,
+.fuelux .btn-group > .dropdown-menu,
+.fuelux .btn-group > .popover {
+  font-size: 14px;
+}
+
+.fuelux .btn-group > .btn,
+.fuelux .btn-group > .dropdown-menu,
+.fuelux .btn-group > .popover {
+  font-size: 14px;
+}
+
+
+.fuelux .btn-group > .btn:first-child {
+  margin-left: 0;
+  -webkit-border-bottom-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-topleft: 4px;
+}
+
+.fuelux .btn-group > .btn:last-child,
+.fuelux .btn-group > .dropdown-toggle {
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+}
+
+.fuelux .btn-group-vertical {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+}
+
+.fuelux .btn-group-vertical > .btn {
+  display: block;
+  float: none;
+  max-width: 100%;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+
+
+.fuelux .btn-group-vertical > .btn {
+  display: block;
+  float: none;
+  max-width: 100%;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+
+.fuelux .btn-group-vertical > .btn + .btn {
+  margin-top: -1px;
+  margin-left: 0;
+}
+
+
+.fuelux .btn-group-vertical > .btn:first-child {
+  -webkit-border-radius: 4px 4px 0 0;
+     -moz-border-radius: 4px 4px 0 0;
+          border-radius: 4px 4px 0 0;
+}
+
+.fuelux .btn-group-vertical > .btn:last-child {
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+}
+
+.fuelux .spinner input {
+  float: left;
+  width: 43px;
+}
+
+.fuelux .spinner .btn {
+  position: relative;
+  width: 20px;
+  height: 14px;
+  padding-top: 0;
+  padding-right: 9px;
+  padding-left: 9px;
+}
+
+.fuelux .spinner .btn {
+  position: relative;
+  width: 20px;
+  height: 14px;
+  padding-top: 0;
+  padding-right: 9px;
+  padding-left: 9px;
+}
+
+.fuelux .spinner .spinner-buttons {
+  position: relative;
+  left: -22px;
+  float: left;
+  width: 20px;
+  height: 28px;
+}
+
+.fuelux .spinner .spinner-up {
+  top: 2px;
+  padding: 0 0 4px 1px;
+}
+
+.fuelux .spinner .spinner-down {
+  top: 2px;
+  height: 13px;
+  padding: 0 0 4px 1px;
+}

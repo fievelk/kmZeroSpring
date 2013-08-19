@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 
 
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
@@ -205,7 +207,6 @@ public class ImagesController {
 	public ResponseImages reloadSellerImages(long userId) throws BusinessException{
 		List<Image> ri = new ArrayList<Image>(); 
 		ri = imageService.getSellerImages(userId);
-		System.out.println("FROM reloadSellerImages"+ri);
 		return new ResponseImages(ri, userId,"selr");
 	}
 	
@@ -223,5 +224,6 @@ public class ImagesController {
 		return r;
 	}
 	
+
 
 }

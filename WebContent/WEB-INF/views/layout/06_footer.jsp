@@ -17,11 +17,11 @@
                       <a href="#"><i class="icon-google-plus google-plus"></i></a> 
                     </div>
                   <hr />
-                  <i class="icon-home"></i> &nbsp; 123, Some Area. Los Angeles, CA, 54321.
+                  <i class="icon-home"></i> &nbsp; Indirizzo Wharehouse
                   <hr />
-                  <i class="icon-phone"></i> &nbsp; +239-3823-3434
+                  <i class="icon-phone"></i> &nbsp; +39 0862802190
                   <hr />
-                  <i class="icon-envelope-alt"></i> &nbsp; <a href="mailto:#">someone@company.com</a>
+                  <i class="icon-envelope-alt"></i> &nbsp; <a href="mailto:#">info@kilometrozero.com</a>
                   <hr />
                   <div class="payment-icons">
                     <img src="${pageContext.request.contextPath}/resources/mackart/img/payment/americanexpress.gif" alt="" />
@@ -76,7 +76,7 @@
 
             <hr />
             <!-- Copyright info -->
-            <p class="copy">Copyright &copy; 2012 | <a href="#">Your Site</a> - <a href="#">Home</a> | <a href="#">About Us</a> | <a href="#">Service</a> | <a href="#">Contact Us</a></p>
+            <p class="copy">Copyright &copy; 2012 | <a href="#">www.kilometrozero.com</a> - <a href="#">Home</a> | <a href="#">Prodotti</a> | <a href="#">Venditori</a> | <a href="#">Contact Us</a></p>
       </div>
     </div>
   <div class="clearfix"></div>

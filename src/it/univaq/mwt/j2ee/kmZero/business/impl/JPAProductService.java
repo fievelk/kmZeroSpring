@@ -136,6 +136,7 @@ public class JPAProductService implements ProductService{
         String sortCol = requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
         Long categoryId = requestGrid.getCategoryId();
+        Long sellerId = requestGrid.getSellerId();
 
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
@@ -145,6 +146,10 @@ public class JPAProductService implements ProductService{
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
         Root<Product> p = q.from(Product.class);
+        //Seleziona tutti i prodotti...
+        q.select(p);
+        
+        /*Predicati per la clausola where - START*/
         
         Predicate categoryPredicate;
         
@@ -163,13 +168,24 @@ public class JPAProductService implements ProductService{
 		}else{
 			categoryPredicate = cb.and();
 		}
-        
-        q.select(p);
+		
+		Predicate sellerPredicate;
+		if(sellerId != null){
+			Seller seller = em.find(Seller.class, sellerId);
+			sellerPredicate = cb.equal(p.get("seller").as(Seller.class),seller);
+		}else{
+			sellerPredicate = cb.and();
+		}
+		
+		/*Predicati END*/
+
+        /*MAIN PREDICATE*/
         Predicate predicate = cb.and(
 									cb.equal(p.get("active").as(Boolean.class), active),
 									cb.lessThanOrEqualTo(p.get("date_in").as(Date.class), today),
 									cb.greaterThanOrEqualTo(p.get("date_out").as(Date.class), today),
 									categoryPredicate,
+									sellerPredicate,
 									cb.or(
 					        				cb.like(cb.lower(p.get("name").as(String.class)),search),
 					        				cb.like(cb.lower(p.get("description").as(String.class)),search),
@@ -177,15 +193,11 @@ public class JPAProductService implements ProductService{
 					    			)
 		);
         
+        /*Setto la clausola where con il predicato costruito*/
         q.where(predicate);
+
         
-        CriteriaQuery<Long> qc = cb.createQuery(Long.class);
-        qc.select(cb.count(p));
-        qc.where(predicate);
-        
-        Long totalRecords = em.createQuery(qc).getSingleResult();
-        
-        //orderby asc or desc
+        //imposto orderby asc or desc
         if(sortDir.equals("ASC"))
         	q.orderBy(cb.asc(p.get(sortCol)));
         else
@@ -197,6 +209,13 @@ public class JPAProductService implements ProductService{
         List<Product> products = query.getResultList();
         Long records = (long) products.size();
 
+        
+        /*Creo una seconda query per effettuare il conteggio delle righe,in cui utilizzo lo stesso predicato per il where costruito per la prima*/
+        CriteriaQuery<Long> qc = cb.createQuery(Long.class);
+        qc.select(cb.count(p));
+        qc.where(predicate);
+        Long totalRecords = em.createQuery(qc).getSingleResult();
+        
         tx.commit();
         em.close();
               
@@ -620,13 +639,36 @@ public class JPAProductService implements ProductService{
 		em.close();
 	}
 
+	
 	@Override
 	public List<Product> getFavouriteProducts() {
+		EntityManager em = this.emf.createEntityManager();
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
+		query.setMaxResults(4);
+		List<Product> products = query.getResultList();
+		em.close();
+		return products;
+	}	
+	
+
+	@Override
+	public List<Product> getSameCategoryProducts(Long prodId) {
+		EntityManager em = this.emf.createEntityManager();
+		Product product = em.find(Product.class, prodId);
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category ", Product.class);
+		query.setParameter("category", product.getCategory());
+		List<Product> products = query.getResultList();
+		products.remove(product);
+		em.close();
+		return products;
+	}
+
+	@Override
+	public List<Product> getAllProducts() {
 		EntityManager em = this.emf.createEntityManager();
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
 		List<Product> products = query.getResultList();
 		em.close();
 		return products;
-	}	
-
+	}
 }
