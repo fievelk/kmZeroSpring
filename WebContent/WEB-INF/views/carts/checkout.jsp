@@ -4,9 +4,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <script type="text/javascript">
-	$(document).ready(createModalCart());
+	$(document).ready(checkoutCart());
 </script>
 
 <div class="items">
@@ -56,7 +57,7 @@
 					<div class="control-group">
 					    <label class="control-label" for="delivery_date"><spring:message code="cart.delivery_date"/></label>
 					    <div class="controls">
-					    	<form:label id="delivery_date" path="delivery_date">${cart.delivery_date}</form:label>
+					    	<form:label id="delivery_date" path="delivery_date"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></form:label>
 					    </div>
 					</div>
 					<table class="table table-striped tcart">

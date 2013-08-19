@@ -5,13 +5,16 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
+import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
+import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
+import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
 import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
@@ -42,7 +45,7 @@ public class SellersController {
 	
 	@Autowired
 	private UserService service;
-	
+
 	@Autowired
 	private SellerValidator validator;
 	
@@ -51,6 +54,9 @@ public class SellersController {
 	
 	@Autowired
 	private LoggedUser loggedUser;
+	
+	@Autowired
+	private WarehouseService warehouseService;
 	
 	@InitBinder
 	public void binder(WebDataBinder binder) {
@@ -323,4 +329,40 @@ public class SellersController {
 		return "sellers.view";
 	}
 	
+
+	// WAREHOUSE
+
+	@RequestMapping("/admin/viewWarehouses")
+	public String viewWarehouses(Model model) throws BusinessException {
+		Warehouse warehouse = warehouseService.findWarehouse();
+		model.addAttribute("warehouse", warehouse);
+		return "warehouses.views";
+	}
+	
+	@RequestMapping("/admin/updateWarehouse_start")
+	public String updateWarehouseStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+		Warehouse warehouse = warehouseService.findWarehouseById(id);
+		model.addAttribute("warehouse", warehouse);
+		model.addAttribute("id", id);
+		return "warehouses.updateform";
+	}
+	
+	@RequestMapping(value="/admin/updateWarehouse", method=RequestMethod.POST)
+	public String updateWarehouse(@ModelAttribute Warehouse warehouse, BindingResult bindingResult) throws BusinessException {
+		warehouseService.updateWarehouse(warehouse);
+		return "redirect:/sellers/admin/viewWarehouses";
+	}	
+	
+	@RequestMapping("/findWarehouseAddress")
+	@ResponseBody
+	/*The @ResponseBody annotation can be put on a method and indicates that the return type
+	* should be written straight to the HTTP response body (and not placed in a Model, or
+	* interpreted as a view name).*/
+	public String findWarehouseAddress() throws BusinessException {
+		String address = warehouseService.findWarehouseAddress();	
+	
+		return address;
+	}
+	
+
 }

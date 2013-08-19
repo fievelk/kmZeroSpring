@@ -4,16 +4,14 @@ import it.univaq.mwt.j2ee.kmZero.common.Comparators;
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,7 +31,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="products")
-public class Product {
+public class Product implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="product_id")

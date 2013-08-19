@@ -5,24 +5,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.PostRemove;
 import javax.persistence.Query;
-
-import org.springframework.transaction.annotation.Transactional;
 
 public class JPACartService implements CartService{
 	
@@ -84,7 +80,7 @@ public class JPACartService implements CartService{
     		}
     	}
     	if (!clExist){
-    		// Questo prodotto non � stato ancora inserito nel carrello
+    		// Questo prodotto non e' stato ancora inserito nel carrello
     		cl = new CartLine();
     		cl.setQuantity(quantity);
     		BigDecimal tot = p.getPrice().multiply(new BigDecimal(cl.getQuantity()));
@@ -93,7 +89,7 @@ public class JPACartService implements CartService{
     		cls = c.getCartLines();
         	cls.add(cl);
     	} else {
-    		// Questo prodotto � stato gi� inserito nel carrello
+    		// Questo prodotto e' stato gia' inserito nel carrello
     		Query update = em.createQuery("UPDATE CartLine SET quantity = :quantity, lineTotal = :lineTotal WHERE id = :id");
     		cl.setQuantity(cl.getQuantity() + quantity);
     		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(cl.getQuantity())));
@@ -158,30 +154,33 @@ public class JPACartService implements CartService{
 		return new ResponseCarts<CartLine>(id, size, cartlines);
 	}
 	
-	@Override
+	/*@Override
 	public ResponseCarts<CartLine> existCart(String session_id) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
-		Query query = em.createQuery("Select Count (c) FROM Cart c WHERE c.session_id = :session_id");
-        query.setParameter("session_id", session_id);
+		
+		long id = 0;
+		int size = 0;
+		
+		Query querycount = em.createQuery("Select Count (c) FROM Cart c WHERE c.session_id = :session_id");
+		querycount.setParameter("session_id", session_id);
         
-        Long exist = (Long) query.getSingleResult();
-        int e = exist.intValue();
+        Long exist = (Long) querycount.getSingleResult();
         
         if (exist != 0){
-    		Query query2 = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
-            query2.setParameter("session_id", session_id);
-        	Cart cart = (Cart)query2.getSingleResult();
-        	Collection<CartLine> cls = cart.getCartLines();
-        	e = cls.size();
+    		Query query = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
+            query.setParameter("session_id", session_id);
+        	Cart cart = (Cart)query.getSingleResult();
+    		size = cart.getCartLines().size();
+    		id = cart.getId();
         }
         
 		et.commit();
 		em.close();
 		
-		return new ResponseCarts<CartLine>(exist, e, null);
-	}
+		return new ResponseCarts<CartLine>(id, size, null);
+	}*/
 
 	@Override
 	public Cart findCartById(long id) throws BusinessException {
@@ -197,30 +196,31 @@ public class JPACartService implements CartService{
 	}
 	
 	@Override
-	public Cart findCartToCheckout(long id, String name, String surname) throws BusinessException {
+	public Cart findCartToCheckout(long id, String email) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		
-		/*Cart cart = em.find(Cart.class, id);
-		cart.setName(name);
-		cart.setSurname(surname);
-		em.merge(cart);*/
+		Query queryUser = em.createQuery("Select u FROM User u WHERE u.email = :email");
+		queryUser.setParameter("email", email);
+		User user = (User)queryUser.getSingleResult();
 		
 		Query query = em.createQuery("UPDATE Cart SET name = :name, surname = :surname WHERE id = :id");
-		query.setParameter("name", name);
-		query.setParameter("surname", surname);
+		query.setParameter("name", user.getName());
+		query.setParameter("surname", user.getSurname());
 		query.setParameter("id", id);
 		query.executeUpdate();
-		et.commit();
-		
-		et.begin();
 		
 		Cart cart = em.find(Cart.class, id);
-		em.persist(cart);
+		Collection<Cart> carts = user.getCart();
+		carts.add(cart);
+		user.setCart(carts);
+		
+		em.persist(user);
 		
 		et.commit();
 		em.close();
+		
 		return cart;
 	}
 
@@ -233,6 +233,7 @@ public class JPACartService implements CartService{
 		Cart cart = em.find(Cart.class, cart_id);
 		cart.setPaid(new Date());
 		cart.setTransaction_id(transaction_id);
+		cart.setSession_id(null);
 		em.merge(cart);
 		
 		et.commit();
@@ -252,6 +253,34 @@ public class JPACartService implements CartService{
 		
 		et.commit();
 		em.close();
+		
+	}
+
+	@Override
+	public CartLine findCartLineById(long id) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		CartLine cartLine = em.find(CartLine.class, id);
+		
+		et.commit();
+		em.close();
+		return cartLine;
+	}
+
+	@Override
+	public void updateCartLineRating(CartLine cartLine, int rating) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        cartLine.setRating(rating);
+        em.merge(cartLine);
+        
+        tx.commit();
+        em.close();
+
 		
 	}
 

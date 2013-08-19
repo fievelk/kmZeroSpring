@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/existcart.do",
+		url: contextPath+"/carts/viewcartpaginated.do",
 		success: cartExistJson
 	});
 });
@@ -20,10 +20,7 @@ function createModalCart(){
 			var exist = data.exist;
 			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 			if (exist == 0){
-				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"><tr><th>Il carrello ï¿½ vuoto</th></tbody>');
-				//$('tbody#cartlines').replaceWith('<tbody id="cartlines"></tbody><center><div><label>Il carrello \u00E8 vuoto</label></div></center>');
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
-				//$('a#checkout').attr('disabled','disabled');
 				//non ci deve proprio più essere quel bottone
 				$('a#checkout').replaceWith('<a id=checkout></a>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
@@ -53,21 +50,19 @@ function cartJson(data)  {
 		tot += parseFloat(item.lineTotal); /* trasforma in float perchÃ© @JsonSerialize nel modello passa una stringa, non un float */
 	});
 	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
-	$('tbody#cartlinesconfirmed').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
 	$('a#checkout').replaceWith('<a id="checkout" href="' + contextPath + '/carts/confirmcart_start.do?id=' + data.id + '" class="btn btn-danger">Vai alla cassa</a>');
-	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot + '">');
 }
 
-/*function createModalCart2(){
+function checkoutCart(){
 	$.ajax({
 		type: "POST",
 		url: contextPath+"/carts/viewcartpaginated.do",
-		success: cartJson2
+		success: checkoutJson
 	});
 }
 
-function cartJson2(data)  {
+function checkoutJson(data)  {
 	var products = '';
 	var cartlines = data.cartlines;
 	var tot = 0;
@@ -78,12 +73,13 @@ function cartJson2(data)  {
 					+ '<td>' + item.quantity + '</td>'
 					+ '<td>' + item.lineTotal + '</td>'
 					+ '</tr>';
-		tot += item.lineTotal;
+		tot += parseFloat(item.lineTotal); /* trasforma in float perche' @JsonSerialize nel modello passa una stringa, non un float */
 	});
-	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
-	$('th#total').replaceWith('<th id="total">\u20ac ' + tot + '</th>');
+	$('tbody#cartlinesconfirmed').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th>Total</th><th id="total"></th></tr></tbody>');
+	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
 	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot + '">');
-}*/
+}
+
 
 function deleteCartLine(id_item, id_tr, id_cart){
 	$.ajax({

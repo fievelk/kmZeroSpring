@@ -3,18 +3,12 @@ var directionsServiceModal = new google.maps.DirectionsService();
 var mapModal;
 var geocoderModal = new google.maps.Geocoder();
 
-/* Chiamata AJAX per indirizzo del centro di distribuzione, preso dalla classe Warehouse */
+/* Chiamata AJAX per indirizzo del centro di distribuzione */
 
-//modalWindow = document.getElementById("modalDialogAddress");
-//google.maps.event.addDomListener(window, 'load', function(){
-
-//google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'show', function(){
-	
-//$('#modalDialogAddress').modal('shown', function () {
 function executeOnModal() {
 	$.ajax({
 		type:"POST",
-	    url:contextPath+"/products/findWarehouseAddress",  
+	    url:contextPath+"/sellers/findWarehouseAddress",  
 	    success:function(data){
 	    			warehouseAddressModal = data;
 	    			geocoderModal.geocode({'address': warehouseAddressModal }, function(results) {
@@ -56,7 +50,9 @@ function initializeModal() {
 	
 	var mapModalOptions = {
 	  center: warehouse,
-	  zoom:10,
+	  zoom:11,
+	  scrollwheel: false,
+	  draggable: false,
 	  disableDefaultUI: true,
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };

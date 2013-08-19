@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
@@ -7,6 +8,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 
@@ -141,6 +143,10 @@ public class JPATestService implements TestService{
 			em.persist(meas3);
 			em.persist(meas4);
 			
+			Warehouse warehouse = new Warehouse("Warehouse", "Via dei Vestini, 66100 Chieti CH, Italia");
+			em.persist(warehouse);
+			
+			
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
@@ -256,5 +262,20 @@ public class JPATestService implements TestService{
 		return result;
 	}	
 
+/*	@Override
+	public List<Cart> viewPaidCartBySessionId(String session_id) throws BusinessException {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL", Cart.class);
+   
+        List<Cart> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+		
+		return result;
+	}	*/
 		
 }

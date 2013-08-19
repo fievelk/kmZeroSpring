@@ -2,6 +2,8 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.DateJsonSerializer;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +20,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -77,6 +80,10 @@ public class User implements java.io.Serializable{
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
 	@JsonManagedReference
 	private Set<Role> roles = new HashSet<Role>();
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name = "user_fk")
+	private Collection<Cart> cart = new ArrayList<Cart>();
 
 	private static final long serialVersionUID = 1L;
 
@@ -131,10 +138,17 @@ public class User implements java.io.Serializable{
 		this.date_of_birth = date_of_birth;
 		this.address = address;
 	}
+	
+	/* Costruttore con il carrello (servira'?) */
+	public User(long id, String name, String surname, String email, Password password, 
+			Date created, Date date_of_birth, String address, Collection<Cart> cart) {
+		this(id, name,surname,email,password,created,date_of_birth,address);
+		this.cart = cart;
+	}
 
 
 
-	/* Costruttore che serve al Seller quando verrˆ visualizzata la lista tramite Datatables */
+	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
 
 	/* Costruttore che serve al Seller quando verrï¿½ visualizzata la lista tramite Datatables */
 
@@ -229,6 +243,14 @@ public class User implements java.io.Serializable{
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Collection<Cart> getCart() {
+		return cart;
+	}
+
+	public void setCart(Collection<Cart> cart) {
+		this.cart = cart;
 	}
 
 }
