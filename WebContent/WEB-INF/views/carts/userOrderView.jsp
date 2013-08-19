@@ -20,6 +20,8 @@ $(document).ready(function () {
 				    url:contextPath+"/carts/updateCartLineRating?id=" + cartlineId + "&r=" + score,
 				    success: $(this).raty({
 				    	readOnly: true,
+				    	number: score,
+				    	score: score,
 				    	noRatedMsg: "You already rated this cartLine!",
 				    	path: '${pageContext.request.contextPath}/resources/custom/img/rating',
 				    })
