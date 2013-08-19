@@ -93,4 +93,11 @@
     </property>
 </bean> -->
 
+	<!-- INTERCEPTOR -->
+	<mvc:interceptors>
+		<!-- <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> -->
+		<bean class="it.univaq.mwt.j2ee.kmZero.common.spring.interceptor.CookieInterceptor"></bean>
+	</mvc:interceptors>
+	
+	
 </beans>

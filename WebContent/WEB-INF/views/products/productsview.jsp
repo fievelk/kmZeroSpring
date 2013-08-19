@@ -125,7 +125,7 @@ function buildItem(item){
 // 			<!-- Price -->
 			'<div class="item-price pull-left">\u20ac '+item.price+'</div>'+
 // 			<!-- Add to cart -->
-			'<div class="button pull-right"><a href="#" id="" onclick="existCart('+ item.id +');return null">Add to Cart</a></div>'+
+			'<div class="button pull-right"><a href="#" id="" onclick="existCart('+ item.id +');return false">Add to Cart</a></div>'+
 			'<div class="clearfix"></div>'+
 			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1"/></label></div>'+
 		'</div></div></div>';
@@ -156,7 +156,7 @@ function existCart(id){
 	
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/existcart.do",
+		url: contextPath+"/carts/viewcartpaginated.do",
 		success: function(data){
 			var cart_id = data.id;
 			var exist = data.exist;
