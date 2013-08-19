@@ -15,16 +15,13 @@ $(document).ready(function() {
 				disabled: true,
 				max:	4		
 		});
+		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
+		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });			
 	}	
 	$('.fuelux div.spinner').spinner({
 				value: ${product.position},
 				max:	4	
-				}
-	);
-
-		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
-		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });				
-	}		
+	});	
 });
 
 /*--------SETUP READONLY FIELDS IF DELETING - END--------*/
