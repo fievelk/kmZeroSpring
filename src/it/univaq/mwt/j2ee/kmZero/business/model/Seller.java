@@ -41,7 +41,7 @@ public class Seller extends User {
 	@Column(name="enable")
 	private boolean enable;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
 	@OrderBy("position ASC")
 	private List<Image> images;
