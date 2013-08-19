@@ -22,6 +22,8 @@
 		<security:intercept-url pattern="/sellers/create.do" access="permitAll"/>		
 		<security:intercept-url pattern="/sellers/views.do" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/sellers/upgrade_start.do" access="hasAnyRole('user')"/>		
+		<security:intercept-url pattern="/sellers/upgrade.do" access="hasAnyRole('user')"/>		
 		<security:intercept-url pattern="/users/*" access="hasAnyRole('admin', 'user', 'seller')"/>
 		<security:intercept-url pattern="/users/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/products" access="permitAll"/>
