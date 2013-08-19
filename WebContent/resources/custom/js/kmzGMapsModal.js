@@ -50,7 +50,9 @@ function initializeModal() {
 	
 	var mapModalOptions = {
 	  center: warehouse,
-	  zoom:10,
+	  zoom:11,
+	  scrollwheel: false,
+	  draggable: false,
 	  disableDefaultUI: true,
 	  mapTypeId:google.maps.MapTypeId.ROADMAP
 	  };

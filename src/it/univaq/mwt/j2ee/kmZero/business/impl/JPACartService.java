@@ -256,4 +256,32 @@ public class JPACartService implements CartService{
 		
 	}
 
+	@Override
+	public CartLine findCartLineById(long id) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		CartLine cartLine = em.find(CartLine.class, id);
+		
+		et.commit();
+		em.close();
+		return cartLine;
+	}
+
+	@Override
+	public void updateCartLineRating(CartLine cartLine, int rating) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        cartLine.setRating(rating);
+        em.merge(cartLine);
+        
+        tx.commit();
+        em.close();
+
+		
+	}
+
 }

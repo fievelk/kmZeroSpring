@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
@@ -261,5 +262,20 @@ public class JPATestService implements TestService{
 		return result;
 	}	
 
+/*	@Override
+	public List<Cart> viewPaidCartBySessionId(String session_id) throws BusinessException {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL", Cart.class);
+   
+        List<Cart> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+		
+		return result;
+	}	*/
 		
 }

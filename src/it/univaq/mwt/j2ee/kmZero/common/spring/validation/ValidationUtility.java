@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.common.spring.validation;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -74,6 +75,21 @@ public class ValidationUtility {
 		}
 		
 	}
+	
+	public static void rejectIfNegativeBD(Errors errors, String fieldName, String errorMessage, BigDecimal value) {
+		BigDecimal zero = new BigDecimal("0");
+		if (value != null) {
+			if (value.compareTo(zero)==-1){
+				errors.rejectValue(fieldName, errorMessage);
+			}
+		}	
+	}
+	
+	public static void rejectIfNegative(Errors errors, String fieldName, String errorMessage, int value) {
+			if (value < 0){
+				errors.rejectValue(fieldName, errorMessage);
+			}
+		}	
 	
 	
 }

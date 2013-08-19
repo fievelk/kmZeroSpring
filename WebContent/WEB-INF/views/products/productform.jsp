@@ -73,27 +73,31 @@ $(function() {
 				<div>
 				    <label for="name"><spring:message code="product.name"/></label>
 				    <div>
-				    	<form:input id="name" path="name"/>
+				    	<form:input id="name" path="name"/><br />
+				    	<form:errors path="name"/>
 				    </div>
 				</div>
 				
 				<div>
 				    <label for="description"><spring:message code="product.description"/></label>
 				    <div>
-				    	<form:input id="description" path="description"/>
+				    	<form:input id="description" path="description"/><br />
+				    	<form:errors path="description"/>
 				    </div>
 				</div>		
 				<div>
 				    <label for="price"><spring:message code="product.price"/></label>
 				    <div>
-				    	<form:input id="price" path="price"/>
+				    	<form:input id="price" path="price"/><br />
+				    	<form:errors path="price"/>
 				    </div>
 				</div>
 				
 				<div>
 				    <label for="stock"><spring:message code="product.stock" /></label>
 				    <div>
-				    	<form:input id="stock" path="stock"/>
+				    	<form:input id="stock" path="stock"/><br />
+				    	<form:errors path="stock"/>
 				    </div>
 				</div>		
 				
@@ -102,7 +106,8 @@ $(function() {
 				    <div>
 						<form:select id="measureId" path="measure.id">
 							<form:options items="${measures}" itemValue="id" itemLabel="name"/>
-						</form:select>
+						</form:select><br />
+						<form:errors path="measure.id"/>
 				    </div>
 				</div>				
 				
@@ -111,7 +116,8 @@ $(function() {
 				    <div>
 						<form:select id="categoryId" path="category.id">
 							<form:options items="${categories}" itemValue="id" itemLabel="name"/>
-						</form:select>
+						</form:select><br />
+						<form:errors path="category.id"/>
 				    </div>
 				</div>
 				
@@ -122,14 +128,16 @@ $(function() {
 		 		<div>
 				    <label for="date_in"><spring:message code="product.date_in"/></label>
 				    <div>
-				    	<form:input id="from" path="date_in"/>
+				    	<form:input id="from" path="date_in"/><br />
+				    	<form:errors path="date_in"/>
 				    </div>
 				</div> 
 				
 		 		<div>
 				    <label for="date_out"><spring:message code="product.date_out"/></label>
 				    <div>
-				    	<form:input id="to" path="date_out"/>
+				    	<form:input id="to" path="date_out"/><br />
+				    	<form:errors path="date_out"/>
 				    </div>
 				</div>		
 				

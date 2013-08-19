@@ -37,6 +37,7 @@
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
 		      <li><a href="">Percorsi <span style="color:red">- NIY</span></a></li>
 			</security:authorize>
+			  <li><a href="${pageContext.request.contextPath}/carts/userOrderView"> Ordini effettuati<span style="color:red">- WIP</span></a></li>
 	     </security:authorize>
 	    </ul>
 </div>
