@@ -71,18 +71,17 @@ $(function() {
 								<form:errors path="date_of_birth"/>
 							</div>
 						</div>
-						
-						<div class="control-group">
-						    <label class="control-label" for="address"><spring:message code="user.address"/></label>
-						    <div class="controls">
-								<form:input id="address_autocompleted" path="address"/><br />
-								<form:errors path="address"/>
-								<p id="addressDistanceError"></p>
-						    </div>
-						</div>
-						
+						<form:hidden path="address" id="address_autocompleted"/>
 						<c:choose>
 							<c:when test="${requestScope.upgrade}">
+								<div class="control-group">
+								    <label class="control-label" for="address"><spring:message code="user.address"/></label>
+								    <div class="controls">
+										<form:input id="address_autocompleted" path="address"/><br />
+										<form:errors path="address"/>
+										<p id="addressDistanceError"></p>
+								    </div>
+								</div>
 								<div class="control-group">
 								    <label class="control-label" for="p_iva"><spring:message code="seller.p_iva"/></label>
 								    <div class="controls">
