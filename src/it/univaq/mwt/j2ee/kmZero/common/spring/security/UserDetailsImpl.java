@@ -61,6 +61,10 @@ public class UserDetailsImpl implements UserDetails {
     	Seller s = (Seller)user;
     	return s.getP_iva();
     }
+    public String getCompany(){
+    	Seller s = (Seller)user;
+    	return s.getCompany();
+    }
     public Set<Role> getRoles() {
         return user.getRoles();
     }

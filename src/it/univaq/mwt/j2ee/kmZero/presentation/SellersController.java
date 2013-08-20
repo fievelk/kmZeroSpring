@@ -63,37 +63,37 @@ public class SellersController {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/admin/viewsToEnable.do")
+	@RequestMapping("/admin/viewsToEnable")
 	public String viewsToEnable(){
 		return "sellerstoenable.views";
 	}
 	
-	@RequestMapping("/admin/viewsEnabled.do")
+	@RequestMapping("/admin/viewsEnabled")
 	public String viewsEnabled(){
 		return "sellersenabled.views";
 	}
 	
-	@RequestMapping("/admin/viewAllSellersToEnablePaginated.do")
+	@RequestMapping("/admin/viewAllSellersToEnablePaginated")
 	@ResponseBody
 	public ResponseGrid<Seller> findAllSellersToEnablePaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
 		ResponseGrid<Seller> result = service.viewAllSellersToEnablePaginated(requestGrid);
 		return result;
 	}
 	
-	@RequestMapping("/admin/viewAllSellersEnabledPaginated.do")
+	@RequestMapping("/admin/viewAllSellersEnabledPaginated")
 	@ResponseBody
 	public ResponseGrid<Seller> findAllSellersEnabledPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
 		ResponseGrid<Seller> result = service.viewAllSellersEnabledPaginated(requestGrid);
 		return result;
 	}
 	
-	@RequestMapping("/create_start.do")
+	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException{
 		model.addAttribute("seller", new Seller());
 		return "sellers.createform";
 	}
 	
-	@RequestMapping(value="/create.do", method=RequestMethod.POST)
+	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
 		validator.validate(seller, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -103,7 +103,7 @@ public class SellersController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping("/update_start.do")
+	@RequestMapping("/update_start")
 	public String updateStart(Model model) throws BusinessException {
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		long id = udi.getId();
@@ -113,23 +113,17 @@ public class SellersController {
 	}
 	
 	
-	@RequestMapping(value="/update.do", method = RequestMethod.POST)
+	@RequestMapping(value="/update", method = RequestMethod.POST)
 	public String update(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
 		validator.validate(seller, bindingResult);
 		if (bindingResult.hasErrors()){
 			return "sellers.updateform";
 		}
 		service.updateSeller(seller);
-		/*if (seller.getEnable()){
-			return "redirect:/sellers/viewsEnabled.do";
-		} else {
-			return "redirect:/sellers/viewsToEnable.do";
-		}*/
 		return "redirect:/welcome";
-		
 	}
 	
-	@RequestMapping("/admin/update_start.do")
+	@RequestMapping("/admin/update_start")
 	public String updateStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
@@ -137,7 +131,7 @@ public class SellersController {
 	}
 	
 	
-	@RequestMapping(value="/admin/update.do", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/update", method = RequestMethod.POST)
 	public String updateByAdmin(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
 		validator.validate(seller, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -145,30 +139,30 @@ public class SellersController {
 		}
 		service.updateSellerByAdmin(seller);
 		if (seller.getEnable()){
-			return "redirect:/sellers/admin/viewsEnabled.do";
+			return "redirect:/sellers/admin/viewsEnabled";
 		} else {
-			return "redirect:/sellers/admin/viewsToEnable.do";
+			return "redirect:/sellers/admin/viewsToEnable";
 		}
 	}
 	
-	@RequestMapping("/admin/delete_start.do")
+	@RequestMapping("/admin/delete_start")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Seller seller = service.findSellerById(id);
 		model.addAttribute("seller", seller);
 		return "sellers.deleteform";
 	}
 	
-	@RequestMapping(value="/admin/delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Seller seller) throws BusinessException {
 		service.deleteSeller(seller);
 		if (seller.getEnable()){
-			return "redirect:/sellers/admin/viewsEnabled.do";
+			return "redirect:/sellers/admin/viewsEnabled";
 		} else {
-			return "redirect:/sellers/admin/viewsToEnable.do";
+			return "redirect:/sellers/admin/viewsToEnable";
 		}
 	}
 	
-	@RequestMapping("/upgrade_start.do")
+	@RequestMapping("/upgrade_start")
 	public String upgradeStart(Model model) throws BusinessException {
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		long id = udi.getId();
@@ -190,7 +184,7 @@ public class SellersController {
 		return "sellers.upgradeform";
 	}
 	
-	@RequestMapping(value="/upgrade.do", method = RequestMethod.POST)
+	@RequestMapping(value="/upgrade", method = RequestMethod.POST)
 	public String upgrade(@ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
 		validator.validate(seller, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -200,61 +194,6 @@ public class SellersController {
 		return "redirect:/";
 	}
 	
-
-	
-	
-	@RequestMapping("/content_start.do")
-	public String updateContentStart(Model model) throws BusinessException {
-		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		long id = udi.getId();
-		Seller seller = service.findSellerById(id);
-		model.addAttribute("seller", seller);
-		return "sellers.contentform";
-	}
-	
-	@RequestMapping("/admin/content_start.do")
-	public String updateContentStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
-		Seller seller = service.findSellerById(id);
-		model.addAttribute("seller", seller);
-		return "sellers.contentform";
-	}
-	
-	
-	@RequestMapping(value="/content.do", method = RequestMethod.POST)
-	public String updateContent(@RequestParam("title") String t, @RequestParam("input") String d,  @ModelAttribute Seller seller, BindingResult bindingResult) throws BusinessException {
-		/*validator.validate(seller, bindingResult);
-		if (bindingResult.hasErrors()){
-			return "sellers.updateform";
-		}*/
-		SellerContent content = new SellerContent(t, d);
-		Collection<SellerContent> contents = new ArrayList<SellerContent>();
-		contents.add(content);
-		seller.setContents(contents);
-		service.editSellerContent(seller);
-		/*if (seller.getEnable()){
-			return "redirect:/sellers/viewsEnabled.do";
-		} else {
-			return "redirect:/sellers/viewsToEnable.do";
-		}*/
-		return "redirect:views.do?id=" + seller.getId();
-	}
-	
-	@RequestMapping("/views.do")
-	public String viewContent(@RequestParam("id") Long id, Model model) throws BusinessException {
-		Seller seller = service.findSellerById(id);
-		if (seller.getEnable()){
-			model.addAttribute("seller", seller);
-			return "sellers.viewcontent";
-		}
-		return "/404 pagina non trovata";
-	}
-	
-	@RequestMapping("/list.do")
-	public String viewAllSellers(Model model) throws BusinessException {
-		List<Seller> sellers = service.viewAllSellers();
-		model.addAttribute("sellers", sellers);
-		return "sellers.list";
-	}
 
 	@RequestMapping("/pagecontents")
 	public String viewPageContents(Model model) throws BusinessException {
@@ -326,6 +265,8 @@ public class SellersController {
 		model.addAttribute("sellers", ls);
 		List<Product> lp = productService.getAllProducts();
 		model.addAttribute("products", lp);
+		String warehouse = warehouseService.findWarehouseAddress();
+		model.addAttribute("warehouse", warehouse);
 		return "sellers.view";
 	}
 	

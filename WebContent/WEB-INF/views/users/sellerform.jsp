@@ -121,7 +121,6 @@ $(function() {
 								<form:errors path="phone"/>
 						    </div>
 						</div>
-						
 						<div class="control-group">
 						    <div class="controls">
 						      <button type="submit" id="submitIfValidAddress" class="btn">

@@ -20,6 +20,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -44,6 +45,7 @@ public class Seller extends User {
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "seller_fk")
 	@OrderBy("position ASC")
+	@JsonIgnore
 	private List<Image> images;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval = true)

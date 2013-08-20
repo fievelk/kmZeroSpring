@@ -48,6 +48,12 @@ $(document).ready(function() {
 		    	<form:input id="name" path="name"/>
 		    </div>
 		</div>
+		<div>
+		    <label for="shortName"><spring:message code="measure.shortName"/></label>
+		    <div>
+		    	<form:input id="shortName" path="shortName"/>
+		    </div>
+		</div>
 		
 		
 		<div class="control-group">

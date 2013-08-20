@@ -27,14 +27,12 @@
 	<!-- Font awesome icon -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/mackart/style/font-awesome.css"> 
 	<!-- Main stylesheet -->
-	<link href="${pageContext.request.contextPath}/resources/mackart/style/style.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/resources/mackart/style/style_orange.css" rel="stylesheet">
 	<!-- Responsive style (from Bootstrap) -->
 	<link href="${pageContext.request.contextPath}/resources/mackart/style/bootstrap-responsive.css" rel="stylesheet">
 	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/jquery-ui/css/jquery-ui-1.10.3.custom.min.css" />
-	<!-- Stylesheet for Color -->
-	<link href="${pageContext.request.contextPath}/resources/custom/css/kmzero.css" rel="stylesheet">
-	<!-- Stylesheet for Color -->
+
 	<link href="${pageContext.request.contextPath}/resources/datatables/css/kmzero_datatables.css" rel="stylesheet">
 
 	<link href="${pageContext.request.contextPath}/resources/pagination/simplePagination.css" rel="stylesheet">
@@ -42,6 +40,10 @@
 	<!-- CLEditor -->
 	<link href="${pageContext.request.contextPath}/resources/mackart/cleditor/jquery.cleditor.css" rel="stylesheet"> 
 	<!-- CLEditor -->
+	
+	<!-- Stylesheet for Color -->
+	<link href="${pageContext.request.contextPath}/resources/custom/css/kmzero_orange.css" rel="stylesheet">
+	<!-- Stylesheet for Color -->
 	
 	<!-- FUELUX Spinner -->
 	<link href="${pageContext.request.contextPath}/resources/fuelux/css/fuelux.css" rel="stylesheet" />

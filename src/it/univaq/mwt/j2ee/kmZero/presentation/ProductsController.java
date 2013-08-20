@@ -112,6 +112,10 @@ public class ProductsController {
 		model.addAttribute("product", new Product());
 		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
+		if(loggedUser.isAdmin()){
+			List<Seller> sellers = userService.getAllSellers();
+			model.addAttribute("sellers", sellers);
+		}
 		return "products.createform";
 	}
 	
@@ -120,9 +124,10 @@ public class ProductsController {
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
-			return "products.createform";
+			
+			return  loggedUser.isAdmin() ? "products.createformbyadmin" : "products.createform";
 		}
-		long sellerid = loggedUser.getUserDetails().getId();
+		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
 		productService.createProduct(product,sellerid);
 		return "redirect:/products/viewsforsellers.do";
 	}
@@ -135,7 +140,11 @@ public class ProductsController {
 		model.addAttribute("categories", categories);
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
-		return "products.updateform";
+		if(loggedUser.isAdmin()){
+			List<Seller> sellers = userService.getAllSellers();
+			model.addAttribute("sellers", sellers);
+		}
+		return "products.updateform";	
 	}
 	
 	
@@ -143,9 +152,9 @@ public class ProductsController {
 	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
-			return "products.createform";
+			return  loggedUser.isAdmin() ? "products.updateformbyadmin" : "products.updateform";
 		}
-		long sellerid = loggedUser.getUserDetails().getId();
+		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
 		List<Image> images = imageService.getProductImages(product.getId());
 		productService.updateProduct(product,images,sellerid);
 		return "redirect:/products/viewsforsellers.do";

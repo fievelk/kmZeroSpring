@@ -9,12 +9,12 @@
 	    <ul id="nav">
 	    <security:authorize access="isAuthenticated()">
 	    	<security:authorize access="hasRole('seller')"> 
-		      <li><a href="${pageContext.request.contextPath}/sellers/update_start.do">Profilo</a></li> 
+		      <li><a href="${pageContext.request.contextPath}/sellers/update_start">Profilo</a></li> 
 		      <li class="has_sub"><a href="#"><spring:message code="sellercontent.views"/></a>
 		      <!-- Submenu -->
                 <ul>
 		      		 <li><a href="${pageContext.request.contextPath}/sellers/pagecontents">Contenuti Pagina</a>
-		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>">Preview</a></li>
+		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>/<security:authentication property="principal.company"/>">Preview</a></li>
 		      	</ul>	
 		      </li>
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
@@ -24,15 +24,15 @@
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
 		      <li><a href="${pageContext.request.contextPath}/products/viewCategories">Categorie</a></li>
 		      <li><a href="${pageContext.request.contextPath}/products/viewMeasures">Misure</a></li>
-		      <li><a href="${pageContext.request.contextPath}/users/admin/views.do">Utenti</a></li>
+		      <li><a href="${pageContext.request.contextPath}/users/admin/views">Utenti</a></li>
 		      <li class="has_sub"><a href="#">Venditori</a>
 		      <!-- Submenu -->
                 <ul>
-					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsEnabled.do">Abilitati</a></li>
-					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsToEnable.do">Da Abilitare</a></li>  
+					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsEnabled">Abilitati</a></li>
+					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsToEnable">Da Abilitare</a></li>  
 		      	</ul>	
 		      </li>
-		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password.do">Modifica Password</a></li> 
+		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password">Modifica Password</a></li> 
 			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses">Warehouse</a></li>
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
 		      <li><a href="">Percorsi <span style="color:red">- NIY</span></a></li>

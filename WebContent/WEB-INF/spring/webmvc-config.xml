@@ -23,8 +23,6 @@
 		</property>
 	</bean> 
 
-<!-- 	<mvc:view-controller path="/products/views.do" view-name="products.views"/> -->
-
 	<!-- Forwards requests to the "/" resource to the "home" view -->
 	<mvc:view-controller path="/" view-name="common.index"/>
 
@@ -52,14 +50,12 @@
 	
 	<context:component-scan base-package="it.univaq.mwt.j2ee.kmZero.presentation"/>
 
-	
 	<!-- Configure the multipart resolver for file upload-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- set the maximum file size in bytes -->
 	    <property name="maxUploadSize" value="2000000"/>
 	</bean>
 	
-
 	<!-- Configurazione JPA - EntityManagerFactory bean -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 	    <property name="persistenceUnitName" value="kmz"/>
@@ -77,21 +73,6 @@
 	<!-- <bean id="securityDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPASecurityService" /> -->
 	<!-- END Configurazione JPA -->
 	
-	
-	<!-- Classe di configurazione per metodo alternativo usando i Converters per le date. Non funziona -->
-<!-- 	
-   	<context:annotation-config/>
-    <bean class="it.univaq.mwt.j2ee.kmZero.common.WebConfig"/> -->
-    
-<!-- <mvc:annotation-driven conversion-service="conversionService"/>
-<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
-    <property name="converters">
-        <list>
-            <bean class="it.univaq.mwt.j2ee.kmZero.common.DateToString"/>
-            <bean class="it.univaq.mwt.j2ee.kmZero.common.StringToDate"/>
-        </list>
-    </property>
-</bean> -->
 
 	<!-- INTERCEPTOR -->
 	<mvc:interceptors>

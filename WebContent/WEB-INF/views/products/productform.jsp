@@ -7,6 +7,7 @@
 /*--------SETUP READONLY FIELDS IF DELETING - START--------*/
 
 $(document).ready(function() {
+
 	var del = "${requestScope.delete}"; 
 	if (del == "true" ) {
 		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });
@@ -16,7 +17,8 @@ $(document).ready(function() {
 				max:	4		
 		});
 		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
-		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });			
+		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });	
+		$("#description").cleditor()[0].disable("true");
 	}	
 	$('.fuelux div.spinner').spinner({
 				value: ${product.position},
@@ -86,13 +88,12 @@ $(function() {
 				    	<form:errors path="name"/>
 				    </div>
 				</div>
-				
 				<div>
 				    <label for="description"><spring:message code="product.description"/></label>
-				    <div>
-				    	<form:input id="description" path="description"/><br />
-				    	<form:errors path="description"/>
-				    </div>
+				    <div class="text-area">
+                    	<textarea class="cleditor" name="description" id="description" rows="10">${product.description}</textarea>
+                    	<form:errors path="description"/>
+               		</div>
 				</div>		
 				<div>
 				    <label for="price"><spring:message code="product.price"/></label>
@@ -129,6 +130,18 @@ $(function() {
 						<form:errors path="category.id"/>
 				    </div>
 				</div>
+				
+				<security:authorize access="hasRole('admin')">
+					<div>
+					    <label for="Seller">Seller</label>
+					    <div>
+							<form:select id="sellerId" path="seller.id">
+								<form:options items="${sellers}" itemValue="id" itemLabel="name"/>
+							</form:select><br />
+							<form:errors path="seller.id"/>
+					    </div>
+					</div>
+				</security:authorize>
 				
 				<!-- inizio DATEPICKER from-to -->
 				
@@ -170,7 +183,7 @@ $(function() {
 				</div>
 				<!-- END SPINNER -->
 				
-				<div class="control-group">
+				<div>
 				    <div class="controls">
 				      <button type="submit" class="btn">
 				      	<c:choose>

@@ -35,7 +35,7 @@ public class CartsValidator implements Validator{
 		
 		ValidationUtils.rejectIfEmpty(errors, "delivery_date", "errors.required");
 		if (cart.getDelivery_date() != null){
-			ValidationUtility.checkDelivery_date(errors, "delivery_date", "errors.delivery_date", tmp.getCartLines(), cart.getDelivery_date());
+			ValidationUtility.checkDelivery_date(errors, "delivery_date", "errors.delivery_date", cart.getCartLines(), cart.getDelivery_date());
 		}
 		
 	}

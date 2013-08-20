@@ -67,7 +67,7 @@ public class ImagesController {
 	public @ResponseBody ResponseImages productAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("owner_id") Long owner_id) throws BusinessException, IOException {
 		if(validator.validateProdImage(owner_id)){
 			List<MultipartFile> files = fileUpload.getFiles();
-			List<Image> images = km0ImageUtility.generateImages(files,220,410);
+			List<Image> images = km0ImageUtility.generateImages(files,410,410);
 			imageService.setProductImages(owner_id,images);
 			return reloadProductImages(owner_id);	
 		}else{

@@ -4,7 +4,7 @@
 
 	$(document).ready(function() {
 		
-		$('#user').dataTable({
+		$('#datatables').dataTable({
 			"bProcessing": true,
 			"bJQueryUI": true,
 			"bServerSide": true,
@@ -24,14 +24,14 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/users/admin/update_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" +  
-		                       		  "<a href='${pageContext.request.contextPath}/users/admin/delete_start.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>" + 
-		                       		  "<a href='${pageContext.request.contextPath}/users/edit_start_password.do?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-locked'></a>";
+		                       return "<a href='${pageContext.request.contextPath}/users/admin/update_start?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" +  
+		                       		  "<a href='${pageContext.request.contextPath}/users/admin/delete_start?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>" + 
+		                       		  "<a href='${pageContext.request.contextPath}/users/edit_start_password?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-locked'></a>";
 		                    	
 		                     }
 		                  }
             ],
-            "sAjaxSource": "${pageContext.request.contextPath}/users/admin/viewAllUsersPaginated.do",
+            "sAjaxSource": "${pageContext.request.contextPath}/users/admin/viewAllUsersPaginated",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},        
             "fnServerParams": addsortparams
 		});
@@ -50,10 +50,10 @@
 
           <h5 class="title"><spring:message code="user.views"/></h5>
           	<div class="row-fluid">
-				<a class="btn" href="${pageContext.request.contextPath}/users/create_start.do"><spring:message code="user.create"/></a>
+				<a class="btn" href="${pageContext.request.contextPath}/users/create_start"><spring:message code="user.create"/></a>
 			</div>
 
-            <table id="user" class="table table-striped tcart">
+            <table id="datatables" class="table table-striped tcart">
               <thead>
                 <tr>
                   <th><spring:message code="user.id"/></th>

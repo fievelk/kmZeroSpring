@@ -16,23 +16,25 @@
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/welcome" access="isAuthenticated()" />
 <!-- 	<security:intercept-url pattern="/common/**" access="isAuthenticated()" /> -->
-		<security:intercept-url pattern="/users/create_start.do" access="permitAll"/>
-		<security:intercept-url pattern="/users/create.do" access="permitAll"/>
-		<security:intercept-url pattern="/sellers/create_start.do" access="permitAll"/>
-		<security:intercept-url pattern="/sellers/create.do" access="permitAll"/>		
-		<security:intercept-url pattern="/sellers/views.do" access="permitAll"/>
-		<security:intercept-url pattern="/sellers/list.do" access="permitAll"/>
+		<security:intercept-url pattern="/users/create_start" access="permitAll"/>
+		<security:intercept-url pattern="/users/create" access="permitAll"/>
+		<security:intercept-url pattern="/sellers/create_start" access="permitAll"/>
+		<security:intercept-url pattern="/sellers/create" access="permitAll"/>		
 		<security:intercept-url pattern="/users/*" access="hasAnyRole('admin', 'user', 'seller')"/>
 		<security:intercept-url pattern="/users/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/products" access="permitAll"/>
 		<security:intercept-url pattern="/products/viewProducts" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/findWarehouseAddress" access="permitAll"/> 
 		<security:intercept-url pattern="/carts/userOrderView" access="isAuthenticated()"/> 
+		<security:intercept-url pattern="/products/*/*" access="permitAll"/>
 		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
 		
+		
 		<security:intercept-url pattern="/sellers" access="permitAll"/>
+		
 		<security:intercept-url pattern="/sellers/*" access="hasAnyRole('admin', 'seller')"/>
-		<security:intercept-url pattern="/sellers/**" access="hasAnyRole('admin')"/>
+		<security:intercept-url pattern="/sellers/admin/**" access="hasAnyRole('admin')"/>
+		<security:intercept-url pattern="/sellers/*/*" access="permitAll"/>
 
 
 				

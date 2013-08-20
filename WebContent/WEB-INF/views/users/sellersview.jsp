@@ -17,11 +17,8 @@ $(document).ready(function() {
 	initialize();
 });
 
-
-
 function initialize() {
-	/*var wh_addr =  ${whareouse.address};*/
-	var wh_addr = 'Via dei Vestini, 66100 Chieti CH, Italia';
+	var wh_addr = "${warehouse}";
 	var names = new Array();
 	var addresses = new Array();
 	var urls = new Array();
@@ -31,29 +28,27 @@ function initialize() {
 		names.push('${seller.company}');
 		urls.push('${pageContext.request.contextPath}/sellers/${seller.id}/${seller.company}');
 	</c:forEach>
+	
 	codeAddresses(addresses, function(coords) {
-		console.log(coords);
-		var myOptions = {
-			    zoom: 10,
-			    center: coords[0],
-			    scrollwheel: false,
-			    navigationControl: false,
-			    mapTypeControl: false,
-			    scaleControl: false,
-			    draggable: false,
-			    disableDefaultUI: true,
-			    mapTypeId: google.maps.MapTypeId.ROADMAP
-			  }
-			  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-			
-			for(var i = 0; i < coords.length; i++){
-				createMarker(coords[i],names[i],'<a href="'+urls[i]+'">'+names[i]+"</a>");
-			}
+		
 			codeAddress(wh_addr, function(wh_coords) {
-				createMarker(wh_coords,'WHAREHOUSE','<a href="#">WHAREHOUSE</a>');
-				console.log(wh_coords);
+				var myOptions = {
+					    zoom: 10,
+					    center: wh_coords,
+					    scrollwheel: false,
+					    navigationControl: false,
+					    mapTypeControl: false,
+					    scaleControl: false,
+					    draggable: false,
+					    disableDefaultUI: true,
+					    mapTypeId: google.maps.MapTypeId.ROADMAP
+					  }
+					  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+					  createMarker(wh_coords,'WAREHOUSE','<a href="#">WAREHOUSE</a>');
+					for(var i = 0; i < coords.length; i++){
+						createMarker(coords[i],names[i],'<a href="'+urls[i]+'">'+names[i]+"</a>");
+					}
 			});
-			
 	});
 	
 }
@@ -61,7 +56,7 @@ function initialize() {
 /*Ottiene le coordinate del Magazzino*/
 
 function codeAddress(address,callback) {
-	console.log(address);
+
 	var geocoder = new google.maps.Geocoder();
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -105,7 +100,7 @@ function createMarker(latlng, name, html) {
     var iconBase = '${pageContext.request.contextPath}/resources/custom/img/';
     var marker;
     console.log(name);
-    if(name=="WHAREHOUSE"){
+    if(name=="WAREHOUSE"){
     	
 	    	marker = new google.maps.Marker({
 	        position: latlng,
@@ -125,18 +120,16 @@ function createMarker(latlng, name, html) {
         infowindow.setContent(contentString); 
         infowindow.open(map,marker);
         });
-    //google.maps.event.trigger(marker, 'click');    
+    
     return marker;
 }
-
-
 
 </script> 
 
 <div class="span9">
 	<div class="row">
 		<div class="span9">
-		    <div class="flex-image flexslider" id="map_canvas" style="height:300px"></div>
+		    <div class="mapbox" id="map_canvas" style="height:400px"></div>
 		 </div>
 		<c:set var="alternate" value="1"/>
 		<c:forEach var="content" items="${seller.contents}">
@@ -186,13 +179,13 @@ function createMarker(latlng, name, html) {
 						  <li style="width: 180px;">
 							<div class="rp-item"> 
 						           <div class="rp-image">        
-						             <a href="single-item.html">	
+						             <a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">	
 									<img src="${pageContext.request.contextPath}/prod/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
 						          	</a>
 						       	</div>
 								<div class="rp-details">
 								  <!-- Title and para -->
-								  <h5><a href="single-item.html">${product.name}<span class="price pull-right">$255</span></a></h5>
+								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">$255</span></a></h5>
 								  <div class="clearfix"></div>
 								  <p>
 								  	<c:if test="${product.description ne null }">

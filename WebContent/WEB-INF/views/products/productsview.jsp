@@ -114,7 +114,8 @@ function buildItem(item){
 	}else{
 		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};
-	var description = (item.description != null) ? (item.description.substring(0,30)+'...') : "";
+	console.log("desc:"+item.description);
+	var description = (item.description != null) ? (item.description.substring(0,30)+'..') : "no description provided";
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+
@@ -131,14 +132,21 @@ function buildItem(item){
 // 		<!-- Para. Note more than 2 lines. -->
 			'<p>'+description+'</p>'+
 			'<p><a href="'+sellerurl+'">'+item.seller.company+'</a></p>'+
-			'<div class="rateit" data-rateit-resetable="false"></div>'+
 			'<hr />'+
+			'<div class="item-price pull-left">****</div>'+
+			'<div class="item-price pull-right">\u20ac '+item.price+'/'+item.measure.shortName+'</div>'+			
 // 			<!-- Price -->
-			'<div class="item-price pull-left">\u20ac '+item.price+'</div>'+
+			
 // 			<!-- Add to cart -->
-			'<div class="button pull-right"><a href="#" id="" onclick="existCart('+ item.id +');return false">Add to Cart</a></div>'+
+			
 			'<div class="clearfix"></div>'+
-			'<div class="clearfix"><label>Scegli una quantit\u00E0: <input type="number" min="1" max="1000" id="' + item.id + '" value="1"/></label></div>'+
+			'<hr />'+
+			'<div id="product_buttons">'+
+			<!-- SPINNER -->
+			'<div class="fuelux row pull-left"><div class="spinner"><input type="number" min="1" max="1000" id="' + item.id + '" value="1" class="input-mini spinner-input" maxlength="3" /><div class="spinner-buttons btn-group btn-group-vertical"><button type="button" class="btn spinner-up"><i class="icon-chevron-up"></i></button><button type="button" class="btn spinner-down"><i class="icon-chevron-down"></i></button></div></div></div>'+
+			<!-- END SPINNER -->
+			'<div class="button"><a href="#" id="" onclick="existCart('+ item.id +');return false">Add to Cart</a></div>'+
+			'</div>'+
 		'</div></div></div>';
 	
 	return result;

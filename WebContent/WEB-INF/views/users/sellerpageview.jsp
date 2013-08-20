@@ -3,11 +3,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<script type="text/javascript"> 
+
+      var map = null;
+      var marker = null;
+
+
+$(document).ready(function() {
+	initialize();
+});
+
+function initialize() {
+	
+	var addr = "${seller.address}";
+	codeAddress(addr, function(coords) {
+		var myOptions = {
+			    zoom: 10,
+			    center: coords,
+			    scrollwheel: false,
+			    navigationControl: false,
+			    mapTypeControl: false,
+			    scaleControl: false,
+			    draggable: false,
+			    disableDefaultUI: true,
+			    mapTypeId: google.maps.MapTypeId.ROADMAP
+			  }
+			  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+			  createMarker(coords);	
+	});	
+}
+
+/*Ottiene le coordinate del Magazzino*/
+
+function codeAddress(address,callback) {
+	console.log(address);
+	var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+    	  if( typeof callback == 'function' ) {
+              callback(results[0].geometry.location);
+          }
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+        /* throw('No results found: ' + status);*/
+      }
+    });
+  }
+  
+function createMarker(latlng) {
+
+    var iconBase = '${pageContext.request.contextPath}/resources/custom/img/';
+    var marker;
+    
+   	marker = new google.maps.Marker({
+       position: latlng,
+       map: map,
+       icon: iconBase+"seller2.png"
+       });
+ 
+    return marker;
+}
+
+
+
+</script> 
+
 <div class="span9">
 	<div class="row">
-		<div class="span9 gmap">
-		    <!-- Google Maps. Replace the below iframe with your Google Maps embed code -->
-		    <iframe height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Google+India+Bangalore,+Bennigana+Halli,+Bangalore,+Karnataka&amp;aq=0&amp;oq=google+&amp;sll=9.930582,78.12303&amp;sspn=0.192085,0.308647&amp;ie=UTF8&amp;hq=Google&amp;hnear=Bennigana+Halli,+Bangalore,+Bengaluru+Urban,+Karnataka&amp;t=m&amp;ll=12.993518,77.660294&amp;spn=0.012545,0.036006&amp;z=15&amp;output=embed"></iframe>
+		<div class="span9">
+		    <div class="mapbox" id="map_canvas" style="height:200px"></div>
 		 </div>
 		<c:set var="alternate" value="1"/>
 		<c:forEach var="content" items="${seller.contents}">
@@ -57,13 +121,13 @@
 						  <li style="width: 180px;">
 							<div class="rp-item"> 
 						           <div class="rp-image">        
-						             <a href="single-item.html">	
+						             <a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">	
 									<img src="${pageContext.request.contextPath}/prod/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
 						          	</a>
 						       	</div>
 								<div class="rp-details">
 								  <!-- Title and para -->
-								  <h5><a href="single-item.html">${product.name}<span class="price pull-right">$255</span></a></h5>
+								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">$255</span></a></h5>
 								  <div class="clearfix"></div>
 								  <p>
 								  	<c:if test="${product.description ne null }">
@@ -73,7 +137,7 @@
 								</div>                
 							</div>        
 						  </li>
-						  </c:forEach>                                                                                                  
+			</c:forEach>                                                                                                  
         </ul></div>
       </div>
     </div>

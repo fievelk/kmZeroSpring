@@ -635,3 +635,5 @@ input[type="number"] {
 .tableFixed th#rating {width: 25%;}
 .tableFixed td#productId {text-align:left;}
 
+#products .item{min-height: 320px}
+

@@ -6,18 +6,18 @@
       <div class="row">
 
         <div class="span4">
-          <!-- Logo 
+          
           <div class="logo row">     	
           	<div class="span2" id="logo"><img src="${pageContext.request.contextPath}/resources/custom/img/healty1.png" /></div>
            	<div class="span2" id="logotext">
 	            <h1><a href="#">Kilometro<span class="color bold">Zero</span></a></h1>
-	            <p class="meta">Se non ci dovesse andare bene con il master la zappa è sempre un'ottima alternativa!</p>
+	            <p class="meta">Il mercato dei prodotti biologici vicino casa tua!</p>
             </div>
-          </div>-->
-          <div class="logo">
+          </div>
+         <!-- Logo  <div class="logo">
             <h1><a href="#">Kilometro<span class="color bold">Zero</span></a></h1>
             <p class="meta">Se non ci dovesse andare bene con il master la zappa Ë sempre un'ottima alternativa!</p>
-          </div>
+          </div>-->
         </div>
 
         <div class="span4 offset4">
@@ -43,7 +43,8 @@
               
               	<security:authorize access="!isAuthenticated()">
               	<span class="lr">
-              		<a href="#login" role="button" data-toggle="modal">Login</a> or <a href="#register" role="button" data-toggle="modal">Register</a>
+              		<a href="#login" role="button" data-toggle="modal">Login</a> 
+              		<!-- or <a href="#register" role="button" data-toggle="modal">Register</a> -->
 				</span>
 				</security:authorize>
 				<security:authorize access="isAuthenticated()">
