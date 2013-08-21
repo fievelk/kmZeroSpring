@@ -25,12 +25,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="products")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -62,7 +63,6 @@ public class Product implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "categories_id")
-	@JsonManagedReference
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
@@ -88,7 +88,6 @@ public class Product implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="sellers_users_id")
-	@JsonManagedReference
 	private Seller seller;
 	
 	@Column(name="pos")

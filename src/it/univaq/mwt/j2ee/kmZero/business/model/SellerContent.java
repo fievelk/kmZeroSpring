@@ -1,26 +1,24 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="seller_contents")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class SellerContent implements Serializable{
 
 	@Id
@@ -34,7 +32,6 @@ public class SellerContent implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="seller_fk")
-	@JsonBackReference
 	private Seller seller;
 	
 	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)

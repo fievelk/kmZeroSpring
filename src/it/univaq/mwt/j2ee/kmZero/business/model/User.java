@@ -28,12 +28,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -41,6 +40,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="user_type", discriminatorType=DiscriminatorType.STRING, length=1)
 @DiscriminatorValue(value="U")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User implements java.io.Serializable{
 
 	@Id
@@ -78,7 +78,6 @@ public class User implements java.io.Serializable{
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
 	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
-	@JsonManagedReference
 	private Set<Role> roles = new HashSet<Role>();
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
