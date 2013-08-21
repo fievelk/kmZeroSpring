@@ -282,8 +282,8 @@
         <!-- <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/> -->
     </definition>
 
-    <definition name="carts.userOrderView" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/carts/userOrderView.jsp"/>
+    <definition name="users.userorderview" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/users/userorderview.jsp"/>
     </definition>
     <!-- CARTS END -->
     

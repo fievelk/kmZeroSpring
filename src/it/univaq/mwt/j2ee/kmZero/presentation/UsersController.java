@@ -1,9 +1,13 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
@@ -136,5 +140,34 @@ public class UsersController {
 		service.editPassword(user.getId(), user.getPassword().getPassword());
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/userorderview")
+	public String userOrderView(Model model) throws BusinessException {
+
+//		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
+//		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+			long id = udi.getId();
+			User user = service.findUserById(id);
+			
+			// Trovo tutti i carrelli
+			Collection<Cart> carts = user.getCart(); 
+			
+			// Seleziono solo i carrelli pagati e li aggiungo al model
+			Collection<Cart> paidCarts = new ArrayList<Cart>();
+
+			for (Cart cart : carts) {
+				if (cart.getPaid() != null) {
+					paidCarts.add(cart);
+				}
+			}
+			
+			model.addAttribute("carts", paidCarts);
+			return "users.userorderview";
+			
+//		} else {
+//			return "common.login";	
+//		}
+	}	
 
 }

@@ -103,35 +103,6 @@ public class CartsController {
 		return "carts.paid";
 	}
 	
-	@RequestMapping(value="/userOrderView")
-	public String userOrderViewTest(Model model) throws BusinessException {
-
-//		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
-//		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-			long id = udi.getId();
-			User user = userService.findUserById(id);
-			
-			// Trovo tutti i carrelli
-			Collection<Cart> carts = user.getCart(); 
-			
-			// Seleziono solo i carrelli pagati e li aggiungo al model
-			Collection<Cart> paidCarts = new ArrayList<Cart>();
-
-			for (Cart cart : carts) {
-				if (cart.getPaid() != null) {
-					paidCarts.add(cart);
-				}
-			}
-			
-			model.addAttribute("carts", paidCarts);
-			return "carts.userOrderView";
-			
-//		} else {
-//			return "common.login";	
-//		}
-	}
-	
 	
 	@RequestMapping(value="/updateCartLineRating")
 	@ResponseBody
