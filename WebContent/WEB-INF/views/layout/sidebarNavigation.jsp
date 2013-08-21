@@ -9,7 +9,7 @@
 	    <ul id="nav">
 	    <security:authorize access="isAuthenticated()">
 	    	<security:authorize access="hasRole('user')">
-	    	<li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a venditore</a></li>
+	    	<li><a href="${pageContext.request.contextPath}/sellers/upgrade_start">Upgrade a venditore</a></li>
 	    	</security:authorize>
 	    	<security:authorize access="hasRole('seller')"> 
 		      <li><a href="${pageContext.request.contextPath}/sellers/update_start">Profilo</a></li> 
