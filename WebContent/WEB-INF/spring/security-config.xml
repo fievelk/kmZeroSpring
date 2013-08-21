@@ -31,6 +31,7 @@
 		<security:intercept-url pattern="/sellers/findWarehouseAddress" access="permitAll"/> 
 		<security:intercept-url pattern="/carts/userOrderView" access="isAuthenticated()"/> 
 		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
+<!-- 		<security:intercept-url pattern="/carts/confirmcart_start.do" access="isAuthenticated()"/> -->
 		
 		<security:intercept-url pattern="/sellers" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/*" access="hasAnyRole('admin', 'seller')"/>
