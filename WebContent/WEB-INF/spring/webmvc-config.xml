@@ -9,6 +9,15 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<mvc:annotation-driven />
+	
+	<util:properties id="cfgproperties" location="classpath:cfg.properties"/>
+	
+    <bean id="MyWebBindingInitializer" class="it.univaq.mwt.j2ee.kmZero.common.DateWebBindingInitializer" />
+    
+    <bean class="it.univaq.mwt.j2ee.kmZero.common.MVCConfigurationPostProcessor">
+        <property name="webBindingInitializer" ref="MyWebBindingInitializer" />
+    </bean>
+	
 
 	<!-- ================= MISC. ================= -->
 	<!-- in classpath: va indicato il nome del file .properties con i messagggi -->
