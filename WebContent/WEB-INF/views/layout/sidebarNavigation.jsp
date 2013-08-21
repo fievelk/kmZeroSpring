@@ -8,6 +8,9 @@
 
 	    <ul id="nav">
 	    <security:authorize access="isAuthenticated()">
+	    	<security:authorize access="hasRole('user')">
+	    	<li><a href="${pageContext.request.contextPath}/sellers/upgrade_start.do">Upgrade a venditore</a></li>
+	    	</security:authorize>
 	    	<security:authorize access="hasRole('seller')"> 
 		      <li><a href="${pageContext.request.contextPath}/sellers/update_start">Profilo</a></li> 
 		      <li class="has_sub"><a href="#"><spring:message code="sellercontent.views"/></a>

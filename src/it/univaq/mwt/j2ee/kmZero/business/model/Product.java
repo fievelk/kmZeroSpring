@@ -70,8 +70,14 @@ public class Product implements Serializable {
 	@OrderBy("position ASC")
 	private List<Image> images;
 
-	@Column(name="rating")
+	@Column(name="rating", scale=1)
 	private float rating;
+	
+	@Column(name="absoluterating")
+	private int absoluteRating;
+	
+	@Column(name="ratingvotes")
+	private int ratingVotes;
 
 	@Column(name="stock")
 	private int stock;
@@ -91,6 +97,31 @@ public class Product implements Serializable {
 	public Product() {
 		super();
 	}
+
+	
+	public Product(long id, String name, String description, BigDecimal price,
+			Date date_in, Date date_out, boolean active, Category category,
+			List<Image> images, float rating, int absoluteRating,
+			int ratingVotes, int stock, Measure measure, Seller seller) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.active = active;
+		this.category = category;
+		this.images = images;
+		this.rating = rating;
+		this.absoluteRating = absoluteRating;
+		this.ratingVotes = ratingVotes;
+		this.stock = stock;
+		this.measure = measure;
+		this.seller = seller;
+	}
+
+
 
 	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, Category category,
@@ -264,6 +295,22 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
+	public int getAbsoluteRating() {
+		return absoluteRating;
+	}
+
+	public void setAbsoluteRating(int absoluteRating) {
+		this.absoluteRating = absoluteRating;
+	}
+
+	public int getRatingVotes() {
+		return ratingVotes;
+	}
+
+	public void setRatingVotes(int ratingVotes) {
+		this.ratingVotes = ratingVotes;
+	}
+
 	public int getPosition() {
 		return position;
 	}
@@ -272,6 +319,4 @@ public class Product implements Serializable {
 		this.position = position;
 	}
 
-	
-	
 }

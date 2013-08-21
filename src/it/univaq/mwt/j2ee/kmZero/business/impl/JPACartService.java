@@ -278,6 +278,28 @@ public class JPACartService implements CartService{
         cartLine.setRating(rating);
         em.merge(cartLine);
         
+        Product product = cartLine.getProduct();
+        
+        // Aumenta di 1 il numero di voti totali rilasciati
+        int ratingVotes = product.getRatingVotes();
+        System.out.println("RatingVotes " +ratingVotes);
+        int newRatingVotes = 0;
+        newRatingVotes = ++ratingVotes ;
+        
+        System.out.println("newRatingVotes " +newRatingVotes);
+        product.setRatingVotes(newRatingVotes);
+        
+        // Somma il rating appena rilasciato al totale dei rating del prodotto
+        int absoluteRating = product.getAbsoluteRating();
+        int newAbsoluteRating = absoluteRating + rating;
+        product.setAbsoluteRating(newAbsoluteRating);
+        
+        // Calcola la media del rating del prodotto
+        float productRating = (float) newAbsoluteRating / newRatingVotes;
+        product.setRating(productRating);
+        
+        em.merge(product);
+        
         tx.commit();
         em.close();
 
