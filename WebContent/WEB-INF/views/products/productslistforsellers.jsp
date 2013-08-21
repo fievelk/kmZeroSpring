@@ -4,15 +4,15 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$('#productsforseller').dataTable({
+		$('#datatables').dataTable({
 			"bProcessing": true,
 			"bJQueryUI": true,
 			"bServerSide": true,
+			"sPaginationType": "full_numbers",
 			"sAjaxDataProp": "rows",
 			"aoColumns":[
 		                {"mData":"id"}, // contenuto dei products restituiti dal metodo viewProductsBySellerIdPaginated 
-		                {"mData":"name"},
-		                {"mData":"description"},		
+		                {"mData":"name"},		
 		                {"mData":"price"},
 		                {"mData":"category.name"},
 		                {"mData":"date_in"},
@@ -23,8 +23,8 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/products/update_start?id=" + oObj.aData['id'] + "'><i class='icon-edit'></i></a>" + " | " + 
-		                       		  "<a href='${pageContext.request.contextPath}/products/delete_start?id=" + oObj.aData['id'] + "'><i class='icon-trash'></i></a>";
+		                       return "<a class='btn-small' href='${pageContext.request.contextPath}/products/update_start?id=" + oObj.aData['id'] + "'><i class='icon-edit'></i></a>" +  
+		                       		  "<a class='btn-small' href='${pageContext.request.contextPath}/products/delete_start?id=" + oObj.aData['id'] + "'><i class='icon-trash'></i></a>";
 		                     }
 		                  }
             ],
@@ -46,12 +46,11 @@
 		</div>
 
 
-		<table id="productsforseller" class="table table-striped tcart">
+		<table id="datatables" class="table table-striped tcart">
 			<thead>
 			    <tr>
 				    <th><spring:message code="product.id"/></th>
 				    <th><spring:message code="product.name"/></th>
-				    <th><spring:message code="product.description"/></th>
 				    <th><spring:message code="product.price"/></th>
 				    <th><spring:message code="product.category"/></th>
 				    <th><spring:message code="product.date_in"/></th>

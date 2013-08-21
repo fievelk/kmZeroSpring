@@ -42,7 +42,7 @@ public class UsersController {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/admin/views.do")
+	@RequestMapping("/admin/views")
 	public String views(){
 		return "users.views";
 	}
@@ -54,24 +54,23 @@ public class UsersController {
 		return result;
 	}
 	
-	@RequestMapping("/create_start.do")
+	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException{
 		model.addAttribute("user", new User());
 		return "users.createform";
 	}
 	
-	@RequestMapping(value="/create.do", method=RequestMethod.POST)
+	@RequestMapping(value="/create", method=RequestMethod.POST)
 	public String create(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
 		validator.validate(user, bindingResult);
 		if (bindingResult.hasErrors()){
 			return "users.createform";
 		}
 		service.createUser(user);
-		//return "redirect:/users/views.do";
 		return "redirect:/";
 	}
 	
-	@RequestMapping("/update_start.do")
+	@RequestMapping("/update_start")
 	public String updateStart(Model model) throws BusinessException {
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		long id = udi.getId();
@@ -81,7 +80,7 @@ public class UsersController {
 	}
 	
 	
-	@RequestMapping(value="/update.do", method=RequestMethod.POST)
+	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
 		validator.validate(user, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -91,7 +90,7 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping("/admin/update_start.do")
+	@RequestMapping("/admin/update_start")
 	public String updateStartByAdmin(@RequestParam("id") Long id, Model model) throws BusinessException {
 		User user = service.findUserById(id);
 		model.addAttribute("user", user);
@@ -99,30 +98,30 @@ public class UsersController {
 	}
 	
 	
-	@RequestMapping(value="/admin/update.do", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/update", method=RequestMethod.POST)
 	public String updateByAdmin(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
 		validator.validate(user, bindingResult);
 		if (bindingResult.hasErrors()){
 			return "users.updateformadmin";
 		}
 		service.updateUser(user);
-		return "redirect:/users/admin/views.do";
+		return "redirect:/users/admin/views";
 	}
 	
-	@RequestMapping("/admin/delete_start.do")
+	@RequestMapping("/admin/delete_start")
 	public String deleteStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		User user = service.findUserById(id);
 		model.addAttribute("user", user);
 		return "users.deleteform";
 	}
 	
-	@RequestMapping(value="/delete.do", method = RequestMethod.POST)
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute User user) throws BusinessException {
 		service.deleteUser(user);
-		return "redirect:/users/admin/views.do";
+		return "redirect:/users/admin/views";
 	}
 	
-	@RequestMapping("/edit_start_password.do")
+	@RequestMapping("/edit_start_password")
 	public String editStartPassword(Model model) throws BusinessException {
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		long id = udi.getId();
@@ -131,7 +130,7 @@ public class UsersController {
 		return "users.passwordform";
 	}
 	
-	@RequestMapping(value="/edit_password.do", method = RequestMethod.POST)
+	@RequestMapping(value="/edit_password", method = RequestMethod.POST)
 	public String editPassword(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
 		/* Metodo che restituisce la password vecchia che � nel DB e poi fare il confronto
 		 * Ricordare che bisogna mettere l'hash altrimenti il confronto non funziona. */

@@ -23,6 +23,7 @@ public class Measure implements Serializable{
 	
 	private String name;
 
+	private String shortName;
 
 	public Measure() {
 		super();
@@ -53,6 +54,14 @@ public class Measure implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 	

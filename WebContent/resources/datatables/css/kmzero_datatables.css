@@ -42,7 +42,7 @@
 	background-color: #ffffff;
 	margin:29px 0px 0px 0px
 }
-#user_paginate a {
+#datatables_paginate a {
 	padding:2px;
 	margin-right:5px
 }

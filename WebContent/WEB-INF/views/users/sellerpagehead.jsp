@@ -5,8 +5,8 @@
   <div class="container">
     <div class="row">
       <div class="span12">
-        <h2>${seller.name}</h2>
-        <h4>something goes here</h4>
+        <h2>${seller.company}</h2>
+        <h4>${seller.address}</h4>
       </div>
     </div>
   </div>

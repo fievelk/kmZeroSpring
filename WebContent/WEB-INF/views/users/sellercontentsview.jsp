@@ -4,7 +4,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
-		$('#productsforuser').dataTable({
+		$('#datatables').dataTable({
 			"bProcessing": true,
 			"bJQueryUI": true,
 			"bServerSide": true,
@@ -40,7 +40,7 @@
 		<div class="row-fluid">
 			<a class="btn" href="${pageContext.request.contextPath}/sellers/createpagecontent_start"><spring:message code="sellercontent.create"/></a>
 		</div>
-		<table id="productsforuser" class="table table-striped tcart">
+		<table id="datatables" class="table table-striped tcart">
 			<thead>
 			    <tr>
 				    <th><spring:message code="sellercontent.id"/></th>

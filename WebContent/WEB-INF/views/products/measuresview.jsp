@@ -15,6 +15,7 @@
     	<tr>
 		    <th><spring:message code="measure.id"/></th>
 		    <th><spring:message code="measure.name"/></th>
+		    <th><spring:message code="measure.shortName"/></th>
 		    <th><spring:message code="common.actions"/></th>
     	</tr>
     </thead>
@@ -23,6 +24,7 @@
 	<tr>
 		<td>${measure.id}</td>
 		<td>${measure.name}</td>
+		<td>${measure.shortName}</td>
 		<td>
 			<a href="${pageContext.request.contextPath}/products/updateMeasure_start?id=${measure.id}"><i class='icon-edit'></i></a> | 
 			<a id="deletelink" href="${pageContext.request.contextPath}/products/deleteMeasure_start?id=${measure.id}"><i class='icon-trash'></i></a>

@@ -11,7 +11,7 @@
 		        <!-- Sidebar navigation -->
 		        <nav id="seller">
 		            <ul id="nav">
-		            <li><a id="seller_" href="${pageContext.request.contextPath}/sellers/"><spring:message code="category.all"/></a></li>
+		            <li><a id="seller_" href="${pageContext.request.contextPath}/sellers"><spring:message code="category.all"/></a></li>
 					<c:forEach var="seller" items="${sellers}">
 		 				<li><a href="${pageContext.request.contextPath}/sellers/${seller.id}/${seller.company}">${seller.company}</a></li>
 					</c:forEach> 

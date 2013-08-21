@@ -7,23 +7,23 @@
 /* kmzero Color */
 
 a, a:visited{
-	color: #80532a;
+	color: #d3550c;
 }
 
 a:hover{
-	color: #80532a;
+	color: #f3752c;
 }
 
 .color{
-	color: #80532a;
+	color: #d3550c;
 }
 
 .button a, .button a:visited{
-background:#ecb684;
+background:#f99f37;
 }
 
 .button a:hover{
-background:#d18743;
+background:#f3752c;
 }
 
 /* Header */
@@ -101,13 +101,13 @@ color:#80532a;
 }
 
 .recent-posts .rp-details{
-	background: #ecb684;
-	border-top: 1px solid #d18743;
-	border-bottom: 1px solid #d18743;
+	background: #F99F37;
+	border-top: 1px solid #F3752C;
+	border-bottom: 1px solid #F3752C;
 }
 
 .recent-posts .price{
-	background: #d18743;
+	background: #f3752c;
 }
 
 /* Blog */
@@ -142,7 +142,7 @@ border:1px solid #df4c4d;
 /* Career */
 
 .nav-tabs > li > a:hover{
-	background: #ecb684;
+	background: #F99F37;
 }
 
 
@@ -159,7 +159,7 @@ border:1px solid #df4c4d;
 /* Footer */
 
 footer{
-	border-top: 4px solid #d18743;
+	border-top: 4px solid #F3752C;
 }
 
 .side-menu{
@@ -324,6 +324,42 @@ input[type="number"] {
 	margin:0px;
 	text-align:left
 }
+
 .logo > #logotext >h1{
 color:#67a94c;
 }
+
+/* Orders table layout */
+
+.tableFixed { table-layout: fixed; }
+.tableFixed th, td { overflow: hidden; }
+.tableFixed th{ text-align: center; }
+.tableFixed td{ text-align: center; }
+.tableFixed .star{ margin-left:auto; margin-right:auto; }
+.tableFixed .starBlocked{ margin-left:auto; margin-right:auto; }
+.tableFixed th#product {width: 35%; text-align:left;}
+.tableFixed th#quantity {width: 20%;}
+.tableFixed th#price {width: 20%;}
+.tableFixed th#rating {width: 25%;}
+.tableFixed td#productId {text-align:left;}
+
+#products .item{min-height: 320px}
+#products .item .item-details p {text-align:left}
+#products .item .item-details h5 {text-align:left}
+#product_buttons{background-color:black}
+#product_buttons .button{float:left;margin-top:6px}
+#product_buttons .fuelux{float:left;width:77px;height:33px;}
+
+/*PAGER*/
+.pagging .current{
+	background-color:#67a94c;
+	box-shadow:none;
+}
+
+.mapbox{	
+	border: 1px solid #FFFFFF;
+	box-shadow: 0 0 4px #888888;
+	margin-bottom:10px;
+}
+
+

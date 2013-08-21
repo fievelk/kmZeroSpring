@@ -821,7 +821,6 @@ header .lr{
 
 .recent-posts .price{
 	display: inline-block;
-	box-shadow: inset 0px 0px 2px #b3743a;
 	padding: 3px 5px !important;
 	line-height: 18px;
 	border-radius: 5px;

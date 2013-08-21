@@ -46,7 +46,7 @@ public class CartsController {
 		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
-	@RequestMapping("/addressvalidated.do")
+	@RequestMapping("/addressvalidated")
 	@ResponseBody
 	public String modalAddressStart(@RequestParam("a") String address, @RequestParam("id") long id_product, 
 			@RequestParam("q") int quantity, @CookieValue("kmzero") String cookie) throws BusinessException{
@@ -54,7 +54,7 @@ public class CartsController {
 		return null;
 	}
 	
-	@RequestMapping("/viewcartpaginated.do")
+	@RequestMapping("/viewcartpaginated")
 	@ResponseBody
 	public ResponseCarts<CartLine> findAllCartLinesPaginated(@CookieValue("kmzero") String cookie) throws BusinessException{
 		ResponseCarts<CartLine> result = service.viewCartlines(cookie);
@@ -68,7 +68,7 @@ public class CartsController {
 		return result;
 	}*/
 	
-	@RequestMapping("/create.do")
+	@RequestMapping("/create")
 	@ResponseBody
 	public String addCartLine(@RequestParam("id") long id_product, @RequestParam("q") int q,
 			@CookieValue("kmzero") String cookie) throws BusinessException{
@@ -76,14 +76,14 @@ public class CartsController {
 		return null;
 	}
 	
-	@RequestMapping("/delete_cartline.do")
+	@RequestMapping("/delete_cartline")
 	@ResponseBody
 	public String deleteCartLine(@RequestParam("idcl") long id_cl, @RequestParam("idc") long id_c) throws BusinessException{
 		service.deleteCartLine(id_cl, id_c);
 		return null;
 	}
 	
-	@RequestMapping("/confirmcart_start.do")
+	@RequestMapping("/confirmcart_start")
 	public String confirmCart(@RequestParam("id") long id, Model model) throws BusinessException{
 		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		/* Questo confronto va fatto meglio usando i template */
@@ -96,7 +96,7 @@ public class CartsController {
 		return "carts.confirm";
 	}
 	
-	@RequestMapping(value="/confirmcart.do", method=RequestMethod.POST)
+	@RequestMapping(value="/confirmcart", method=RequestMethod.POST)
 	public String checkout(@ModelAttribute Cart cart, BindingResult bindingResult) throws BusinessException{
 		validator.validate(cart, bindingResult);
 		if (bindingResult.hasErrors()){
@@ -106,7 +106,7 @@ public class CartsController {
 		return "carts.checkout";
 	}
 	
-	@RequestMapping("/paid.do")
+	@RequestMapping("/paid")
 	public String paid(@RequestParam("tx") String transaction_id, @RequestParam("cm") long cart_id) throws BusinessException{
 		service.paid(transaction_id, cart_id);
 		return "carts.paid";

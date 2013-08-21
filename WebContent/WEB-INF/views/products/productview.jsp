@@ -26,7 +26,7 @@
             <div class="span5">
               <!-- Title -->
                 <h4 class="title">${product.name}</h4>
-                <h5>${product.price}</h5>
+                <h5 class="item-price">€ ${product.price}/${product.measure.shortName}</h5>
                 <p>Shipping : Free</p>
                 <p>Categoria : ${product.category.name}</p>
                 <p>Venditore : ${product.seller.company}
@@ -70,8 +70,7 @@
         <ul class="nav nav-tabs">
           <!-- Use uniqe name for "href" in below anchor tags -->
           <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-          <li><a data-toggle="tab" href="#tab2">Specs</a></li>
-          <li><a data-toggle="tab" href="#tab3">Review (5)</a></li>
+          <li><a data-toggle="tab" href="#tab3">Commenti</a></li> 
         </ul>
 
         <!-- Tab Content -->
@@ -80,58 +79,18 @@
           <div id="tab1" class="tab-pane active">
             <h5>${product.name}</h5>
             <p>${product.description}</p>
-            <h6>Features</h6>
+           <!--  <h6>Features</h6>
             <ul>
             <li>Etiam adipiscing posuere justo, nec iaculis justo dictum non</li>
             <li>Cras tincidunt mi non arcu hendrerit eleifend</li>
             <li>Aenean ullamcorper justo tincidunt justo aliquet et lobortis diam faucibus</li>
             <li>Maecenas hendrerit neque id ante dictum mattis</li>
             <li>Vivamus non neque lacus, et cursus tortor</li>
-            </ul>
+            </ul> -->
           </div>
 
           <!-- Sepcs -->
-          <div id="tab2" class="tab-pane">
-            
-            <h5 class="title">Product Specs</h5>
-            <table class="table table-striped tcart">
-              <tbody>
-                <tr>
-                  <td><strong>Name</strong></td>
-                  <td>Apple iPhone 5G</td>
-                </tr>
-                <tr>
-                  <td><strong>Brand</strong></td>
-                  <td>Apple</td>
-                </tr>
-                <tr>
-                  <td><strong>Modal</strong></td>
-                  <td>Fifth Generation</td>
-                </tr>
-                <tr>
-                  <td><strong>Memory</strong></td>
-                  <td>2GB RAM</td>
-                </tr>
-                <tr>
-                  <td><strong>Storage</strong></td>
-                  <td>16GB, 32GB, 64GB</td>
-                </tr>
-                <tr>
-                  <td><strong>Camera</strong></td>
-                  <td>Front VGA, Read 8MP</td>
-                </tr>
-                <tr>
-                  <td><strong>Processor</strong></td>
-                  <td>Apple 1.25GHz Processor</td>
-                </tr>
-                <tr>
-                  <td><strong>Battery</strong></td>
-                  <td>30 Hours Standby</td>
-                </tr>                                                                                                
-              </tbody>
-            </table>
-
-          </div>
+          
 
           <!-- Review -->
           <div id="tab3" class="tab-pane">

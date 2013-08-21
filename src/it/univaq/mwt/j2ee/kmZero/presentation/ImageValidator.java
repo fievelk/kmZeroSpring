@@ -26,24 +26,22 @@ public class ImageValidator {
 	@Autowired
 	private UserService userService;
 
-	public boolean isAdmin() {
-		return loggedUser.getUserDetails().getRoles().contains(new Role("admin"));
-	}
+
 	
 	public boolean validateSellerImage(long sellerId){
 		
-		return loggedUser.getUserDetails().getId() == sellerId || isAdmin();
+		return loggedUser.getUserDetails().getId() == sellerId || loggedUser.isAdmin();
 	}
 	
 	public boolean validateProdImage(long prodId) throws BusinessException{
 		
 		long userId = loggedUser.getUserDetails().getId();
-		return (productService.checkProductProperty(userId, prodId) || isAdmin());
+		return (productService.checkProductProperty(userId, prodId) || loggedUser.isAdmin());
 	}
 	
 	public boolean validateSellerContentImage(long sellerContentId) throws BusinessException{
 		long userId = loggedUser.getUserDetails().getId();
-		return (userService.checkSellerContentProperty(userId, sellerContentId) || isAdmin());
+		return (userService.checkSellerContentProperty(userId, sellerContentId) || loggedUser.isAdmin());
 	}
 
 }

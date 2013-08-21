@@ -17,7 +17,7 @@
 				         </form>
 				         <hr />
 			        <h5>New Account</h5>
-			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create.do">Register</a>
+			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create_start">Register</a>
 				    </security:authorize>
 				    <security:authorize access="isAuthenticated()">
 				    	<a href="${pageContext.request.contextPath}/j_spring_security_logout">logout</a>

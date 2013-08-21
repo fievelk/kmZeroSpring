@@ -5,19 +5,19 @@
 
 <tiles-definitions>
 
-    <definition name="standard" template="/WEB-INF/views/layout/00_layout.jsp">
-        <put-attribute name="head" value="/WEB-INF/views/layout/01_head.jsp"/>
-        <put-attribute name="cartModal" value="/WEB-INF/views/layout/02_cartModal.jsp"/>
-        <put-attribute name="loginModal" value="/WEB-INF/views/layout/03_loginModal.jsp"/>
-        <put-attribute name="registerModal" value="/WEB-INF/views/layout/04_registerModal.jsp"/>
-        <put-attribute name="navigation" value="/WEB-INF/views/layout/05_navigation.jsp"/>
-        <put-attribute name="footer" value="/WEB-INF/views/layout/06_footer.jsp"/>
+    <definition name="standard" template="/WEB-INF/views/layout/layout.jsp">
+        <put-attribute name="head" value="/WEB-INF/views/layout/head.jsp"/>
+        <put-attribute name="cartModal" value="/WEB-INF/views/layout/cartModal.jsp"/>
+        <put-attribute name="loginModal" value="/WEB-INF/views/layout/loginModal.jsp"/>
+        <put-attribute name="registerModal" value="/WEB-INF/views/layout/registerModal.jsp"/>
+        <put-attribute name="navigation" value="/WEB-INF/views/layout/navigation.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
     </definition>
     
     <definition name="standard_logged" extends="standard">
         <put-attribute name="loginModal" value=""/>
         <put-attribute name="registerModal" value=""/>
-        <put-attribute name="sidebar" value="/WEB-INF/views/layout/05_sidebarNavigation.jsp"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebarNavigation.jsp"/>
     </definition>
     
 	<definition name="common.index" extends="standard">
@@ -164,32 +164,32 @@
     </definition>
     
     <definition name="users.createform" extends="standard">
-        <put-attribute name="action" value="/users/create.do"/>
+        <put-attribute name="action" value="/users/create"/>
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
         <put-attribute name="create" value="true"/>
     </definition>
     
     <definition name="users.updateform" extends="standard_logged">
-        <put-attribute name="action" value="/users/update.do"/>
+        <put-attribute name="action" value="/users/update"/>
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
     <definition name="users.updateformadmin" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
-        <put-attribute name="action" value="/users/admin/update.do"/>
+        <put-attribute name="action" value="/users/admin/update"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
     <definition name="users.deleteform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/userform.jsp"/>
-        <put-attribute name="action" value="/users/admin/delete.do"/>
+        <put-attribute name="action" value="/users/admin/delete"/>
         <put-attribute name="delete" value="true"/>
     </definition>
     
     <definition name="users.passwordform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/passwordform.jsp"/>
-        <put-attribute name="action" value="/users/edit_password.do"/>
+        <put-attribute name="action" value="/users/edit_password"/>
     </definition>
     
     <!-- SELLERS -->
@@ -204,46 +204,46 @@
     
     <definition name="sellers.createform" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/create.do"/>
+        <put-attribute name="action" value="/sellers/create"/>
         <put-attribute name="create" value="true"/>
     </definition>
     
     <definition name="sellers.updateformadmin" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/admin/update.do"/>
+        <put-attribute name="action" value="/sellers/admin/update"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
     <definition name="sellers.updateform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
-        <put-attribute name="action" value="/sellers/update.do"/>
+        <put-attribute name="action" value="/sellers/update"/>
         <put-attribute name="update" value="true"/>
     </definition>
     
     <definition name="sellers.deleteform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
-        <put-attribute name="action" value="/sellers/admin/delete.do"/>
+        <put-attribute name="action" value="/sellers/admin/delete"/>
         <put-attribute name="delete" value="true"/>
     </definition>
     
     <definition name="sellers.upgradeform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
-        <put-attribute name="action" value="/sellers/upgrade.do"/>
+        <put-attribute name="action" value="/sellers/upgrade"/>
         <put-attribute name="upgrade" value="true"/>
     </definition>
 
-    <definition name="sellers.view" extends="standard_logged">
+    <definition name="sellers.view" extends="standard">
      	<put-attribute name="sidebar" value="/WEB-INF/views/users/sidebarsellers.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/users/sellersview.jsp"/>
     </definition>
     
-	<definition name="seller.view" extends="standard_logged">
+	<definition name="seller.view" extends="standard">
      <put-attribute name="header" value="/WEB-INF/views/users/sellerpagehead.jsp"/>
      <put-attribute name="sidebar" value="/WEB-INF/views/users/sidebarsellers.jsp"/>
-        <put-attribute name="content" value="/WEB-INF/views/users/sellerpage.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerpageview.jsp"/>
     </definition>
     
-    <!-- ALEPH -->
+    <!-- SELLER PAGECONTENTS (BACKEND) -->
     <definition name="sellers.pagecontents.views" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/users/sellercontentsview.jsp"/>
     </definition>
@@ -262,18 +262,14 @@
         <put-attribute name="action" value="/sellers/deletepagecontent"/>
         <put-attribute name="delete" value="true"/>
     </definition>
-    <!-- END ALEPH -->
-    
-    <definition name="sellers.list" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/users/sellerslist.jsp"/>
-        <put-attribute name="action" value="/sellers/views.do"/>
-    </definition>
+	<!-- SELLER PAGECONTENTS END -->
+
     <!-- USERS TILES END -->
     
     <!-- CARTS BEGIN -->
     <definition name="carts.confirm" extends="standard">
         <put-attribute name="content" value="/WEB-INF/views/carts/confirmcart.jsp"/>
-        <put-attribute name="action" value="/carts/confirmcart.do"/>
+        <put-attribute name="action" value="/carts/confirmcart"/>
     </definition>
     
     <definition name="carts.checkout" extends="standard">

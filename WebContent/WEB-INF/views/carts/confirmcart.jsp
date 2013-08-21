@@ -44,7 +44,7 @@
 			         </form>
 			        <hr />
 			        <h5>New Account</h5>
-			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create.do">Register</a>
+			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create">Register</a>
 			    </div> 
 			  </div>
 			</div>

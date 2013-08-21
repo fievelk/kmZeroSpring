@@ -99,7 +99,7 @@ public class JPACartService implements CartService{
     		update.executeUpdate();
     	}
 		
-        em.persist(cl);
+        //em.persist(cl);
 		em.persist(c);
         
 		et.commit();
