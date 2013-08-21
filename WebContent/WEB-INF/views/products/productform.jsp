@@ -2,6 +2,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+
 
 <script>
 /*--------SETUP READONLY FIELDS IF DELETING - START--------*/
@@ -132,16 +134,17 @@ $(function() {
 				</div>
 				
 				<security:authorize access="hasRole('admin')">
-					<div>
-					    <label for="Seller">Seller</label>
-					    <div>
-							<form:select id="sellerId" path="seller.id">
-								<form:options items="${sellers}" itemValue="id" itemLabel="name"/>
-							</form:select><br />
-							<form:errors path="seller.id"/>
-					    </div>
-					</div>
+				<div>
+				    <label for="Seller">Seller</label>
+				    <div>
+						<form:select id="sellerId" path="seller.id">
+							<form:options items="${sellers}" itemValue="id" itemLabel="name"/>
+						</form:select><br />
+						<form:errors path="seller.id"/>
+				    </div>
+				</div>
 				</security:authorize>
+				
 				
 				<!-- inizio DATEPICKER from-to -->
 				
