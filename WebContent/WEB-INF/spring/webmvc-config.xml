@@ -10,18 +10,6 @@
 
 	<mvc:annotation-driven />
 	
-	<util:properties id="cfgproperties" location="classpath:cfg.properties"/>
-	
-	<!-- Bean per la conversione automatica delle date basato su cfg.properties -->
-	
-    <bean id="MyWebBindingInitializer" class="it.univaq.mwt.j2ee.kmZero.common.DateWebBindingInitializer" />
-    
-    <bean class="it.univaq.mwt.j2ee.kmZero.common.MVCConfigurationPostProcessor">
-        <property name="webBindingInitializer" ref="MyWebBindingInitializer" />
-    </bean>
-	
-	<!-- Fine bean per la conversione automatica delle date -->
-
 	<!-- ================= MISC. ================= -->
 	<!-- in classpath: va indicato il nome del file .properties con i messagggi -->
 	<!-- ad es. kmZeroSpring vuol dire che Spring deve cercare i file properties di nome kmZeroSpring_* -->

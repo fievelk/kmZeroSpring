@@ -52,7 +52,7 @@ public class ImagesController {
 	
 	/*ADD IMAGES*/
 	/*i metodi start sono parametrizzati per tutti i modelli che utilizzano le immagini (product e seller nel nostro caso)*/
-	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che è unica) */
+	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che ÔøΩ unica) */
 	/*prima di ritornare vengono impostarti i parametri da sotituire compresa la action del form presente nella jsp*/
 	
 	@RequestMapping(value="/{owner_kind}/{owner_id}/addImages_start",method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class ImagesController {
 		return "image.addform";
 	}
 	
-	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo precedente). Ne sono uno per modello perchè abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
+	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo precedente). Ne sono uno per modello perchÔøΩ abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
 	@RequestMapping(value="/prod/image/addImages", method = RequestMethod.POST)
 	public @ResponseBody ResponseImages productAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("owner_id") Long owner_id) throws BusinessException, IOException {
 		if(validator.validateProdImage(owner_id)){
@@ -213,7 +213,7 @@ public class ImagesController {
 	public ResponseImages reloadSellerContentImages(long sellercontentId) throws BusinessException{
 		Image i = imageService.getSellerContentImages(sellercontentId);
 		List<Image> ri = new ArrayList<Image>();
-		//se non viene effettuato questo controllo (i == null), nell'oggetto json viene ritornato un array con un unico elemento null e questo fa fallire image.js che deve ricostruire la lista delle immagini. Se l'array delle immagini è [ ] OK, se è [null] fallisce quindi è importante fare il controllo e ritornare [ ] 
+		//se non viene effettuato questo controllo (i == null), nell'oggetto json viene ritornato un array con un unico elemento null e questo fa fallire image.js che deve ricostruire la lista delle immagini. Se l'array delle immagini ÔøΩ [ ] OK, se ÔøΩ [null] fallisce quindi ÔøΩ importante fare il controllo e ritornare [ ] 
 		if(i != null) ri.add(i);
 		return new ResponseImages(ri, sellercontentId,"selr_content");
 	}

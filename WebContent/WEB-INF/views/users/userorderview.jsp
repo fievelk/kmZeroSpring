@@ -17,7 +17,7 @@ $(document).ready(function () {
 				cartlineId=$(this).attr('id');
 				$.ajax({
 					type:"POST",
-				    url:contextPath+"/carts/updateCartLineRating?id=" + cartlineId + "&r=" + score,
+				    url:contextPath+"/carts/updateCartLineRating?id=" + cartlineId + "&rating=" + score,
 				    success: $(this).raty({
 				    	readOnly: true,
 				    	number: score,

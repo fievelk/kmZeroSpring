@@ -1,15 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
-import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +26,6 @@ public class CartsController {
 	
 	@Autowired
 	private CartService service;
-	
-	@Autowired
-	private UserService userService;
 	
 	@Autowired
 	private CartsValidator validator;
@@ -106,7 +99,7 @@ public class CartsController {
 	
 	@RequestMapping(value="/updateCartLineRating")
 	@ResponseBody
-	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) {
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("rating") int rating) {
 		CartLine cartLine = service.findCartLineById(cartLineId);
 		service.updateCartLineRating(cartLine, rating);
 		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
