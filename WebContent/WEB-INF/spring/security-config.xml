@@ -20,6 +20,8 @@
 		<security:intercept-url pattern="/users/create" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/create_start" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/create" access="permitAll"/>		
+		<security:intercept-url pattern="/sellers/upgrade_start" access="hasAnyRole('user')"/>
+		<security:intercept-url pattern="/sellers/upgrade" access="hasAnyRole('user')"/>
 		<security:intercept-url pattern="/users/*" access="hasAnyRole('admin', 'user', 'seller')"/>
 		<security:intercept-url pattern="/users/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/products" access="permitAll"/>
