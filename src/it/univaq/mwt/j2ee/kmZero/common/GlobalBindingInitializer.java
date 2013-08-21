@@ -1,6 +1,5 @@
-package it.univaq.mwt.j2ee.kmZero.presentation;
+package it.univaq.mwt.j2ee.kmZero.common;
 
-import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 
 import java.util.Date;
 
@@ -16,5 +15,6 @@ public class GlobalBindingInitializer {
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new DateEditor());
+		System.out.println("INITBINDER");
 	}
 }
