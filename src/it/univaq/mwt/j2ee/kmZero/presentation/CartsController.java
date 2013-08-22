@@ -1,17 +1,11 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
-import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
-import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,15 +28,7 @@ public class CartsController {
 	private CartService service;
 	
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
 	private CartsValidator validator;
-	
-	@InitBinder
-	public void binder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new DateEditor());
-	}
 	
 	@RequestMapping("/addressvalidated")
 	@ResponseBody
@@ -112,42 +96,13 @@ public class CartsController {
 		return "carts.paid";
 	}
 	
-	@RequestMapping(value="/userOrderView")
-	public String userOrderViewTest(Model model) throws BusinessException {
-
-//		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
-//		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
-			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-			long id = udi.getId();
-			User user = userService.findUserById(id);
-			
-			// Trovo tutti i carrelli
-			Collection<Cart> carts = user.getCart(); 
-			
-			// Seleziono solo i carrelli pagati e li aggiungo al model
-			Collection<Cart> paidCarts = new ArrayList<Cart>();
-
-			for (Cart cart : carts) {
-				if (cart.getPaid() != null) {
-					paidCarts.add(cart);
-				}
-			}
-			
-			model.addAttribute("carts", paidCarts);
-			return "carts.userOrderView";
-			
-//		} else {
-//			return "common.login";	
-//		}
-	}
-	
 	
 	@RequestMapping(value="/updateCartLineRating")
 	@ResponseBody
-	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) {
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("rating") int rating) throws BusinessException {
 		CartLine cartLine = service.findCartLineById(cartLineId);
 		service.updateCartLineRating(cartLine, rating);
-		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
 	}
-
+	
+	
 }

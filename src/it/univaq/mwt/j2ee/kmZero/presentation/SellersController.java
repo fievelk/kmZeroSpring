@@ -3,26 +3,19 @@ package it.univaq.mwt.j2ee.kmZero.presentation;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.model.Category;
-import it.univaq.mwt.j2ee.kmZero.business.model.Image;
-import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
-import it.univaq.mwt.j2ee.kmZero.business.model.Password;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
+import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
-import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,15 +44,13 @@ public class SellersController {
 	private ProductService productService;
 	
 	@Autowired
+	private CartService cartService;
+	
+	@Autowired
 	private LoggedUser loggedUser;
 	
 	@Autowired
 	private WarehouseService warehouseService;
-	
-	@InitBinder
-	public void binder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new DateEditor());
-	}
 	
 	@RequestMapping("/admin/viewsToEnable")
 	public String viewsToEnable(){
@@ -305,5 +294,13 @@ public class SellersController {
 		return address;
 	}
 	
-
+	@RequestMapping(value="/admin/usersdeliverymap")
+	public String cartsToDeliver(Model model) throws BusinessException {
+		List<Cart> cartsToDeliver = cartService.getCartsToDeliver();
+		
+		model.addAttribute("cartsToDeliver", cartsToDeliver);
+		return "planning.usersdeliverymap";
+	}
+	
+	
 }

@@ -17,7 +17,7 @@ $(document).ready(function () {
 				cartlineId=$(this).attr('id');
 				$.ajax({
 					type:"POST",
-				    url:contextPath+"/carts/updateCartLineRating?id=" + cartlineId + "&r=" + score,
+				    url:contextPath+"/carts/updateCartLineRating?id=" + cartlineId + "&rating=" + score,
 				    success: $(this).raty({
 				    	readOnly: true,
 				    	number: score,
@@ -45,12 +45,13 @@ $(document).ready(function () {
 
 <!-- Main content -->
       <div class="span9">
-      	<h5 class="title">TITOLO I TUOI CARRELLI</h5>
+      	<h5 class="title"><spring:message code="cart.yourCarts" /></h5>
 		
 		<c:forEach items="${requestScope.carts}" var="cart">
 		<ul>
 		<li>		
-			<b>Carrello #${cart.id}, pagato il <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.paid}" />, destinazione: ${cart.address} </b>
+			<b><spring:message code="cart.paidOn" />:</b> <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.paid}" /><br />
+			<b><spring:message code="cart.address" />:</b> ${cart.address}
 			<table class="table table-striped tcart tableFixed">
 			
 			    <thead>

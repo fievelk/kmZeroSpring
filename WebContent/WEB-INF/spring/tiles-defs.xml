@@ -192,6 +192,10 @@
         <put-attribute name="action" value="/users/edit_password"/>
     </definition>
     
+    <definition name="users.userorderview" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/users/userorderview.jsp"/>
+    </definition>    
+    
     <!-- SELLERS -->
     
     <definition name="sellerstoenable.views" extends="standard_logged">
@@ -282,9 +286,6 @@
         <!-- <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/> -->
     </definition>
 
-    <definition name="carts.userOrderView" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/carts/userOrderView.jsp"/>
-    </definition>
     <!-- CARTS END -->
     
     <!-- WAREHOUSE BEGIN -->
@@ -300,5 +301,14 @@
     </definition>
     
     <!-- WAREHOUSE END -->
+    
+    <!-- ADMIN PLANNING MAPS -->
+	
+    <definition name="planning.usersdeliverymap" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/planning/usersdeliverymap.jsp"/>
+    </definition>
+
+	<!-- End of ADMIN PLANNING MAPS -->
+	
 
 </tiles-definitions>

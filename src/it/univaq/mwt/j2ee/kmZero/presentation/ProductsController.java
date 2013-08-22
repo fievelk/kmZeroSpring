@@ -1,31 +1,20 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.SecurityService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,14 +26,9 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
-import it.univaq.mwt.j2ee.kmZero.common.DateEditor;
 
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 
-import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
-import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
-
-import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 
 @Controller
@@ -65,12 +49,6 @@ public class ProductsController {
 	
 	@Autowired
 	private ProductValidator validator;
-	
-	@InitBinder
-	public void binder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new DateEditor());
-	}
-	
 	
 	//FRONTEND
 	

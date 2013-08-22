@@ -16,19 +16,21 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="categories")
 public class Category {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="category_id")
+	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 	private long id;
 	
 	//@Column(name="name")
 	private String name;
 	
-	//@Column(name="parent_id")
 	@OneToOne
 	@JoinColumn(name = "parent_id")
 	@JsonBackReference
@@ -39,7 +41,6 @@ public class Category {
 	private List<Category> childs = new ArrayList<Category>();
 	
 	@OneToMany(mappedBy="category")
-	@JsonBackReference
 	private List<Product> products = new ArrayList<Product>();
 
 	public Category() {
