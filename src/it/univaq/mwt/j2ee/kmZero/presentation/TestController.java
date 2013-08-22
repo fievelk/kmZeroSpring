@@ -81,8 +81,9 @@ public class TestController {
 
 	@RequestMapping(value="/testNumberFive")
 	public String testNumberFive(Model model) throws BusinessException {
-		service.testNumberFive();	
+		List<CartLine> cl = service.testNumberFive();	
 		model.addAttribute("test", 5);
+		System.out.println("CARTLINES"+cl);
 		return "test.test";
 	}
 	

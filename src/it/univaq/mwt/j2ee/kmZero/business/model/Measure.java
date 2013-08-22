@@ -34,10 +34,11 @@ public class Measure implements Serializable{
 		this.name = name;
 	}
 
-	public Measure(long id, String name) {
+	public Measure(long id, String name, String shortName) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.shortName = shortName;
 	}
 
 	public long getId() {

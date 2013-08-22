@@ -42,6 +42,10 @@ public class CartLine implements Serializable{
 	@JoinColumn(name="product_fk")
 	private Product product;
 	
+	@ManyToOne
+	@JoinColumn(name="cart_fk")
+	private Cart cart;
+	
 	private static final long serialVersionUID = 1L;
 	
 	public CartLine() {
@@ -113,6 +117,14 @@ public class CartLine implements Serializable{
 	}
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 	
 }
