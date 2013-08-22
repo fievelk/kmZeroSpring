@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -65,6 +66,10 @@ public class Cart implements Serializable{
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "cart_fk")
 	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
+	
+	@ManyToOne
+	@JoinColumn(name="user_fk")
+	private User user;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -184,4 +189,16 @@ public class Cart implements Serializable{
 		this.cartLines.remove(cartLine);
 	}
 
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
+	
 }

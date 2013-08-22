@@ -324,5 +324,19 @@ public class JPACartService implements CartService{
 		return result;
 	}
 
+	@Override
+	public Collection<Cart> findUserPaidCarts(User user) throws BusinessException {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+		TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL and c.user = :user", Cart.class);
+		query.setParameter("user", user);
+		
+        List<Cart> result = query.getResultList();
+        return result;
+	
+	}
+
 	
 }

@@ -1,7 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
@@ -10,6 +9,7 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
+import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
@@ -30,6 +30,9 @@ public class UsersController {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private CartService cartService;
 	
 	@Autowired
 	private UserValidator validator;
@@ -141,31 +144,20 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
-/*	@RequestMapping(value="/userorderview")
+	@RequestMapping(value="/userorderview")
 	public String userOrderView(Model model) throws BusinessException {
 
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 			long id = udi.getId();
 			User user = service.findUserById(id);
 			
-			// Trovo tutti i carrelli
-			Collection<Cart> carts = user.getCart(); 
+			// Trovo i carrelli pagati e li aggiungo al model
+			Collection<Cart> carts = cartService.findUserPaidCarts(user); 
 			
-			// Seleziono solo i carrelli pagati e li aggiungo al model (NON SI FA NEL CONTROLLER!)
-			Collection<Cart> paidCarts = new ArrayList<Cart>();
-
-			for (Cart cart : carts) {
-				if (cart.getPaid() != null) {
-					paidCarts.add(cart);
-				}
-			}
-			
-			Collection<Cart> paidUndeliveredCarts = user.getPaidUndeliveredCarts();
-			
-			model.addAttribute("carts", paidUndeliveredCarts);
+			model.addAttribute("carts", carts);
 			return "users.userorderview";
 			
 
-	}	*/
+	}
 
 }

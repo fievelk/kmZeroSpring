@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 public interface CartService {
 	
@@ -38,5 +40,7 @@ public interface CartService {
 	void updateCartLineRating(CartLine cartLine, int rating) throws BusinessException;
 
 	List<Cart> getCartsToDeliver() throws BusinessException;
+
+	Collection<Cart> findUserPaidCarts(User user) throws BusinessException;
 
 }

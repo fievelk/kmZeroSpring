@@ -80,8 +80,8 @@ public class User implements java.io.Serializable{
 	inverseJoinColumns=@JoinColumn(name = "role_fk"))
 	private Set<Role> roles = new HashSet<Role>();
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "user_fk")
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+//	@JoinColumn(name = "user_fk")
 	private Collection<Cart> cart = new ArrayList<Cart>();
 
 	private static final long serialVersionUID = 1L;
