@@ -8,7 +8,7 @@
 $(document).ready(function() {
 	$('.childOrder').toggle();
 	$('.parentOrder').click(function(){
-	    $(this).children('.childOrder').fadeToggle(300);
+	    $(this).children('.childOrder').slideToggle("fast"); 
 	});
 });
 </script>        
@@ -24,16 +24,16 @@ $(document).ready(function() {
 		
  		<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span12 centeredText withBorder">
+				<div class="span12 withBorder">
 					<div class="span1"></div>
-					<div class="span1"><b><spring:message code="cart.id"/></b></div>
-					<div class="span3"><b><spring:message code="cart.delivery_date"/></b></div>
+					<div class="span1 centeredText"><b><spring:message code="cart.id"/></b></div>
+					<div class="span3 centeredText"><b><spring:message code="cart.delivery_date"/></b></div>
 					<div class="span7"><b><spring:message code="cart.address"/></b></div>
 				</div>
 			</div>
 			<c:forEach items="${requestScope.cartsToDeliver}" var="cart">
 			<div class="row-fluid parentOrder">
-				<div class="span12 withBorder">
+				<div class="span12 withBorder coloredDiv">
 					<div class="span1"><input type="checkbox" name="waypoints" value="${cart.address}"></div>
 					<div class="span1 centeredText">${cart.id}</div>
 					<div class="span3">${cart.delivery_date}</div>

@@ -369,3 +369,7 @@ color:#67a94c;
 .withBorder {
 	border-bottom: 1px solid #eee;
 }
+
+.coloredDiv {
+	background-color: rgba(230,230,230, 0.3);
+}
