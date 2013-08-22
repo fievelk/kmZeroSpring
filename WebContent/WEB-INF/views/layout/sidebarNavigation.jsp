@@ -38,7 +38,7 @@
 		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password">Modifica Password</a></li> 
 			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses">Warehouse</a></li>
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
-		      <li><a href="">Percorsi <span style="color:red">- NIY</span></a></li>
+		      <li><a href="${pageContext.request.contextPath}/sellers/admin/usersdeliverymap">Consegne da effettuare</a></li>
 			</security:authorize>
 			  <li><a href="${pageContext.request.contextPath}/users/userorderview"> Ordini effettuati<span style="color:red">- WIP</span></a></li>
 	     </security:authorize>

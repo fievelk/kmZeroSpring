@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
@@ -17,8 +18,10 @@ import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 public class JPACartService implements CartService{
 	
@@ -303,7 +306,23 @@ public class JPACartService implements CartService{
         tx.commit();
         em.close();
 
-		
 	}
 
+	@Override
+	public List<Cart> getCartsToDeliver() throws BusinessException {
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
+		EntityManager em = emf.createEntityManager();
+		
+        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL AND c.dispatched IS NULL", Cart.class);
+   
+        List<Cart> result = query.getResultList();
+   
+        em.close();
+        emf.close();
+		
+		return result;
+	}
+
+	
 }

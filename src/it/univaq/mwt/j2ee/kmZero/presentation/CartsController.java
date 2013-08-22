@@ -99,10 +99,10 @@ public class CartsController {
 	
 	@RequestMapping(value="/updateCartLineRating")
 	@ResponseBody
-	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("rating") int rating) {
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("rating") int rating) throws BusinessException {
 		CartLine cartLine = service.findCartLineById(cartLineId);
 		service.updateCartLineRating(cartLine, rating);
-		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
 	}
-
+	
+	
 }

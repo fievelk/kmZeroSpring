@@ -362,4 +362,10 @@ color:#67a94c;
 	margin-bottom:10px;
 }
 
+.centeredText {
+	text-align:center;
+}
 
+.withBorder {
+	border-bottom: 1px solid #eee;
+}

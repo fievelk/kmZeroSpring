@@ -301,5 +301,14 @@
     </definition>
     
     <!-- WAREHOUSE END -->
+    
+    <!-- ADMIN PLANNING MAPS -->
+	
+    <definition name="planning.usersdeliverymap" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/planning/usersdeliverymap.jsp"/>
+    </definition>
+
+	<!-- End of ADMIN PLANNING MAPS -->
+	
 
 </tiles-definitions>

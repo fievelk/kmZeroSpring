@@ -3,12 +3,14 @@ package it.univaq.mwt.j2ee.kmZero.presentation;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
+import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
@@ -40,6 +42,9 @@ public class SellersController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CartService cartService;
 	
 	@Autowired
 	private LoggedUser loggedUser;
@@ -289,5 +294,13 @@ public class SellersController {
 		return address;
 	}
 	
-
+	@RequestMapping(value="/admin/usersdeliverymap")
+	public String cartsToDeliver(Model model) throws BusinessException {
+		List<Cart> cartsToDeliver = cartService.getCartsToDeliver();
+		
+		model.addAttribute("cartsToDeliver", cartsToDeliver);
+		return "planning.usersdeliverymap";
+	}
+	
+	
 }

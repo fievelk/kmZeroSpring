@@ -251,5 +251,14 @@ public class User implements java.io.Serializable{
 	public void setCart(Collection<Cart> cart) {
 		this.cart = cart;
 	}
-
+	
+	/* non funziona */
+	public Collection<Cart> getPaidUndeliveredCarts() {
+		for (Cart cartToCheck : cart) {
+			if (cartToCheck.getPaid() == null || cartToCheck.getDispatched() != null) {
+				cart.remove(cartToCheck);
+			}
+		}
+		return cart;
+	}
 }

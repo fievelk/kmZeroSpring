@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
 import java.util.Date;
+import java.util.List;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
@@ -32,8 +33,10 @@ public interface CartService {
 	// Conferma il carrello prima di fare il checkout
 	void confirmCart(long id_cart, Date delivery_date) throws BusinessException;
 
-	CartLine findCartLineById(long cartLineId);
+	CartLine findCartLineById(long cartLineId) throws BusinessException;
 
-	void updateCartLineRating(CartLine cartLine, int rating);
+	void updateCartLineRating(CartLine cartLine, int rating) throws BusinessException;
+
+	List<Cart> getCartsToDeliver() throws BusinessException;
 
 }

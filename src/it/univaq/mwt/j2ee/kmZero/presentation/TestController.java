@@ -158,7 +158,7 @@ public class TestController {
 	
 	@RequestMapping(value="/updateCartLineRating")
 	@ResponseBody
-	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) {
+	public void updateCartLineRating(@RequestParam("id") long cartLineId, @RequestParam("r") int rating) throws BusinessException {
 		CartLine cartLine = cartService.findCartLineById(cartLineId);
 		cartService.updateCartLineRating(cartLine, rating);
 		// Qui deve eseguire un metodo che aggiorni il rating globale del prodotto (media e numero di click)
