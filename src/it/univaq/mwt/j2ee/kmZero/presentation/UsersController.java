@@ -141,11 +141,9 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/userorderview")
+/*	@RequestMapping(value="/userorderview")
 	public String userOrderView(Model model) throws BusinessException {
 
-//		// l'IF si potrà togliere quando si metterà lo strato di sicurezza
-//		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != "anonymousUser") {
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 			long id = udi.getId();
 			User user = service.findUserById(id);
@@ -153,7 +151,7 @@ public class UsersController {
 			// Trovo tutti i carrelli
 			Collection<Cart> carts = user.getCart(); 
 			
-			// Seleziono solo i carrelli pagati e li aggiungo al model
+			// Seleziono solo i carrelli pagati e li aggiungo al model (NON SI FA NEL CONTROLLER!)
 			Collection<Cart> paidCarts = new ArrayList<Cart>();
 
 			for (Cart cart : carts) {
@@ -162,12 +160,12 @@ public class UsersController {
 				}
 			}
 			
-			model.addAttribute("carts", paidCarts);
+			Collection<Cart> paidUndeliveredCarts = user.getPaidUndeliveredCarts();
+			
+			model.addAttribute("carts", paidUndeliveredCarts);
 			return "users.userorderview";
 			
-//		} else {
-//			return "common.login";	
-//		}
-	}	
+
+	}	*/
 
 }
