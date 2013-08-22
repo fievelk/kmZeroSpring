@@ -144,8 +144,8 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/userorderview")
-	public String userOrderView(Model model) throws BusinessException {
+	@RequestMapping(value="/userordersview")
+	public String userOrdersView(Model model) throws BusinessException {
 
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 			long id = udi.getId();
@@ -155,7 +155,7 @@ public class UsersController {
 			Collection<Cart> carts = cartService.findUserPaidCarts(user); 
 			
 			model.addAttribute("carts", carts);
-			return "users.userorderview";
+			return "users.userordersview";
 			
 
 	}

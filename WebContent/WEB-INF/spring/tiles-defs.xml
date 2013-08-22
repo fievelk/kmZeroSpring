@@ -192,8 +192,8 @@
         <put-attribute name="action" value="/users/edit_password"/>
     </definition>
     
-    <definition name="users.userorderview" extends="standard_logged">
-        <put-attribute name="content" value="/WEB-INF/views/users/userorderview.jsp"/>
+    <definition name="users.userordersview" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/users/userordersview.jsp"/>
     </definition>    
     
     <!-- SELLERS -->
