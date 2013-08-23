@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
@@ -16,7 +17,7 @@ public interface TestService {
 	void testNumberTwo();
 	void testNumberThree();
 	void testNumberFour();
-	void testNumberFive();
+	List<CartLine> testNumberFive();
 	Set<Role> getAllRoles();
 	User getUser();
 	void updateUser(User user);

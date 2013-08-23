@@ -1,8 +1,10 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
+import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
@@ -25,6 +27,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
@@ -133,10 +136,10 @@ public class JPATestService implements TestService{
 			em.persist(cat2);
 			em.persist(cat3);
 			
-			Measure meas1 = new Measure(1L, "Grammi");
-			Measure meas2 = new Measure(2L, "Kilogrammi");
-			Measure meas3 = new Measure(3L, "Litri");
-			Measure meas4 = new Measure(4L, "Numero");
+			Measure meas1 = new Measure(1L, "Grammi" ,"gr.");
+			Measure meas2 = new Measure(2L, "Kilogrammi" ,"kg.");
+			Measure meas3 = new Measure(3L, "Litri","lt.");
+			Measure meas4 = new Measure(4L, "Numero","#");
 			
 			em.persist(meas1);
 			em.persist(meas2);
@@ -180,9 +183,20 @@ public class JPATestService implements TestService{
 	}
 
 	@Override
-	public void testNumberFive() {
-		// TODO Auto-generated method stub
+	public List<CartLine> testNumberFive() {
 		
+			EntityManager em = this.emf.createEntityManager();
+			
+			Seller s = em.find(Seller.class, 3L);
+			
+		    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
+		    											"LEFT JOIN cl.cart c " +
+		    											"LEFT JOIN cl.product p " +
+		    											"WHERE p.seller = :seller AND c.delivery_date = null",CartLine.class);
+		    query.setParameter("seller", s);
+	        List<CartLine> rs = query.getResultList();
+	        return rs;
+		     	
 	}
 
 	@Override
