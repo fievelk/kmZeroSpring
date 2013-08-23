@@ -12,6 +12,7 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 
@@ -309,14 +310,14 @@ public class JPACartService implements CartService{
 	}
 
 	@Override
-	public List<Cart> getCartsToDeliver() throws BusinessException {
+	public Collection<Cart> getCartsToDeliver() throws BusinessException {
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
 		EntityManager em = emf.createEntityManager();
 		
         TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL AND c.dispatched IS NULL", Cart.class);
    
-        List<Cart> result = query.getResultList();
+        Collection<Cart> result = query.getResultList();
    
         em.close();
         emf.close();
@@ -336,6 +337,21 @@ public class JPACartService implements CartService{
         List<Cart> result = query.getResultList();
         return result;
 	
+	}
+
+	@Override
+	public Collection<CartLine> findSellerReceivedOrders(Seller seller)	throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		
+	    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
+	    											"LEFT JOIN cl.cart c " +
+	    											"LEFT JOIN cl.product p " +
+	    											"WHERE p.seller = :seller AND c.dispatched = null",CartLine.class);
+	    query.setParameter("seller", seller);
+        Collection<CartLine> cartLines = query.getResultList();
+        return cartLines;
+        
 	}
 
 	

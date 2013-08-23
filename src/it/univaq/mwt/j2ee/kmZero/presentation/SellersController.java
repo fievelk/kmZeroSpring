@@ -4,6 +4,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
@@ -16,6 +17,7 @@ import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -296,11 +298,25 @@ public class SellersController {
 	
 	@RequestMapping(value="/admin/usersdeliverymap")
 	public String cartsToDeliver(Model model) throws BusinessException {
-		List<Cart> cartsToDeliver = cartService.getCartsToDeliver();
+		Collection<Cart> cartsToDeliver = cartService.getCartsToDeliver();
 		
 		model.addAttribute("cartsToDeliver", cartsToDeliver);
 		return "planning.usersdeliverymap";
 	}
+	
+	@RequestMapping(value="/sellerreceivedorders")
+	public String userOrdersView(Model model) throws BusinessException {
+
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
+		Seller seller = (Seller) service.findUserById(id);
+		
+		// Trovo i carrelli pagati e li aggiungo al model
+		Collection<CartLine> cartLines = cartService.findSellerReceivedOrders(seller); 
+		
+		model.addAttribute("cartLines", cartLines);
+		return "sellers.sellerreceivedorders";
+	}	
 	
 	
 }
