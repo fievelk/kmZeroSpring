@@ -422,9 +422,9 @@ public class JPAUserService implements UserService{
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		
-		Seller s = em.find(Seller.class, seller.getId());
-		s.setContents(seller.getContents());
-		em.merge(s);
+//		Seller s = em.find(Seller.class, seller.getId());
+//		s.setContents(seller.getContents());
+		em.merge(seller);
 		
 		et.commit();
 		em.close();
@@ -492,7 +492,7 @@ public class JPAUserService implements UserService{
         CriteriaQuery<SellerContent> q = cb.createQuery(SellerContent.class);
         Root<SellerContent> p = q.from(SellerContent.class);
         
-        //La clausola cb.and() è sempre vera - viene usata se l'utente loggato ha ruolo admin
+        //La clausola cb.and() ÔøΩ sempre vera - viene usata se l'utente loggato ha ruolo admin
         Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
               
         Predicate predicate = cb.and(
