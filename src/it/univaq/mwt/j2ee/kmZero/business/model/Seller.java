@@ -21,6 +21,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="sellers")
@@ -49,6 +50,7 @@ public class Seller extends User {
 	private List<Image> images;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval = true)
+	@JsonManagedReference("seller-sellercontents")
 	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
 
 	private static final long serialVersionUID = 1L;

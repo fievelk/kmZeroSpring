@@ -13,12 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="seller_contents")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class SellerContent implements Serializable{
 
 	@Id
@@ -32,6 +31,7 @@ public class SellerContent implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="seller_fk")
+	@JsonBackReference("seller-sellercontents")
 	private Seller seller;
 	
 	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
