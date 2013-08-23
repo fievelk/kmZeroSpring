@@ -21,10 +21,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="carts")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Cart implements Serializable{
 
 	@Id
@@ -65,6 +69,7 @@ public class Cart implements Serializable{
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "cart_fk")
+	@JsonManagedReference("cart-cartlines")
 	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
 	
 	@ManyToOne

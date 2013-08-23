@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="user_type", discriminatorType=DiscriminatorType.STRING, length=1)
 @DiscriminatorValue(value="U")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User implements java.io.Serializable{
 
 	@Id
