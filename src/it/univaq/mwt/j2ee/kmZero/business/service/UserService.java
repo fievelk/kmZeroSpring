@@ -47,7 +47,7 @@ public interface UserService {
 	
 	String oldPassword(long id) throws BusinessException;
 	
-	void editSellerContent(Seller seller) throws BusinessException;
+//	void editSellerContent(Seller seller) throws BusinessException;
 	
 	boolean emailExist(String email) throws BusinessException;
 

@@ -416,19 +416,19 @@ public class JPAUserService implements UserService{
 		return null;
 	}
 
-	@Override
-	public void editSellerContent(Seller seller) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
-//		Seller s = em.find(Seller.class, seller.getId());
-//		s.setContents(seller.getContents());
-		em.merge(seller);
-		
-		et.commit();
-		em.close();
-	}
+//	@Override
+//	public void editSellerContent(Seller seller) throws BusinessException {
+//		EntityManager em = emf.createEntityManager();
+//		EntityTransaction et = em.getTransaction();
+//		et.begin();
+//		
+////		Seller s = em.find(Seller.class, seller.getId());
+////		s.setContents(seller.getContents());
+//		em.merge(seller);
+//		
+//		et.commit();
+//		em.close();
+//	}
 
 	@Override
 	public boolean emailExist(String email) throws BusinessException {
