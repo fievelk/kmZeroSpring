@@ -6,18 +6,34 @@ var geocoderModal = new google.maps.Geocoder();
 /* Chiamata AJAX per indirizzo del centro di distribuzione */
 
 function executeOnModal() {
-	$.ajax({
-		type:"POST",
-	    url:contextPath+"/sellers/findWarehouseAddress",  
-	    success:function(data){
-	    			warehouseAddressModal = data;
-	    			geocoderModal.geocode({'address': warehouseAddressModal }, function(results) {
-	    				warehouse = results[0].geometry.location;
-	    				initializeModal();
-	    			});
-	    }
-	});
-};
+	setTimeout( function() {
+		$.ajax({
+			type:"POST",
+		    url:contextPath+"/sellers/findWarehouseAddress",  
+		    success:function(data){
+		    			warehouseAddressModal = data;
+		    			geocoderModal.geocode({'address': warehouseAddressModal }, function(results) {
+		    				warehouse = results[0].geometry.location;
+		    				initializeModal();
+		    			});
+		    }
+		});
+		
+	}, 500);
+}
+//function executeOnModal() {
+//	$.ajax({
+//		type:"POST",
+//	    url:contextPath+"/sellers/findWarehouseAddress",  
+//	    success:function(data){
+//	    			warehouseAddressModal = data;
+//	    			geocoderModal.geocode({'address': warehouseAddressModal }, function(results) {
+//	    				warehouse = results[0].geometry.location;
+//	    				initializeModal();
+//	    			});
+//	    }
+//	});
+//};
 
 function initializeModal() {
 	
