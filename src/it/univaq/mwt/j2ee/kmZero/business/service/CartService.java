@@ -45,4 +45,6 @@ public interface CartService {
 
 	Collection<CartLine> findSellerReceivedOrders(Seller seller) throws BusinessException;
 
+	Collection<CartLine> findCartLinesToDeliver() throws BusinessException;
+
 }

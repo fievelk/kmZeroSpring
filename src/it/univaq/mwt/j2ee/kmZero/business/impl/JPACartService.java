@@ -354,5 +354,18 @@ public class JPACartService implements CartService{
         
 	}
 
+	@Override
+	public Collection<CartLine> findCartLinesToDeliver() throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		
+	    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
+	    											"WHERE cl.cart.paid IS NOT NULL " +
+	    											"AND cl.cart.dispatched IS NULL " +
+	    											"ORDER BY cl.cart.delivery_date, cl.product.seller",CartLine.class);
+	    
+        Collection<CartLine> cartLines = query.getResultList();
+		return cartLines;
+	}
 	
 }

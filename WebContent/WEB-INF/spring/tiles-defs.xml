@@ -311,6 +311,10 @@
     <definition name="planning.usersdeliverymap" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/planning/usersdeliverymap.jsp"/>
     </definition>
+    
+    <definition name="planning.sellerspickupmap" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/planning/sellerspickupmap.jsp"/>
+    </definition>
 
 	<!-- End of ADMIN PLANNING MAPS -->
 	
