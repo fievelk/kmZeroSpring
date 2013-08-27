@@ -25,13 +25,13 @@ public class CartsValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		Cart cart = (Cart) target;
-		Cart tmp = null;
+		/*Cart tmp = null;
 		try {
 			tmp = service.findCartById(cart.getId());
 		} catch (BusinessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		ValidationUtils.rejectIfEmpty(errors, "delivery_date", "errors.required");
 		if (cart.getDelivery_date() != null){
