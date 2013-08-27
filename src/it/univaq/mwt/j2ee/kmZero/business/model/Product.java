@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -70,15 +71,20 @@ public class Product implements Serializable {
 	@OrderBy("position ASC")
 	private List<Image> images;
 
-	@Column(name="rating", scale=1)
+/*	@Column(name="rating", scale=1)
 	private float rating;
 	
 	@Column(name="absoluterating")
 	private int absoluteRating;
 	
 	@Column(name="ratingvotes")
-	private int ratingVotes;
+	private int ratingVotes; */
 
+	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name="rating_id")
+	@JsonManagedReference("product-rating")
+	private Rating rating;
+	
 	@Column(name="stock")
 	private int stock;
 	
@@ -99,7 +105,31 @@ public class Product implements Serializable {
 	}
 
 	
-	public Product(long id, String name, String description, BigDecimal price,
+public Product(long id, String name, String description, BigDecimal price,
+			Date date_in, Date date_out, boolean active, Category category,
+			List<Image> images, Rating rating, int stock, Measure measure,
+			Seller seller, int position) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.active = active;
+		this.category = category;
+		this.images = images;
+		this.rating = rating;
+		this.stock = stock;
+		this.measure = measure;
+		this.seller = seller;
+		this.position = position;
+	}
+
+
+
+
+/*	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
 			List<Image> images, float rating, int absoluteRating,
 			int ratingVotes, int stock, Measure measure, Seller seller) {
@@ -119,7 +149,7 @@ public class Product implements Serializable {
 		this.stock = stock;
 		this.measure = measure;
 		this.seller = seller;
-	}
+	} */
 
 
 
@@ -166,7 +196,7 @@ public class Product implements Serializable {
 
 	
 	
-	public Product(long id, String name, String description, BigDecimal price,
+/*	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
 			List<Image> images, float rating, int stock, Measure measure,
 			Seller seller, int position) {
@@ -185,7 +215,7 @@ public class Product implements Serializable {
 		this.measure = measure;
 		this.seller = seller;
 		this.position = position;
-	}
+	} */
 
 	public long getId() {
 		return id;
@@ -236,13 +266,13 @@ public class Product implements Serializable {
 		this.images = images;
 	}*/
 
-	public float getRating() {
-		return rating;
-	}
-
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
+//	public float getRating() {
+//		return rating;
+//	}
+//
+//	public void setRating(float rating) {
+//		this.rating = rating;
+//	}
 
 	public boolean isActive() {
 		return active;
@@ -295,21 +325,21 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public int getAbsoluteRating() {
-		return absoluteRating;
-	}
-
-	public void setAbsoluteRating(int absoluteRating) {
-		this.absoluteRating = absoluteRating;
-	}
-
-	public int getRatingVotes() {
-		return ratingVotes;
-	}
-
-	public void setRatingVotes(int ratingVotes) {
-		this.ratingVotes = ratingVotes;
-	}
+//	public int getAbsoluteRating() {
+//		return absoluteRating;
+//	}
+//
+//	public void setAbsoluteRating(int absoluteRating) {
+//		this.absoluteRating = absoluteRating;
+//	}
+//
+//	public int getRatingVotes() {
+//		return ratingVotes;
+//	}
+//
+//	public void setRatingVotes(int ratingVotes) {
+//		this.ratingVotes = ratingVotes;
+//	}
 
 	public int getPosition() {
 		return position;
@@ -319,4 +349,15 @@ public class Product implements Serializable {
 		this.position = position;
 	}
 
+
+	public Rating getRating() {
+		return rating;
+	}
+
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
+	}
+
+	
 }

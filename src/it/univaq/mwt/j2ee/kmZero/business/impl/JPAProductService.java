@@ -32,6 +32,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
@@ -54,6 +55,9 @@ public class JPAProductService implements ProductService{
         product.setActive(true);
         Seller s = em.find(Seller.class, seller_id);
         product.setSeller(s);
+        
+        Rating rating = new Rating();
+        product.setRating(rating);
         em.persist(product);
 
         tx.commit();
@@ -371,7 +375,7 @@ public class JPAProductService implements ProductService{
         //prendo il parent precedente
         if(c.getParent() != null){
         	Category oldParent = em.find(Category.class,c.getParent().getId());
-            //rimuovo la referenza al figlio (se il padre è null non faccio niente)
+            //rimuovo la referenza al figlio (se il padre ÔøΩ null non faccio niente)
         	oldParent.removeChild(c);
         }
         //riassegno il figlio al nuovo parent

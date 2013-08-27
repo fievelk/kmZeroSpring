@@ -12,6 +12,7 @@ import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
@@ -283,25 +284,28 @@ public class JPACartService implements CartService{
         em.merge(cartLine);
         
         Product product = cartLine.getProduct();
+        Rating productRatingObject = product.getRating();
+        System.out.println("RatingObject " +productRatingObject);
         
         // Aumenta di 1 il numero di voti totali rilasciati
-        int ratingVotes = product.getRatingVotes();
+        int ratingVotes = productRatingObject.getRatingVotes();
         System.out.println("RatingVotes " +ratingVotes);
         int newRatingVotes = 0;
         newRatingVotes = ++ratingVotes ;
         
         System.out.println("newRatingVotes " +newRatingVotes);
-        product.setRatingVotes(newRatingVotes);
+        productRatingObject.setRatingVotes(newRatingVotes);
         
         // Somma il rating appena rilasciato al totale dei rating del prodotto
-        int absoluteRating = product.getAbsoluteRating();
+        int absoluteRating = productRatingObject.getAbsoluteRating();
         int newAbsoluteRating = absoluteRating + rating;
-        product.setAbsoluteRating(newAbsoluteRating);
+        productRatingObject.setAbsoluteRating(newAbsoluteRating);
         
         // Calcola la media del rating del prodotto
         float productRating = (float) newAbsoluteRating / newRatingVotes;
-        product.setRating(productRating);
+        productRatingObject.setRating(productRating);
         
+        em.merge(productRatingObject);
         em.merge(product);
         
         tx.commit();
