@@ -47,4 +47,6 @@ public interface CartService {
 
 	Collection<CartLine> findCartLinesToDeliver() throws BusinessException;
 
+	void createFeedback(CartLine cartLine, String feedback) throws BusinessException;
+
 }

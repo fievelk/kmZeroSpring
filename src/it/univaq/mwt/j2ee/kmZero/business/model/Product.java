@@ -6,8 +6,10 @@ import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -85,6 +87,10 @@ public class Product implements Serializable {
 	@JsonManagedReference("product-rating")
 	private Rating rating;
 	
+	@OneToMany(mappedBy="product",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonManagedReference("product-feedback")
+	private Collection<Feedback> feedbacks = new HashSet<Feedback>();
+	
 	@Column(name="stock")
 	private int stock;
 	
@@ -105,10 +111,12 @@ public class Product implements Serializable {
 	}
 
 	
-public Product(long id, String name, String description, BigDecimal price,
+
+
+	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
-			List<Image> images, Rating rating, int stock, Measure measure,
-			Seller seller, int position) {
+			List<Image> images, Rating rating, Collection<Feedback> feedbacks,
+			int stock, Measure measure, Seller seller, int position) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -120,36 +128,13 @@ public Product(long id, String name, String description, BigDecimal price,
 		this.category = category;
 		this.images = images;
 		this.rating = rating;
+		this.feedbacks = feedbacks;
 		this.stock = stock;
 		this.measure = measure;
 		this.seller = seller;
 		this.position = position;
 	}
 
-
-
-
-/*	public Product(long id, String name, String description, BigDecimal price,
-			Date date_in, Date date_out, boolean active, Category category,
-			List<Image> images, float rating, int absoluteRating,
-			int ratingVotes, int stock, Measure measure, Seller seller) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
-		this.active = active;
-		this.category = category;
-		this.images = images;
-		this.rating = rating;
-		this.absoluteRating = absoluteRating;
-		this.ratingVotes = ratingVotes;
-		this.stock = stock;
-		this.measure = measure;
-		this.seller = seller;
-	} */
 
 
 
@@ -359,5 +344,15 @@ public Product(long id, String name, String description, BigDecimal price,
 		this.rating = rating;
 	}
 
-	
+
+	public Collection<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+
+	public void setFeedbacks(Collection<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
+
 }

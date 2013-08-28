@@ -58,6 +58,7 @@ public class JPAProductService implements ProductService{
         
         Rating rating = new Rating();
         product.setRating(rating);
+        em.persist(rating);
         em.persist(product);
 
         tx.commit();

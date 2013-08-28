@@ -373,3 +373,22 @@ color:#67a94c;
 .coloredDiv {
 	background-color: rgba(230,230,230, 0.3);
 }
+
+.feedbackArea {
+	width:80%;
+	margin:0px;
+}
+
+.overFeedback {
+	position: relative;
+    left:212px;
+    top: -25px;
+    height:20px;
+    line-height:50%;
+    vertical-align:middle;
+    resize: none;
+}
+
+.hero-unit-kmz {
+	
+}

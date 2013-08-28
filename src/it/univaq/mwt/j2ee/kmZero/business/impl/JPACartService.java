@@ -11,6 +11,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.Feedback;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
@@ -370,6 +371,29 @@ public class JPACartService implements CartService{
 	    
         Collection<CartLine> cartLines = query.getResultList();
 		return cartLines;
+	}
+
+	@Override
+	public void createFeedback(CartLine cartLine, String feedbackString) throws BusinessException {
+		
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
+
+        Product product = cartLine.getProduct();
+
+        Feedback feedback = new Feedback();
+        feedback.setFeedbackContent(feedbackString);
+        cartLine.setFeedback(feedback);
+        feedback.setProduct(product);
+        
+        em.persist(feedback);
+        em.merge(cartLine);
+        em.merge(product);
+        
+        tx.commit();
+        em.close();
+		
 	}
 	
 }

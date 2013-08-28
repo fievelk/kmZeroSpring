@@ -37,11 +37,11 @@ $(document).ready(function () {
 			
 			    <thead>
 			    	<tr>
-					    <th id="product">Prodotto</th>
-					    <th id="quantity">Quantità</th>
-					    <th id="quantity">Data di consegna</th>
-					    <th id="price">Prezzo</th>
-					    <th id="rating">Rating</th>
+					    <th id="product"><spring:message code="product.product"/></th>
+					    <th id="quantity"><spring:message code="product.quantity"/></th>
+					    <th id="quantity"><spring:message code="cart.delivery_date"/></th>
+					    <th id="price"><spring:message code="product.price"/></th>
+					    <th id="rating"><spring:message code="product.rating"/></th>
 			    	</tr>
 			    </thead>
 			    <tbody>	
@@ -53,13 +53,16 @@ $(document).ready(function () {
 						<td>${cartLine.lineTotal} &euro;</td>
 						<c:choose>
 							<c:when test="${cartLine.rating == 0}">
-							<td width=""><spring:message code="product.notRatedYet"/></td>
+							<td><spring:message code="product.notRatedYet"/></td>
 							</c:when>
 							<c:otherwise>
 							<td><div class="starBlocked" id="${cartLine.rating}"></div></td>
 							</c:otherwise>
 						</c:choose>
 					</tr>
+					<c:if test="${cartLine.feedback ne null}">
+							<tr><td colspan="5"><b><spring:message code="product.feedback"/>:</b> ${cartLine.feedback.feedbackContent}</td></tr>
+							</c:if>
 				</c:forEach>	
 				</tbody>
 			</table>
