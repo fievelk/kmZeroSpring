@@ -1,13 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -18,11 +14,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import org.eclipse.persistence.internal.expressions.ParameterExpression;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
@@ -516,11 +509,11 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		Seller s = em.find(Seller.class,seller_id);
+//		Seller s = em.find(Seller.class,seller_id);
 		product = em.merge(product);
-		s.deleteProduct(product);
-		//product = em.merge(product); // Esegue l'attachment del product
-		//product.setActive(false);
+//		s.deleteProduct(product);
+		
+		product.setActive(false);
 		
 		tx.commit();
 		em.close();

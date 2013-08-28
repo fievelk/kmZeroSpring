@@ -87,7 +87,7 @@ public class Product implements Serializable {
 	@JsonManagedReference("product-rating")
 	private Rating rating;
 	
-	@OneToMany(mappedBy="product",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy="product")
 	@JsonManagedReference("product-feedback")
 	private Collection<Feedback> feedbacks = new HashSet<Feedback>();
 	
