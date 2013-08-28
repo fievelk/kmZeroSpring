@@ -12,24 +12,21 @@ import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 public interface CartService {
 	
-	void createCart(String address, String session_id, long id_product, int quantity) throws BusinessException;
+	void createCart(String address, long id_product, int quantity, User user) throws BusinessException;
 	
-	void addCartLine(long id_product, int quantity, String session_id) throws BusinessException;
+	void addCartLine(long id_product, int quantity, User user) throws BusinessException;
 	
 	void deleteCartLine(long id_cartline, long id_cart) throws BusinessException;
 	
-	// Visualizza le CartLine
-	ResponseCarts<CartLine> viewCartlines(String session_id) throws BusinessException;
-	
-	// Il carrello esiste oppure no
-	//ResponseCarts<CartLine> existCart(String session_id) throws BusinessException;
+	// Visualizza le CartLine e controlla se il carrello esiste oppure no
+	ResponseCarts<CartLine> viewCartlines(User user) throws BusinessException;
 
 	Cart findCartById(long id) throws BusinessException;
 	
 	// Trova il carrello sul quale fare il Checkout passandogli i dati dell'utente
 	Cart findCartToCheckout(long id, String email) throws BusinessException;
 
-	// Il carrello � stato pagato
+	// Il carrello e' stato pagato
 	void paid(String transaction_id, long cart_id) throws BusinessException;
 
 	// Conferma il carrello prima di fare il checkout
@@ -48,5 +45,7 @@ public interface CartService {
 	Collection<CartLine> findCartLinesToDeliver() throws BusinessException;
 
 	void createFeedback(CartLine cartLine, String feedback) throws BusinessException;
+	// Il carrello anonimo viene reso persistente
+	ResponseCarts<CartLine> persistCartSession(Cart cart, User user) throws BusinessException;
 
 }

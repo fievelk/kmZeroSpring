@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/viewcartpaginated.do",
+		url: contextPath+"/carts/viewcartpaginated",
 		success: cartExistJson
 	});
 });
@@ -15,13 +15,12 @@ function cartExistJson(data){
 function createModalCart(){
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/viewcartpaginated.do",
+		url: contextPath+"/carts/viewcartpaginated",
 		success: function(data){
 			var exist = data.exist;
 			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 			if (exist == 0){
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
-				//non ci deve proprio più essere quel bottone
 				$('a#checkout').replaceWith('<a id=checkout></a>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
 				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
@@ -47,7 +46,7 @@ function cartJson(data)  {
 					+ '<td>' + item.lineTotal + '</td>'
 					+ '<td>' + '<a href="#" class="icon-remove" role="button" data-toggle="modal" onclick="deleteCartLine(' + item.id + ',' + i + ',' + data.id + ')"></a>' + '</td>'
 					+ '</tr>';
-		tot += parseFloat(item.lineTotal); /* trasforma in float perchÃ© @JsonSerialize nel modello passa una stringa, non un float */
+		tot += parseFloat(item.lineTotal); /* trasforma in float perche' @JsonSerialize nel modello passa una stringa, non un float */
 	});
 	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
@@ -57,7 +56,7 @@ function cartJson(data)  {
 function checkoutCart(){
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/viewcartpaginated.do",
+		url: contextPath+"/carts/viewcartpaginated",
 		success: checkoutJson
 	});
 }
@@ -84,7 +83,7 @@ function checkoutJson(data)  {
 function deleteCartLine(id_item, id_tr, id_cart){
 	$.ajax({
 		type: "POST",
-		url: contextPath+"/carts/delete_cartline.do?idcl=" + id_item + "&idc=" + id_cart,
+		url: contextPath+"/carts/delete_cartline?idcartline=" + id_item + "&idcart=" + id_cart + "&idanonymous=" + id_tr,
 		success: function(data){
 			$('tr#'+id_tr).fadeOut('slow', function() {$('tr#'+id_tr).remove(); createModalCart();});
 		}

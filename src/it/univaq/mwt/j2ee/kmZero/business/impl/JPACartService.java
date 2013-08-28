@@ -26,14 +26,14 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+
 public class JPACartService implements CartService{
 	
 	@PersistenceUnit
 	private EntityManagerFactory emf;
 	
 	@Override
-	public void createCart(String address, String session_id, long id_product, 
-			int quantity) throws BusinessException {
+	public void createCart(String address, long id_product, int quantity, User user) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
@@ -47,8 +47,10 @@ public class JPACartService implements CartService{
 		Collection<CartLine> cls = new ArrayList<CartLine>();
 		cls.add(cl);
 		Cart c = new Cart();
+		c.setName(user.getName());
+		c.setSurname(user.getSurname());
+		c.setUser(user);
 		c.setAddress(address);
-		c.setSession_id(session_id);
 		c.setCartLines(cls);
 		c.setCreated(new Date());
 		
@@ -61,7 +63,7 @@ public class JPACartService implements CartService{
 	}
 
 	@Override
-	public void addCartLine(long id_product, int quantity, String session_id) throws BusinessException {
+	public void addCartLine(long id_product, int quantity, User user) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
@@ -73,11 +75,13 @@ public class JPACartService implements CartService{
 		boolean clExist = false;
 		
     	// Carrello esiste
-    	Query cartQuery = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
-    	cartQuery.setParameter("session_id", session_id);
+    	Query cartQuery = em.createQuery("Select c FROM Cart c WHERE c.user = :user" +
+    			" ORDER BY c.created DESC", Cart.class).setMaxResults(1);
+    	cartQuery.setParameter("user", user);
     	c = (Cart)cartQuery.getSingleResult();
     	cls = c.getCartLines();
     	Iterator<CartLine> i = cls.iterator();
+    	// ciclo la collection per vedere se quella cartline c'e' gia' oppure no
     	while (i.hasNext() && !clExist){
     		CartLine temp = i.next();
     		if (temp.getProduct().getId() == id_product){
@@ -105,7 +109,6 @@ public class JPACartService implements CartService{
     		update.executeUpdate();
     	}
 		
-        //em.persist(cl);
 		em.persist(c);
         
 		et.commit();
@@ -132,61 +135,37 @@ public class JPACartService implements CartService{
 	}
 
 	@Override
-	public ResponseCarts<CartLine> viewCartlines(String session_id) throws BusinessException {
+	public ResponseCarts<CartLine> viewCartlines(User user) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		
 		Cart cart = null;
-		Collection<CartLine> cartlines = null;
+		Collection<CartLine> cartLines = null;
 		int size = 0;
 		long id = 0;
-		Query querycount = em.createQuery("Select Count (c) FROM Cart c WHERE c.session_id = :session_id");
-		querycount.setParameter("session_id", session_id);
-		Long count = (Long) querycount.getSingleResult();
+		Query queryExistCart = em.createQuery("Select Count (c) FROM Cart c WHERE c.user = :user");
+		queryExistCart.setParameter("user", user);
+		Long exist = (Long)queryExistCart.getSingleResult();
 		
-		if (count != 0){
-			Query query = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
-	        query.setParameter("session_id", session_id);
-	        cart = (Cart) query.getSingleResult();
-    		cartlines = cart.getCartLines();
-    		size = cartlines.size();
-    		id = cart.getId();
+		if (exist != 0){
+			Query queryCart = em.createQuery("Select c FROM Cart c WHERE c.user = :user and c.created IS NOT NULL" +
+	    			" ORDER BY c.created DESC", Cart.class).setMaxResults(1);
+			queryCart.setParameter("user", user);
+			cart = (Cart)queryCart.getSingleResult();
+			
+			if (cart.getPaid() == null){
+				id = cart.getId();
+				cartLines = cart.getCartLines();
+				size = cartLines.size();
+			}
 		}
         
 		et.commit();
 		em.close();
 		
-		return new ResponseCarts<CartLine>(id, size, cartlines);
+		return new ResponseCarts<CartLine>(id, size, cartLines);
 	}
-	
-	/*@Override
-	public ResponseCarts<CartLine> existCart(String session_id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
-		long id = 0;
-		int size = 0;
-		
-		Query querycount = em.createQuery("Select Count (c) FROM Cart c WHERE c.session_id = :session_id");
-		querycount.setParameter("session_id", session_id);
-        
-        Long exist = (Long) querycount.getSingleResult();
-        
-        if (exist != 0){
-    		Query query = em.createQuery("Select c FROM Cart c WHERE c.session_id = :session_id");
-            query.setParameter("session_id", session_id);
-        	Cart cart = (Cart)query.getSingleResult();
-    		size = cart.getCartLines().size();
-    		id = cart.getId();
-        }
-        
-		et.commit();
-		em.close();
-		
-		return new ResponseCarts<CartLine>(id, size, null);
-	}*/
 
 	@Override
 	public Cart findCartById(long id) throws BusinessException {
@@ -211,18 +190,14 @@ public class JPACartService implements CartService{
 		queryUser.setParameter("email", email);
 		User user = (User)queryUser.getSingleResult();
 		
-		Query query = em.createQuery("UPDATE Cart SET name = :name, surname = :surname WHERE id = :id");
+		Query query = em.createQuery("UPDATE Cart SET name = :name, surname = :surname, user = :user WHERE id = :id");
 		query.setParameter("name", user.getName());
 		query.setParameter("surname", user.getSurname());
+		query.setParameter("user", user);
 		query.setParameter("id", id);
 		query.executeUpdate();
 		
 		Cart cart = em.find(Cart.class, id);
-		Collection<Cart> carts = user.getCart();
-		carts.add(cart);
-		user.setCart(carts);
-		
-		em.persist(user);
 		
 		et.commit();
 		em.close();
@@ -393,7 +368,34 @@ public class JPACartService implements CartService{
         
         tx.commit();
         em.close();
+	}        
 		
+	@Override
+	public ResponseCarts<CartLine> persistCartSession(Cart cart, User user)
+			throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		cart.setUser(user);
+		cart.setName(user.getName());
+		cart.setSurname(user.getSurname());
+		cart.setCreated(new Date());
+		cart.setId(0);
+		em.persist(cart);
+		Iterator<CartLine> i = cart.getCartLines().iterator();
+		while(i.hasNext()){
+			CartLine cartLine = i.next();
+			cartLine.setId(0);
+			cartLine.setCart(cart);
+			em.persist(cartLine);
+		}
+		
+		
+		et.commit();
+		em.close();
+		
+		return new ResponseCarts<CartLine>(cart.getId(), cart.getCartLines().size(), cart.getCartLines());
 	}
 	
 }
