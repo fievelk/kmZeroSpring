@@ -180,12 +180,12 @@ function createMarker(latlng, name, html) {
 							<div class="rp-item"> 
 						           <div class="rp-image">        
 						             <a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">	
-									<img src="${pageContext.request.contextPath}/prod/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
+									<img src="${pageContext.request.contextPath}/product/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
 						          	</a>
 						       	</div>
 								<div class="rp-details">
 								  <!-- Title and para -->
-								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">$255</span></a></h5>
+								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">€ ${product.price}</span></a></h5>
 								  <div class="clearfix"></div>
 								  <p>
 								  	<c:if test="${product.description ne null }">
