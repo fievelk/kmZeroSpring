@@ -44,15 +44,17 @@ public class JPACartService implements CartService{
 		cl.setQuantity(quantity);
 		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(quantity)));
 		
-		Collection<CartLine> cls = new ArrayList<CartLine>();
-		cls.add(cl);
 		Cart c = new Cart();
+		Collection<CartLine> cls = new ArrayList<CartLine>();
+		cl.setCart(c);
+		cls.add(cl);
 		c.setName(user.getName());
 		c.setSurname(user.getSurname());
 		c.setUser(user);
 		c.setAddress(address);
 		c.setCartLines(cls);
 		c.setCreated(new Date());
+		
 		
 		em.persist(cl);
 		em.persist(c);
@@ -96,6 +98,7 @@ public class JPACartService implements CartService{
     		BigDecimal tot = p.getPrice().multiply(new BigDecimal(cl.getQuantity()));
     		cl.setLineTotal(tot);
     		cl.setProduct(p);
+    		cl.setCart(c);
     		cls = c.getCartLines();
         	cls.add(cl);
     	} else {
