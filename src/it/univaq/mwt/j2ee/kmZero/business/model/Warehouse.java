@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +14,8 @@ public class Warehouse {
 	
 	@Id
 	@Column(name="warehouse_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "warehouses_seq")
+	@SequenceGenerator(name = "warehouses_seq")
 	private long id;
 
 	@Column(name="name", nullable=false)

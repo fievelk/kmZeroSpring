@@ -8,7 +8,7 @@
 <div class="span3">
     
 	<div class="sidebar-items">
-	<h5 class="title">Products in the Same category</h5>   
+	<h5 class="title"><spring:message code="common.productsSameCategory" /></h5>   
 	<c:forEach var="product" items="${sameCategoryProducts}">   
 		<div class="sitem">
 			<div class="onethree-left">
@@ -29,9 +29,3 @@
 	</div>
 
 </div>
-    
-      
-      
-      
-      
-   

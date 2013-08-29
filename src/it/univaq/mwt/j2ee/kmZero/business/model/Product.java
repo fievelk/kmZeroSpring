@@ -26,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,7 +44,8 @@ public class Product implements Serializable {
 
 	@Id
 	@Column(name="product_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "products_seq")
+	@SequenceGenerator(name = "products_seq")
 	private long id;
 
 	@Column(name="name", nullable=false)
@@ -85,7 +87,7 @@ public class Product implements Serializable {
 	@Column(name="ratingvotes")
 	private int ratingVotes; */
 
-	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToOne
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;

@@ -7,7 +7,7 @@
  <!-- Sidebar -->
 <div class="span3">
 
-	<h5 class="title">Sellers</h5>
+	<h5 class="title"><spring:message code="menu.sellers"/></h5>
 		        <!-- Sidebar navigation -->
 		        <nav id="seller">
 		            <ul id="nav">

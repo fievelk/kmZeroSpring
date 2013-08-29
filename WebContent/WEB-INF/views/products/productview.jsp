@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <div class="span9">
         <!-- Product details -->
         <div class="product-main">
@@ -26,26 +27,26 @@
             <div class="span5">
               <!-- Title -->
                 <h4 class="title">${product.name}</h4>
-                <h5 class="item-price">€ ${product.price}/${product.measure.shortName}</h5>
-                <p>Shipping : Free</p>
-                <p>Categoria : ${product.category.name}</p>
-                <p>Venditore : ${product.seller.company}
-                <p>Disponibilità :
+                <h5 class="item-price">&euro; ${product.price}/${product.measure.shortName}</h5>
+<!--                 <p>Shipping : Free</p> -->
+                <p><spring:message code="product.category" />: ${product.category.name}</p>
+                <p><spring:message code="product.seller" />: <a href="${pageContext.request.contextPath}/sellers/${product.seller.id}/${product.seller.company}">${product.seller.company}</a>
+<!--                 <p><spring:message code="product.availability" />:
                 
                 	<c:choose>
                 		<c:when test="${product.stock == 0 }">out of stock</c:when>
                 		<c:otherwise>${product.stock}</c:otherwise>
                 	</c:choose>
-                </p>
+                </p> -->
                                  
                                             <!-- Quantity and add to cart button -->
                         <div class="input-append cart-quantity">
                           <input type="text" value="2" class="input-mini">
-                          <button type="button" class="btn">Add to Cart</button>      
+                          <button type="button" class="btn"><spring:message code="product.addToCart" /></button>      
                         </div>
 
                         <!-- Add to wish list -->
-                        <a href="wish-list.html">+ Add to Wish List</a>
+<!--                         <a href="wish-list.html">+ Add to Wish List</a> -->
 
                         <!-- Share button -->
                 <!-- AddThis Button BEGIN -->
@@ -69,8 +70,8 @@
 
         <ul class="nav nav-tabs">
           <!-- Use uniqe name for "href" in below anchor tags -->
-          <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-          <li><a data-toggle="tab" href="#tab3">Commenti</a></li> 
+          <li class="active"><a data-toggle="tab" href="#tab1"><spring:message code="product.description" /></a></li>
+          <li><a data-toggle="tab" href="#tab3"><spring:message code="product.comments" /></a></li> 
         </ul>
 
         <!-- Tab Content -->
@@ -79,73 +80,19 @@
           <div id="tab1" class="tab-pane active">
             <h5>${product.name}</h5>
             <p>${product.description}</p>
-           <!--  <h6>Features</h6>
-            <ul>
-            <li>Etiam adipiscing posuere justo, nec iaculis justo dictum non</li>
-            <li>Cras tincidunt mi non arcu hendrerit eleifend</li>
-            <li>Aenean ullamcorper justo tincidunt justo aliquet et lobortis diam faucibus</li>
-            <li>Maecenas hendrerit neque id ante dictum mattis</li>
-            <li>Vivamus non neque lacus, et cursus tortor</li>
-            </ul> -->
           </div>
-
-          <!-- Sepcs -->
-          
 
           <!-- Review -->
           <div id="tab3" class="tab-pane">
-            <h5>Product Reviews</h5>
+            <h5><spring:message code="product.comments" /></h5>
+            <c:forEach items="${feedbacks}" var="feedback">
             <div class="item-review">
-              <h5>Ravi Kumar - <span class="color">4/5</span></h5>
-              <p class="rmeta">27/1/2012</p>
-              <p>Suspendisse potenti. Morbi ac felis nec mauris imperdiet fermentum. Aenean sodales augue ac lacus hendrerit sed rhoncus erat hendrerit. Vivamus vel ultricies elit. Curabitur lacinia nulla vel tellus elementum non mollis justo aliquam.</p>
+              <h5>${feedback.cartLine.cart.user.name} ${feedback.cartLine.cart.user.surname} - <span class="color">${feedback.cartLine.rating}/5</span></h5>
+              <p class="rmeta"><fmt:formatDate pattern="dd-MM-yyyy" value="${feedback.cartLine.cart.paid}" /></p>
+              <p>${feedback.feedbackContent}</p>
             </div>
-
+			</c:forEach>
             <hr>
-            <h5 class="title">Write a Review</h5>
-
-                                  <div class="form form-small">
-
-                                      <!-- Review form (not working)-->
-                                      <form class="form-horizontal">                                         
-                                          <!-- Name -->
-                                          <div class="control-group">
-                                            <label for="name2" class="control-label">Your Name</label>
-                                            <div class="controls">
-                                              <input type="text" id="name2" class="input-large">
-                                            </div>
-                                          </div>
-                                          <!-- Select box -->
-                                          <div class="control-group">
-                                            <label class="control-label">Rating</label>
-                                            <div class="controls">                               
-                                                <select>
-                                                <option>&nbsp;</option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                </select>  
-                                            </div>
-                                          </div>
-
-                                          <!-- Review -->
-                                          <div class="control-group">
-                                            <label for="name" class="control-label">Your Review</label>
-                                            <div class="controls">
-                                              <textarea class="input-large"></textarea>
-                                            </div>
-                                          </div>
-                                          <!-- Buttons -->
-                                          <div class="form-actions">
-                                             <!-- Buttons -->
-                                            <button class="btn" type="submit">Post</button>
-                                            <button class="btn" type="reset">Reset</button>
-                                          </div>
-                                      </form>
-                                    </div> 
-
           </div>
 
         </div>

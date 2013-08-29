@@ -145,7 +145,7 @@ function buildItem(item){
 			<!-- SPINNER -->
 			'<div class="fuelux row pull-left"><div class="spinner"><input type="number" min="1" max="1000" id="' + item.id + '" value="1" class="input-mini spinner-input" maxlength="3" /><div class="spinner-buttons btn-group btn-group-vertical"><button type="button" class="btn spinner-up"><i class="icon-chevron-up"></i></button><button type="button" class="btn spinner-down"><i class="icon-chevron-down"></i></button></div></div></div>'+
 			<!-- END SPINNER -->
-			'<div class="button"><a href="#" id="" onclick="existCart('+ item.id +');return false">Add to Cart</a></div>'+
+			'<div class="button"><a href="#" id="" onclick="existCart('+ item.id +');return false"><spring:message code="product.addToCart" /></a></div>'+
 			'</div>'+
 		'</div></div></div>';
 	
@@ -183,7 +183,7 @@ function existCart(id){
 			if (cart_id == 0 && exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
-				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Add to cart</button>');
+				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')"><spring:message code="product.addToCart" /></button>');
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 				$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + (exist+1) + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 			} else {
@@ -241,7 +241,7 @@ function addCartLine(id){
         </ul> -->
 
       <!-- Title -->
-        <h4 class="pull-left">I prodotti</h4>
+        <h4 class="pull-left"><spring:message code="menu.products" /></h4>
 
 <!--Items Per Page -->
                       <div id="perPage" class="controls pull-right perpage">                               
@@ -256,11 +256,11 @@ function addCartLine(id){
                     <!-- Sorting -->
                       <div id="sortBy" class="controls pull-right">                               
                           <select>
-                           <option value="name-ASC" selected>Name (A-Z)</option>
-                           <option value="name-DESC">Name (Z-A)</option>
-                           <option value="price-ASC">Price (Low-High)</option>
-                           <option value="price-DESC">Price (High-Low)</option>
-                           <option value="rating-ASC">Ratings</option>
+                           <option value="name-ASC" selected><spring:message code="product.name" /> (A-Z)</option>
+                           <option value="name-DESC"><spring:message code="product.name" /> (Z-A)</option>
+                           <option value="price-ASC"><spring:message code="cartline.price" /> (Low-High)</option>
+                           <option value="price-DESC"><spring:message code="cartline.price" /> (High-Low)</option>
+                           <option value="rating-ASC"><spring:message code="product.rating" /></option>
                           </select>  
                       </div>
                                             
@@ -285,7 +285,7 @@ function addCartLine(id){
 		<div id="modalDialogAddress" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="modal-header">
 		    <button id="modalDialogAddress_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		    <h5 class="title">Address Validation test</h5>
+		    <h5 class="title"><spring:message code="cart.addressValidation" /></h5>
 		  </div>
 		  <div class="modal-body">
 				
@@ -301,7 +301,7 @@ function addCartLine(id){
 					    <p id="addressDistanceErrorModal"></p>
 					
 						<div class="controls">
-					      <button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Add to cart</button>
+					      <button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="product.addToCart" /></button>
 					    </div>
 					
 					</div>

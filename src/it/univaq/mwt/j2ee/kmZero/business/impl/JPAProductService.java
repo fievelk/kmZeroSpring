@@ -18,6 +18,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Service;
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
@@ -32,6 +34,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
+@Service
 public class JPAProductService implements ProductService{
 	
 	@PersistenceUnit
@@ -512,10 +515,11 @@ public class JPAProductService implements ProductService{
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 //		Seller s = em.find(Seller.class,seller_id);
+		product.setActive(false);
 		product = em.merge(product);
 //		s.deleteProduct(product);
 		
-		product.setActive(false);
+		
 		
 		tx.commit();
 		em.close();

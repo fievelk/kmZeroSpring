@@ -26,7 +26,9 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class JPACartService implements CartService{
 	
 	@PersistenceUnit
@@ -44,15 +46,17 @@ public class JPACartService implements CartService{
 		cl.setQuantity(quantity);
 		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(quantity)));
 		
-		Collection<CartLine> cls = new ArrayList<CartLine>();
-		cls.add(cl);
 		Cart c = new Cart();
+		Collection<CartLine> cls = new ArrayList<CartLine>();
+		cl.setCart(c);
+		cls.add(cl);
 		c.setName(user.getName());
 		c.setSurname(user.getSurname());
 		c.setUser(user);
 		c.setAddress(address);
 		c.setCartLines(cls);
 		c.setCreated(new Date());
+		
 		
 		em.persist(cl);
 		em.persist(c);
@@ -96,6 +100,7 @@ public class JPACartService implements CartService{
     		BigDecimal tot = p.getPrice().multiply(new BigDecimal(cl.getQuantity()));
     		cl.setLineTotal(tot);
     		cl.setProduct(p);
+    		cl.setCart(c);
     		cls = c.getCartLines();
         	cls.add(cl);
     	} else {
@@ -396,6 +401,20 @@ public class JPACartService implements CartService{
 		em.close();
 		
 		return new ResponseCarts<CartLine>(cart.getId(), cart.getCartLines().size(), cart.getCartLines());
+	}
+
+	@Override
+	public Rating findRatingById(long ratingId) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+
+		Rating rating = em.find(Rating.class, ratingId);	
+		
+		tx.commit();
+		em.close();
+		return rating;
 	}
 	
 }

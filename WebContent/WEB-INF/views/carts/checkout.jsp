@@ -17,14 +17,14 @@
 	    	<div class="span3 side-menu">
 	
 				<!-- Sidebar navigation -->
-				<h5 class="title">Menu</h5>
+				<h5 class="title"><spring:message code="menu.menu" /></h5>
 				<!-- Sidebar navigation -->
 				  <nav>
 				    <ul id="navi">
-				      <li><a href="myaccount.html">Gestione Ordini</a></li>
-				      <li><a href="wish-list.html">Storico Ordini</a></li>
-				      <li><a href="order-history.html">Gestione Utenti</a></li>
-				      <li><a href="edit-profile.html">Gestione Venditori</a></li>
+				      <li><a href="myaccount.html"><spring:message code="menu.manageOrders" /></a></li>
+				      <li><a href="wish-list.html"><spring:message code="menu.ordersHistory" /></a></li>
+				      <li><a href="order-history.html"><spring:message code="user.views" /></a></li>
+				      <li><a href="edit-profile.html"><spring:message code="seller.views" /></a></li>
 				    </ul>
 				  </nav>
 			</div>
@@ -32,7 +32,7 @@
 			<!-- Main content -->
 			
 			<div class="span9">
-				<h5 class="title">Carrello</h5>
+				<h5 class="title"><spring:message code="cart.cart" /></h5>
 				<div class="form form-small">
 					<form:form modelAttribute="cart" cssClass="form-horizontal" action="${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
@@ -63,9 +63,9 @@
 					<table class="table table-striped tcart">
 			          <thead>
 			            <tr>
-			              <th>Name</th>
-			              <th>Quantity</th>
-			              <th>Price</th>
+			              <th><spring:message code="product.name"/></th>
+			              <th><spring:message code="product.quantity"/></th>
+			              <th><spring:message code="cartline.price"/></th>
 			            </tr>
 			          </thead>
 			          	<tbody id="cartlinesconfirmed">

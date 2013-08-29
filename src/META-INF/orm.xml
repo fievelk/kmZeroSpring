@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Product"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.User"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Cart"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Warehouse"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Image"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.CartLine"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Category"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Measure"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Role"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Seller"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.SellerContent"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Rating"></entity>
+<entity class="it.univaq.mwt.j2ee.kmZero.business.model.Feedback"></entity>
+<embeddable class="it.univaq.mwt.j2ee.kmZero.business.model.Password"></embeddable>
+
+</entity-mappings>

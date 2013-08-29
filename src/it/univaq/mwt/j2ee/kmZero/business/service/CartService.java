@@ -7,6 +7,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
@@ -47,5 +48,7 @@ public interface CartService {
 	void createFeedback(CartLine cartLine, String feedback) throws BusinessException;
 	// Il carrello anonimo viene reso persistente
 	ResponseCarts<CartLine> persistCartSession(Cart cart, User user) throws BusinessException;
+
+	Rating findRatingById(long ratingId) throws BusinessException;
 
 }

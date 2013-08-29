@@ -43,113 +43,106 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
-
+@Service
 public class JPATestService implements TestService{
 
-	@PersistenceUnit
-	private EntityManagerFactory emf;
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
+	@Transactional
 	public void testNumberOne() {
-		
-        EntityManager em = emf.createEntityManager();
         
         System.out.println ("Transaction begins.");
-        em.getTransaction().begin();
-        try {
-			Role r1 = new Role(1, "seller", "seller");
-			Role r2 = new Role(2, "user", "user");
-			Role r3 = new Role(3, "admin", "admin");
-			Set<Role> rs1 = new HashSet<Role>();
-			Set<Role> rs2 = new HashSet<Role>();
-			Set<Role> rs3 = new HashSet<Role>();
-			rs1.add(r1);
-			rs2.add(r2);
-			rs3.add(r3);
+        
+		Role r1 = new Role(1, "seller", "seller");
+		Role r2 = new Role(2, "user", "user");
+		Role r3 = new Role(3, "admin", "admin");
+		Set<Role> rs1 = new HashSet<Role>();
+		Set<Role> rs2 = new HashSet<Role>();
+		Set<Role> rs3 = new HashSet<Role>();
+		rs1.add(r1);
+		rs2.add(r2);
+		rs3.add(r3);
+		
+		em.persist(r1);
+		em.persist(r2);
+		em.persist(r3);
+		
+		
+		Seller s1 = new Seller("pippo", "goofy", "pippo@gmail.com", null, new Date(), null, "topolinia", "78969678", "87696879", null, null, null, true);
+		Seller s2 = new Seller("topolino", "lalala", "topolino@gmail.com", null, new Date(), null, "topolinia", "78969678", "87696879", null, null, null, true);
+
+		User u2 = new User("federico", "federico","federico@gmail.com", null , new Date(), null, "via paganica");
+		Seller s = new Seller ("3453", "fff3254", "fedecompany", "www.fede.it", "385784");
+		s.setName(u2.getName());
+		s.setSurname(u2.getSurname());
+		s.setEmail(u2.getEmail());
+		s.setAddress(u2.getAddress());
+		s.setCreated(new Date());
+		s.setEnable(true);
+		User u3 = new User("admin", "admin", "admin@email.it", null, new Date(), null, "via, admin 1");
+		Password p1 = new Password();
+		Password p2 = new Password();
+		Password p3 = new Password();
+		Password p4 = new Password();
+		p1.setPassword(DigestUtils.md5Hex("p"));
+		p2.setPassword(DigestUtils.md5Hex("f"));
+		p3.setPassword(DigestUtils.md5Hex("a"));
+
+		p4.setPassword(DigestUtils.md5Hex("t"));
+
+		s1.setPassword(p1);
+		u2.setPassword(p2);
+
 			
-			em.persist(r1);
-			em.persist(r2);
-			em.persist(r3);
-			
-			
-			Seller s1 = new Seller("pippo", "goofy", "pippo@gmail.com", null, null, null, "topolinia", "78969678", "87696879", null, null, null, true);
-			Seller s2 = new Seller("topolino", "lalala", "topolino@gmail.com", null, null, null, "topolinia", "78969678", "87696879", null, null, null, true);
+		s.setPassword(p2);
 
-			User u2 = new User("federico", "federico","federico@gmail.com", null ,null, null, "via paganica");
-			Seller s = new Seller ("3453", "fff3254", "fedecompany", "www.fede.it", "385784");
-			s.setName(u2.getName());
-			s.setSurname(u2.getSurname());
-			s.setEmail(u2.getEmail());
-			s.setAddress(u2.getAddress());
-			s.setCreated(new Date());
-			s.setEnable(true);
-			User u3 = new User("admin", "admin", "admin@email.it", null, null, null, "via, admin 1");
-			Password p1 = new Password();
-			Password p2 = new Password();
-			Password p3 = new Password();
-			Password p4 = new Password();
-			p1.setPassword(DigestUtils.md5Hex("p"));
-			p2.setPassword(DigestUtils.md5Hex("f"));
-			p3.setPassword(DigestUtils.md5Hex("a"));
+		u3.setPassword(p3);
 
-			p4.setPassword(DigestUtils.md5Hex("t"));
-
-			s1.setPassword(p1);
-			u2.setPassword(p2);
-
-			
-			s.setPassword(p2);
-
-			u3.setPassword(p3);
-
-			s2.setPassword(p4);
-			s1.setRoles(rs1);
-			s2.setRoles(rs1);
-			u2.setRoles(rs2);
+		s2.setPassword(p4);
+		s1.setRoles(rs1);
+		s2.setRoles(rs1);
+		u2.setRoles(rs2);
 
 
-			s.setRoles(rs2);
+		s.setRoles(rs2);
 
-			u3.setRoles(rs3);
+		u3.setRoles(rs3);
    
 
-			em.persist(s1);
-			em.persist(s2);
-			em.persist(u2);
+		em.persist(s1);
+		em.persist(s2);
+		em.persist(u2);
 			
 
-			em.persist(s);
+		em.persist(s);
 
-			em.persist(u3);
+		em.persist(u3);
 
-			Category cat2 = new Category(2L, "Frutta", null);
-			Category cat3 = new Category(3L, "Verdura", null);
+		Category cat2 = new Category(2L, "Frutta", null);
+		Category cat3 = new Category(3L, "Verdura", null);
+		
+		em.persist(cat2);
+		em.persist(cat3);
+		
+		Measure meas1 = new Measure(1L, "Grammi" ,"gr.");
+		Measure meas2 = new Measure(2L, "Kilogrammi" ,"kg.");
+		Measure meas3 = new Measure(3L, "Litri","lt.");
+		Measure meas4 = new Measure(4L, "Numero","#");
+		
+		em.persist(meas1);
+		em.persist(meas2);
+		em.persist(meas3);
+		em.persist(meas4);
+		
+		Warehouse warehouse = new Warehouse("Warehouse", "Via dei Vestini, 66100 Chieti CH, Italia");
+		em.persist(warehouse);
 			
-			em.persist(cat2);
-			em.persist(cat3);
-			
-			Measure meas1 = new Measure(1L, "Grammi" ,"gr.");
-			Measure meas2 = new Measure(2L, "Kilogrammi" ,"kg.");
-			Measure meas3 = new Measure(3L, "Litri","lt.");
-			Measure meas4 = new Measure(4L, "Numero","#");
-			
-			em.persist(meas1);
-			em.persist(meas2);
-			em.persist(meas3);
-			em.persist(meas4);
-			
-			Warehouse warehouse = new Warehouse("Warehouse", "Via dei Vestini, 66100 Chieti CH, Italia");
-			em.persist(warehouse);
-			
-			
-			em.getTransaction().commit();
-		} catch (Exception e) {
-			em.getTransaction().rollback();
-			e.printStackTrace();
-		}
         System.out.println ("Transaction ends.");
 	}
 
@@ -179,9 +172,6 @@ public class JPATestService implements TestService{
 
 	@Override
 	public List<CartLine> testNumberFive() {
-		
-			EntityManager em = this.emf.createEntityManager();
-			
 			Seller s = em.find(Seller.class, 3L);
 			
 		    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
@@ -196,77 +186,52 @@ public class JPATestService implements TestService{
 
 	@Override
 	public Set<Role> getAllRoles() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Role> query = em.createQuery("Select R FROM Role R",Role.class);
+		TypedQuery<Role> query = em.createQuery("Select R FROM Role R",Role.class);
    
         Set<Role> result = new HashSet<Role>(query.getResultList());
-   
-        em.close();
-        emf.close();
        
         return result;
 	}
 	
 	@Override
 	public User getUser() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-        EntityManager em = emf.createEntityManager();
    
         User rs = null;
         TypedQuery<User> query = em.createQuery("Select U FROM User U WHERE U.name='federico'",User.class);
         rs = query.getSingleResult();
-     
-        em.close();
-        emf.close();
        
         return rs;
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(User user) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-        EntityManager em = emf.createEntityManager();
         System.out.println("ROLESSSS:"+user.getRoles());
         Role r1 = new Role(1, "seller", "seller");
 		Role r2 = new Role(2, "user", "user");
 		Set<Role> rs = new HashSet<Role>();
 		rs.add(r1); rs.add(r2);
 		user.setRoles(rs);
-        em.getTransaction().begin();
         em.merge(user);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
 	
 	}
 	
 	@Override
 	public List<User> getAllUsersTest() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-        EntityManager em = emf.createEntityManager();
         TypedQuery<User> query = em.createQuery("Select u FROM User u", User.class);
    
         List<User> result = query.getResultList();
    
-        em.close();
-        emf.close();
        System.out.println("RISULTATO " + result);
         return result;
 	}
 
 	@Override
 	public List<Cart> getCartsToDeliverTest() {
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-		EntityManager em = emf.createEntityManager();
 		
         TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL", Cart.class);
    
         List<Cart> result = query.getResultList();
-   
-        em.close();
-        emf.close();
 		
 		return result;
 	}	

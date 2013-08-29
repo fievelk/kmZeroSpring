@@ -56,7 +56,7 @@
 				    <th><spring:message code="product.date_in"/></th>
 				    <th><spring:message code="product.date_out"/></th>
 				    <th><spring:message code="product.position"/></th>
-				    <th>Seller</th>
+				    <th><spring:message code="product.seller"/></th>
 		   	   	    <th><spring:message code="common.actions"/></th>
 			    </tr>
 		    </thead>
