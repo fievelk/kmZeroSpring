@@ -53,6 +53,7 @@ public class JPACartService implements CartService{
 		c.setAddress(address);
 		c.setCartLines(cls);
 		c.setCreated(new Date());
+		cl.setCart(c);
 		
 		em.persist(cl);
 		em.persist(c);
