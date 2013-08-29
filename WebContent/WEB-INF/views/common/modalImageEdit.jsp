@@ -17,7 +17,7 @@ $(document).ready(function() {
     <h4><spring:message code="image.edit_title"/></h4>
     <p><spring:message code="image.edit_msg"/></p>
 	<div>
-		<img src="${pageContext.request.contextPath}/${owner_kind}/image/${image.id}/${image.name}"/>
+		<img src="${pageContext.request.contextPath}/${ownerKind}/image/${image.id}/${image.name}"/>
 	</div>
   </div>
 	<div class="modal-body">
@@ -26,15 +26,15 @@ $(document).ready(function() {
 			 
 			<div class="span4">
 				<form:hidden path="id"/>
-				<input type="hidden" name="owner_id" value="${owner_id}">
+				<input type="hidden" name="ownerId" value="${ownerId}">
 				<div>
 				    <label for="altName"><spring:message code="image.altName"/></label>
 				    <div>
 				    	<form:input id="altName" path="altName"/>
 				    </div>
 				</div>
+				<c:if test="${ownerKind != 'sellercontent'}">
 				<!-- SPINNER -->
-				
 				<div class="fuelux row">
 					<label for="position"><spring:message code="image.position"/></label>
 					<div class="spinner">
@@ -50,6 +50,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 				<!-- END SPINNER -->
+				</c:if>
 			
 				<div class="control-group">
 			    <div class="controls">

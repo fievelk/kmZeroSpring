@@ -19,9 +19,9 @@
 		                    "bSortable": false,
 		                    "sDefaultContent": "",
 		                    "fnRender": function (oObj) {
-		                       return "<a href='${pageContext.request.contextPath}/sellers/admin/update_start?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-pencil'></span></a>" + 
-		                       		  "<a href='${pageContext.request.contextPath}/sellers/admin/delete_start?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-circle-close'></span></a>" +
-		                       		  "<a href='${pageContext.request.contextPath}/sellers/admin/content_start?id=" + oObj.aData['id'] + "'><span class='ui-icon ui-icon-document'></span></a>";
+		                       return "<a class='btn-small' href='${pageContext.request.contextPath}/sellers/admin/update_start?id=" + oObj.aData['id'] + "'><span class='icon-edit'></span></a>" + 
+		                       		  "<a class='btn-small' href='${pageContext.request.contextPath}/sellers/admin/delete_start?id=" + oObj.aData['id'] + "'><span class='icon-trash'></span></a>" +
+		                       		  "<a class='btn-small' href='${pageContext.request.contextPath}/sellers/pagecontents?id=" + oObj.aData['id'] + "'><span class='icon-file'></span></a>";
 		                    	
 		                     }
 		                  }

@@ -110,7 +110,7 @@ function buildItem(item){
 	var producturl = baseurl+'/products/'+item.id+'/'+item.name;
 	var sellerurl = baseurl+'/sellers/'+item.seller.id+'/'+item.seller.company;
 	if(item.images[0] != null){
-		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/prod/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
+		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/product/image/'+item.images[0].id+'/'+item.images[0].name+'" alt="'+item.images[0].name+'" /></a>';
 	}else{
 		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};

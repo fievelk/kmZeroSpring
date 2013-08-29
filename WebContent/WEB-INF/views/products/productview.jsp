@@ -14,7 +14,7 @@
 					<c:forEach var="image" items="${product.images}"> 
                       <li style="width: 100%; float: left; margin-right: -100%; position: relative; display: none;" class="">
                         <!-- Image -->
-                        <img src="${pageContext.request.contextPath}/prod/image/${image.id}/${image.name}+'" alt="${image.name}" />
+                        <img src="${pageContext.request.contextPath}/product/image/${image.id}/${image.name}+'" alt="${image.name}" />
                        
                       </li>
                     </c:forEach> 

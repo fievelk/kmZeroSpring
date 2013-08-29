@@ -1,3 +1,6 @@
+var pathArray = window.location.pathname.split("/");
+var contextPath = window.location.origin+"/"+pathArray[1];
+
 $(document).ready(function(){
 	$.ajax({
 		type: "POST",

@@ -4,8 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<%-- <link href="${pageContext.request.contextPath}/resources/mackart/style/jquery.cleditor.css" rel="stylesheet"> <!-- CLEditor -->
-<script src="${pageContext.request.contextPath}/resources/custom/js/jquery.cleditor.min.js"></script> <!-- CLEditor --> --%>
+<script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -44,6 +43,7 @@ $(document).ready(function() {
 	<div class="form form-small">
 		<form:form modelAttribute="sellercontent" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
 		<form:hidden path="id"/>
+		<input type="hidden" name="sellerId" value="${sellerId}">
 			<div class="control-group">
 			    <label class="control-label" for="name"><spring:message code="sellercontent.title"/></label>
 			    <div class="controls">
@@ -79,17 +79,17 @@ $(document).ready(function() {
 <c:if test="${requestScope.update eq 'true'}">
 	<div class="span4 productImages">
 		<div class="row-fluid">
-			<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr_content','${sellercontent.id}',null,null)"><spring:message code="image.add"/></a>
+			<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','sellercontent','${sellercontent.id}',null)"><spring:message code="image.add"/></a>
 		</div>
 		
 		<div id="km0Images">
 		<c:if test="${image != null}">
 			<div>
-				<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr_content','${sellercontent.id}','image','${image.id}')" ></a>	
-	       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr_content','${sellercontent.id}','image','${image.id}')"></a>
+				<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','sellercontent','${sellercontent.id}','${image.id}')" ></a>	
+	       		<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','sellercontent','${sellercontent.id}','${image.id}')"></a>
 			</div>
   			<span id="image_${image.id}">
-	       		<img src="${pageContext.request.contextPath}/selr_content/image/${image.id}/${image.name}" alt="${image.name}" />
+	       		<img src="${pageContext.request.contextPath}/sellercontent/image/${image.id}/${image.name}" alt="${image.name}" />
        		</span>	
      	</c:if>      		
     	</div>

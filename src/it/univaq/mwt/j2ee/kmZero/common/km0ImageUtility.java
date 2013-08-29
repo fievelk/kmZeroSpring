@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,9 +20,9 @@ import net.coobird.thumbnailator.geometry.Positions;
 
 public class km0ImageUtility {
 	
-	public static List<Image> generateImages(List<MultipartFile> files,int width,int height) throws IOException{
+	public static Collection<Image> generateImages(Collection<MultipartFile> files,int width,int height) throws IOException{
 		
-		List<Image> images = new ArrayList<Image>();
+		Collection<Image> images = new ArrayList<Image>();
 		for (Iterator<MultipartFile> i = files.iterator(); i.hasNext();){
 			MultipartFile mpf = (MultipartFile)i.next();
 			//File cannot be null 

@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,6 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
-		
         tx.begin();
        
         product.setActive(true);
@@ -51,8 +51,7 @@ public class JPAProductService implements ProductService{
         
         Rating rating = new Rating();
         product.setRating(rating);
-        em.persist(rating);
-        em.persist(product);
+        s.addProduct(product);
 
         tx.commit();
         em.close();
@@ -60,7 +59,7 @@ public class JPAProductService implements ProductService{
 	}	
 	
 	@Override
-	public void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException {
+	public void updateProduct(Product product,Collection<Image> images, long seller_id) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -70,6 +69,8 @@ public class JPAProductService implements ProductService{
         product.setImages(images);
         product.setSeller(s);
         em.merge(product);
+        //il metodo setProduct effettua l'ordinamento quindi se abbiamo modificato la posizione del prodotto bisogna riordinare la collection
+        s.setProducts(s.getProducts());
     
         tx.commit();
         em.close();
@@ -216,7 +217,7 @@ public class JPAProductService implements ProductService{
         
         tx.commit();
         em.close();
-              
+        
 		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, records, products);
 
 	}

@@ -31,59 +31,52 @@ public class JPAImageService implements ImageService{
 		return img;
 	}
 	
-
+	
 	@Override
-	public void updateImage(Image image) throws BusinessException {
+	public Collection<Image> getProductImages(Long productId) throws BusinessException {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Product p = em.find(Product.class, productId);
+		tx.commit();
+		return p.getImages();
+	}
+	
+	
+	public void setProductImages(Long productId, Collection<Image> ci) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Product p = em.find(Product.class, productId);
+		p.addImages(ci);
+		tx.commit();
+		em.close();
+	}
+	
+	@Override
+	public void updateProductImage(Image image, Long productId) throws BusinessException {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		Image i = em.find(Image.class,image.getId());
 		i.setAltName(image.getAltName());
 		i.setPosition(image.getPosition());
+		Product p = em.find(Product.class, productId);
+		//il metodo setImages effettua l'ordinamento
+		p.setImages(p.getImages());
 		tx.commit();
 		em.close();	
 	}
 	
-	
 	@Override
-	public List<Image> getProductImages(Long id) throws BusinessException {
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		Product p = em.find(Product.class, id);
-		tx.commit();
-		return p.getImages();
-	}
-	
-	@Override
-	public void setProductImages(Long id, List<Image> ci) throws BusinessException {
-
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		
-		tx.begin();
-		Product p = em.find(Product.class, id);
-		//riprendo la collezione di immagini giˆ associate all'oggetto e...
-		List<Image> c = p.getImages();
-		//...aggiungo la nuova collezione (le fondo assieme)
-		c.addAll(ci);
-		p.setImages(c);
-		//em.merge(p);
-		
-		tx.commit();
-		em.close();
-	}
-	
-	@Override
-	public void deleteProductImage(Long id, Long product_id) throws BusinessException {
+	public void deleteProductImage(Long imageId, Long productId) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-	
 		tx.begin();
-		Image i = em.find(Image.class, id);
-		Product p = em.find(Product.class, product_id);
-		em.merge(p);
+		Image i = em.find(Image.class, imageId);
+		Product p = em.find(Product.class, productId);
 		p.getImages().remove(i);
 		tx.commit();	
 		em.close();
@@ -92,85 +85,106 @@ public class JPAImageService implements ImageService{
 
 	
 	@Override
-	public List<Image> getSellerImages(Long id) throws BusinessException {
+	public Collection<Image> getSellerImages(Long sellerId) throws BusinessException {
 		EntityManager em = this.emf.createEntityManager();
-		Seller s = em.find(Seller.class, id);
+		Seller s = em.find(Seller.class, sellerId);
 		return s.getImages();
 	}
 	
 	@Override
-	public void setSellerImages(Long id, List<Image> ci) throws BusinessException {
+	public void setSellerImages(Long sellerId, Collection<Image> ci) throws BusinessException {
 
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		
 		tx.begin();
-		Seller s = em.find(Seller.class, id);
-		//riprendo la collezione di immagini giˆ associate all'oggetto e...
-		List<Image> c = s.getImages();
-		//...aggiungo la nuova collezione (le fondo assieme)
-		c.addAll(ci);
-		s.setImages(c);
-		em.merge(s);
-		
+		Seller s = em.find(Seller.class, sellerId);
+		s.addImages(ci);
 		tx.commit();
 		em.close();
+	}
+	
+	@Override
+	public void updateSellerImage(Image image, Long sellerId) throws BusinessException {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Image i = em.find(Image.class,image.getId());
+		i.setAltName(image.getAltName());
+		i.setPosition(image.getPosition());
+		Seller s = em.find(Seller.class, sellerId);
+		s.setImages(s.getImages());
+		tx.commit();
+		em.close();	
 	}
 
 
 	@Override
-	public void deleteSellerImage(Long image_id, Long owner_id)	throws BusinessException {
+	public void deleteSellerImage(Long imageId, Long sellerId)	throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 	
 		tx.begin();
-		Image i = em.find(Image.class, image_id);
-		Seller s = em.find(Seller.class, owner_id);
-		em.merge(s);
+		Image i = em.find(Image.class, imageId);
+		Seller s = em.find(Seller.class, sellerId);
 		s.getImages().remove(i);
 		tx.commit();	
 		em.close();	
 	}
-	
-	@Override
-	public void setSellerContentImage(Long id, Image i) throws BusinessException {
-
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		
-		tx.begin();
-		SellerContent sc = em.find(SellerContent.class, id);
-		sc.setImage(i);
-		
-		
-		tx.commit();
-		em.close();
-	}
-
 
 	@Override
-	public Image getSellerContentImages(long sellercontentId) {
+	public Image getSellerContentImages(Long sellercontentId) {
 		EntityManager em = this.emf.createEntityManager();
 		SellerContent sc = em.find(SellerContent.class, sellercontentId);
 		return sc.getImage();
 	}
-
-
+	
 	@Override
-	public void deleteSellerContentImage(Long image_id, Long owner_id) {
+	public void setSellerContentImage(Long sellercontentId, Image image) throws BusinessException {
+
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-	
 		tx.begin();
-		Image i = em.find(Image.class, image_id);
-		SellerContent sc = em.find(SellerContent.class,owner_id);
+		SellerContent sc = em.find(SellerContent.class, sellercontentId);
+		sc.setImage(image);
+		tx.commit();
+		em.close();
+	}
+	
+	@Override
+	public void updateSellerContentImage(Image image, Long sellercontentId) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		SellerContent sc = em.find(SellerContent.class,sellercontentId);
+		Image i = em.find(Image.class,image.getId());
+		i.setAltName(image.getAltName());		
+		tx.commit();
+		em.close();
+
+	}
+
+	@Override
+	public void deleteSellerContentImage(Long imageId, Long sellercontentId) {
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Image i = em.find(Image.class, imageId);
+		SellerContent sc = em.find(SellerContent.class,sellercontentId);
 		sc.setImage(null);
 		em.merge(sc);
 		tx.commit();	
 		em.close();	
 		
 	}
+
+
+
+
+	
+
+
+
 	
 
 	

@@ -6,9 +6,11 @@ import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -71,7 +74,7 @@ public class Product implements Serializable {
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "product_fk")
 	@OrderBy("position ASC")
-	private List<Image> images;
+	private Collection<Image> images = new ArrayList<Image>();
 
 /*	@Column(name="rating", scale=1)
 	private float rating;
@@ -98,7 +101,7 @@ public class Product implements Serializable {
 	@JoinColumn(name="measures_id")
 	private Measure measure;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="sellers_users_id")
 	@JsonManagedReference("products-seller")
 	private Seller seller;
@@ -109,9 +112,6 @@ public class Product implements Serializable {
 	public Product() {
 		super();
 	}
-
-	
-
 
 	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
@@ -134,8 +134,6 @@ public class Product implements Serializable {
 		this.seller = seller;
 		this.position = position;
 	}
-
-
 
 
 	public Product(long id, String name, String description, BigDecimal price,
@@ -182,11 +180,16 @@ public class Product implements Serializable {
 	
 	
 /*	public Product(long id, String name, String description, BigDecimal price,
+>>>>>>> branch 'master' of https://github.com/fievelk/kmZeroSpring.git
 			Date date_in, Date date_out, boolean active, Category category,
-			List<Image> images, float rating, int stock, Measure measure,
-			Seller seller, int position) {
-		super();
+			Collection<Image> images, float rating, int absoluteRating,
+			int ratingVotes, int stock, Measure measure, Seller seller,
+			int position) {
+		this(name,description,price,date_in,date_out,active,category,images,rating,absoluteRating,ratingVotes,stock,measure,seller,position);
 		this.id = id;
+<<<<<<< HEAD
+	}
+=======
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -201,6 +204,7 @@ public class Product implements Serializable {
 		this.seller = seller;
 		this.position = position;
 	} */
+
 
 	public long getId() {
 		return id;
@@ -244,12 +248,6 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-/*	public Collection<Image> getImages() {
-		return images;
-	}
-	public void setImages(Collection<Image> images) {
-		this.images = images;
-	}*/
 
 //	public float getRating() {
 //		return rating;
@@ -259,22 +257,13 @@ public class Product implements Serializable {
 //		this.rating = rating;
 //	}
 
+
 	public boolean isActive() {
 		return active;
 	}
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public List<Image> getImages() {
-		Comparators c = new Comparators();
-		Collections.sort(images,c.getImagePositionComparator());
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
 	}
 
 	public Seller getSeller() {
@@ -335,6 +324,35 @@ public class Product implements Serializable {
 	}
 
 
+	public Collection<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Collection<Image> images) {
+		Comparators comparator = new Comparators();
+		List<Image> imagesList = new ArrayList<Image>(images);
+		Collections.sort(imagesList,comparator.getImagePositionComparator());
+		this.images = imagesList;
+	}
+
+	public void addImage(Image image){
+		List<Image> imagesList = new ArrayList<Image>(images);
+		int position = 0;
+		if(!imagesList.isEmpty()){
+			Image lastImage = imagesList.get(images.size()-1);
+			position = lastImage.getPosition();
+		}
+		image.setPosition(position+1);
+		images.add(image);			
+	}
+	
+	public void addImages(Collection<Image> images){
+		for(Iterator<Image> i = images.iterator(); i.hasNext();){
+			addImage(i.next());
+		}
+	}
+
+
 	public Rating getRating() {
 		return rating;
 	}
@@ -353,6 +371,7 @@ public class Product implements Serializable {
 	public void setFeedbacks(Collection<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
+
 
 
 }

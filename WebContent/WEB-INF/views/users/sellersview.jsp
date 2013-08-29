@@ -24,9 +24,9 @@ function initialize() {
 	var urls = new Array();
 
 	<c:forEach var="seller" items="${sellers}">
-		addresses.push('${seller.address}');
-		names.push('${seller.company}');
-		urls.push('${pageContext.request.contextPath}/sellers/${seller.id}/${seller.company}');
+		addresses.push("${seller.address}");
+		names.push("${seller.company}");
+		urls.push("${pageContext.request.contextPath}/sellers/${seller.id}/${seller.company}");
 	</c:forEach>
 	
 	codeAddresses(addresses, function(coords) {

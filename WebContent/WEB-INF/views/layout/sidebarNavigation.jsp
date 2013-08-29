@@ -16,7 +16,7 @@
 		      <li class="has_sub"><a href="#"><spring:message code="sellercontent.views"/></a>
 		      <!-- Submenu -->
                 <ul>
-		      		 <li><a href="${pageContext.request.contextPath}/sellers/pagecontents"><spring:message code="menu.contents"/></a>
+		      		 <li><a href="${pageContext.request.contextPath}/sellers/pagecontents?id=<security:authentication property="principal.id"/>"><spring:message code="menu.contents"/></a>
 		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>/<security:authentication property="principal.company"/>"><spring:message code="menu.preview"/></a></li>
 		      	</ul>	
 		      </li>

@@ -8,7 +8,7 @@
 		<ul class="slides">
 		    <c:forEach var="seller" items="${sellers}">
 		    	<li>
-					<img src="${pageContext.request.contextPath}/selr/image/<c:out value="${seller.images[0].id}"/>/<c:out value="${seller.images[0].name}"/>" alt="<c:out value="${seller.images[0].altName}"/>" />
+					<img src="${pageContext.request.contextPath}/seller/image/<c:out value="${seller.images[0].id}"/>/<c:out value="${seller.images[0].name}"/>" alt="<c:out value="${seller.images[0].altName}"/>" />
                   <div class="flex-caption">
                      <!-- Title -->
                      <h3>${seller.name} - <span class="color"></span></h3>
@@ -44,7 +44,7 @@
 							<div class="rp-item"> 
 						           <div class="rp-image">        
 						             <a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">	
-									<img src="${pageContext.request.contextPath}/prod/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
+									<img src="${pageContext.request.contextPath}/product/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
 						          	</a>
 						       	</div>
 								<div class="rp-details">

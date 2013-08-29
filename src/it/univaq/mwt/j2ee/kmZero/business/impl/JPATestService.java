@@ -119,11 +119,6 @@ public class JPATestService implements TestService{
 			em.persist(s1);
 			em.persist(s2);
 			em.persist(u2);
-
-			SellerContent content = new SellerContent("Titolo", "Descrizione");
-			Collection<SellerContent> contents = new ArrayList<SellerContent>();
-			contents.add(content);
-			s.setContents(contents);
 			
 
 			em.persist(s);

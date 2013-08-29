@@ -1,5 +1,6 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -108,7 +109,6 @@ public class ProductsController {
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
-			
 			return  loggedUser.isAdmin() ? "products.createformbyadmin" : "products.createform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
@@ -146,8 +146,9 @@ public class ProductsController {
 			return  loggedUser.isAdmin() ? "products.updateformbyadmin" : "products.updateform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
-		List<Image> images = imageService.getProductImages(product.getId());
-		
+
+		Collection<Image> images = imageService.getProductImages(product.getId());
+
 		Rating rating = cartService.findRatingById(ratingId);
 		product.setRating(rating);
 		

@@ -210,10 +210,6 @@ public class JPAUserService implements UserService{
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(s);
 			seller.setRoles(roles);
-			SellerContent content = new SellerContent ("Titolo", "Descrizione");
-			Collection<SellerContent> contents = new ArrayList<SellerContent>();
-			contents.add(content);
-			seller.setContents(contents);
 		} else {
 			Role s = em.find(Role.class, 1);
 			Set<Role> roles = new HashSet<Role>();
@@ -490,25 +486,26 @@ public class JPAUserService implements UserService{
         }
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<SellerContent> q = cb.createQuery(SellerContent.class);
-        Root<SellerContent> p = q.from(SellerContent.class);
+        Root<SellerContent> sc = q.from(SellerContent.class);
         
         //La clausola cb.and() ÔøΩ sempre vera - viene usata se l'utente loggato ha ruolo admin
-        Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
+       // Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
               
         Predicate predicate = cb.and(
-        							adminOrSeller,	
+        							cb.equal(sc.get("seller"), u),
+        							//adminOrSeller,	
 									cb.or(
-					        				cb.like(p.get("title").as(String.class),search),
-					        				cb.like(p.get("description").as(String.class),search)		
+					        				cb.like(sc.get("title").as(String.class),search),
+					        				cb.like(sc.get("description").as(String.class),search)		
 					    			)
 		);
         
-        q.select(p);
+        q.select(sc);
         //setto il where della query principale
         q.where(predicate);
         
         CriteriaQuery<Long> qc = cb.createQuery(Long.class);
-        qc.select(cb.count(p));
+        qc.select(cb.count(sc));
         //setto il where della query count 
         qc.where(predicate);
         
@@ -516,9 +513,9 @@ public class JPAUserService implements UserService{
         
         //orderby asc or desc
         if(sortDir.equals("asc"))
-        	q.orderBy(cb.asc(p.get(sortCol)));
+        	q.orderBy(cb.asc(sc.get(sortCol)));
         else
-        	q.orderBy(cb.desc(p.get(sortCol)));
+        	q.orderBy(cb.desc(sc.get(sortCol)));
       
         TypedQuery<SellerContent> query = em.createQuery(q);
         query.setMaxResults(maxRows);
@@ -535,14 +532,17 @@ public class JPAUserService implements UserService{
 	public void createPageContent(SellerContent content, long userId) throws BusinessException{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		
 	    tx.begin();
+	  
 	    	Seller s = em.find(Seller.class,userId);
+	    	//prima associo il seller al content (owner della relazione)
 	    	content.setSeller(s);
-	    	em.persist(content);
+	    	//utilizzo il cascade definito nel seller per fare persistenza del contenuto
+	    	//non è automatica l'associazione del content verso il seller quindi va esplicitata prima con content.setSeller(s);
+	    	s.addContent(content);
+	   
 	    tx.commit();
-	    em.close();
-		
+	    em.close();	
 	}
 	
 
@@ -552,9 +552,8 @@ public class JPAUserService implements UserService{
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		
 	    tx.begin();
-	    	SellerContent sc = em.find(SellerContent.class,id);
+	    SellerContent sc = em.find(SellerContent.class,id);
 	    tx.commit();
 	    em.close();
 	    return sc;
@@ -565,12 +564,12 @@ public class JPAUserService implements UserService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 	    tx.begin();
-	    	Seller s = em.find(Seller.class,userId);
-	    	SellerContent sc = em.find(SellerContent.class, content.getId());
-	    	Image i = sc.getImage();
-	    	content.setSeller(s);
-	    	content.setImage(i);
-	    	em.merge(content);
+    	Seller s = em.find(Seller.class,userId);
+    	SellerContent sc = em.find(SellerContent.class, content.getId());
+    	Image i = sc.getImage();
+    	content.setSeller(s);
+    	content.setImage(i);
+    	em.merge(content);
 	    tx.commit();
 	    em.close();	
 	}
@@ -581,7 +580,8 @@ public class JPAUserService implements UserService{
 		EntityTransaction tx = em.getTransaction();
 	    tx.begin();
 	    	SellerContent sc = em.find(SellerContent.class,contentId);
-	    	em.remove(sc);
+	    	Seller s = em.find(Seller.class, userId);
+	    	s.getContents().remove(sc);
 	    tx.commit();
 	    em.close();	
 		
