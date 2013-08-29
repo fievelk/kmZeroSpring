@@ -57,22 +57,6 @@
 	    <property name="maxUploadSize" value="2000000"/>
 	</bean>
 	
-	<!-- Configurazione JPA - EntityManagerFactory bean -->
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-	    <property name="persistenceUnitName" value="kmz"/>
-	</bean>
-	
 	<bean id="loggedUser" class="it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser" /> 
-
-	<!-- Configurazione JPA - Data Access Object Beans necessari per l'inject dell'entityManagerFactory -->
-	<bean id="imageDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAImageService" /> 
-	<bean id="productDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAProductService" />
-	<bean id="userDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAUserService" />
-	<bean id="cartDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPACartService" />
-	<bean id="warehouseDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPAWarehouseService" />
-	<bean id="testDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPATestService" />
-	<!-- <bean id="securityDao" class="it.univaq.mwt.j2ee.kmZero.business.impl.JPASecurityService" /> -->
-	<!-- END Configurazione JPA -->
-	
 
 </beans>
