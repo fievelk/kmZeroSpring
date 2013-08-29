@@ -47,7 +47,7 @@ public class SellerValidator implements Validator {
 			ValidationUtility.checkPassword(errors, "password.confirm_password", "errors.password", seller.getPassword().getPassword(), seller.getPassword().getConfirm_password());
 		}
 		ValidationUtility.checkEmail(errors, "email", "errors.email", seller.getEmail());
-		ValidationUtility.rejectIfMaxLength(errors, "address", "errors.maxlength", seller.getP_iva(), 11);
+		ValidationUtility.rejectIfMaxLength(errors, "p_iva", "errors.maxlength", seller.getP_iva(), 11);
 	}
 
 }

@@ -170,11 +170,21 @@ footer{
 
 
 /* Add Images to Product /products/update_start/ */
-
-.sellerImages img{width:300px;margin:0px 5px 5px 0px}
+.sellerImages{margin-top:20px}
+.sellerImages img{width:85px;margin:0px 5px 5px 0px}
 .productImages img{width:50px;margin:0px 5px 5px 0px}
-.sellerImages .row-fluid{margin-bottom:10px}
-.productImages .row-fluid{margin-bottom:10px}
+.sellerImages .row-fluid{margin-bottom:5px}
+.productImages .row-fluid{margin-bottom:5px}
+
+.profileMap{
+	margin-top:16px
+}
+
+.mapbox{	
+	border: 1px solid #FFFFFF;
+	box-shadow: 0 0 4px #888888;
+	margin-bottom:10px;
+}
 
 #km0Image div a{
 	margin:0px;
@@ -354,13 +364,10 @@ color:#67a94c;
 .pagging .current{
 	background-color:#67a94c;
 	box-shadow:none;
+	border:none;
 }
 
-.mapbox{	
-	border: 1px solid #FFFFFF;
-	box-shadow: 0 0 4px #888888;
-	margin-bottom:10px;
-}
+
 
 .centeredText {
 	text-align:center;

@@ -29,7 +29,6 @@
 		                     }
 		                  }
             ],
-            //"sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated",
             "sAjaxSource": "${pageContext.request.contextPath}/products/viewProductsBySellerIdPaginated",
             "oLanguage": {"sUrl": "${pageContext.request.contextPath}/resources/datatables/i18n/italian.properties"},
             "fnServerParams": addsortparams

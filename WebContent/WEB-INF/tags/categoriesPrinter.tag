@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tag"%>  
 <%@ attribute name="categoryTree" type="java.util.List"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:forEach var="category" items="${categoryTree}">
 		 	<c:choose>
@@ -12,7 +13,7 @@
 		 			</li>
 		 		</c:when>
 		 		<c:otherwise>
-		 			<li><a id="cat_${category.id}" href="#">${category.name}</a></li>
+		 			<li><a id="cat_${category.id}" href="#"><b>${category.name}</b> (${fn:length(category.products)})</a></li>
 		 		</c:otherwise>
 		 	</c:choose>	
 </c:forEach> 

@@ -234,6 +234,7 @@ public class JPAProductService implements ProductService{
 	    boolean active = true;
         Date today = new Date();
         String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
+        sortCol = requestGrid.getSortCol().equals("seller.company") ? "seller" : requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
