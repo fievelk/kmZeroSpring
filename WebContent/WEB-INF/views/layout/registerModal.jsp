@@ -1,3 +1,4 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>  
   <!-- Register Modal starts -->
 
 <div id="register" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -11,14 +12,14 @@
                                       <form class="form-horizontal">
                                           <!-- Name -->
                                           <div class="control-group">
-                                            <label class="control-label" for="name">Name</label>
+                                            <label class="control-label" for="name"><spring:message code="user.name" /></label>
                                             <div class="controls">
                                               <input type="text" class="input-large" id="name">
                                             </div>
                                           </div>   
                                           <!-- Email -->
                                           <div class="control-group">
-                                            <label class="control-label" for="email">Email</label>
+                                            <label class="control-label" for="email"><spring:message code="user.email" /></label>
                                             <div class="controls">
                                               <input type="text" class="input-large" id="email">
                                             </div>

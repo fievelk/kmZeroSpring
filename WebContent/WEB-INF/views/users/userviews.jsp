@@ -46,8 +46,6 @@
 <!-- Main content -->
       <div class="span9">
 
-          <!-- <h5 class="title">My Account</h5> -->
-
           <h5 class="title"><spring:message code="user.views"/></h5>
           	<div class="row-fluid">
 				<a class="btn" href="${pageContext.request.contextPath}/users/create_start"><spring:message code="user.create"/></a>

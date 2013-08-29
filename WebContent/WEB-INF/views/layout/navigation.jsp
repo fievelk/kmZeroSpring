@@ -13,11 +13,11 @@
                <div class="nav-collapse collapse">
                  <ul class="nav">
                    <li><a href="${pageContext.request.contextPath}"><i class="icon-home"></i></a></li>
-                   <li><a href="${pageContext.request.contextPath}/products">Prodotti</a></li>
-                   <li><a href="${pageContext.request.contextPath}/sellers">Venditori</a></li>  
+                   <li><a href="${pageContext.request.contextPath}/products"><spring:message code="menu.products" /></a></li>
+                   <li><a href="${pageContext.request.contextPath}/sellers"><spring:message code="menu.sellers" /></a></li>  
                    <security:authorize access="!isAuthenticated()">
-                   	<li><a href="${pageContext.request.contextPath}/users/create_start">Registrati</a></li>
-                   	<li><a href="${pageContext.request.contextPath}/sellers/create_start">Registrati Venditore</a></li>
+                   	<li><a href="${pageContext.request.contextPath}/users/create_start"><spring:message code="user.create" /></a></li>
+                   	<li><a href="${pageContext.request.contextPath}/sellers/create_start"><spring:message code="menu.registerAsSeller" /></a></li>
            
 
                    </security:authorize>      

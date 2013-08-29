@@ -3,14 +3,14 @@
 
 <div class="span9">
 	<h2><spring:message code="common.welcome"/> <security:authentication property="principal.name"/> !</h2>
-	<p>Your Details are:</p>
+	<p><spring:message code="common.yourDetails"/>:</p>
 	<ul>
-	<li>Email: <security:authentication property="principal.email"/></li>
-	<li>Name: <security:authentication property="principal.name"/></li>
-	<li>Surname: <security:authentication property="principal.surname"/></li>
-	<li>Address: <security:authentication property="principal.address"/></li>
+	<li><b><spring:message code="user.email"/></b>: <security:authentication property="principal.email"/></li>
+	<li><b><spring:message code="user.name"/></b>: <security:authentication property="principal.name"/></li>
+	<li><b><spring:message code="user.surname"/></b>: <security:authentication property="principal.surname"/></li>
+	<li><b><spring:message code="user.address"/></b>: <security:authentication property="principal.address"/></li>
 	<security:authorize access="hasRole('seller')">
-	<li>Piva: <security:authentication property="principal.p_Iva"/></li>
+	<li><b><spring:message code="seller.p_iva"/></b>: <security:authentication property="principal.p_Iva"/></li>
 	</security:authorize>
 	</ul>
 </div>

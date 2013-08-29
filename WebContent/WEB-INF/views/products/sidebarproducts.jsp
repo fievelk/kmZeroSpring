@@ -6,7 +6,7 @@
 
  <!-- Sidebar -->
 <div class="span3">
-	<h5 class="title">Filter by Category</h5>
+	<h5 class="title"><spring:message code="common.filterBy"/> <spring:message code="product.category"/></h5>
 	        <!-- Sidebar navigation -->
 	        <nav id="categ">
 	            <ul id="nav">
@@ -16,7 +16,7 @@
 	        </nav>
 <br />
 	        
-	<h5 class="title">Filter by Seller</h5>
+	<h5 class="title"><spring:message code="common.filterBy"/> <spring:message code="product.seller"/></h5>
 		        <!-- Sidebar navigation -->
 		        <nav id="seller">
 		            <ul id="nav">
@@ -30,7 +30,7 @@
 <br />
 
 	<div class="sidebar-items">
-	<h5 class="title">Featured Items</h5>   
+	<h5 class="title"><spring:message code="menu.featuredProducts" /></h5>   
 	<c:forEach var="product" items="${products}">   
 		<div class="sitem">
 			<div class="onethree-left">
@@ -51,9 +51,3 @@
 	</div>
 
 </div>
-    
-      
-      
-      
-      
-   

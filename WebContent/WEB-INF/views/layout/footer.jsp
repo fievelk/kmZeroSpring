@@ -1,3 +1,5 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+
 <!-- Footer starts -->
 <footer>
   <div class="container">
@@ -8,7 +10,7 @@
 
               <div class="span4">
                 <div class="widget">
-                  <h5>Contact</h5>
+                  <h5><spring:message code="common.contacts" /></h5>
                   <hr />
                     <div class="social">
                       <a href="#"><i class="icon-facebook facebook"></i></a>

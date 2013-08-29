@@ -20,7 +20,7 @@ $(document).ready(function () {
 			},
 			hints: ['1', '2', '3', '4', '5'],
 			readOnly: true,
-			noRatedMsg: "The user rated this cartLine!"
+			noRatedMsg: "<spring:message code='product.alreadyRated' />"
 		});
 		
 });

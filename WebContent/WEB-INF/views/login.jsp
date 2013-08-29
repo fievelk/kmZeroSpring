@@ -9,18 +9,18 @@
 			    <div class="form">
 			    
 					<security:authorize access="!isAuthenticated()">
-					<h4 class="title">Login to Your Account</h4>
+					<h4 class="title"><spring:message code="common.loginTitle"/></h4>
 				         <form name="loginform" action="${pageContext.request.contextPath}/j_spring_security_check" method="post" class="navbar-form pull-right">
 				           <input class="span2" type="text" placeholder="Username" name="j_username">
 				           <input class="span2" type="password" placeholder="Password" name="j_password">
 				           <button type="submit" class="btn"><spring:message code="common.signin"/></button>
 				         </form>
 				         <hr />
-			        <h5>New Account</h5>
-			               Don't have an Account? <a href="${pageContext.request.contextPath}/users/create_start">Register</a>
+			        <h5><spring:message code="common.newAccount"/></h5>
+			            <a href="${pageContext.request.contextPath}/users/create_start"><spring:message code="common.signUp"/></a>
 				    </security:authorize>
 				    <security:authorize access="isAuthenticated()">
-				    	<a href="${pageContext.request.contextPath}/j_spring_security_logout">logout</a>
+				    	<a href="${pageContext.request.contextPath}/j_spring_security_logout"><spring:message code="menu.logout"/></a>
 				    </security:authorize>
 			    </div> 
 			  </div>

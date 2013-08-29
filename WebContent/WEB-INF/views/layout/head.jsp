@@ -11,7 +11,7 @@
           	<div class="span2" id="logo"><img src="${pageContext.request.contextPath}/resources/custom/img/healty1.png" /></div>
            	<div class="span2" id="logotext">
 	            <h1><a href="#">Kilometro<span class="color bold">Zero</span></a></h1>
-	            <p class="meta">Il mercato dei prodotti biologici vicino casa tua!</p>
+	            <p class="meta"><spring:message code="common.subtitle" /></p>
             </div>
           </div>
          <!-- Logo  <div class="logo">
@@ -25,7 +25,7 @@
           <!-- Search form -->
           <form class="form-search">
             <div class="input-append">
-              <input class="span3" id="appendedInputButton" type="text" placeholder="Cerca tra i prodotti...">
+              <input class="span3" id="appendedInputButton" type="text" placeholder="<spring:message code="product.searchInProducts" />">
               <button class="btn" type="button"><spring:message code="menu.search" /></button>
             </div>
           </form>
@@ -34,7 +34,7 @@
             <span>
 
               <!-- item details with price -->
-              <a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">0 Item(s) in your <i class="icon-shopping-cart"></i></a> -<span class="bold">$25</span>   
+              <a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">0 <spring:message code="common.productsInYour"/> <i class="icon-shopping-cart"></i></a> -<span class="bold"> 0 &euro;</span>   
 
             </span>
 
