@@ -22,7 +22,7 @@ $(document).ready(function () {
 				    	readOnly: true,
 				    	number: score,
 				    	score: score,
-				    	noRatedMsg: "You already rated this cartLine!",
+				    	noRatedMsg: "<spring:message code='product.alreadyRated' />",
 				    	path: '${pageContext.request.contextPath}/resources/custom/img/rating',
 				    })
 				});
@@ -36,7 +36,7 @@ $(document).ready(function () {
 					},
 			hints: ['1', '2', '3', '4', '5'],
 			readOnly: true,
-			noRatedMsg: "You already rated this cartLine!"
+			noRatedMsg: "<spring:message code='product.alreadyRated' />"
 		});
 		
 });

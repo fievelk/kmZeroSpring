@@ -4,6 +4,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
+import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
@@ -16,6 +17,7 @@ import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -183,60 +185,65 @@ public class SellersController {
 		return "redirect:/";
 	}
 	
-
+	
 	@RequestMapping("/pagecontents")
-	public String viewPageContents(Model model) throws BusinessException {
+	public String viewPageContents(Model model,@RequestParam("id") Long sellerId) throws BusinessException {
+		model.addAttribute("sellerId", sellerId);
 		return "sellers.pagecontents.views";
-		
 	}
 	
 	@RequestMapping("/createpagecontent_start")
-	public String createPageContentStart(Model model) throws BusinessException {
+	public String createPageContentStart(Model model,@RequestParam(value="sellerId") Long sellerId) throws BusinessException {
+		model.addAttribute("sellerId", sellerId);
 		model.addAttribute("sellercontent", new SellerContent());
 		return "sellers.pagecontent.createform";
 	}
 	
 	@RequestMapping(value="/createpagecontent", method = RequestMethod.POST)
-	public String createPageContent(@ModelAttribute SellerContent content , BindingResult bindingResult) throws BusinessException {
-		service.createPageContent(content,loggedUser.getUserDetails().getId());
-		return "redirect:/sellers/pagecontents";
+	public String createPageContent(@ModelAttribute SellerContent content,@ModelAttribute("sellerId") Long sellerId, BindingResult bindingResult) throws BusinessException {
+		Long id = loggedUser.isAdmin() ? sellerId : loggedUser.getUserDetails().getId();
+		service.createPageContent(content,id);
+		return "redirect:/sellers/pagecontents?id="+id;
 	}
 	
 	@RequestMapping("/updatepagecontent_start")
-	public String createPageContentStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+	public String updatePageContentStart(Model model,@RequestParam("id") Long id,@RequestParam("sellerId") Long sellerId) throws BusinessException {
 		SellerContent sellercontent = service.findSellerContentById(id);
 		model.addAttribute("sellercontent", sellercontent);
 		model.addAttribute("image", sellercontent.getImage());
-		model.addAttribute("id", id);
+		model.addAttribute("sellerId", sellerId);
 		return "sellers.pagecontent.updateform";
 	}
 	
 	@RequestMapping(value="/updatepagecontent", method = RequestMethod.POST)
-	public String updatePageContent(@ModelAttribute SellerContent content , BindingResult bindingResult) throws BusinessException {
-		service.updatePageContent(content,loggedUser.getUserDetails().getId());
-		return "redirect:/sellers/pagecontents";
+	public String updatePageContent(@ModelAttribute SellerContent content ,@ModelAttribute("sellerId") Long sellerId, BindingResult bindingResult) throws BusinessException {
+		Long id = loggedUser.isAdmin() ? sellerId : loggedUser.getUserDetails().getId();
+		service.updatePageContent(content,id);
+		return "redirect:/sellers/pagecontents?id="+id;
 	}
 	
 	@RequestMapping("/deletepagecontent_start")
-	public String deletePageContentStart(@RequestParam("id") Long id, Model model) throws BusinessException {
+	public String deletePageContentStart(Model model,@RequestParam("id") Long id,@RequestParam("sellerId") Long sellerId) throws BusinessException {
 		SellerContent sellercontent = service.findSellerContentById(id);
 		model.addAttribute("sellercontent", sellercontent);
-		model.addAttribute("id", id);
+		model.addAttribute("sellerId", sellerId);
 		return "sellers.pagecontent.deleteform";
 	}
 	
 	@RequestMapping(value="/deletepagecontent", method = RequestMethod.POST)
-	public String updatePageContent(@ModelAttribute("id") long contentId , BindingResult bindingResult) throws BusinessException {
-		service.deletePageContent(contentId,loggedUser.getUserDetails().getId());
-		return "redirect:/sellers/pagecontents";
+	public String updatePageContent(@ModelAttribute("id") long contentId,@ModelAttribute("sellerId") Long sellerId, BindingResult bindingResult) throws BusinessException {
+		Long id = loggedUser.isAdmin() ? sellerId : loggedUser.getUserDetails().getId();
+		service.deletePageContent(contentId,id);
+		return "redirect:/sellers/pagecontents?id="+id;
 	}
-	
+		
 	@RequestMapping("/viewPageContentsPaginated")
 	@ResponseBody
-	public ResponseGrid<SellerContent> findAllPageContentsPaginated(@ModelAttribute RequestGrid requestGrid) throws BusinessException{
-		ResponseGrid<SellerContent> result = service.viewAllPageContentsPaginated(requestGrid,loggedUser.getUserDetails().getId());
+	public ResponseGrid<SellerContent> findAllPageContentsPaginated(@ModelAttribute RequestGrid requestGrid,@RequestParam(value="sellerId")Long sellerId) throws BusinessException{
+		Long id  = loggedUser.isAdmin() ? sellerId : loggedUser.getUserDetails().getId();
+		ResponseGrid<SellerContent> result = service.viewAllPageContentsPaginated(requestGrid,id);
 		return result;
-	}	
+	}
 	
 	@RequestMapping(value="/{sellerid}/*")
 	public String updateImageStart(@PathVariable("sellerid")Long sellerid, Model model) throws BusinessException {
@@ -296,11 +303,25 @@ public class SellersController {
 	
 	@RequestMapping(value="/admin/usersdeliverymap")
 	public String cartsToDeliver(Model model) throws BusinessException {
-		List<Cart> cartsToDeliver = cartService.getCartsToDeliver();
+		Collection<Cart> cartsToDeliver = cartService.getCartsToDeliver();
 		
 		model.addAttribute("cartsToDeliver", cartsToDeliver);
 		return "planning.usersdeliverymap";
 	}
+	
+	@RequestMapping(value="/sellerreceivedorders")
+	public String userOrdersView(Model model) throws BusinessException {
+
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
+		Seller seller = (Seller) service.findUserById(id);
+		
+		// Trovo i carrelli pagati e li aggiungo al model
+		Collection<CartLine> cartLines = cartService.findSellerReceivedOrders(seller); 
+		
+		model.addAttribute("cartLines", cartLines);
+		return "sellers.sellerreceivedorders";
+	}	
 	
 	
 }

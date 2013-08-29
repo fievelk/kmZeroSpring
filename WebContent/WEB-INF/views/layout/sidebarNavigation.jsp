@@ -9,38 +9,38 @@
 	    <ul id="nav">
 	    <security:authorize access="isAuthenticated()">
 	    	<security:authorize access="hasRole('user')">
-	    	<li><a href="${pageContext.request.contextPath}/sellers/upgrade_start">Upgrade a venditore</a></li>
+	    	<li><a href="${pageContext.request.contextPath}/sellers/upgrade_start"><spring:message code="seller.upgrade"/></a></li>
 	    	</security:authorize>
 	    	<security:authorize access="hasRole('seller')"> 
-		      <li><a href="${pageContext.request.contextPath}/sellers/update_start">Profilo</a></li> 
+		      <li><a href="${pageContext.request.contextPath}/sellers/update_start"><spring:message code="menu.profile"/></a></li> 
 		      <li class="has_sub"><a href="#"><spring:message code="sellercontent.views"/></a>
 		      <!-- Submenu -->
                 <ul>
-		      		 <li><a href="${pageContext.request.contextPath}/sellers/pagecontents">Contenuti Pagina</a>
-		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>/<security:authentication property="principal.company"/>">Preview</a></li>
+		      		 <li><a href="${pageContext.request.contextPath}/sellers/pagecontents?id=<security:authentication property="principal.id"/>"><spring:message code="menu.contents"/></a>
+		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>/<security:authentication property="principal.company"/>"><spring:message code="menu.preview"/></a></li>
 		      	</ul>	
 		      </li>
-		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
-		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
+		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers"><spring:message code="menu.products"/></a></li>
+		      <li><a href="${pageContext.request.contextPath}/sellers/sellerreceivedorders"><spring:message code="seller.receivedOrders"/></a></li>
 			</security:authorize>
 			<security:authorize access="hasRole('admin')">
-		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers">Prodotti</a></li>
-		      <li><a href="${pageContext.request.contextPath}/products/viewCategories">Categorie</a></li>
-		      <li><a href="${pageContext.request.contextPath}/products/viewMeasures">Misure</a></li>
-		      <li><a href="${pageContext.request.contextPath}/users/admin/views">Utenti</a></li>
-		      <li class="has_sub"><a href="#">Venditori</a>
+		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers"><spring:message code="menu.products"/></a></li>
+		      <li><a href="${pageContext.request.contextPath}/products/viewCategories"><spring:message code="category.list"/></a></li>
+		      <li><a href="${pageContext.request.contextPath}/products/viewMeasures"><spring:message code="menu.measures"/></a></li>
+		      <li><a href="${pageContext.request.contextPath}/users/admin/views"><spring:message code="menu.users"/></a></li>
+		      <li class="has_sub"><a href="#"><spring:message code="menu.sellers"/></a>
 		      <!-- Submenu -->
                 <ul>
-					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsEnabled">Abilitati</a></li>
-					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsToEnable">Da Abilitare</a></li>  
+					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsEnabled"><spring:message code="seller.enabled"/></a></li>
+					<li><a href="${pageContext.request.contextPath}/sellers/admin/viewsToEnable"><spring:message code="seller.toenable"/></a></li>  
 		      	</ul>	
 		      </li>
-		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password">Modifica Password</a></li> 
-			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses">Warehouse</a></li>
+		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password"><spring:message code="password.edit"/></a></li> 
+			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses"><spring:message code="warehouse.view"/></a></li>
 		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
-		      <li><a href="${pageContext.request.contextPath}/sellers/admin/usersdeliverymap">Consegne da effettuare</a></li>
+		      <li><a href="${pageContext.request.contextPath}/sellers/admin/usersdeliverymap"><spring:message code="planning.usersdelivery"/></a></li>
 			</security:authorize>
-			  <li><a href="${pageContext.request.contextPath}/users/userorderview"> Ordini effettuati<span style="color:red">- WIP</span></a></li>
+			  <li><a href="${pageContext.request.contextPath}/users/userordersview"><spring:message code="cart.yourCarts"/></a></li>
 	     </security:authorize>
 	    </ul>
 </div>

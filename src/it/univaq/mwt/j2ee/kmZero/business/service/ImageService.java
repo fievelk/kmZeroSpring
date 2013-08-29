@@ -9,27 +9,29 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 public interface ImageService {
 	
 	public Image getImage(Long id) throws BusinessException;
-
-	void updateImage(Image image) throws BusinessException;
-
-	public List<Image> getProductImages(Long id) throws BusinessException;
 	
-	void setProductImages(Long id, List<Image> ci) throws BusinessException;
+	public Collection<Image> getProductImages(Long productId) throws BusinessException;
 	
-	public void deleteProductImage(Long id, Long product_id) throws BusinessException;
+	void setProductImages(Long productId, Collection<Image> ci) throws BusinessException;
 	
-	public List<Image> getSellerImages(Long id) throws BusinessException;
-
-	void setSellerImages(Long id, List<Image> ci) throws BusinessException;
-
-	public void deleteSellerImage(Long image_id, Long owner_id) throws BusinessException;
-
-	void setSellerContentImage(Long id, Image i) throws BusinessException;
-
-	public Image getSellerContentImages(long sellercontentId);
-
-	public void deleteSellerContentImage(Long image_id,Long owner_id);
-
+	void updateProductImage(Image image, Long productId) throws BusinessException;
 	
+	public void deleteProductImage(Long imageId, Long productId) throws BusinessException;
+	
+	public Collection<Image> getSellerImages(Long sellerId) throws BusinessException;
+
+	void setSellerImages(Long id, Collection<Image> ci) throws BusinessException;
+	
+	void updateSellerImage(Image image, Long sellerId) throws BusinessException;
+
+	public void deleteSellerImage(Long imageId, Long sellerId) throws BusinessException;
+
+	public Image getSellerContentImages(Long sellercontentId);
+	
+	void setSellerContentImage(Long sellercontentId, Image image) throws BusinessException;
+	
+	public void updateSellerContentImage(Image image, Long sellercontentId);
+
+	public void deleteSellerContentImage(Long imageId,Long sellercontentId);
 
 }

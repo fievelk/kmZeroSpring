@@ -1,7 +1,8 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
@@ -19,7 +20,7 @@ public interface ProductService {
 		
 	void createProduct(Product product, long seller_id) throws BusinessException;
 	
-	void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException;
+	void updateProduct(Product product,Collection<Image> images, long seller_id) throws BusinessException;
 	
 	void deleteProduct(Product product, long seller_id);
 	

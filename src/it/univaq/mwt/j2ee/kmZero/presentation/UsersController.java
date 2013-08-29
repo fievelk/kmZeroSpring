@@ -144,20 +144,18 @@ public class UsersController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/userorderview")
-	public String userOrderView(Model model) throws BusinessException {
+	@RequestMapping(value="/userordersview")
+	public String userOrdersView(Model model) throws BusinessException {
 
-			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-			long id = udi.getId();
-			User user = service.findUserById(id);
-			
-			// Trovo i carrelli pagati e li aggiungo al model
-			Collection<Cart> carts = cartService.findUserPaidCarts(user); 
-			
-			model.addAttribute("carts", carts);
-			return "users.userorderview";
-			
-
+		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
+		long id = udi.getId();
+		User user = service.findUserById(id);
+		
+		// Trovo i carrelli pagati e li aggiungo al model
+		Collection<Cart> carts = cartService.findUserPaidCarts(user); 
+		
+		model.addAttribute("carts", carts);
+		return "users.userordersview";
 	}
 
 }

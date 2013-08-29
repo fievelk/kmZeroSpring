@@ -35,7 +35,7 @@
 		<div class="sitem">
 			<div class="onethree-left">
 				<a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">
-					<img src="${pageContext.request.contextPath}/prod/image/<c:out value="${product.images[0].id}"/>/<c:out value="${product.images[0].name}"/>" alt="<c:out value="${product.images[0].altName}"/>" />
+					<img src="${pageContext.request.contextPath}/product/image/<c:out value="${product.images[0].id}"/>/<c:out value="${product.images[0].name}"/>" alt="<c:out value="${product.images[0].altName}"/>" />
 				</a>
 	        </div>
 			<div class="onethree-right">

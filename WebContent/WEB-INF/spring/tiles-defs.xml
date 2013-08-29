@@ -192,8 +192,8 @@
         <put-attribute name="action" value="/users/edit_password"/>
     </definition>
     
-    <definition name="users.userorderview" extends="standard_logged">
-        <put-attribute name="content" value="/WEB-INF/views/users/userorderview.jsp"/>
+    <definition name="users.userordersview" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/users/userordersview.jsp"/>
     </definition>    
     
     <!-- SELLERS -->
@@ -246,6 +246,10 @@
      <put-attribute name="sidebar" value="/WEB-INF/views/users/sidebarsellers.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/users/sellerpageview.jsp"/>
     </definition>
+    
+    <definition name="sellers.sellerreceivedorders" extends="standard_logged">
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerreceivedorders.jsp"/>
+    </definition>    
     
     <!-- SELLER PAGECONTENTS (BACKEND) -->
     <definition name="sellers.pagecontents.views" extends="standard_logged">

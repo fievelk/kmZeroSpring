@@ -14,7 +14,7 @@
   <div class="modal-body">
 	<div class="form">
 		<form id="fileUpload" name="fileUpload" action="${pageContext.request.contextPath}${action}" method="POST" enctype="multipart/form-data" >
-			<input type="hidden" name="owner_id" value="${owner_id}">
+			<input type="hidden" name="ownerId" value="${ownerId}">
 			<div>
 				<input multiple name="files" type="file" />
 			</div>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,15 +20,15 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="sellers")
 @DiscriminatorValue(value="S")
 @PrimaryKeyJoinColumn(name="user_id")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Seller extends User {
 
 	@Column(name="p_iva")
@@ -43,20 +44,22 @@ public class Seller extends User {
 	@Column(name="enable")
 	private boolean enable;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "seller_fk")
 	@OrderBy("position ASC")
-	@JsonIgnore
-	private List<Image> images;
+	private Collection<Image> images = new ArrayList<Image>();
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval=true)
+	@JsonBackReference("contents-seller")
 	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
+
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller")
+	@JsonBackReference("products-seller")
+	@OrderBy("position ASC")
+	private Collection<Product> products = new ArrayList<Product>();
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller",orphanRemoval=true)
-	private List<Product> products;
-
 	public Seller() {
 		super();
 	}
@@ -181,16 +184,6 @@ public class Seller extends User {
 		this.enable = enable;
 	}
 
-	public List<Image> getImages() {
-		Comparators c = new Comparators();
-		Collections.sort(images,c.getImagePositionComparator());
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-
 	public Collection<SellerContent> getContents() {
 		return contents;
 	}
@@ -198,23 +191,62 @@ public class Seller extends User {
 	public void setContents(Collection<SellerContent> contents) {
 		this.contents = contents;
 	}
+	
+	public void addContent(SellerContent content){
+		this.contents.add(content);
+	}
 
-	public List<Product> getProducts() {
-		Comparators c = new Comparators();
-		Collections.sort(products,c.getProductPositionComparator());
+	public Collection<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Collection<Image> images) {
+		Comparators comparator = new Comparators();
+		List<Image> imagesList = new ArrayList<Image>(this.images);
+		Collections.sort(imagesList,comparator.getImagePositionComparator());
+		this.images = imagesList;
+	}
+
+	public void addImage(Image image){
+		List<Image> imagesList = new ArrayList<Image>(this.images);
+		int position = 0;
+		if(!imagesList.isEmpty()){
+			Image lastImage = imagesList.get(this.images.size()-1);
+			position = lastImage.getPosition();
+		}
+		image.setPosition(position+1);
+		this.images.add(image);	
+	}
+	
+	public void addImages(Collection<Image> images){
+		for(Iterator<Image> i = images.iterator(); i.hasNext();){
+			this.addImage(i.next());
+		}
+	}
+
+	public Collection<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setProducts(Collection<Product> products) {
+		Comparators comparator = new Comparators();
+		List<Product> productsList = new ArrayList<Product>(products);
+		Collections.sort(productsList,comparator.getProductPositionComparator());
+		this.products = productsList;
 	}
 	
-	public void setProduct(Product product){
-		this.products.add(product);
+	public void addProduct(Product product){
+		List<Product> productsList = new ArrayList<Product>(products);
+		int position = 0;
+		if(!productsList.isEmpty()){
+			Product lastProduct = productsList.get(products.size()-1);
+			position = lastProduct.getPosition();
+		}
+		product.setPosition(position+1);
+		products.add(product);		
 	}
 	
 	public void deleteProduct(Product product){
-		this.products.remove(product);
+		products.remove(product);
 	}
-
 }

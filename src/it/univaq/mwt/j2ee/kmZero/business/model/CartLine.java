@@ -15,10 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="cartlines")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class CartLine implements Serializable{
 
 	@Id
@@ -44,7 +48,8 @@ public class CartLine implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="cart_fk")
-	private Cart cart;
+	@JsonBackReference("cart-cartlines")
+	private Cart cart; 
 	
 	private static final long serialVersionUID = 1L;
 	

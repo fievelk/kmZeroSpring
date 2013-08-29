@@ -5,7 +5,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
-
+<script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
 <script>
 $(function() {
 	$( "#datepicker" ).datepicker({
@@ -136,17 +136,17 @@ $(function() {
 				<c:if test="${requestScope.update eq 'true'}">
 				<div class="span9 sellerImages">
 					<div class="row-fluid">
-						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','selr','${seller.id}',null,null)">Add Images...</a>
+						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','seller','${seller.id}',null)">Add Images...</a>
 					</div>
 					<div id="km0Images">
 				  	<c:forEach var="image" items="${seller.images}">
 					  	<div id="km0Image">
 					  		<div>
-					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','selr','${seller.id}','image','${image.id}')" ></a>	
-						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','selr','${seller.id}','image','${image.id}')"></a>
+					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','seller','${seller.id}','${image.id}')" ></a>	
+						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','seller','${seller.id}','${image.id}')"></a>
 					  		</div>
 					  			<span id="image_${image.id}">
-						       		<img src="${pageContext.request.contextPath}/selr/image/${image.id}/${image.name}" alt="${image.name}" />
+						       		<img src="${pageContext.request.contextPath}/seller/image/${image.id}/${image.name}" alt="${image.name}" />
 					       		</span>	
 					    </div>
 			    	</c:forEach>

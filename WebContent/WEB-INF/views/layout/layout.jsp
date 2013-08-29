@@ -62,7 +62,6 @@
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>
 	
 
-    <script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
     <script src="${pageContext.request.contextPath}/resources/custom/js/carts.js"></script> <!-- Cart -->
     
   

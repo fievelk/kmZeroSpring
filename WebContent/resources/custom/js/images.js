@@ -41,8 +41,8 @@ function processJson(data)  {
 		$.each(images,function(i,item){
 			console.log(item);
 			
-			var paramsDelete = "'deleteImage','"+owner_kind+"','"+prod_id+"','image','"+item.id+"'";
-			var paramsUpdate = "'updateImage','"+owner_kind+"','"+prod_id+"','image','"+item.id+"'";
+			var paramsDelete = "'deleteImage','"+owner_kind+"','"+prod_id+"','"+item.id+"'";
+			var paramsUpdate = "'updateImage','"+owner_kind+"','"+prod_id+"','"+item.id+"'";
 			imgs += '<div id="km0Image">'
 					+'<div>'
 					+'<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('+paramsUpdate+')" ></a>'
@@ -79,10 +79,10 @@ function upload(event, position, total, percentComplete)  {
 }
 
 
-function createModalWindow(method,owner_kind,owner_id,obj_kind,obj_id){
+function createModalWindow(method,owner_kind,owner_id,image_id){
 	var data;
 	console.log(owner_kind);
-	if(data = doAjaxGetModalWindowContent(method+'_start',owner_kind,owner_id,obj_kind,obj_id)){	
+	if(data = doAjaxGetModalWindowContent(method+'_start',owner_kind,owner_id,image_id)){	
 		$('#modalWindow').modal('show');
 	}else{
 		data = 'problem occurred!';
@@ -91,10 +91,10 @@ function createModalWindow(method,owner_kind,owner_id,obj_kind,obj_id){
 }
 
 /*get the right form for...(add,update,delete) image/s*/
-function doAjaxGetModalWindowContent(method,owner_kind,owner_id,obj_kind,obj_id){
+function doAjaxGetModalWindowContent(method,owner_kind,owner_id,image_id){
 
 	var url = contextPath+"/"+owner_kind+"/"+owner_id;
-	if((obj_kind != null) && (obj_id != null)) url+= "/"+obj_kind+"/"+obj_id;
+	if(image_id != null) url+= "/image/"+image_id;
 	url += "/"+method;
 	$('div#modalWindow').empty(); /*rimuove i childs*/
 	$.ajax({

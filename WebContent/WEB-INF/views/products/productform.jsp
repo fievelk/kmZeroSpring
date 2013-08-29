@@ -4,7 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
-
+<script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
 <script>
 /*--------SETUP READONLY FIELDS IF DELETING - START--------*/
 
@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 	var del = "${requestScope.delete}"; 
 	if (del == "true" ) {
-		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });
+		$(":input[type='text'],select[id='categoryId'],textarea").each(function () { $(this).attr('readonly','readonly'); });
 		$('.fuelux div.spinner div.spinner-buttons').remove();
 		$('.fuelux div.spinner').spinner({
 				disabled: true,
@@ -20,7 +20,7 @@ $(document).ready(function() {
 		});
 		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
 		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });	
-		$("#description").cleditor()[0].disable("true");
+		
 	}	
 	$('.fuelux div.spinner').spinner({
 				value: ${product.position},
@@ -93,7 +93,7 @@ $(function() {
 				<div>
 				    <label for="description"><spring:message code="product.description"/></label>
 				    <div class="text-area">
-                    	<textarea class="cleditor" name="description" id="description" rows="10">${product.description}</textarea>
+                    	<form:textarea path="description" id="description" rows="10"/>
                     	<form:errors path="description"/>
                		</div>
 				</div>		
@@ -206,17 +206,17 @@ $(function() {
 				<c:if test="${requestScope.update eq 'true'}">
 				<div class="span4 productImages">
 					<div class="row-fluid">
-						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','prod','${product.id}',null,null)">Add Images...</a>
+						<a class="btn" href="#modalWindow" role="button" data-toggle="modal" onclick="createModalWindow('addImages','product','${product.id}',null)">Add Images...</a>
 					</div>
 					<div id="km0Images">
 				  	<c:forEach var="image" items="${product.images}">
 					  	<div id="km0Image">
 					  		<div>
-					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','prod','${product.id}','image','${image.id}')" ></a>	
-						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','prod','${product.id}','image','${image.id}')"></a>
+					  			<a href="#modalWindow" class="icon-edit" role="button" data-toggle="modal" onclick="createModalWindow('updateImage','product','${product.id}','${image.id}')" ></a>	
+						       	<a href="#modalWindow" class="icon-remove"  role="button" data-toggle="modal" onclick="createModalWindow('deleteImage','product','${product.id}','${image.id}')"></a>
 					  		</div>
 					  			<span id="image_${image.id}">
-						       		<img src="${pageContext.request.contextPath}/prod/image/${image.id}/${image.name}" alt="${image.name}" />
+						       		<img src="${pageContext.request.contextPath}/product/image/${image.id}/${image.name}" alt="${image.name}" />
 					       		</span>	
 					    </div>
 			    	</c:forEach>

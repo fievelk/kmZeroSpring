@@ -82,14 +82,14 @@ function createMarker(latlng) {
 							${content.description}
 						</div>
 						<div class="span3">
-							<img src="${pageContext.request.contextPath}/selr_content/image/${content.image.id}/${content.image.name}" alt="${content.image.name}" />
+							<img src="${pageContext.request.contextPath}/sellercontent/image/${content.image.id}/${content.image.name}" alt="${content.image.name}" />
 						</div>
 			       <c:set var="alternate" value="0"/>
 			    </c:when>
 			    <c:when test="${alternate == 0}">
 						<div class="span9"><h4 class="title">${content.title}</h4></div>
 						<div class="span3">
-							<img src="${pageContext.request.contextPath}/selr_content/image/${content.image.id}/${content.image.name}" alt="${content.image.name}" />
+							<img src="${pageContext.request.contextPath}/sellercontent/image/${content.image.id}/${content.image.name}" alt="${content.image.name}" />
 						</div>
 						<div class="span6" >
 							${content.description}

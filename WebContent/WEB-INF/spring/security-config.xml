@@ -27,7 +27,7 @@
 		<security:intercept-url pattern="/products" access="permitAll"/>
 		<security:intercept-url pattern="/products/viewProducts" access="permitAll"/>
 		<security:intercept-url pattern="/sellers/findWarehouseAddress" access="permitAll"/> 
-		<security:intercept-url pattern="/users/userorderview" access="isAuthenticated()"/> 
+		<security:intercept-url pattern="/users/userordersview" access="isAuthenticated()"/> 
 		<security:intercept-url pattern="/products/*/*" access="permitAll"/>
 		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
 <!-- 		<security:intercept-url pattern="/carts/confirmcart_start.do" access="isAuthenticated()"/> -->

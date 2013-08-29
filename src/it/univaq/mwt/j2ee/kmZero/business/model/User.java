@@ -30,9 +30,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
@@ -40,7 +37,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="user_type", discriminatorType=DiscriminatorType.STRING, length=1)
 @DiscriminatorValue(value="U")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User implements java.io.Serializable{
 
 	@Id

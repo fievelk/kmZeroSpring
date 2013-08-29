@@ -48,13 +48,12 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
-		
         tx.begin();
        
         product.setActive(true);
         Seller s = em.find(Seller.class, seller_id);
         product.setSeller(s);
-        em.persist(product);
+        s.addProduct(product);
 
         tx.commit();
         em.close();
@@ -62,7 +61,7 @@ public class JPAProductService implements ProductService{
 	}	
 	
 	@Override
-	public void updateProduct(Product product,List<Image> images, long seller_id) throws BusinessException {
+	public void updateProduct(Product product,Collection<Image> images, long seller_id) throws BusinessException {
 		
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -72,6 +71,8 @@ public class JPAProductService implements ProductService{
         product.setImages(images);
         product.setSeller(s);
         em.merge(product);
+        //il metodo setProduct effettua l'ordinamento quindi se abbiamo modificato la posizione del prodotto bisogna riordinare la collection
+        s.setProducts(s.getProducts());
     
         tx.commit();
         em.close();
@@ -218,7 +219,7 @@ public class JPAProductService implements ProductService{
         
         tx.commit();
         em.close();
-              
+        
 		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, records, products);
 
 	}
