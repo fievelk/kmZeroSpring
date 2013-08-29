@@ -145,7 +145,7 @@ function buildItem(item){
 			<!-- SPINNER -->
 			'<div class="fuelux row pull-left"><div class="spinner"><input type="number" min="1" max="1000" id="' + item.id + '" value="1" class="input-mini spinner-input" maxlength="3" /><div class="spinner-buttons btn-group btn-group-vertical"><button type="button" class="btn spinner-up"><i class="icon-chevron-up"></i></button><button type="button" class="btn spinner-down"><i class="icon-chevron-down"></i></button></div></div></div>'+
 			<!-- END SPINNER -->
-			'<div class="button"><a href="#" id="" onclick="existCart('+ item.id +');return false">Add to Cart</a></div>'+
+			'<div class="button"><a href="#" id="" onclick="existCart('+ item.id +');return false"><spring:message code="product.addToCart" /></a></div>'+
 			'</div>'+
 		'</div></div></div>';
 	

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
+import it.univaq.mwt.j2ee.kmZero.business.model.Feedback;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
@@ -178,6 +179,10 @@ public class ProductsController {
 		model.addAttribute("product", p);
 		List<Product> lp = productService.getSameCategoryProducts(prod_id);
 		model.addAttribute("sameCategoryProducts", lp);
+		
+		Collection<Feedback> feedbacks = p.getFeedbacks();
+		model.addAttribute("feedbacks", feedbacks);
+		
 		return "products.product";
 	}
 	
