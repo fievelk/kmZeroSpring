@@ -1,11 +1,23 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import javax.persistence.Query;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
+import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
+import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,62 +27,159 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.util.CookieGenerator;
 
 @Controller
 @RequestMapping("/carts")
+@SessionAttributes("cart")
 public class CartsController {
 	
 	@Autowired
 	private CartService service;
 	
 	@Autowired
+	private ProductService productService;
+	
+	@Autowired
 	private CartsValidator validator;
 	
 	@RequestMapping("/addressvalidated")
 	@ResponseBody
-	public String modalAddressStart(@RequestParam("a") String address, @RequestParam("id") long id_product, 
-			@RequestParam("q") int quantity, @CookieValue("kmzero") String cookie) throws BusinessException{
-		service.createCart(address, cookie, id_product, quantity);
+	public String modalAddressStart(@RequestParam("address") String address, @RequestParam("id") long id_product, 
+			@RequestParam("quantity") int quantity, HttpSession session) throws BusinessException{
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		if (s.equals("anonymousUser")){
+			Product product = productService.findProductById(id_product);
+			CartLine cartLine = new CartLine();
+			cartLine.setProduct(product);
+			cartLine.setQuantity(quantity);
+			cartLine.setLineTotal(product.getPrice().multiply(new BigDecimal(quantity)));
+			Collection<CartLine> cartLines = new ArrayList<CartLine>();
+			cartLines.add(cartLine);
+			Cart cart = new Cart();
+			cart.setAddress(address);
+			cart.setCartLines(cartLines);
+			session.setAttribute("cart", cart);
+			
+		} else {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			service.createCart(address, id_product, quantity, udi.getUser());
+		}
 		return null;
 	}
 	
 	@RequestMapping("/viewcartpaginated")
 	@ResponseBody
-	public ResponseCarts<CartLine> findAllCartLinesPaginated(@CookieValue("kmzero") String cookie) throws BusinessException{
-		ResponseCarts<CartLine> result = service.viewCartlines(cookie);
+	public ResponseCarts<CartLine> findAllCartLinesPaginated(HttpSession session) throws BusinessException{
+		ResponseCarts<CartLine> result = null;
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Cart cart = (Cart)session.getAttribute("cart");
+		if (s.equals("anonymousUser")){
+			if (cart != null){
+				result = new ResponseCarts<CartLine>(1, cart.getCartLines().size(), cart.getCartLines());
+			} else {
+				result = new ResponseCarts<CartLine>(0, 0, null);
+			}
+		} else {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			/* Questo controllo viene fatto in modo che, se l'utente fa un carrello in "anonimo", se dovesse effettuare il login,
+			 * potrà ritrovarselo */
+			if (cart != null && cart.getId() < 2){
+				result = service.persistCartSession(cart, udi.getUser());
+			} else {
+				result = service.viewCartlines(udi.getUser());
+			}
+			
+		}
 		return result;
 	}
 	
-	/*@RequestMapping("/existcart.do")
-	@ResponseBody
-	public ResponseCarts<CartLine> existCart(@CookieValue("kmzero") String cookie) throws BusinessException{
-		ResponseCarts<CartLine> result = service.existCart(cookie);
-		return result;
-	}*/
-	
 	@RequestMapping("/create")
 	@ResponseBody
-	public String addCartLine(@RequestParam("id") long id_product, @RequestParam("q") int q,
-			@CookieValue("kmzero") String cookie) throws BusinessException{
-		service.addCartLine(id_product, q, cookie);
+	public String addCartLine(@RequestParam("id") long id_product, @RequestParam("quantity") int quantity,
+			HttpSession session) throws BusinessException{
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		boolean clExist = false;
+		CartLine cl = null;
+		Product p = productService.findProductById(id_product);
+		Cart cart = (Cart)session.getAttribute("cart");
+		if (s.equals("anonymousUser")){
+			Collection<CartLine> cartLines = new ArrayList<CartLine>();
+			cartLines = cart.getCartLines();
+			Iterator<CartLine> i = cartLines.iterator();
+	    	// ciclo la collection per vedere se quella cartline c'e' gia' oppure no, se c'e' aggiorno quantità e linetotal
+	    	while (i.hasNext() && !clExist){
+	    		CartLine temp = i.next();
+	    		if (temp.getProduct().getId() == id_product){
+	    			cl = temp;
+	    			clExist = true;
+	    			cl.setQuantity(cl.getQuantity() + quantity);
+	    			cl.setLineTotal(p.getPrice().multiply(new BigDecimal(cl.getQuantity())));
+	    		}
+	    	}
+	    	if (!clExist){
+	    		// Questo prodotto non e' stato ancora inserito nel carrello
+	    		cl = new CartLine();
+	    		cl.setQuantity(quantity);
+	    		BigDecimal tot = p.getPrice().multiply(new BigDecimal(cl.getQuantity()));
+	    		cl.setLineTotal(tot);
+	    		cl.setProduct(p);
+	    		cartLines = cart.getCartLines();
+	    		cl.setId(cartLines.size());
+	    		cartLines.add(cl);
+	    		cart.setCartLines(cartLines);
+	    		session.setAttribute("cart", cart);
+	    	} else {
+	    		session.setAttribute("cart", cart);
+	    		// Questo prodotto e' stato gia' inserito nel carrello, lo fa direttamente sopra
+	    	}
+		} else {
+			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			service.addCartLine(id_product, quantity, udi.getUser());
+		}
+		
 		return null;
 	}
 	
 	@RequestMapping("/delete_cartline")
 	@ResponseBody
-	public String deleteCartLine(@RequestParam("idcl") long id_cl, @RequestParam("idc") long id_c) throws BusinessException{
-		service.deleteCartLine(id_cl, id_c);
+	public String deleteCartLine(@RequestParam("idcartline") long idCartLine, @RequestParam("idcart") long idCart,
+			@RequestParam("idanonymous") long idCartLineAnonymous, HttpSession session) 
+			throws BusinessException{
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		if (s.equals("anonymousUser")){
+			Cart cart = (Cart)session.getAttribute("cart");
+			Collection<CartLine> cartLines = cart.getCartLines();
+			Iterator<CartLine> i = cartLines.iterator();
+			int j = 0;
+			while(j <= idCartLineAnonymous){
+				CartLine temp = i.next();
+				if (j==idCartLineAnonymous){
+					cartLines.remove(temp);
+				}
+				j++;
+			}
+			cart.setCartLines(cartLines);
+			if (cart.getCartLines().size() == 0){
+				session.setAttribute("cart", cart);
+			} else {
+				session.setAttribute("cart", cart);
+			}
+		} else {
+			service.deleteCartLine(idCartLine, idCart);
+		}
 		return null;
 	}
 	
 	@RequestMapping("/confirmcart_start")
 	public String confirmCart(@RequestParam("id") long id, Model model) throws BusinessException{
 		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		/* Questo confronto va fatto meglio usando i template */
 		if (s.equals("anonymousUser")){
 			return "common.login";
 		}
@@ -103,6 +212,12 @@ public class CartsController {
 		CartLine cartLine = service.findCartLineById(cartLineId);
 		service.updateCartLineRating(cartLine, rating);
 	}
-	
+
+	@RequestMapping(value="/createFeedback")
+	@ResponseBody
+	public void createFeedback(@RequestParam("id") long cartLineId, @RequestParam("feedback") String feedbackString) throws BusinessException {
+		CartLine cartLine = service.findCartLineById(cartLineId);
+		service.createFeedback(cartLine, feedbackString);
+	}
 	
 }

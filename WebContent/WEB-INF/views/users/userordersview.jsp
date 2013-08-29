@@ -6,12 +6,15 @@
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/jquery.raty.js"></script>
 
+
+
 <!-- rating script -->
 <script>
 $(document).ready(function () {
 		$('.star').raty({ 
 			path: '${pageContext.request.contextPath}/resources/custom/img/rating',
 			number: 5,
+			width:false,
 			hints: ['1', '2', '3', '4', '5'],
 			click: function(score) {
 				cartlineId=$(this).attr('id');
@@ -22,6 +25,7 @@ $(document).ready(function () {
 				    	readOnly: true,
 				    	number: score,
 				    	score: score,
+				    	width:false,
 				    	noRatedMsg: "<spring:message code='product.alreadyRated' />",
 				    	path: '${pageContext.request.contextPath}/resources/custom/img/rating',
 				    })
@@ -36,9 +40,34 @@ $(document).ready(function () {
 					},
 			hints: ['1', '2', '3', '4', '5'],
 			readOnly: true,
+			width:false,
 			noRatedMsg: "<spring:message code='product.alreadyRated' />"
 		});
+	
 		
+		
+	$(".submitFeedback").click(function() {
+		feedId = $(this).attr('id');
+		cartLineId = feedId.split("_").pop();
+		feedbackString = ($("#feedText"+ cartLineId).val());
+// 		alert($("#feedText"+ cartLineId).val());
+		$.ajax({
+			type:"POST",
+		    url:contextPath+"/carts/createFeedback?id=" + cartLineId,
+		    dataType: "text",
+		    data: {"feedback" : feedbackString},
+		    success: function() {
+		    	$("#feedText"+ cartLineId).attr('readonly','readonly');
+		    },
+		});
+		return false;
+	});		
+		
+	
+	$('.childOrder').toggle();
+	$('.parentOrder').click(function(){
+	    $(this).children('.childOrder').slideDown("fast"); 
+	});
 });
 </script>
 <!-- end of rating script -->
@@ -46,13 +75,72 @@ $(document).ready(function () {
 <!-- Main content -->
       <div class="span9">
       	<h5 class="title"><spring:message code="cart.yourCarts" /></h5>
+      	
+      	<c:forEach items="${requestScope.carts}" var="cart">
+ 		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12 withBorder">
+					<b><spring:message code="cart.paidOn" />:</b> <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.paid}" />
+				</div>
+			</div>
+			<div class="row-fluid">	
+				<div class="span12 withBorder">
+					<b><spring:message code="cart.address" />:</b> ${cart.address}
+				</div>
+			</div>
+			<div class="row-fluid">	
+				<div class="span12 withBorder row">
+					<div class="span5 centeredText"><b><spring:message code="product.product"/></b></div>
+					<div class="span2 centeredText"><b><spring:message code="product.quantity"/></b></div>
+					<div class="span2 centeredText"><b><spring:message code="product.price"/></b></div>
+					<div class="span3 centeredText"><b><spring:message code="product.rating"/></b></div>
+				</div>
+			</div>
+			<c:forEach items="${cart.cartLines}" var="cartLine">
+			<div class="row-fluid">
+				<div class="span12 withBorder coloredDiv parentOrder">
+					<div class="span5 centeredText">${cartLine.product.name}</div>
+					<div class="span2 centeredText">${cartLine.quantity}</div>
+					<div class="span2 centeredText">${cartLine.lineTotal} &euro;</div>
+					
+					<c:choose>
+						<c:when test="${cartLine.rating == 0}">
+							<div class="span3 star centeredText" id="${cartLine.id}"></div>
+						</c:when>
+						<c:otherwise>
+							<div class="span3 starBlocked centeredText" id="${cartLine.rating}"></div>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${cartLine.feedback eq null}">
+						<div class="withBorder childOrder">
+							<div class="span12 centeredText">
+							<textarea class="feedbackArea" placeholder="<spring:message code="product.leaveFeedback"/>" id="feedText${cartLine.id}"></textarea>
+							<button class="btn overFeedback submitFeedback" type="submit" id="feed_${cartLine.id}"><spring:message code="product.leaveFeedback"/></button>
+							</div>
+						</div>	
+						</c:when>
+						<c:otherwise>
+						<div class="span12 withBorder childOrder centeredText">
+						${cartLine.feedback.feedbackContent}
+						</div>
+						</c:otherwise>
+					</c:choose>
+										
+				</div>
+			</div>
+			</c:forEach>
+		</div>      	
+      	</c:forEach>
+      	
 		
-		<c:forEach items="${requestScope.carts}" var="cart">
+<!-- 		<c:forEach items="${requestScope.carts}" var="cart">
 		<ul>
 		<li>		
 			<b><spring:message code="cart.paidOn" />:</b> <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.paid}" /><br />
 			<b><spring:message code="cart.address" />:</b> ${cart.address}
-			<table class="table table-striped tcart tableFixed">
+			<table class="table tcart tableFixed">
 			
 			    <thead>
 			    	<tr>
@@ -70,19 +158,29 @@ $(document).ready(function () {
 						<td>${cartLine.lineTotal} &euro;</td>
 						<c:choose>
 							<c:when test="${cartLine.rating == 0}">
-							<td width=""><div class="star" id="${cartLine.id}" style="align:center"></div></td>
+							<td><div class="star" id="${cartLine.id}" style="align:center"></div></td>
 							</c:when>
 							<c:otherwise>
 							<td><div class="starBlocked" id="${cartLine.rating}"></div></td>
 							</c:otherwise>
 						</c:choose>
 					</tr>
+					<c:choose>
+						<c:when test="${cartLine.feedback eq null}">
+					<tr>
+						<td colspan="4">
+							<textarea class="feedbackArea" placeholder="Leave your feedback here" id="feedText${cartLine.id}"></textarea>
+							<button class="btn overFeedback submitFeedback" type="submit" id="feed_${cartLine.id}">Leave feedback</button>
+						</td>
+					</tr>
+						</c:when>
+					</c:choose>
 				</c:forEach>				
 				</tbody>
 			</table>
 		</li>
 		</ul>
 			
-		</c:forEach>
+		</c:forEach>  -->
       </div>
 

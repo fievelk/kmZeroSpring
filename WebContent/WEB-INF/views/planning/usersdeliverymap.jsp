@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
         
@@ -36,7 +37,7 @@ $(document).ready(function() {
 				<div class="span12 withBorder coloredDiv">
 					<div class="span1"><input type="checkbox" name="waypoints" value="${cart.address}"></div>
 					<div class="span1 centeredText">${cart.id}</div>
-					<div class="span3">${cart.delivery_date}</div>
+					<div class="span3 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}" /></div>
 					<div class="span7">${cart.address}</div>
 				</div>
 				<c:forEach items="${cart.cartLines}" var="cartLine">

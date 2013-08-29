@@ -37,8 +37,13 @@
 		      </li>
 		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password"><spring:message code="password.edit"/></a></li> 
 			  <li><a href="${pageContext.request.contextPath}/sellers/admin/viewWarehouses"><spring:message code="warehouse.view"/></a></li>
-		      <li><a href="">Ordini <span style="color:red">- NIY</span></a></li>
-		      <li><a href="${pageContext.request.contextPath}/sellers/admin/usersdeliverymap"><spring:message code="planning.usersdelivery"/></a></li>
+			  <li class="has_sub"><a href="#"><spring:message code="menu.manageOrders"/></a>
+		      <!-- Submenu -->
+                <ul>
+					<li><a href="${pageContext.request.contextPath}/sellers/admin/usersdeliverymap"><spring:message code="planning.usersdelivery"/></a></li>
+		      		<li><a href="${pageContext.request.contextPath}/sellers/admin/sellerspickupmap"><spring:message code="planning.sellerspickup"/></a></li>
+		      	</ul>	
+		      </li>
 			</security:authorize>
 			  <li><a href="${pageContext.request.contextPath}/users/userordersview"><spring:message code="cart.yourCarts"/></a></li>
 	     </security:authorize>

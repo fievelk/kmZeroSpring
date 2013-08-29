@@ -3,11 +3,8 @@ package it.univaq.mwt.j2ee.kmZero.business.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -18,11 +15,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import org.eclipse.persistence.internal.expressions.ParameterExpression;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
@@ -32,6 +26,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
@@ -53,6 +48,9 @@ public class JPAProductService implements ProductService{
         product.setActive(true);
         Seller s = em.find(Seller.class, seller_id);
         product.setSeller(s);
+        
+        Rating rating = new Rating();
+        product.setRating(rating);
         s.addProduct(product);
 
         tx.commit();
@@ -372,7 +370,7 @@ public class JPAProductService implements ProductService{
         //prendo il parent precedente
         if(c.getParent() != null){
         	Category oldParent = em.find(Category.class,c.getParent().getId());
-            //rimuovo la referenza al figlio (se il padre è null non faccio niente)
+            //rimuovo la referenza al figlio (se il padre ÔøΩ null non faccio niente)
         	oldParent.removeChild(c);
         }
         //riassegno il figlio al nuovo parent
@@ -512,11 +510,11 @@ public class JPAProductService implements ProductService{
 		EntityManager em = this.emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		Seller s = em.find(Seller.class,seller_id);
+//		Seller s = em.find(Seller.class,seller_id);
 		product = em.merge(product);
-		s.deleteProduct(product);
-		//product = em.merge(product); // Esegue l'attachment del product
-		//product.setActive(false);
+//		s.deleteProduct(product);
+		
+		product.setActive(false);
 		
 		tx.commit();
 		em.close();

@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -74,15 +76,24 @@ public class Product implements Serializable {
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 
-	@Column(name="rating", scale=1)
+/*	@Column(name="rating", scale=1)
 	private float rating;
 	
 	@Column(name="absoluterating")
 	private int absoluteRating;
 	
 	@Column(name="ratingvotes")
-	private int ratingVotes;
+	private int ratingVotes; */
 
+	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name="rating_id")
+	@JsonManagedReference("product-rating")
+	private Rating rating;
+	
+	@OneToMany(mappedBy="product")
+	@JsonManagedReference("product-feedback")
+	private Collection<Feedback> feedbacks = new HashSet<Feedback>();
+	
 	@Column(name="stock")
 	private int stock;
 	
@@ -102,12 +113,12 @@ public class Product implements Serializable {
 		super();
 	}
 
-	public Product(String name, String description, BigDecimal price,
+	public Product(long id, String name, String description, BigDecimal price,
 			Date date_in, Date date_out, boolean active, Category category,
-			Collection<Image> images, float rating, int absoluteRating,
-			int ratingVotes, int stock, Measure measure, Seller seller,
-			int position) {
+			List<Image> images, Rating rating, Collection<Feedback> feedbacks,
+			int stock, Measure measure, Seller seller, int position) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -117,22 +128,83 @@ public class Product implements Serializable {
 		this.category = category;
 		this.images = images;
 		this.rating = rating;
-		this.absoluteRating = absoluteRating;
-		this.ratingVotes = ratingVotes;
+		this.feedbacks = feedbacks;
 		this.stock = stock;
 		this.measure = measure;
 		this.seller = seller;
 		this.position = position;
 	}
 
+
 	public Product(long id, String name, String description, BigDecimal price,
+			Date date_in, Date date_out, Category category,
+			List<Image> images, Seller seller) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.category = category;
+		this.images = images;
+		this.seller = seller;
+	}
+
+	/* Costruttore per l'inserimento senza immagini */
+	public Product(long id, String name, String description, BigDecimal price,
+			Category category, Seller seller, Date date_in, Date date_out) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.seller = seller;
+		this.date_in = date_in;
+		this.date_out = date_out;
+	}	
+
+	/* Costruttore per l'inserimento senza immagini e date */
+	public Product(long id, String name, String description, BigDecimal price,
+			Category category, Seller seller) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.seller = seller;
+	}
+
+	
+	
+/*	public Product(long id, String name, String description, BigDecimal price,
+>>>>>>> branch 'master' of https://github.com/fievelk/kmZeroSpring.git
 			Date date_in, Date date_out, boolean active, Category category,
 			Collection<Image> images, float rating, int absoluteRating,
 			int ratingVotes, int stock, Measure measure, Seller seller,
 			int position) {
 		this(name,description,price,date_in,date_out,active,category,images,rating,absoluteRating,ratingVotes,stock,measure,seller,position);
 		this.id = id;
+<<<<<<< HEAD
 	}
+=======
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.date_in = date_in;
+		this.date_out = date_out;
+		this.active = active;
+		this.category = category;
+		this.images = images;
+		this.rating = rating;
+		this.stock = stock;
+		this.measure = measure;
+		this.seller = seller;
+		this.position = position;
+	} */
+
 
 	public long getId() {
 		return id;
@@ -176,13 +248,15 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-	public float getRating() {
-		return rating;
-	}
 
-	public void setRating(float rating) {
-		this.rating = rating;
-	}
+//	public float getRating() {
+//		return rating;
+//	}
+//
+//	public void setRating(float rating) {
+//		this.rating = rating;
+//	}
+
 
 	public boolean isActive() {
 		return active;
@@ -225,21 +299,21 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public int getAbsoluteRating() {
-		return absoluteRating;
-	}
-
-	public void setAbsoluteRating(int absoluteRating) {
-		this.absoluteRating = absoluteRating;
-	}
-
-	public int getRatingVotes() {
-		return ratingVotes;
-	}
-
-	public void setRatingVotes(int ratingVotes) {
-		this.ratingVotes = ratingVotes;
-	}
+//	public int getAbsoluteRating() {
+//		return absoluteRating;
+//	}
+//
+//	public void setAbsoluteRating(int absoluteRating) {
+//		this.absoluteRating = absoluteRating;
+//	}
+//
+//	public int getRatingVotes() {
+//		return ratingVotes;
+//	}
+//
+//	public void setRatingVotes(int ratingVotes) {
+//		this.ratingVotes = ratingVotes;
+//	}
 
 	public int getPosition() {
 		return position;
@@ -248,6 +322,7 @@ public class Product implements Serializable {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+
 
 	public Collection<Image> getImages() {
 		return images;
@@ -276,5 +351,27 @@ public class Product implements Serializable {
 			addImage(i.next());
 		}
 	}
+
+
+	public Rating getRating() {
+		return rating;
+	}
+
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
+	}
+
+
+	public Collection<Feedback> getFeedbacks() {
+		return feedbacks;
+	}
+
+
+	public void setFeedbacks(Collection<Feedback> feedbacks) {
+		this.feedbacks = feedbacks;
+	}
+
+
 
 }

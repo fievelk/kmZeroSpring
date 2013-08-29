@@ -302,7 +302,7 @@ public class SellersController {
 	}
 	
 	@RequestMapping(value="/admin/usersdeliverymap")
-	public String cartsToDeliver(Model model) throws BusinessException {
+	public String usersDeliveryMap(Model model) throws BusinessException {
 		Collection<Cart> cartsToDeliver = cartService.getCartsToDeliver();
 		
 		model.addAttribute("cartsToDeliver", cartsToDeliver);
@@ -310,7 +310,7 @@ public class SellersController {
 	}
 	
 	@RequestMapping(value="/sellerreceivedorders")
-	public String userOrdersView(Model model) throws BusinessException {
+	public String sellerReceivedOrders(Model model) throws BusinessException {
 
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
 		long id = udi.getId();
@@ -321,7 +321,16 @@ public class SellersController {
 		
 		model.addAttribute("cartLines", cartLines);
 		return "sellers.sellerreceivedorders";
-	}	
+	}
 	
+	@RequestMapping(value="/admin/sellerspickupmap")
+	public String sellersPickUpMap(Model model) throws BusinessException {
+
+		Collection<CartLine> cartLinesToDeliver = cartService.findCartLinesToDeliver();
+		System.out.println("CARTLINES "+cartLinesToDeliver);
+		
+		model.addAttribute("cartLinesToDeliver", cartLinesToDeliver);
+		return "planning.sellerspickupmap";
+	}
 	
 }

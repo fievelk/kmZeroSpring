@@ -13,7 +13,6 @@
 			<table class="table table-striped tcart">
 			    <thead>
 			    	<tr>
-					    <th><spring:message code="warehouse.id"/></th>
 					    <th><spring:message code="warehouse.name"/></th>
 					    <th><spring:message code="warehouse.address"/></th>
 					    <th><spring:message code="common.actions"/></th>
@@ -21,7 +20,6 @@
 			    </thead>
 			    <tbody>	
 				<tr>
-					<td>${warehouse.id}</td>
 					<td>${warehouse.name}</td>
 					<td>${warehouse.address}</td>
 					<td>

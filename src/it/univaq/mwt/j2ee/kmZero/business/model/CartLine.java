@@ -5,6 +5,7 @@ import it.univaq.mwt.j2ee.kmZero.common.PriceJsonSerializer;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -51,12 +53,34 @@ public class CartLine implements Serializable{
 	@JsonBackReference("cart-cartlines")
 	private Cart cart; 
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="feedback_id")
+	@JsonManagedReference("cartLine-feedback")
+	private Feedback feedback;
+	
 	private static final long serialVersionUID = 1L;
 	
 	public CartLine() {
 		super();
 	}
 	
+	
+	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
+			int rating, Product product, Cart cart, Feedback feedback) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+		this.lineTotal = lineTotal;
+		this.review = review;
+		this.rating = rating;
+		this.product = product;
+		this.cart = cart;
+		this.feedback = feedback;
+	}
+
+
+
+
 	public CartLine(int quantity, BigDecimal lineTotal, String review) {
 		super();
 		this.quantity = quantity;
@@ -131,5 +155,16 @@ public class CartLine implements Serializable{
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
+
+
+	public Feedback getFeedback() {
+		return feedback;
+	}
+
+
+	public void setFeedback(Feedback feedback) {
+		this.feedback = feedback;
+	}
+	
 	
 }
