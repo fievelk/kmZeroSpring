@@ -15,16 +15,14 @@ $(document).ready(function() {
 		$(":input[type='text'],select[id='categoryId'],textarea").each(function () { $(this).attr('readonly','readonly'); });
 		$('.fuelux div.spinner div.spinner-buttons').remove();
 		$('.fuelux div.spinner').spinner({
-				disabled: true,
-				max:	4		
+				disabled: true
 		});
 		$(":input[type='text'],select[id='categoryId']").each(function () { $(this).attr('readonly','readonly'); });				
 		$(":input[type='text'],select[id='measureId']").each(function () { $(this).attr('readonly','readonly'); });	
 		
 	}	
 	$('.fuelux div.spinner').spinner({
-				value: ${product.position},
-				max:	4	
+				value: ${product.position}
 	});	
 });
 
@@ -168,6 +166,7 @@ $(function() {
 				
 				<!-- fine DATEPICKER -->
 				
+				<c:if test="${requestScope.create ne 'true'}">
 				<!-- SPINNER -->
 				
 				<div class="fuelux row">
@@ -185,7 +184,7 @@ $(function() {
 					</div>
 				</div>
 				<!-- END SPINNER -->
-				
+				</c:if>
 				<div>
 				    <div class="controls">
 				      <button type="submit" class="btn">
