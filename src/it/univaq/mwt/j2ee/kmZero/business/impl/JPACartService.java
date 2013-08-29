@@ -397,5 +397,19 @@ public class JPACartService implements CartService{
 		
 		return new ResponseCarts<CartLine>(cart.getId(), cart.getCartLines().size(), cart.getCartLines());
 	}
+
+	@Override
+	public Rating findRatingById(long ratingId) throws BusinessException {
+
+		EntityManager em = this.emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+
+		Rating rating = em.find(Rating.class, ratingId);	
+		
+		tx.commit();
+		em.close();
+		return rating;
+	}
 	
 }

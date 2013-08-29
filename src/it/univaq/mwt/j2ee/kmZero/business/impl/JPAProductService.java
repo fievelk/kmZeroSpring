@@ -510,10 +510,11 @@ public class JPAProductService implements ProductService{
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 //		Seller s = em.find(Seller.class,seller_id);
+		product.setActive(false);
 		product = em.merge(product);
 //		s.deleteProduct(product);
 		
-		product.setActive(false);
+		
 		
 		tx.commit();
 		em.close();

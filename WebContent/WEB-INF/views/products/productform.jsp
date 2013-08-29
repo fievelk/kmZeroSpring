@@ -82,6 +82,9 @@ $(function() {
 			  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
 		      <div class="span4">
 				<form:hidden path="id"/>
+<%-- 				<form:hidden path="rating.id"/> --%>
+				<input type="hidden" id="ratingId" value="${ratingId}" name="ratingId"/>
+				
 				<form:hidden path="active"/> <!-- senza questo campo, l'ACTIVE del prodotto viene passato come "false" al controller da Spring -->
 				<div>
 				    <label for="name"><spring:message code="product.name"/></label>
@@ -93,7 +96,8 @@ $(function() {
 				<div>
 				    <label for="description"><spring:message code="product.description"/></label>
 				    <div class="text-area">
-                    	<textarea class="cleditor" name="description" id="description" rows="10">${product.description}</textarea>
+                    	<form:textarea class="cleditor" name="description" id="description" rows="10" path="description"></form:textarea>
+<!--                     	<textarea class="cleditor" name="description" id="description" rows="10"></textarea> -->
                     	<form:errors path="description"/>
                		</div>
 				</div>		

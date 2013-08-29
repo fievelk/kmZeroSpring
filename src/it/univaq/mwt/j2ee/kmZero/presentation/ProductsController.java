@@ -7,6 +7,7 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
+import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
+import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
@@ -43,6 +46,9 @@ public class ProductsController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CartService cartService;
 	
 	@Autowired
 	private LoggedUser loggedUser;
@@ -114,10 +120,16 @@ public class ProductsController {
 	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Product product = productService.findProductById(id);
+		
+		System.out.println("RATING A START "+product.getRating().getAbsoluteRating());
+		
 		List<Category> categories = productService.findAllCategories();
 		model.addAttribute("categories", categories);
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
+		
+		/* Il rating non va modificato nel form ma il suo valore dev'essere recuperato per far si che non sia impostato a null */
+		model.addAttribute("ratingId",product.getRating().getId());
 		if(loggedUser.isAdmin()){
 			List<Seller> sellers = userService.getAllSellers();
 			model.addAttribute("sellers", sellers);
@@ -127,13 +139,18 @@ public class ProductsController {
 	
 	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
-	public String update(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+	public String update(@RequestParam("ratingId") long ratingId, @ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
+		
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
 			return  loggedUser.isAdmin() ? "products.updateformbyadmin" : "products.updateform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
 		List<Image> images = imageService.getProductImages(product.getId());
+		
+		Rating rating = cartService.findRatingById(ratingId);
+		product.setRating(rating);
+		
 		productService.updateProduct(product,images,sellerid);
 		return "redirect:/products/viewsforsellers.do";
 	}	

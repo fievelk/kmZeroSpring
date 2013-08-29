@@ -82,7 +82,7 @@ public class Product implements Serializable {
 	@Column(name="ratingvotes")
 	private int ratingVotes; */
 
-	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToOne
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;
