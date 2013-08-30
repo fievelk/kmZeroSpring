@@ -1293,7 +1293,7 @@ footer hr{
 	height: 0px;
 	padding: 0px;
 	margin: 5px 0px;
-	border-bottom: 1px solid #fcf1e4;
+	border-bottom: 1px dotted #fcf1e4;
 }
 
 footer h5{

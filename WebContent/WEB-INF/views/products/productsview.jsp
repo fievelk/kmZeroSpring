@@ -127,7 +127,7 @@ function buildItem(item){
 			'<div class="item-details">'+
 // 		  <!-- Name -->
 // 		<!-- Use the span tag with the class "ico" and icon link (hot, sale, deal, new) -->
-				'<h5><a href="'+url+'">'+item.name+'</a><span class="ico"><img src="" alt="" /></span></h5>'+
+				'<h6><a href="'+url+'">'+item.name.substring(0,20)+'</a><span class="ico"><img src="" alt="" /></span></h6>'+
 				'<div class="clearfix"></div>'+
 // 		<!-- Para. Note more than 2 lines. -->
 			'<p>'+description+'</p>'+

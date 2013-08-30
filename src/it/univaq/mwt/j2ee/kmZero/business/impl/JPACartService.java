@@ -26,7 +26,9 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Service;
 
+@Service
 public class JPACartService implements CartService{
 	
 	@PersistenceUnit

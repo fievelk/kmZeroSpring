@@ -21,6 +21,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,12 +38,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name="user_type", discriminatorType=DiscriminatorType.STRING, length=1)
 @DiscriminatorValue(value="U")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class User implements java.io.Serializable{
 
 	@Id
 	@Column(name="user_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "users_seq")
+	@SequenceGenerator(name = "users_seq")
 	private long id;
 
 	@Column(name="name")

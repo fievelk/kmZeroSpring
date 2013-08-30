@@ -22,7 +22,7 @@
 		            <ul id="nav">
 		            <li><a id="seller_" href="#"><spring:message code="category.all"/></a></li>
 					<c:forEach var="seller" items="${sellers}">
-		 				<li><a id="seller_${seller.id}" href="#">${seller.company}</a></li>
+		 				<li><a id="seller_${seller.id}" href="#"><b>${seller.company}</b> (${fn:length(seller.products)})</a></li>
 					</c:forEach> 
 					</ul>
 		        </nav>

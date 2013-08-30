@@ -18,6 +18,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Service;
+
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
@@ -32,6 +34,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
+@Service
 public class JPAProductService implements ProductService{
 	
 	@PersistenceUnit
@@ -234,6 +237,7 @@ public class JPAProductService implements ProductService{
 	    boolean active = true;
         Date today = new Date();
         String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
+        sortCol = requestGrid.getSortCol().equals("seller.company") ? "seller" : requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime

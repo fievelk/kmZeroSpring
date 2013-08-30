@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,8 +25,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name="categories")
 public class Category {
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) @Column(name="category_id")
+	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "categories_seq") @Column(name="category_id")
 	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+	@SequenceGenerator(name = "categories_seq")
 	private long id;
 	
 	//@Column(name="name")

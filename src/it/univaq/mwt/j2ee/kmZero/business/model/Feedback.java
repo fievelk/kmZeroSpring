@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,7 +24,8 @@ public class Feedback implements Serializable {
 
 	@Id
 	@Column(name="feedback_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "feedbacks_seq")
+	@SequenceGenerator(name = "feedbacks_seq")
 	private long id;
 	
 	@Column(name="feedback_content",length = 1000)

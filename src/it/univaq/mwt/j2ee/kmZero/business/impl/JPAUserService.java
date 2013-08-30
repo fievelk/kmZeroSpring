@@ -39,7 +39,7 @@ import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
-
+@Service
 public class JPAUserService implements UserService{
 
 	@PersistenceUnit
@@ -135,7 +135,7 @@ public class JPAUserService implements UserService{
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND u.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), User.class);
 		
-		//System.out.println("Questa ÔøΩ la query:" + query);
+		//System.out.println("Questa e' la query:" + query);
 		
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
@@ -220,24 +220,6 @@ public class JPAUserService implements UserService{
 			/*TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
 			List<Seller> sellers = query.getResultList();*/
 		}
-		
-		// Vecchia query per l'aggiornamento
-		/*Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
-				"date_of_birth= :date_of_birth, address= :address, p_iva= :p_iva, cod_fisc= :cod_fisc, " +
-				"company= :company, url= :url, phone= :phone, enable= :enable WHERE id= :id");
-		query.setParameter("name", seller.getName());
-		query.setParameter("surname", seller.getSurname());
-		query.setParameter("email", seller.getEmail());
-		query.setParameter("date_of_birth", seller.getDate_of_birth());
-		query.setParameter("address", seller.getAddress());
-		query.setParameter("p_iva", seller.getP_iva());
-		query.setParameter("cod_fisc", seller.getCod_fisc());
-		query.setParameter("company", seller.getCompany());
-		query.setParameter("url", seller.getUrl());
-		query.setParameter("phone", seller.getPhone());
-		query.setParameter("enable", seller.getEnable());
-		query.setParameter("id", seller.getId());
-		query.executeUpdate();*/
 		
 		Seller old_seller = em.find(Seller.class, seller.getId());
 		seller.setPassword(old_seller.getPassword());
@@ -488,7 +470,7 @@ public class JPAUserService implements UserService{
         CriteriaQuery<SellerContent> q = cb.createQuery(SellerContent.class);
         Root<SellerContent> sc = q.from(SellerContent.class);
         
-        //La clausola cb.and() ÔøΩ sempre vera - viene usata se l'utente loggato ha ruolo admin
+        //La clausola cb.and() e' sempre vera - viene usata se l'utente loggato ha ruolo admin
        // Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
               
         Predicate predicate = cb.and(
@@ -538,7 +520,7 @@ public class JPAUserService implements UserService{
 	    	//prima associo il seller al content (owner della relazione)
 	    	content.setSeller(s);
 	    	//utilizzo il cascade definito nel seller per fare persistenza del contenuto
-	    	//non è automatica l'associazione del content verso il seller quindi va esplicitata prima con content.setSeller(s);
+	    	//non e' automatica l'associazione del content verso il seller quindi va esplicitata prima con content.setSeller(s);
 	    	s.addContent(content);
 	   
 	    tx.commit();

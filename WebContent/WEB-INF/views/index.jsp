@@ -11,9 +11,9 @@
 					<img src="${pageContext.request.contextPath}/seller/image/<c:out value="${seller.images[0].id}"/>/<c:out value="${seller.images[0].name}"/>" alt="<c:out value="${seller.images[0].altName}"/>" />
                   <div class="flex-caption">
                      <!-- Title -->
-                     <h3>${seller.name} - <span class="color"></span></h3>
+                     <h3>${seller.name} - <span class="color">Just 65</span></h3>
                      <!-- Para -->
-                     ${fn:substring(seller.contents[0].description, 0, 25)}...
+                     <p>${fn:substring(seller.contents[0].description, 0, 25)}...</p>
                      <div class="button">
                       <a href="single-item.html">Buy Now</a>
                      </div>
@@ -21,7 +21,8 @@
                 </li>
 		    </c:forEach>    
 		</ul>
-	</div>
+	</div>  
+	
 </div>
 <div class="recent-posts">
     <div class="row">
