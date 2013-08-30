@@ -10,56 +10,21 @@
 	$(document).ready(checkoutCart());
 </script>
 
-<div class="items">
-	<div class="container">
-		<div class="row">
 
-	    	<div class="span3 side-menu">
-	
-				<!-- Sidebar navigation -->
-				<h5 class="title"><spring:message code="menu.menu" /></h5>
-				<!-- Sidebar navigation -->
-				  <nav>
-				    <ul id="navi">
-				      <li><a href="myaccount.html"><spring:message code="menu.manageOrders" /></a></li>
-				      <li><a href="wish-list.html"><spring:message code="menu.ordersHistory" /></a></li>
-				      <li><a href="order-history.html"><spring:message code="user.views" /></a></li>
-				      <li><a href="edit-profile.html"><spring:message code="seller.views" /></a></li>
-				    </ul>
-				  </nav>
-			</div>
-			
-			<!-- Main content -->
 			
 			<div class="span9">
 				<h5 class="title"><spring:message code="cart.cart" /></h5>
-				<div class="form form-small">
+				<div class="scontact well">
 					<form:form modelAttribute="cart" cssClass="form-horizontal" action="${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
-					<div class="control-group">
-					    <label class="control-label" for="name"><spring:message code="user.name"/></label>
-					    <div class="controls">
-					    	<form:label id="name" path="name">${cart.name}</form:label>
-					    </div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="surname"><spring:message code="user.surname"/></label>
-					    <div class="controls">
-					    	<form:label id="surname" path="surname">${cart.surname}</form:label>
-					    </div>
-					</div>
-					<div class="control-group">
-					    <label class="control-label" for="address"><spring:message code="cart.address"/></label>
-					    <div class="controls">
-					    	<form:label id="addresscart" path="address">${cart.address}</form:label>
-					    </div>
-					</div>
-					<div class="control-group">
-					    <label class="control-label" for="delivery_date"><spring:message code="cart.delivery_date"/></label>
-					    <div class="controls">
-					    	<form:label id="delivery_date" path="delivery_date"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></form:label>
-					    </div>
-					</div>
+					<%-- <p><spring:message code="user.name"/> : <form:label id="name" path="name">${cart.name}</form:label></p> 
+					<p><spring:message code="user.surname"/> : <form:label id="surname" path="surname">${cart.surname}</form:label></p>
+					<p><spring:message code="cart.address"/> : <form:label id="addresscart" path="address">${cart.address}</form:label></p>
+					<p><spring:message code="cart.delivery_date"/> : <form:label id="delivery_date" path="delivery_date"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></form:label></p> --%>
+					<p><spring:message code="user.name"/> : ${cart.name}</p> 
+					<p><spring:message code="user.surname"/> : ${cart.surname}</p>
+					<p><spring:message code="cart.address"/> : ${cart.address}</p>
+					<p><spring:message code="cart.delivery_date"/> : <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></p>
 					<table class="table table-striped tcart">
 			          <thead>
 			            <tr>
@@ -71,22 +36,16 @@
 			          	<tbody id="cartlinesconfirmed">
 			          	</tbody>
 					</table>
-					<div class="control-group">
-					    <div class="controls">
-						  <input type="hidden" name="cmd" value="_xclick">
-						  <input type="hidden" name="return" value="${pageContext.request.contextPath}/carts/payed.do">
-						  <input type="hidden" name="business" value="km_seller@email.it">
-						  <input type="hidden" name="currency_code" value="EUR">
-						  <input type="hidden" name="item_name" value="Km Zero & C">
-						  <input id="totpaypal" type="hidden" name="amount">
-						  <input type="hidden" name="custom" value="${cart.id}">
-						  <input type="image" src="${pageContext.request.contextPath}/resources/custom/img/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
-						  <!-- <input type="image" src="https://www.sandbox.paypal.com/it_IT/IT/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare."> -->
-					    </div>
-					</div>
+					
+					<input type="image" src="${pageContext.request.contextPath}/resources/custom/img/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
+					
+					<input type="hidden" name="cmd" value="_xclick">
+					<input type="hidden" name="return" value="${pageContext.request.contextPath}/carts/payed">
+					<input type="hidden" name="business" value="km_seller@email.it">
+					<input type="hidden" name="currency_code" value="EUR">
+					<input type="hidden" name="item_name" value="Km Zero & C">
+					<input type="hidden" id="totpaypal"  name="amount">
+					<input type="hidden" name="custom" value="${cart.id}">
 					</form:form>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>

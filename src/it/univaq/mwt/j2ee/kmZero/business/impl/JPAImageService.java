@@ -1,16 +1,9 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.SortedSet;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.Query;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,15 +120,5 @@ public class JPAImageService implements ImageService{
 		SellerContent sc = em.find(SellerContent.class,sellercontentId);
 		sc.setImage(null);
 	}
-
-
-
-
-	
-
-
-
-	
-
 	
 }
