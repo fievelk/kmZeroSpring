@@ -19,27 +19,22 @@ import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class JPACartService implements CartService{
 	
-	@PersistenceUnit
-	private EntityManagerFactory emf;
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
+	@Transactional
 	public void createCart(String address, long id_product, int quantity, User user) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Product p = em.find(Product.class, id_product);
 		CartLine cl = new CartLine();
 		cl.setProduct(p);
@@ -57,21 +52,13 @@ public class JPACartService implements CartService{
 		c.setCartLines(cls);
 		c.setCreated(new Date());
 		
-		
 		em.persist(cl);
 		em.persist(c);
-		
-		et.commit();
-		em.close();
-		
 	}
 
 	@Override
+	@Transactional
 	public void addCartLine(long id_product, int quantity, User user) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Product p = em.find(Product.class, id_product);
 		CartLine cl = null;
 		Cart c = null;
@@ -115,18 +102,11 @@ public class JPACartService implements CartService{
     	}
 		
 		em.persist(c);
-        
-		et.commit();
-		em.close();
-		
 	}
 
 	@Override
+	@Transactional
 	public void deleteCartLine(long id_cartline, long id_cart) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		CartLine cl = em.find(CartLine.class, id_cartline);
 		em.remove(cl);
 		Cart cart = em.find(Cart.class, id_cart);
@@ -134,17 +114,11 @@ public class JPACartService implements CartService{
 		if (size == 0){
 			em.remove(cart);
 		}
-		et.commit();
 		em.getEntityManagerFactory().getCache().evictAll();
-		em.close();
 	}
 
 	@Override
 	public ResponseCarts<CartLine> viewCartlines(User user) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Cart cart = null;
 		Collection<CartLine> cartLines = null;
 		int size = 0;
@@ -165,32 +139,19 @@ public class JPACartService implements CartService{
 				size = cartLines.size();
 			}
 		}
-        
-		et.commit();
-		em.close();
-		
 		return new ResponseCarts<CartLine>(id, size, cartLines);
 	}
 
 	@Override
 	public Cart findCartById(long id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Cart cart = em.find(Cart.class, id);
 		
-		et.commit();
-		em.close();
 		return cart;
 	}
 	
 	@Override
+	@Transactional
 	public Cart findCartToCheckout(long id, String email) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Query queryUser = em.createQuery("Select u FROM User u WHERE u.email = :email");
 		queryUser.setParameter("email", email);
 		User user = (User)queryUser.getSingleResult();
@@ -204,64 +165,39 @@ public class JPACartService implements CartService{
 		
 		Cart cart = em.find(Cart.class, id);
 		
-		et.commit();
-		em.close();
-		
 		return cart;
 	}
 
 	@Override
+	@Transactional
 	public void paid(String transaction_id, long cart_id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Cart cart = em.find(Cart.class, cart_id);
 		cart.setPaid(new Date());
 		cart.setTransaction_id(transaction_id);
 		cart.setSession_id(null);
 		em.merge(cart);
-		
-		et.commit();
-		em.close();
 	}
 
 	@Override
+	@Transactional
 	public void confirmCart(long id_cart, Date delivery_date) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Query query = em.createQuery("UPDATE Cart SET delivery_date = :delivery_date WHERE id = :id");
 		query.setParameter("delivery_date", delivery_date);
 		query.setParameter("id", id_cart);
 		query.executeUpdate();
-		
-		et.commit();
-		em.close();
-		
 	}
 
 	@Override
 	public CartLine findCartLineById(long id) {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		CartLine cartLine = em.find(CartLine.class, id);
 		
-		et.commit();
-		em.close();
 		return cartLine;
 	}
 
 	@Override
+	@Transactional
 	public void updateCartLineRating(CartLine cartLine, int rating) {
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        cartLine.setRating(rating);
+		cartLine.setRating(rating);
         em.merge(cartLine);
         
         Product product = cartLine.getProduct();
@@ -288,34 +224,19 @@ public class JPACartService implements CartService{
         
         em.merge(productRatingObject);
         em.merge(product);
-        
-        tx.commit();
-        em.close();
-
 	}
 
 	@Override
 	public Collection<Cart> getCartsToDeliver() throws BusinessException {
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-		EntityManager em = emf.createEntityManager();
-		
-        TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL AND c.dispatched IS NULL", Cart.class);
+		TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL AND c.dispatched IS NULL", Cart.class);
    
         Collection<Cart> result = query.getResultList();
-   
-        em.close();
-        emf.close();
-		
+        
 		return result;
 	}
 
 	@Override
 	public Collection<Cart> findUserPaidCarts(User user) throws BusinessException {
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-		EntityManager em = emf.createEntityManager();
-		
 		TypedQuery<Cart> query = em.createQuery("Select c FROM Cart c WHERE c.paid IS NOT NULL and c.user = :user", Cart.class);
 		query.setParameter("user", user);
 		
@@ -326,9 +247,6 @@ public class JPACartService implements CartService{
 
 	@Override
 	public Collection<CartLine> findSellerReceivedOrders(Seller seller)	throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		
 	    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
 	    											"LEFT JOIN cl.cart c " +
 	    											"LEFT JOIN cl.product p " +
@@ -341,10 +259,7 @@ public class JPACartService implements CartService{
 
 	@Override
 	public Collection<CartLine> findCartLinesToDeliver() throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		
-	    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
+		TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
 	    											"WHERE cl.cart.paid IS NOT NULL " +
 	    											"AND cl.cart.dispatched IS NULL " +
 	    											"ORDER BY cl.cart.delivery_date, cl.product.seller",CartLine.class);
@@ -354,13 +269,9 @@ public class JPACartService implements CartService{
 	}
 
 	@Override
+	@Transactional
 	public void createFeedback(CartLine cartLine, String feedbackString) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-        tx.begin();
-
-        Product product = cartLine.getProduct();
+		Product product = cartLine.getProduct();
 
         Feedback feedback = new Feedback();
         feedback.setFeedbackContent(feedbackString);
@@ -370,18 +281,12 @@ public class JPACartService implements CartService{
         em.persist(feedback);
         em.merge(cartLine);
         em.merge(product);
-        
-        tx.commit();
-        em.close();
 	}        
 		
 	@Override
+	@Transactional
 	public ResponseCarts<CartLine> persistCartSession(Cart cart, User user)
 			throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		cart.setUser(user);
 		cart.setName(user.getName());
 		cart.setSurname(user.getSurname());
@@ -396,24 +301,13 @@ public class JPACartService implements CartService{
 			em.persist(cartLine);
 		}
 		
-		
-		et.commit();
-		em.close();
-		
 		return new ResponseCarts<CartLine>(cart.getId(), cart.getCartLines().size(), cart.getCartLines());
 	}
 
 	@Override
 	public Rating findRatingById(long ratingId) throws BusinessException {
-
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-
-		Rating rating = em.find(Rating.class, ratingId);	
+		Rating rating = em.find(Rating.class, ratingId);
 		
-		tx.commit();
-		em.close();
 		return rating;
 	}
 	
