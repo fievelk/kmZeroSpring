@@ -32,6 +32,6 @@ public interface ImageService {
 	
 	public void updateSellerContentImage(Image image, Long sellercontentId);
 
-	public void deleteSellerContentImage(Long imageId,Long sellercontentId);
+	public void deleteSellerContentImage(Long sellercontentId);
 
 }

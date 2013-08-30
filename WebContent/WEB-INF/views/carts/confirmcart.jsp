@@ -54,63 +54,43 @@
 </security:authorize>
 
 <security:authorize access="isAuthenticated()">
-	<div class="items">
-		<div class="container">
-			<div class="row">
-	
-		    	<div class="span3 side-menu">
-		
-					<!-- Sidebar navigation -->
-					<h5 class="title">Menu</h5>
-					<!-- Sidebar navigation -->
-					  <nav>
-					    <ul id="navi">
-					      <li><a href="myaccount.html">Gestione Ordini</a></li>
-					      <li><a href="wish-list.html">Storico Ordini</a></li>
-					      <li><a href="order-history.html">Gestione Utenti</a></li>
-					      <li><a href="edit-profile.html">Gestione Venditori</a></li>
-					    </ul>
-					  </nav>
+<div class="span9">
+	<h5 class="title">Carrello</h5>
+	<div class="form form-small">
+		<form:form modelAttribute="cart" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
+		<form:hidden path="id"/>
+		<form:hidden path="name"/>
+		<form:hidden path="surname"/>
+		<form:hidden path="address"/>
+		<table class="table table-striped tcart" id="tablecart">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          	<tbody id="cartlines">
+          	</tbody>
+		</table>
+		<div class="row">
+			<div class="span4 offset5">
+				<div class="pull-right">
+					<span><h6 class="">Scegli una data di consegna</h6></span>
+					<form:input  class="pull-right" id="cartpicker" path="delivery_date"/></br>
+					<form:errors class="pull-right" path="delivery_date"/>
 				</div>
 				
-				<!-- Main content -->
-				
-				<div class="span9">
-					<h5 class="title">Carrello</h5>
-					<div class="form form-small">
-						<form:form modelAttribute="cart" cssClass="form-horizontal" action="${pageContext.request.contextPath}${requestScope.action}" method="POST">
-						<form:hidden path="id"/>
-						<form:hidden path="name"/>
-						<form:hidden path="surname"/>
-						<form:hidden path="address"/>
-						<table class="table table-striped tcart" id="tablecart">
-				          <thead>
-				            <tr>
-				              <th>Name</th>
-				              <th>Quantity</th>
-				              <th>Price</th>
-				              <th>Delete</th>
-				            </tr>
-				          </thead>
-				          	<tbody id="cartlines">
-				          	</tbody>
-						</table>
-						<div class="control-group" id="delivery_checkout">
-						    <label class="control-label" for="delivery_date">Scegli la data nella quale vorresti che l'ordine ti venisse consegnato: </label>
-							<div class="controls">
-								<form:input id="cartpicker" path="delivery_date"/><br />
-								<form:errors path="delivery_date"/>
-							</div>
-						</div>
-						<div class="control-group">
-						    <div class="controls">
-							  <button type="submit" class="btn" id="button_checkout">Conferma il carrello</button>
-						    </div>
-						</div>
-						</form:form>
-					</div>
-				</div>
 			</div>
 		</div>
+		<div class="row">
+	        <div class="span9">
+				<button type="submit" class="btn btn-danger pull-right" id="button_checkout">Conferma il carrello</button>
+			</div>
+        </div>
+        
+		</form:form>
 	</div>
+</div>
 </security:authorize>

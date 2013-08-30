@@ -46,14 +46,11 @@ public class ImagesController {
 	
 	@Autowired
 	private ImageValidator validator;
-	
-	@Autowired
-	private UserService  userService;
-	
+		
 	/*ADD IMAGES*/
 	/*i metodi start sono parametrizzati per tutti i modelli che utilizzano le immagini (Product, Seller, SellerContent nel nostro caso)*/
 	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che è unica) */
-	/*prima di ritornare vengono impostarti i parametri da sotituire compresa la action del form presente nella jsp*/
+	/*prima di ritornare vengono impostati i parametri da sotituire compresa la action del form presente nella jsp*/
 	
 	@RequestMapping(value="/{ownerKind}/{ownerId}/addImages_start",method = RequestMethod.POST)
 	public String productAddImagesStart(@PathVariable("ownerKind")String ownerKind,@PathVariable("ownerId")Long ownerId, Model model) throws BusinessException {
@@ -182,14 +179,13 @@ public class ImagesController {
 	@ResponseBody
     public ResponseImages sellerContentDeleteImage(@ModelAttribute("id") Long imageId,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
 		if(validator.validateSellerContentImage(ownerId)){
-			imageService.deleteSellerContentImage(imageId,ownerId);	
+			imageService.deleteSellerContentImage(ownerId);	
 			return reloadSellerContentImages(ownerId);
 		}else{
 			return responseError();
 		}
 	}
 
-	//<img src="">
 	@RequestMapping(value = {"/product/image/{id}/*","/product/image/{id}","/seller/image/{id}/*","/seller/image/{id}","/sellercontent/image/{id}/*","/sellercontent/image/{id}"})
 	@ResponseBody
     public byte[] getImage(@PathVariable("id")Long id)throws BusinessException {
@@ -198,7 +194,7 @@ public class ImagesController {
 	}
 	
 	/*Metodi per ricaricare le immagini ogni volta che si effettua una CRUD*/
-	/*Necessario differenziare ResponseImages in prod e selr e selr_content per poter passare i giusti parametri al javascript (images.js) function ProcessJson*/
+	/*Necessario differenziare ResponseImages in product e seller e sellercontent per poter passare i giusti parametri al javascript (images.js) function ProcessJson*/
 	public ResponseImages reloadProductImages(long prodId) throws BusinessException{
 		Collection<Image> ri = imageService.getProductImages(prodId);
 		List<Image> l = new ArrayList<Image>(ri);
@@ -224,7 +220,5 @@ public class ImagesController {
 		r.setTrueData(false);
 		return r;
 	}
-	
-
 
 }

@@ -96,12 +96,6 @@ public class ProductsController {
 	@RequestMapping("/create_start")
 	public String createStart(Model model) throws BusinessException {
 		model.addAttribute("product", new Product());
-		List<Category> categories = productService.findAllCategories();
-		model.addAttribute("categories", categories);
-		if(loggedUser.isAdmin()){
-			List<Seller> sellers = userService.getAllSellers();
-			model.addAttribute("sellers", sellers);
-		}
 		return "products.createform";
 	}
 	
@@ -110,7 +104,7 @@ public class ProductsController {
 	public String create(@ModelAttribute Product product, BindingResult bindingResult) throws BusinessException {
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
-			return  loggedUser.isAdmin() ? "products.createformbyadmin" : "products.createform";
+			return "products.createform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
 		productService.createProduct(product,sellerid);
@@ -121,20 +115,10 @@ public class ProductsController {
 	@RequestMapping("/update_start")
 	public String updateStart(@RequestParam("id") Long id, Model model) throws BusinessException {
 		Product product = productService.findProductById(id);
-		
-		System.out.println("RATING A START "+product.getRating().getAbsoluteRating());
-		
-		List<Category> categories = productService.findAllCategories();
-		model.addAttribute("categories", categories);
 		model.addAttribute("product", product);
 		model.addAttribute("id", id);
-		
 		/* Il rating non va modificato nel form ma il suo valore dev'essere recuperato per far si che non sia impostato a null */
 		model.addAttribute("ratingId",product.getRating().getId());
-		if(loggedUser.isAdmin()){
-			List<Seller> sellers = userService.getAllSellers();
-			model.addAttribute("sellers", sellers);
-		}
 		return "products.updateform";	
 	}
 	
@@ -144,7 +128,7 @@ public class ProductsController {
 		
 		validator.validate(product, bindingResult);
 		if (bindingResult.hasErrors()){
-			return  loggedUser.isAdmin() ? "products.updateformbyadmin" : "products.updateform";
+			return "products.updateform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
 
@@ -316,5 +300,10 @@ public class ProductsController {
 		model.addAttribute("measures", measures);
 	}
 
+	@ModelAttribute
+	public void findAllSellers(Model model) throws BusinessException {
+		List<Seller> sellers = userService.getAllSellers();
+		model.addAttribute("sellers", sellers);
+	}
 	
 }
