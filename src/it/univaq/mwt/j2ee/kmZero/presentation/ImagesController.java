@@ -182,7 +182,7 @@ public class ImagesController {
 	@ResponseBody
     public ResponseImages sellerContentDeleteImage(@ModelAttribute("id") Long imageId,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
 		if(validator.validateSellerContentImage(ownerId)){
-			imageService.deleteSellerContentImage(imageId,ownerId);	
+			imageService.deleteSellerContentImage(ownerId);	
 			return reloadSellerContentImages(ownerId);
 		}else{
 			return responseError();
