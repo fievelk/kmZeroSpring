@@ -45,7 +45,7 @@ public class Product implements Serializable {
 	@Id
 	@Column(name="product_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "products_seq")
-	@SequenceGenerator(name = "products_seq")
+	@SequenceGenerator(name = "products_seq", allocationSize=1)
 	private long id;
 
 	@Column(name="name", nullable=false)
@@ -87,7 +87,7 @@ public class Product implements Serializable {
 	@Column(name="ratingvotes")
 	private int ratingVotes; */
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;

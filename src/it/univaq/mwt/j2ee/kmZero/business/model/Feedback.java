@@ -25,7 +25,7 @@ public class Feedback implements Serializable {
 	@Id
 	@Column(name="feedback_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "feedbacks_seq")
-	@SequenceGenerator(name = "feedbacks_seq")
+	@SequenceGenerator(name = "feedbacks_seq", allocationSize=1)
 	private long id;
 	
 	@Column(name="feedback_content",length = 1000)

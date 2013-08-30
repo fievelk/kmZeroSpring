@@ -34,7 +34,7 @@
             <span>
 
               <!-- item details with price -->
-              <a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">0 <spring:message code="common.productsInYour"/> <i class="icon-shopping-cart"></i></a> -<span class="bold"> 0 &euro;</span>   
+              <a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">0 <spring:message code="common.productsInYour"/> <i class="icon-shopping-cart"></i></a> -<span id="tot" class="bold"> 0 &euro;</span>   
 
             </span>
 

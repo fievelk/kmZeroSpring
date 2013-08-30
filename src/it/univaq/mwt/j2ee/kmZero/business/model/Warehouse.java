@@ -15,7 +15,7 @@ public class Warehouse {
 	@Id
 	@Column(name="warehouse_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "warehouses_seq")
-	@SequenceGenerator(name = "warehouses_seq")
+	@SequenceGenerator(name = "warehouses_seq", allocationSize=1)
 	private long id;
 
 	@Column(name="name", nullable=false)

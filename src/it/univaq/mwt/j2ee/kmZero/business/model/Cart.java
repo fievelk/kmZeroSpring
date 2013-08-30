@@ -35,7 +35,7 @@ public class Cart implements Serializable{
 	@Id
 	@Column(name="cart_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "carts_seq")
-	@SequenceGenerator(name = "carts_seq")
+	@SequenceGenerator(name = "carts_seq", allocationSize=1)
 	private long id;
 	
 	@Column(name="session_id")
