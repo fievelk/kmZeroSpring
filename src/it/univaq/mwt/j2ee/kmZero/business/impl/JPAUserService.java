@@ -1,19 +1,13 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -22,17 +16,14 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Password;
-import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
@@ -42,20 +33,17 @@ import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 @Service
 public class JPAUserService implements UserService{
 
-	@PersistenceUnit
-	private EntityManagerFactory emf;
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
+	@Transactional
 	public void createUser(User user) throws BusinessException {
 		Password password = user.getPassword();
 		password.setPassword(DigestUtils.md5Hex(password.getPassword()));
 		user.setPassword(password);
 		user.setCreated(new Date());
 		
-		EntityManager em = emf.createEntityManager();
-		
-		EntityTransaction et = em.getTransaction();
-		et.begin();
 		// Setting del ruolo
 		Role u = em.find(Role.class, 2);
 		Set<Role> roles = new HashSet<Role>();
@@ -63,19 +51,11 @@ public class JPAUserService implements UserService{
 		user.setRoles(roles);
 		
 		em.persist(user);
-		et.commit();
-		
-		em.close();
-		
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(User user) throws BusinessException {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction et = em.getTransaction();
-        
-        et.begin();
-        
         Query query = em.createQuery("UPDATE User SET name= :name, surname= :surname, email= :email, " +
 				"date_of_birth= :date_of_birth, address= :address WHERE id= :id");
 		query.setParameter("name", user.getName());
@@ -85,31 +65,17 @@ public class JPAUserService implements UserService{
 		query.setParameter("address", user.getAddress());
 		query.setParameter("id", user.getId());
 		query.executeUpdate();
-        
-        et.commit();
-        em.close();
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(User user) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
 		em.remove(em.merge(user));
-		et.commit();
-		em.close();	
 	}
 	
 	@Override
 	public User findUserById(long id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
 		User user = em.find(User.class, id);
-		et.commit();
-		em.close();
 		
 		return user;
 	}
@@ -122,12 +88,6 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("u." + requestGrid.getSortCol());
 		}
 		
-		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("kmz");
-        EntityManager em = emf.createEntityManager();
-        
-        EntityTransaction et = em.getTransaction();
-        et.begin();
-        
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
         
@@ -145,23 +105,16 @@ public class JPAUserService implements UserService{
 		Query count = em.createQuery("SELECT COUNT (u) FROM User u");
 		Long records = (Long) count.getSingleResult();
         
-        et.commit();
-        em.close();
-		
-		return new ResponseGrid<User>(requestGrid.getsEcho(), records, records, users);
+        return new ResponseGrid<User>(requestGrid.getsEcho(), records, records, users);
 	}
 
 	@Override
+	@Transactional
 	public void createSeller(Seller seller) throws BusinessException {
 		Password password = seller.getPassword();
 		password.setPassword(DigestUtils.md5Hex(password.getPassword()));
 		seller.setPassword(password); 
 		seller.setCreated(new Date());
-		
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
 		
 		// Setting del ruolo
 		Role u = em.find(Role.class, 2);
@@ -170,17 +123,11 @@ public class JPAUserService implements UserService{
 		seller.setRoles(roles);
 		
 		em.persist(seller);
-		et.commit();
-		
-		em.close();
 	}
 
 	@Override
+	@Transactional
 	public void updateSeller(Seller seller) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
 				"date_of_birth= :date_of_birth, address= :address, url= :url, phone= :phone WHERE id= :id");
 		query.setParameter("name", seller.getName());
@@ -192,18 +139,11 @@ public class JPAUserService implements UserService{
 		query.setParameter("phone", seller.getPhone());
 		query.setParameter("id", seller.getId());
 		query.executeUpdate();
-		
-		et.commit();
-		em.close();
 	}
 
 	@Override
+	@Transactional
 	public void updateSellerByAdmin(Seller seller) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
-		
 		// Effettua il cambio del ruolo del seller e, nel caso dell'abilitazione, la creazione della relativa pagina
 		if (seller.getEnable()) {
 			Role s = em.find(Role.class, 1);
@@ -227,49 +167,30 @@ public class JPAUserService implements UserService{
 		seller.setCreated(old_seller.getCreated());
 		
 		em.merge(seller);
-		et.commit();
-		em.close();
 	}
 
 	@Override
+	@Transactional
 	public void deleteSeller(Seller seller) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
 		em.remove(em.merge(seller));
-		et.commit();
-		em.close();
-		
 	}
 
 	@Override
+	@Transactional
 	public void upgradeSeller(Seller seller) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
-		et.begin();
 		User user = em.find(User.class, seller.getId());
 		seller.setPassword(user.getPassword());
 		seller.setLast_access(user.getLast_access());
 		seller.setCreated(user.getCreated());
 		
 		em.remove(em.merge(user));
-		et.commit();
 		
-		et.begin();
 		em.merge(seller);
-		et.commit();
-		em.close();
 	}
 
 	@Override
 	public Seller findSellerById(long id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
 		Seller seller = em.find(Seller.class, id);
-		et.commit();
-		em.close();
 		return seller;
 	}
 
@@ -282,11 +203,6 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("s." + requestGrid.getSortCol());
 		}
 		
-        EntityManager em = emf.createEntityManager();
-        
-        EntityTransaction et = em.getTransaction();
-        et.begin();
-        
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
         
@@ -302,10 +218,7 @@ public class JPAUserService implements UserService{
 		Query count = em.createQuery("SELECT COUNT (s) FROM Seller s");
 		Long records = (Long) count.getSingleResult();
         
-        et.commit();
-        em.close();
-		
-		return new ResponseGrid<Seller>(requestGrid.getsEcho(), records, records, sellers);
+        return new ResponseGrid<Seller>(requestGrid.getsEcho(), records, records, sellers);
 	}
 	
 	@Override
@@ -317,11 +230,6 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("s." + requestGrid.getSortCol());
 		}
 		
-        EntityManager em = emf.createEntityManager();
-        
-        EntityTransaction et = em.getTransaction();
-        et.begin();
-        
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
         
@@ -337,54 +245,33 @@ public class JPAUserService implements UserService{
 		Query count = em.createQuery("SELECT COUNT (s) FROM Seller s");
 		Long records = (Long) count.getSingleResult();
         
-        et.commit();
-        em.close();
-		
-		return new ResponseGrid<Seller>(requestGrid.getsEcho(), records, records, sellers);
+        return new ResponseGrid<Seller>(requestGrid.getsEcho(), records, records, sellers);
 	}
 
 	@Override
+	@Transactional
 	public void editPassword(long id, String password) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		User user = em.find(User.class, id);
 		Password p = new Password();
 		p.setPassword(DigestUtils.md5Hex(password));
 		user.setPassword(p);
-		em.merge(user);
 		
-		et.commit();
-		em.close();
+		em.merge(user);
 	}
 
 	@Override
 	public String oldPassword(long id) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		User user = em.find(User.class, id);
 		String db_password = user.getPassword().getPassword();
-		
-		et.commit();
-		em.close();
 		
 		return db_password;
 	}
 
 	@Override
 	public List<Seller> viewAllSellers() throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		et.begin();
-		
 		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
 		List<Seller> sellers = query.getResultList();
 		
-		et.commit();
-		em.close();
 		return sellers;
 	}
 
@@ -394,67 +281,32 @@ public class JPAUserService implements UserService{
 		return null;
 	}
 
-//	@Override
-//	public void editSellerContent(Seller seller) throws BusinessException {
-//		EntityManager em = emf.createEntityManager();
-//		EntityTransaction et = em.getTransaction();
-//		et.begin();
-//		
-////		Seller s = em.find(Seller.class, seller.getId());
-////		s.setContents(seller.getContents());
-//		em.merge(seller);
-//		
-//		et.commit();
-//		em.close();
-//	}
-
 	@Override
 	public boolean emailExist(String email) throws BusinessException {
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction et = em.getTransaction();
-		
 		boolean exist = true;
-		et.begin();
-		
 		Query query = em.createQuery("Select u FROM User u WHERE u.email = :email");
         query.setParameter("email", email);
-        
         try {
         	query.getSingleResult();
         } catch (NoResultException e){
         	exist = false;
         }
-        
-		et.commit();
-		em.close();
-		
-		return exist;
+        return exist;
 	}
 
 	/*SELLER CONTENTS*/
 	
 	@Override
 	public boolean checkSellerContentProperty(long sellerId, long sellerContentId) throws BusinessException{
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
 		SellerContent sc = em.find(SellerContent.class, sellerContentId);
 		long id = sc.getSeller().getId();
-		tx.commit();
 		return (id == sellerId);
-		
 	}
 
 	@Override
-	public ResponseGrid<SellerContent> viewAllPageContentsPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		
-	    tx.begin();
-	    
-	    //Dati per la query
+	public ResponseGrid<SellerContent> viewAllPageContentsPaginated(RequestGrid requestGrid,long seller_id) 
+			throws BusinessException {
+		//Dati per la query
         String sortCol = requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
@@ -504,91 +356,60 @@ public class JPAUserService implements UserService{
         query.setFirstResult(minRows);
         List<SellerContent> sellercontents = query.getResultList();
       
-        tx.commit();
-        em.close();
-        
-		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, sellercontents);
+        return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, sellercontents);
 	}
 
 	@Override
+	@Transactional
 	public void createPageContent(SellerContent content, long userId) throws BusinessException{
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-	    tx.begin();
-	  
-	    	Seller s = em.find(Seller.class,userId);
-	    	//prima associo il seller al content (owner della relazione)
-	    	content.setSeller(s);
-	    	//utilizzo il cascade definito nel seller per fare persistenza del contenuto
-	    	//non e' automatica l'associazione del content verso il seller quindi va esplicitata prima con content.setSeller(s);
-	    	s.addContent(content);
-	   
-	    tx.commit();
-	    em.close();	
+		Seller s = em.find(Seller.class,userId);
+    	//prima associo il seller al content (owner della relazione)
+    	content.setSeller(s);
+    	//utilizzo il cascade definito nel seller per fare persistenza del contenuto
+    	//non e' automatica l'associazione del content verso il seller quindi va esplicitata prima con content.setSeller(s);
+    	s.addContent(content);
 	}
 	
 
 
 	@Override
 	public SellerContent findSellerContentById(long id) throws BusinessException {
-		
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-	    tx.begin();
-	    SellerContent sc = em.find(SellerContent.class,id);
-	    tx.commit();
-	    em.close();
+		SellerContent sc = em.find(SellerContent.class,id);
 	    return sc;
 	}
 
 	@Override
+	@Transactional
 	public void updatePageContent(SellerContent content, long userId) throws BusinessException{
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-	    tx.begin();
-    	Seller s = em.find(Seller.class,userId);
+		Seller s = em.find(Seller.class,userId);
     	SellerContent sc = em.find(SellerContent.class, content.getId());
     	Image i = sc.getImage();
     	content.setSeller(s);
     	content.setImage(i);
     	em.merge(content);
-	    tx.commit();
-	    em.close();	
 	}
 
 	@Override
+	@Transactional
 	public void deletePageContent(long contentId, long userId) throws BusinessException{
-		EntityManager em = this.emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-	    tx.begin();
-	    	SellerContent sc = em.find(SellerContent.class,contentId);
-	    	Seller s = em.find(Seller.class, userId);
-	    	s.getContents().remove(sc);
-	    tx.commit();
-	    em.close();	
-		
+    	SellerContent sc = em.find(SellerContent.class,contentId);
+    	Seller s = em.find(Seller.class, userId);
+    	s.getContents().remove(sc);
 	}
 	
 	/*Featured Items*/
 
 	@Override
 	public List<Seller> getFavouriteSellers() throws BusinessException{
-		EntityManager em = this.emf.createEntityManager();
 		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
 		List<Seller> sellers = query.getResultList();
-		em.close();
 		return sellers;
 	}
 
 	@Override
 	public List<Seller> getAllSellers() throws BusinessException{
-		EntityManager em = this.emf.createEntityManager();
 		TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s WHERE s.enable=1", Seller.class);
 		List<Seller> sellers = query.getResultList();
-		em.close();
 		return sellers;
 	}
-
-
-
 }
