@@ -313,5 +313,14 @@ public class JPACartService implements CartService{
 		
 		return rating;
 	}
+
+	@Override
+	@Transactional
+	public void emptyCart(long cartId) throws BusinessException {
+		Cart cart = em.find(Cart.class, cartId);
+		cart.setCartLines(null);
+		em.merge(cart);
+		em.getEntityManagerFactory().getCache().evictAll();
+	}
 	
 }

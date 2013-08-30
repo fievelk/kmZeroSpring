@@ -168,11 +168,12 @@ public class CartsController {
 				j++;
 			}
 			cart.setCartLines(cartLines);
-			if (cart.getCartLines().size() == 0){
+			session.setAttribute("cart", cart);
+			/*if (cart.getCartLines().size() == 0){
 				session.setAttribute("cart", cart);
 			} else {
 				session.setAttribute("cart", cart);
-			}
+			}*/
 		} else {
 			service.deleteCartLine(idCartLine, idCart);
 		}
@@ -222,4 +223,20 @@ public class CartsController {
 		service.createFeedback(cartLine, feedbackString);
 	}
 	
+	@RequestMapping("/emptycart")
+	@ResponseBody
+	public String emptyCart(@RequestParam("id") long cartId, HttpSession session) throws BusinessException {
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Cart cart = null;
+		if (s.equals("anonymousUser")){
+			cart = (Cart)session.getAttribute("cart");
+			Collection<CartLine> cls = cart.getCartLines();
+			cls.removeAll(cls);
+			cart.setCartLines(cls);
+			session.setAttribute("cart", cart);
+		} else {
+			service.emptyCart(cartId);
+		}
+		return null;
+	}
 }
