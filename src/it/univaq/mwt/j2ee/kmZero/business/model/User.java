@@ -43,7 +43,7 @@ public class User implements java.io.Serializable{
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "users_seq")
-	@SequenceGenerator(name = "users_seq")
+	@SequenceGenerator(name = "users_seq", allocationSize=1)
 	private long id;
 
 	@Column(name="name")

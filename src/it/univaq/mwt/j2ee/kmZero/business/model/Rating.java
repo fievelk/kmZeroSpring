@@ -23,7 +23,7 @@ public class Rating implements Serializable {
 	@Id
 	@Column(name="rating_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ratings_seq")
-	@SequenceGenerator(name = "ratings_seq")
+	@SequenceGenerator(name = "ratings_seq", allocationSize=1)
 	private long id;
 	
 	@Column(name="rating",scale=1)

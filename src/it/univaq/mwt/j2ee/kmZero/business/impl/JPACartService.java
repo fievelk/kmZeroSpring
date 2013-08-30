@@ -34,7 +34,7 @@ public class JPACartService implements CartService{
 	
 	@Override
 	@Transactional
-	public void createCart(String address, long id_product, int quantity, User user) throws BusinessException {
+	public Cart createCart(String address, long id_product, int quantity, User user) throws BusinessException {
 		Product p = em.find(Product.class, id_product);
 		CartLine cl = new CartLine();
 		cl.setProduct(p);
@@ -54,11 +54,13 @@ public class JPACartService implements CartService{
 		
 		em.persist(cl);
 		em.persist(c);
+		
+		return c;
 	}
 
 	@Override
 	@Transactional
-	public void addCartLine(long id_product, int quantity, User user) throws BusinessException {
+	public Cart addCartLine(long id_product, int quantity, User user) throws BusinessException {
 		Product p = em.find(Product.class, id_product);
 		CartLine cl = null;
 		Cart c = null;
@@ -102,6 +104,7 @@ public class JPACartService implements CartService{
     	}
 		
 		em.persist(c);
+		return c;
 	}
 
 	@Override
