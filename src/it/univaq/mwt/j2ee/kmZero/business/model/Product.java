@@ -31,7 +31,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -78,16 +77,7 @@ public class Product implements Serializable {
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 
-/*	@Column(name="rating", scale=1)
-	private float rating;
-	
-	@Column(name="absoluterating")
-	private int absoluteRating;
-	
-	@Column(name="ratingvotes")
-	private int ratingVotes; */
-
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;
