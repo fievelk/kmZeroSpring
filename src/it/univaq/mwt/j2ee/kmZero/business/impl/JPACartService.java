@@ -177,7 +177,6 @@ public class JPACartService implements CartService{
 		Cart cart = em.find(Cart.class, cart_id);
 		cart.setPaid(new Date());
 		cart.setTransaction_id(transaction_id);
-		cart.setSession_id(null);
 		em.merge(cart);
 	}
 

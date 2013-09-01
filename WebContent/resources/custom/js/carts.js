@@ -114,6 +114,9 @@ function existCart(id){
 			if (cart_id == 0 && exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
+				$('#address_autocompletedModal').val('');
+				$('#addressDistanceErrorModal').empty();
+				$('#successimgModal').remove();
 				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Aggiungi al Carrello</button>');
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 			} else {

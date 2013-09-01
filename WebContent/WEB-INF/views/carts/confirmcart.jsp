@@ -29,7 +29,7 @@
 	});
 </script>
 
-<security:authorize access="!isAuthenticated()">
+<%-- <security:authorize access="!isAuthenticated()">
 <div class="items">
 	<div class="container">
  	   <div class="row">
@@ -53,7 +53,7 @@
 </div>
 </security:authorize>
 
-<security:authorize access="isAuthenticated()">
+<security:authorize access="isAuthenticated()"> --%>
 <div class="span9">
 	<h5 class="title">Carrello</h5>
 	<div class="form form-small">
@@ -93,4 +93,4 @@
 		</form:form>
 	</div>
 </div>
-</security:authorize>
+<%-- </security:authorize> --%>
