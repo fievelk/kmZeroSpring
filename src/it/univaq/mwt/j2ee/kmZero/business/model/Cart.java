@@ -35,11 +35,8 @@ public class Cart implements Serializable{
 	@Id
 	@Column(name="cart_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "carts_seq")
-	@SequenceGenerator(name = "carts_seq", allocationSize=1)
+	@SequenceGenerator(name = "carts_seq", allocationSize=1, initialValue=2)
 	private long id;
-	
-	@Column(name="session_id")
-	private String session_id;
 	
 	@Column(name="transaction_id")
 	private String transaction_id;
@@ -85,12 +82,11 @@ public class Cart implements Serializable{
 	}
 
 	
-	public Cart(long id, String session_id, String transaction_id, Date created, Date dispatched, Date paid,
+	public Cart(long id, String transaction_id, Date created, Date dispatched, Date paid,
 			Date delivery_date,Collection<CartLine> cartLines, String address, String name,
 			String surname) {
 		super();
 		this.id = id;
-		this.session_id = session_id;
 		this.transaction_id = transaction_id;
 		this.created = created;
 		this.dispatched = dispatched;
@@ -109,21 +105,13 @@ public class Cart implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getSession_id() {
-		return session_id;
-	}
-	public void setSession_id(String session_id) {
-		this.session_id = session_id;
-	}
+	
 	public String getTransaction_id() {
 		return transaction_id;
 	}
-
-
 	public void setTransaction_id(String transaction_id) {
 		this.transaction_id = transaction_id;
 	}
-
 
 	@JsonSerialize(using=DateJsonSerializer.class)
 	public Date getCreated() {
