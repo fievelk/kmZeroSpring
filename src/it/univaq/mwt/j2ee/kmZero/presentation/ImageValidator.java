@@ -27,7 +27,6 @@ public class ImageValidator {
 	private UserService userService;
 
 
-	
 	public boolean validateSellerImage(long sellerId){
 		
 		return loggedUser.getUserDetails().getId() == sellerId || loggedUser.isAdmin();

@@ -16,20 +16,21 @@ $(document).ready(function() {
         
 <!-- Main content -->
       <div class="span9">
-      	<h5 class="title"><spring:message code="planning.usersdelivery"/></h5>
-		<div class="row-fluid">
-			<a href="#googleMap"><button class="btn" type="submit" onclick="calcRoute();"><spring:message code="planning.getDirections"/></button></a>
-		</div>
-		<br />
+      	<div class="row">
+	      	<h5 class="title"><spring:message code="planning.usersdelivery"/></h5>
+			<div class="row-fluid">
+				<a href="#googleMap"><button class="btn" type="submit" onclick="calcRoute();"><spring:message code="planning.getDirections"/></button></a>
+			</div>
+			<br />
 					<!-- Waypoints table -->
 		
  		<div class="container-fluid">
 			<div class="row-fluid">
-				<div class="span12 withBorder">
+				<div class="span9 withBorder">
 					<div class="span1"></div>
 					<div class="span1 centeredText"><b><spring:message code="cart.id"/></b></div>
-					<div class="span3 centeredText"><b><spring:message code="cart.delivery_date"/></b></div>
-					<div class="span7"><b><spring:message code="cart.address"/></b></div>
+					<div class="span2 centeredText"><b><spring:message code="cart.delivery_date"/></b></div>
+					<div class="span5"><b><spring:message code="cart.address"/></b></div>
 				</div>
 			</div>
 			<c:forEach items="${requestScope.cartsToDeliver}" var="cart">
@@ -37,15 +38,15 @@ $(document).ready(function() {
 				<div class="span12 withBorder coloredDiv">
 					<div class="span1"><input type="checkbox" name="waypoints" value="${cart.address}"></div>
 					<div class="span1 centeredText">${cart.id}</div>
-					<div class="span3 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}" /></div>
-					<div class="span7">${cart.address}</div>
+					<div class="span2 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}" /></div>
+					<div class="span5">${cart.address}</div>
 				</div>
 				<c:forEach items="${cart.cartLines}" var="cartLine">
 					<div class="row-fluid childOrder">
-						<div class="span12 withBorder">
+						<div class="span9 withBorder">
 							<div class="span2"></div>
 							<div class="span1 centeredText">Qt. <b>${cartLine.quantity}</b></div>
-							<div class="span9">${cartLine.product.name}</div>
+							<div class="span6">${cartLine.product.name}</div>
 						</div>
 					</div>
 				</c:forEach>

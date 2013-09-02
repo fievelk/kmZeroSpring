@@ -22,7 +22,7 @@ public class Image implements Serializable{
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "images_seq")
-	@SequenceGenerator(name = "images_seq")
+	@SequenceGenerator(name = "images_seq", allocationSize=1)
 	private long id;
 	
 	private String name;

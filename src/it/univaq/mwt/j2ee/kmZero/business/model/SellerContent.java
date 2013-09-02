@@ -25,7 +25,7 @@ public class SellerContent implements Serializable{
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "seller_contents_seq")
-	@SequenceGenerator(name = "seller_contents_seq")
+	@SequenceGenerator(name = "seller_contents_seq", allocationSize=1)
 	private long id;
 	@Column(name="title")
 	private String title;

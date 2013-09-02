@@ -1,6 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="categories")
-public class Category {
+public class Category implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "categories_seq") @Column(name="category_id")
 	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
-	@SequenceGenerator(name = "categories_seq")
+	@SequenceGenerator(name = "categories_seq", allocationSize=1)
 	private long id;
 	
 	//@Column(name="name")
@@ -45,6 +46,8 @@ public class Category {
 	@OneToMany(mappedBy="category")
 	@JsonBackReference("product-categories")
 	private List<Product> products = new ArrayList<Product>();
+	
+	private static final long serialVersionUID = 1L;
 
 	public Category() {
 		super();

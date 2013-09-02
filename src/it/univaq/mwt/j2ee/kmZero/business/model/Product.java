@@ -44,7 +44,7 @@ public class Product implements Serializable {
 	@Id
 	@Column(name="product_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "products_seq")
-	@SequenceGenerator(name = "products_seq")
+	@SequenceGenerator(name = "products_seq", allocationSize=1)
 	private long id;
 
 	@Column(name="name", nullable=false)
@@ -77,7 +77,7 @@ public class Product implements Serializable {
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;
@@ -169,34 +169,6 @@ public class Product implements Serializable {
 		this.seller = seller;
 	}
 
-	
-	
-/*	public Product(long id, String name, String description, BigDecimal price,
->>>>>>> branch 'master' of https://github.com/fievelk/kmZeroSpring.git
-			Date date_in, Date date_out, boolean active, Category category,
-			Collection<Image> images, float rating, int absoluteRating,
-			int ratingVotes, int stock, Measure measure, Seller seller,
-			int position) {
-		this(name,description,price,date_in,date_out,active,category,images,rating,absoluteRating,ratingVotes,stock,measure,seller,position);
-		this.id = id;
-<<<<<<< HEAD
-	}
-=======
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
-		this.active = active;
-		this.category = category;
-		this.images = images;
-		this.rating = rating;
-		this.stock = stock;
-		this.measure = measure;
-		this.seller = seller;
-		this.position = position;
-	} */
-
 
 	public long getId() {
 		return id;
@@ -240,16 +212,6 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-
-//	public float getRating() {
-//		return rating;
-//	}
-//
-//	public void setRating(float rating) {
-//		this.rating = rating;
-//	}
-
-
 	public boolean isActive() {
 		return active;
 	}
@@ -286,26 +248,11 @@ public class Product implements Serializable {
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
 	@JsonSerialize(using=PriceJsonSerializer.class)
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-//	public int getAbsoluteRating() {
-//		return absoluteRating;
-//	}
-//
-//	public void setAbsoluteRating(int absoluteRating) {
-//		this.absoluteRating = absoluteRating;
-//	}
-//
-//	public int getRatingVotes() {
-//		return ratingVotes;
-//	}
-//
-//	public void setRatingVotes(int ratingVotes) {
-//		this.ratingVotes = ratingVotes;
-//	}
 
 	public int getPosition() {
 		return position;
@@ -314,7 +261,6 @@ public class Product implements Serializable {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
 
 	public Collection<Image> getImages() {
 		return images;
@@ -363,7 +309,5 @@ public class Product implements Serializable {
 	public void setFeedbacks(Collection<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-
-
 
 }

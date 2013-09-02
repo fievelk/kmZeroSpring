@@ -275,17 +275,17 @@
     <!-- USERS TILES END -->
     
     <!-- CARTS BEGIN -->
-    <definition name="carts.confirm" extends="standard">
+    <definition name="carts.confirm" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/carts/confirmcart.jsp"/>
         <put-attribute name="action" value="/carts/confirmcart"/>
     </definition>
     
-    <definition name="carts.checkout" extends="standard">
+    <definition name="carts.checkout" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/carts/checkout.jsp"/>
         <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/>
     </definition>
     
-    <definition name="carts.paid" extends="standard">
+    <definition name="carts.paid" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/carts/paid.jsp"/>
         <!-- <put-attribute name="action" value="https://www.sandbox.paypal.com/cgi-bin/webscr"/> -->
     </definition>

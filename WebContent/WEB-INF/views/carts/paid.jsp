@@ -20,21 +20,16 @@ $(document).ready(function(){
 
 </script>
 
-<div class="items">
-	<div class="container">
-		<div class="row">
-			<div class="span9">
-			
-				<div class="control-group">
-					<label class="control-label" for="name"><b><spring:message code="cart.completedPayment" />.</b></label>
-					<br>
-					<label id="idtx"></label>
-					<label id="emailtx"></label>
-					<label class="control-label" for="name"><spring:message code="cart.thankYouForOrder" />. <br>
-					<spring:message code="cart.transactionMessage" /></label>
-					<a href="https://www.sandbox.paypal.com/it/cgi-bin/merchantpaymentweb?cmd=_account"><spring:message code="cart.accountInformations" /></a>
-				</div>
-			</div>
-		</div>
+
+<div class="span9">
+
+	<div class="control-group">
+		<label class="control-label" for="name"><h5><spring:message code="cart.completedPayment" />.</h5></label>
+		<br>
+		<label id="idtx"></label>
+		<label id="emailtx"></label>
+		<label class="control-label" for="name"><spring:message code="cart.thankYouForOrder" />. <br>
+		<spring:message code="cart.transactionMessage" /></label>
+		<a href="https://www.sandbox.paypal.com/it/cgi-bin/merchantpaymentweb?cmd=_account"><spring:message code="cart.accountInformations" /></a>
 	</div>
 </div>

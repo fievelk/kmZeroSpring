@@ -51,9 +51,10 @@ public class CartsController {
 	
 	@RequestMapping("/addressvalidated")
 	@ResponseBody
-	public String modalAddressStart(@RequestParam("address") String address, @RequestParam("id") long id_product, 
+	public ResponseCarts<CartLine> modalAddressStart(@RequestParam("address") String address, @RequestParam("id") long id_product, 
 			@RequestParam("quantity") int quantity, HttpSession session) throws BusinessException{
 		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Cart cart = null;
 		if (s.equals("anonymousUser")){
 			Product product = productService.findProductById(id_product);
 			CartLine cartLine = new CartLine();
@@ -62,16 +63,16 @@ public class CartsController {
 			cartLine.setLineTotal(product.getPrice().multiply(new BigDecimal(quantity)));
 			Collection<CartLine> cartLines = new ArrayList<CartLine>();
 			cartLines.add(cartLine);
-			Cart cart = new Cart();
+			cart = new Cart();
 			cart.setAddress(address);
 			cart.setCartLines(cartLines);
 			session.setAttribute("cart", cart);
 			
 		} else {
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			service.createCart(address, id_product, quantity, udi.getUser());
+			cart = service.createCart(address, id_product, quantity, udi.getUser());
 		}
-		return null;
+		return new ResponseCarts<CartLine> (cart.getId(), cart.getCartLines().size(), cart.getCartLines());
 	}
 	
 	@RequestMapping("/viewcartpaginated")
@@ -102,14 +103,15 @@ public class CartsController {
 	
 	@RequestMapping("/create")
 	@ResponseBody
-	public String addCartLine(@RequestParam("id") long id_product, @RequestParam("quantity") int quantity,
+	public ResponseCarts<CartLine> addCartLine(@RequestParam("id") long id_product, @RequestParam("quantity") int quantity,
 			HttpSession session) throws BusinessException{
+		Cart cart = null;
 		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		boolean clExist = false;
 		CartLine cl = null;
 		Product p = productService.findProductById(id_product);
-		Cart cart = (Cart)session.getAttribute("cart");
 		if (s.equals("anonymousUser")){
+			cart = (Cart)session.getAttribute("cart");
 			Collection<CartLine> cartLines = new ArrayList<CartLine>();
 			cartLines = cart.getCartLines();
 			Iterator<CartLine> i = cartLines.iterator();
@@ -141,10 +143,10 @@ public class CartsController {
 	    	}
 		} else {
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			service.addCartLine(id_product, quantity, udi.getUser());
+			cart = service.addCartLine(id_product, quantity, udi.getUser());
 		}
 		
-		return null;
+		return new ResponseCarts<CartLine> (cart.getId(), cart.getCartLines().size(), cart.getCartLines());
 	}
 	
 	@RequestMapping("/delete_cartline")
@@ -166,11 +168,12 @@ public class CartsController {
 				j++;
 			}
 			cart.setCartLines(cartLines);
-			if (cart.getCartLines().size() == 0){
+			session.setAttribute("cart", cart);
+			/*if (cart.getCartLines().size() == 0){
 				session.setAttribute("cart", cart);
 			} else {
 				session.setAttribute("cart", cart);
-			}
+			}*/
 		} else {
 			service.deleteCartLine(idCartLine, idCart);
 		}
@@ -220,4 +223,20 @@ public class CartsController {
 		service.createFeedback(cartLine, feedbackString);
 	}
 	
+	@RequestMapping("/emptycart")
+	@ResponseBody
+	public String emptyCart(@RequestParam("id") long cartId, HttpSession session) throws BusinessException {
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Cart cart = null;
+		if (s.equals("anonymousUser")){
+			cart = (Cart)session.getAttribute("cart");
+			Collection<CartLine> cls = cart.getCartLines();
+			cls.removeAll(cls);
+			cart.setCartLines(cls);
+			session.setAttribute("cart", cart);
+		} else {
+			service.emptyCart(cartId);
+		}
+		return null;
+	}
 }

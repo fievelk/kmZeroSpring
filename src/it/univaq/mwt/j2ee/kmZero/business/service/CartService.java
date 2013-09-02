@@ -13,9 +13,9 @@ import it.univaq.mwt.j2ee.kmZero.business.model.User;
 
 public interface CartService {
 	
-	void createCart(String address, long id_product, int quantity, User user) throws BusinessException;
+	Cart createCart(String address, long id_product, int quantity, User user) throws BusinessException;
 	
-	void addCartLine(long id_product, int quantity, User user) throws BusinessException;
+	Cart addCartLine(long id_product, int quantity, User user) throws BusinessException;
 	
 	void deleteCartLine(long id_cartline, long id_cart) throws BusinessException;
 	
@@ -50,5 +50,7 @@ public interface CartService {
 	ResponseCarts<CartLine> persistCartSession(Cart cart, User user) throws BusinessException;
 
 	Rating findRatingById(long ratingId) throws BusinessException;
+	
+	void emptyCart(long cartId) throws BusinessException;
 
 }

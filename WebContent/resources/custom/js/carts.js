@@ -11,7 +11,15 @@ $(document).ready(function(){
 
 function cartExistJson(data){
 	var exist = data.exist;
-	$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
+	var cartlines = data.cartlines;
+	var tot = 0;
+	if (cartlines != null){
+		$.each(cartlines,function(i,item){
+			tot += parseFloat(item.lineTotal);
+		});
+	}
+	$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
+	$('span#tot').replaceWith('<span id="tot" class="bold"> ' + tot.toFixed(2) + ' &euro;</span>');
 }
 
 
@@ -21,10 +29,10 @@ function createModalCart(){
 		url: contextPath+"/carts/viewcartpaginated",
 		success: function(data){
 			var exist = data.exist;
-			$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');
 			if (exist == 0){
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
-				$('a#checkout').replaceWith('<a id=checkout></a>');
+				$('a#checkout').replaceWith('<a id="checkout"></a>');
+				$('a#emptycart').replaceWith('<a id="emptycart"></a>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
 				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
 			} else {
@@ -53,7 +61,8 @@ function cartJson(data)  {
 	});
 	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
-	$('a#checkout').replaceWith('<a id="checkout" href="' + contextPath + '/carts/confirmcart_start.do?id=' + data.id + '" class="btn btn-danger">Vai alla cassa</a>');
+	$('a#checkout').replaceWith('<a id="checkout" href="' + contextPath + '/carts/confirmcart_start?id=' + data.id + '" class="btn btn-danger">Vai alla cassa</a>');
+	$('a#emptycart').replaceWith('<a id="emptycart" href="#" class="btn" onclick="emptyCart('+ data.id +')">Svuota il Carrello</a>');
 }
 
 function checkoutCart(){
@@ -79,7 +88,7 @@ function checkoutJson(data)  {
 	});
 	$('tbody#cartlinesconfirmed').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
-	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot + '">');
+	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot.toFixed(2) + '">');
 }
 
 
@@ -89,6 +98,67 @@ function deleteCartLine(id_item, id_tr, id_cart){
 		url: contextPath+"/carts/delete_cartline?idcartline=" + id_item + "&idcart=" + id_cart + "&idanonymous=" + id_tr,
 		success: function(data){
 			$('tr#'+id_tr).fadeOut('slow', function() {$('tr#'+id_tr).remove(); createModalCart();});
+		}
+	});
+	minimalCart();
+}
+
+function existCart(id){
+	
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/viewcartpaginated",
+		success: function(data){
+			var cart_id = data.id;
+			var exist = data.exist;
+			if (cart_id == 0 && exist == 0){
+				// fai partire la finestra modale per l'indirizzo
+				$('#modalDialogAddress').modal('show');
+				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Aggiungi al Carrello</button>');
+				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
+			} else {
+				// L'indirizzo è già stato validato
+				addCartLine(id);
+			};
+		}
+	});
+};
+
+function validAddress(id){
+	var address = $('#address_autocompletedModal').val();
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/addressvalidated?id=" + id + "&quantity=" + quantity + "&address=" + address,
+		success: cartExistJson
+	});
+};
+
+function addCartLine(id){
+	var quantity = $('#'+id).val();
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/create?id=" + id + "&quantity=" + quantity,
+		success: cartExistJson
+	});
+};
+
+function minimalCart(){
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/viewcartpaginated",
+		success: cartExistJson
+	});
+}
+
+function emptyCart(id){
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/emptycart?id=" + id,
+		success: function(data){
+			createModalCart();
+			$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + 0 + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
+			$('span#tot').replaceWith('<span id="tot" class="bold"> ' + 0.00 + ' &euro;</span>');
 		}
 	});
 }
