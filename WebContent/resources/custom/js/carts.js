@@ -120,7 +120,7 @@ function existCart(id){
 				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Aggiungi al Carrello</button>');
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
 			} else {
-				// L'indirizzo è già stato validato
+				// L'indirizzo e' gia' stato validato
 				addCartLine(id);
 			};
 		}

@@ -1,7 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -59,11 +57,11 @@ public class JPAUserService implements UserService{
 	@Transactional
 	public void updateUser(User user) throws BusinessException {
         Query query = em.createQuery("UPDATE User SET name= :name, surname= :surname, email= :email, " +
-				"date_of_birth= :date_of_birth, address= :address WHERE id= :id");
+				"dateOfBirth= :dateOfBirth, address= :address WHERE id= :id");
 		query.setParameter("name", user.getName());
 		query.setParameter("surname", user.getSurname());
 		query.setParameter("email", user.getEmail());
-		query.setParameter("date_of_birth", user.getDate_of_birth());
+		query.setParameter("dateOfBirth", user.getDateOfBirth());
 		query.setParameter("address", user.getAddress());
 		query.setParameter("id", user.getId());
 		query.executeUpdate();
@@ -96,14 +94,12 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("u." + requestGrid.getSortCol());
 		}
 		
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
         
-		TypedQuery<User> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.User (u.id, u.name, u.surname, u.email, u.created, u.date_of_birth, u.last_access, u.address) FROM User u" +
+		TypedQuery<User> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.User (u.id, u.name, u.surname, u.email, u.created, u.dateOfBirth, u.lastAccess, u.address) FROM User u" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND u.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), User.class);
-		
-		//System.out.println("Questa e' la query:" + query);
 		
 		query.setMaxResults(maxRows);
 		query.setFirstResult(minRows);
@@ -136,20 +132,18 @@ public class JPAUserService implements UserService{
 	@Override
 	@Transactional
 	public void updateSeller(Seller seller) throws BusinessException {
-		System.out.println("HERE");	
 		
-		em.merge(seller);
-		/*Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
-				"date_of_birth= :date_of_birth, address= :address, url= :url, phone= :phone WHERE id= :id");
+		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
+				"dateOfBirth= :dateOfBirth, address= :address, url= :url, phone= :phone WHERE id= :id");
 		query.setParameter("name", seller.getName());
 		query.setParameter("surname", seller.getSurname());
 		query.setParameter("email", seller.getEmail());
-		query.setParameter("date_of_birth", seller.getDate_of_birth());
+		query.setParameter("dateOfBirth", seller.getDateOfBirth());
 		query.setParameter("address", seller.getAddress());
 		query.setParameter("url", seller.getUrl());
 		query.setParameter("phone", seller.getPhone());
 		query.setParameter("id", seller.getId());
-		query.executeUpdate();*/
+		query.executeUpdate();
 	}
 
 	@Override
@@ -169,7 +163,7 @@ public class JPAUserService implements UserService{
 		}
 		Seller s = em.find(Seller.class, seller.getId());
 		seller.setPassword(s.getPassword());
-		seller.setLast_access(s.getLast_access());
+		seller.setLastAccess(s.getLastAccess());
 		seller.setCreated(s.getCreated());
 		seller.setImages(s.getImages());
 		seller.setContents(s.getContents());
@@ -193,7 +187,7 @@ public class JPAUserService implements UserService{
 	public void upgradeSeller(Seller seller) throws BusinessException {
 		User user = em.find(User.class, seller.getId());
 		seller.setPassword(user.getPassword());
-		seller.setLast_access(user.getLast_access());
+		seller.setLastAccess(user.getLastAccess());
 		seller.setCreated(user.getCreated());
 		
 		em.remove(em.merge(user));
@@ -216,8 +210,8 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("s." + requestGrid.getSortCol());
 		}
 		
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
         
 		TypedQuery<Seller> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.Seller (s.id, s.name, s.surname, s.p_iva, s.company, s.phone) FROM Seller s WHERE s.enable=0" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND s.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
@@ -243,8 +237,8 @@ public class JPAUserService implements UserService{
 			requestGrid.setSortCol("s." + requestGrid.getSortCol());
 		}
 		
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
         
 		TypedQuery<Seller> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.Seller (s.id, s.name, s.surname, s.p_iva, s.company, s.phone) FROM Seller s WHERE s.enable=1" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND s.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
@@ -275,9 +269,9 @@ public class JPAUserService implements UserService{
 	@Override
 	public String oldPassword(long id) throws BusinessException {
 		User user = em.find(User.class, id);
-		String db_password = user.getPassword().getPassword();
+		String dbPassword = user.getPassword().getPassword();
 		
-		return db_password;
+		return dbPassword;
 	}
 
 	@Override
@@ -288,11 +282,6 @@ public class JPAUserService implements UserService{
 		return sellers;
 	}
 
-	@Override
-	public List<Seller> getSellersFromPaidCarts() throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean emailExist(String email) throws BusinessException {
@@ -322,8 +311,8 @@ public class JPAUserService implements UserService{
 		//Dati per la query
         String sortCol = requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
         String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
         //Criteria Builder
@@ -369,7 +358,7 @@ public class JPAUserService implements UserService{
         query.setFirstResult(minRows);
         List<SellerContent> sellercontents = query.getResultList();
       
-        return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, sellercontents);
+        return new ResponseGrid<SellerContent>(requestGrid.getsEcho(), totalRecords, totalRecords, sellercontents);
 	}
 
 	@Override
@@ -383,7 +372,6 @@ public class JPAUserService implements UserService{
     	s.addContent(content);
 	}
 	
-
 
 	@Override
 	public SellerContent findSellerContentById(long id) throws BusinessException {
@@ -410,7 +398,7 @@ public class JPAUserService implements UserService{
     	s.getContents().remove(sc);
 	}
 	
-	/*Featured Items*/
+	/*Prodotti in evidenza*/
 
 	@Override
 	public List<Seller> getFavouriteSellers() throws BusinessException{

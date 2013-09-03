@@ -1,7 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
-import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
@@ -11,37 +9,15 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Password;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
-
-import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
-
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-
-
-
-
-
-
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,18 +50,10 @@ public class JPATestService implements TestService{
 		em.persist(r3);
 		
 		
-		Seller s1 = new Seller("pippo", "goofy", "pippo@gmail.com", null, new Date(), null, "topolinia", "78969678", "87696879", null, null, null, true);
-		Seller s2 = new Seller("topolino", "lalala", "topolino@gmail.com", null, new Date(), null, "topolinia", "78969678", "87696879", null, null, null, true);
+		Seller s1 = new Seller("Pippo", "Goofy", "pippo@gmail.com", null, new Date(), null, "Via delle Napee, Francavilla Al Mare, CH, Italia", "78969678", "87696879", null, null, null, true);
+		Seller s2 = new Seller("Topolino", "Mickey", "topolino@gmail.com", null, new Date(), null, "Via delle Piscine, Sant'agata, PE, Italia", "78969678", "87696879", null, null, null, true);
 
-		User u2 = new User("federico", "federico","federico@gmail.com", null , new Date(), null, "via paganica");
-		Seller s = new Seller ("3453", "fff3254", "fedecompany", "www.fede.it", "385784");
-		s.setName(u2.getName());
-		s.setSurname(u2.getSurname());
-		s.setEmail(u2.getEmail());
-		s.setAddress(u2.getAddress());
-		s.setCreated(new Date());
-		s.setEnable(true);
-		User u3 = new User("admin", "admin", "admin@email.it", null, new Date(), null, "via, admin 1");
+		User u3 = new User("admin", "admin", "admin@email.it", null, new Date(), null, "Via dei Tigli, Brecciarola, CH, Italia");
 		Password p1 = new Password();
 		Password p2 = new Password();
 		Password p3 = new Password();
@@ -97,30 +65,17 @@ public class JPATestService implements TestService{
 		p4.setPassword(DigestUtils.md5Hex("t"));
 
 		s1.setPassword(p1);
-		u2.setPassword(p2);
-
-			
-		s.setPassword(p2);
 
 		u3.setPassword(p3);
 
 		s2.setPassword(p4);
 		s1.setRoles(rs1);
 		s2.setRoles(rs1);
-		u2.setRoles(rs2);
-
-
-		s.setRoles(rs2);
 
 		u3.setRoles(rs3);
-   
 
 		em.persist(s1);
 		em.persist(s2);
-		em.persist(u2);
-			
-
-		em.persist(s);
 
 		em.persist(u3);
 
@@ -177,7 +132,7 @@ public class JPATestService implements TestService{
 		    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
 		    											"LEFT JOIN cl.cart c " +
 		    											"LEFT JOIN cl.product p " +
-		    											"WHERE p.seller = :seller AND c.delivery_date = null",CartLine.class);
+		    											"WHERE p.seller = :seller AND c.deliveryDate = null",CartLine.class);
 		    query.setParameter("seller", s);
 	        List<CartLine> rs = query.getResultList();
 	        return rs;

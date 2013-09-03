@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.persistence.Query;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
@@ -25,16 +22,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.util.CookieGenerator;
 
 @Controller
 @RequestMapping("/carts")
@@ -91,7 +84,7 @@ public class CartsController {
 		} else {
 			UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			/* Questo controllo viene fatto in modo che, se l'utente fa un carrello in "anonimo", se dovesse effettuare il login,
-			 * potrà ritrovarselo */
+			 * potra' ritrovarselo */
 			if (cart != null && cart.getId() < 2){
 				result = service.persistCartSession(cart, udi.getUser());
 			} else {
@@ -116,7 +109,7 @@ public class CartsController {
 			Collection<CartLine> cartLines = new ArrayList<CartLine>();
 			cartLines = cart.getCartLines();
 			Iterator<CartLine> i = cartLines.iterator();
-	    	// ciclo la collection per vedere se quella cartline c'e' gia' oppure no, se c'e' aggiorno quantità e linetotal
+	    	// ciclo la collection per vedere se quella cartline c'e' gia' oppure no, se c'e' aggiorno quantita' e linetotal
 	    	while (i.hasNext() && !clExist){
 	    		CartLine temp = i.next();
 	    		if (temp.getProduct().getId() == id_product){
@@ -170,11 +163,6 @@ public class CartsController {
 			}
 			cart.setCartLines(cartLines);
 			session.setAttribute("cart", cart);
-			/*if (cart.getCartLines().size() == 0){
-				session.setAttribute("cart", cart);
-			} else {
-				session.setAttribute("cart", cart);
-			}*/
 		} else {
 			service.deleteCartLine(idCartLine, idCart);
 		}
@@ -201,13 +189,14 @@ public class CartsController {
 		if (bindingResult.hasErrors()){
 			return "carts.confirm";
 		}
-		service.confirmCart(cart.getId(), cart.getDelivery_date());
+		service.confirmCart(cart.getId(), cart.getDeliveryDate());
 		return "carts.checkout";
 	}
-	
+
+	// tx e cm sono parametri standard di Paypal
 	@RequestMapping("/paid")
-	public String paid(@RequestParam("tx") String transaction_id, @RequestParam("cm") long cart_id) throws BusinessException{
-		service.paid(transaction_id, cart_id);
+	public String paid(@RequestParam("tx") String transactionId, @RequestParam("cm") long cart_id) throws BusinessException{
+		service.paid(transactionId, cart_id);
 		return "carts.paid";
 	}
 	

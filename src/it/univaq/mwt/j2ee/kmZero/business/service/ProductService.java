@@ -1,6 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
-import java.util.Collection;
 import java.util.List;
 
 
@@ -9,7 +8,6 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
-import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 
@@ -18,7 +16,6 @@ public interface ProductService {
 	
 	// Metodi per i prodotti
 		
-	//void createProduct(Product product, long seller_id) throws BusinessException;
 	Product createProduct() throws BusinessException;
 	
 	void updateProduct(Product product, long seller_id) throws BusinessException;
@@ -29,8 +26,6 @@ public interface ProductService {
 	
 	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, long seller_id) throws BusinessException;
 	
-	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
-
 	Product findProductById(long id) throws BusinessException;
 	
 	// Metodi per le categorie
@@ -59,16 +54,12 @@ public interface ProductService {
 
 	void deleteMeasure(Measure measure) throws BusinessException;
 	
-	// Metodi per la validazione (chiamato da ImageValidator)
-	
-	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
-
 	// Metodi per ricerche
 	
-	List<Product> getFavouriteProducts();
+	List<Product> getFavouriteProducts() throws BusinessException;
 
-	List<Product> getSameCategoryProducts(Long prodId);
+	List<Product> getSameCategoryProducts(Long prodId) throws BusinessException;
 
-	List<Product> getAllProducts();
+	List<Product> getAllProducts() throws BusinessException;
 
 }

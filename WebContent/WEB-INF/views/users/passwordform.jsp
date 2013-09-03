@@ -15,10 +15,10 @@
 					<form:hidden path="id"/>
 					<security:authorize access="hasAnyRole('user','seller')">
 					<div class="control-group">
-					    <label class="control-label" for="old_password"><spring:message code="password.oldPass"/></label>
+					    <label class="control-label" for="oldPassword"><spring:message code="password.oldPass"/></label>
 					    <div class="controls">
-					    	<form:password id="old_password" path="password.old_password"/>
-					    	<form:errors path="password.old_password"/>
+					    	<form:password id="oldPassword" path="password.oldPassword"/>
+					    	<form:errors path="password.oldPassword"/>
 					    </div>
 					</div>
 					</security:authorize>
@@ -30,10 +30,10 @@
 					    </div>
 					</div>
 					<div class="control-group">
-					    <label class="control-label" for="confirm_password"><spring:message code="password.confirmPass"/></label>
+					    <label class="control-label" for="confirmPassword"><spring:message code="password.confirmPass"/></label>
 					    <div class="controls">
-					    	<form:password id="confirm_password" path="password.confirm_password"/>
-					    	<form:errors path="password.confirm_password"/>
+					    	<form:password id="confirmPassword" path="password.confirmPassword"/>
+					    	<form:errors path="password.confirmPassword"/>
 					    </div>
 					</div>
 					

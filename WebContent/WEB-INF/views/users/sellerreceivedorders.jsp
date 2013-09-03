@@ -39,7 +39,7 @@ $(document).ready(function () {
 			    	<tr>
 					    <th id="product"><spring:message code="product.product"/></th>
 					    <th id="quantity"><spring:message code="product.quantity"/></th>
-					    <th id="quantity"><spring:message code="cart.delivery_date"/></th>
+					    <th id="quantity"><spring:message code="cart.deliveryDate"/></th>
 					    <th id="price"><spring:message code="product.price"/></th>
 					    <th id="rating"><spring:message code="product.rating"/></th>
 			    	</tr>
@@ -49,7 +49,7 @@ $(document).ready(function () {
 					<tr>
 						<td id="productId">${cartLine.product.name}</td>
 						<td>${cartLine.quantity}</td>
-						<td><fmt:formatDate pattern="dd-MM-yyyy" value="${cartLine.cart.delivery_date}" /></td>
+						<td><fmt:formatDate pattern="dd-MM-yyyy" value="${cartLine.cart.deliveryDate}" /></td>
 						<td>${cartLine.lineTotal} &euro;</td>
 						<c:choose>
 							<c:when test="${cartLine.rating == 0}">

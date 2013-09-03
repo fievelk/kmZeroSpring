@@ -3,7 +3,6 @@ package it.univaq.mwt.j2ee.kmZero.business;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class ResponseCarts<CartLine> implements Serializable{
 	

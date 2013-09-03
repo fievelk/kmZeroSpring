@@ -20,13 +20,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Role implements java.io.Serializable {
 
-
 	@Id 
-	@Column(name="role_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "roles_seq")
 	@SequenceGenerator(name = "roles_seq", allocationSize=1)
 	private int id;
-
 
 	@Column(name="name")
 	private String name;
@@ -117,11 +115,5 @@ public class Role implements java.io.Serializable {
 			return false;
 		return true;
 	}
-
-	
-	
-	
-
-	
 
 }

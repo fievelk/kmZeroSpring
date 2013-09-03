@@ -1,17 +1,13 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,7 +23,6 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
-import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
@@ -46,6 +41,7 @@ public class JPAProductService implements ProductService{
 	
 	@Override
 	@Transactional
+
 	public Product createProduct() throws BusinessException {
 
         Product product = new Product();
@@ -78,9 +74,10 @@ public class JPAProductService implements ProductService{
 
 	
 	@Override
+	@Transactional
 	public ResponseGrid<Product> viewProducts(RequestGridProducts requestGrid) throws BusinessException {
-		
-	    //Dati per la query
+
+		//Dati per la query
 	    boolean active = true;
         Date today = new Date();
         String sortCol = requestGrid.getSortCol();
@@ -88,8 +85,8 @@ public class JPAProductService implements ProductService{
         Long categoryId = requestGrid.getCategoryId();
         Long sellerId = requestGrid.getSellerId();
 
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
         
         String search = ConversionUtility.addPercentSuffix(requestGrid.getsSearch().toLowerCase());
         //Criteria Builider
@@ -132,8 +129,8 @@ public class JPAProductService implements ProductService{
         /*MAIN PREDICATE*/
         Predicate predicate = cb.and(
 									cb.equal(p.get("active").as(Boolean.class), active),
-									cb.lessThanOrEqualTo(p.get("date_in").as(Date.class), today),
-									cb.greaterThanOrEqualTo(p.get("date_out").as(Date.class), today),
+									cb.lessThanOrEqualTo(p.get("dateIn").as(Date.class), today),
+									cb.greaterThanOrEqualTo(p.get("dateOut").as(Date.class), today),
 									categoryPredicate,
 									sellerPredicate,
 									cb.or(
@@ -145,7 +142,6 @@ public class JPAProductService implements ProductService{
         
         /*Setto la clausola where con il predicato costruito*/
         q.where(predicate);
-
         
         //imposto orderby asc or desc
         if(sortDir.equals("ASC"))
@@ -159,29 +155,28 @@ public class JPAProductService implements ProductService{
         List<Product> products = query.getResultList();
         Long records = (long) products.size();
 
-        
         /*Creo una seconda query per effettuare il conteggio delle righe,in cui utilizzo lo stesso predicato per il where costruito per la prima*/
         CriteriaQuery<Long> qc = cb.createQuery(Long.class);
         qc.select(cb.count(p));
         qc.where(predicate);
         Long totalRecords = em.createQuery(qc).getSingleResult();
-        
-        
+
 		return new ResponseGrid<Product>(requestGrid.getsEcho(), totalRecords, records, products);
 
 	}
 	
 	@Override
+	@Transactional
 	public ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid,long seller_id) throws BusinessException {
 		
-	    
 	    //Dati per la query
+
 		boolean active = true;
         String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
         sortCol = requestGrid.getSortCol().equals("seller.company") ? "seller" : requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
         String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
 
         //Criteria Builider
@@ -192,7 +187,7 @@ public class JPAProductService implements ProductService{
         User u = em.find(User.class, seller_id);
         //La clausola cb.and() e' sempre vera - viene usata se l'utente loggato ha ruolo admin
         Predicate adminOrSeller =  u.getRoles().contains(new Role("admin")) ? cb.and() : cb.equal(p.get("seller"), u);
-              
+             
         Predicate predicate = cb.and(
         							adminOrSeller,
 									cb.equal(p.get("active").as(Boolean.class), active),	
@@ -227,7 +222,7 @@ public class JPAProductService implements ProductService{
         List<Product> products = query.getResultList();
 
 		return new ResponseGrid<Product>(requestGrid.getsEcho(), totalRecords, totalRecords, products);
-		
+
 	}
 
 	// CATEGORIES //
@@ -253,7 +248,7 @@ public class JPAProductService implements ProductService{
         //prendo il parent precedente
         if(c.getParent() != null){
         	Category oldParent = em.find(Category.class,c.getParent().getId());
-            //rimuovo la referenza al figlio (se il padre � null non faccio niente)
+            //rimuovo la referenza al figlio (se il padre e' null non faccio niente)
         	oldParent.removeChild(c);
         }
         //riassegno il figlio al nuovo parent
@@ -266,7 +261,6 @@ public class JPAProductService implements ProductService{
 	@Override
 	@Transactional
 	public void deleteCategory(long categoryId) {
-	
 		Category c = em.find(Category.class,categoryId);
 		//per ogni child setto il parent a null
 		List<Category> childs = c.getChilds();	
@@ -278,46 +272,49 @@ public class JPAProductService implements ProductService{
 		if(c.getParent()!=null){
 			Category parent = em.find(Category.class, c.getParent().getId());
 			parent.getChilds().remove(c);
-			//em.merge(parent);
 		}
 		//se ho prodotti associati, elimino l'associazione
 		c.getProducts().clear();
 		
 		//infine rimuovo il nodo 
 		em.remove(c);
-
 	}
 	
 	
 	@Override
+	@Transactional
 	public Category findCategoryById(long id) throws BusinessException {
 		Category category = em.find(Category.class, id);	
 		return category;
 	}
 	
 	@Override
+	@Transactional
 	public List<Category> findAllCategories() throws BusinessException {
 	
 		TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c", Category.class);
 		List<Category> categories = query.getResultList();
 		return categories;
+		
 	}
 	
 
 	@Override
+	@Transactional
 	public List<Category> findAllRootCategories() throws BusinessException {
-
 		TypedQuery<Category>  query = em.createQuery("SELECT c FROM Category c WHERE c.parent IS NULL", Category.class);
 		List<Category> categories =   query.getResultList();
 		return categories;
+		
 	}
 
 	
 	@Override
+	@Transactional
 	public Product findProductById(long id) throws BusinessException {
-		
 		Product product = em.find(Product.class, id);	
 		return product;
+		
 	}
 
 
@@ -329,28 +326,16 @@ public class JPAProductService implements ProductService{
 		product.setActive(false);
 		product = em.merge(product);
 //		s.deleteProduct(product);
-
-	
 	}
 
 	
-	@Override
-	public boolean checkProductProperty(long sellerId, long prodId) throws BusinessException{
-		
-		long sp;
-			Product p = findProductById(prodId);
-			sp = p.getSeller().getId();
-		
-			return (sp == sellerId);
-		
-		
-	}
+
 	
 	/* Measures */
 
 	@Override
+	@Transactional
 	public List<Measure> findAllMeasures() throws BusinessException {
-
 		TypedQuery<Measure> query = em.createQuery("SELECT m FROM Measure m", Measure.class);
 		List<Measure> measures = query.getResultList();
 		return measures;
@@ -368,23 +353,24 @@ public class JPAProductService implements ProductService{
 
 
 	@Override
+	@Transactional
 	public void updateMeasure(Measure measure) throws BusinessException {
 
         em.merge(measure);
 	}
 	
 	@Override
+	@Transactional
 	public Measure findMeasureById(long id) throws BusinessException {
-	
 		Measure measure = em.find(Measure.class, id);	
 		return measure;
+		
 	}	
 
 	
 	@Override
 	@Transactional
 	public void deleteMeasure(Measure measure) throws BusinessException {
-	
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.measure=:measure", Product.class);
 		query.setParameter("measure", measure);
 		List<Product> products = query.getResultList();
@@ -413,16 +399,19 @@ public class JPAProductService implements ProductService{
 
 	
 	@Override
+	@Transactional
 	public List<Product> getFavouriteProducts() {
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=:active", Product.class);
 		query.setParameter("active", true);
 		query.setMaxResults(3);
 		List<Product> products = query.getResultList();
 		return products;
+		
 	}	
 	
 
 	@Override
+	@Transactional
 	public List<Product> getSameCategoryProducts(Long prodId) {
 		Product product = em.find(Product.class, prodId);
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category AND p.active=:active", Product.class);
@@ -431,13 +420,15 @@ public class JPAProductService implements ProductService{
 		List<Product> products = query.getResultList();
 		products.remove(product);
 		return products;
+		
 	}
 
 	@Override
+	@Transactional
 	public List<Product> getAllProducts() {
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=:active", Product.class);
 		List<Product> products = query.getResultList();
-		
 		return products;
+		
 	}
 }

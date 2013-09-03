@@ -14,12 +14,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="sellercontents")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class SellerContent implements Serializable{
 
 	@Id
@@ -33,7 +31,7 @@ public class SellerContent implements Serializable{
 	private String description;
 	
 	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "image_fk")
+	@JoinColumn(name = "image_id")
 	private Image image;
 	
 	@ManyToOne
@@ -48,11 +46,6 @@ public class SellerContent implements Serializable{
 		super();
 	}
 
-	public SellerContent(String title, String description) {
-		super();
-		this.title = title;
-		this.description = description;
-	}
 
 	public SellerContent(long id, String title, String description) {
 		super();

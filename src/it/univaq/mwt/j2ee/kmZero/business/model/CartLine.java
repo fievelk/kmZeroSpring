@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class CartLine implements Serializable{
 
 	@Id
-	@Column(name="cartline_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "cartlines_seq")
 	@SequenceGenerator(name = "cartlines_seq", allocationSize=1)
 	private long id;
@@ -37,7 +37,7 @@ public class CartLine implements Serializable{
 	@Column(name="quantity")
 	private int quantity;
 	
-	@Column(name="lineTotal")
+	@Column(name="line_total")
 	private BigDecimal lineTotal;
 	
 	@Column(name="review", nullable=true)
@@ -47,11 +47,11 @@ public class CartLine implements Serializable{
 	private int rating;
 	
 	@OneToOne
-	@JoinColumn(name="product_fk")
+	@JoinColumn(name="product_id")
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="cart_fk")
+	@JoinColumn(name="cart_id")
 	@JsonBackReference("cart-cartlines")
 	private Cart cart; 
 	
@@ -66,7 +66,6 @@ public class CartLine implements Serializable{
 		super();
 	}
 	
-	
 	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
 			int rating, Product product, Cart cart, Feedback feedback) {
 		super();
@@ -80,36 +79,6 @@ public class CartLine implements Serializable{
 		this.feedback = feedback;
 	}
 
-
-
-
-	public CartLine(int quantity, BigDecimal lineTotal, String review) {
-		super();
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-	}
-
-	public CartLine(int quantity, BigDecimal lineTotal, String review, int rating,
-			Product product) {
-		super();
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-		this.rating = rating;
-		this.product = product;
-	}
-
-	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
-			int rating, Product product) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-		this.rating = rating;
-		this.product = product;
-	}
 
 	public long getId() {
 		return id;

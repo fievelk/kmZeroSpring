@@ -14,11 +14,11 @@
 						{"mData":"id"},
 		                {"mData":"name"},
 		                {"mData":"surname"},
-		                {"mData":"date_of_birth"},
+		                {"mData":"dateOfBirth"},
 		                {"mData":"address"},
 		                {"mData":"email"},
 		                {"mData":"created"},
-		                {"mData":"last_access", "sDefaultContent": ""},		                
+		                {"mData":"lastAccess", "sDefaultContent": ""},		                
 		                { "sName": "name",
 		                    "bSearchable": false,
 		                    "bSortable": false,
@@ -57,11 +57,11 @@
                   <th><spring:message code="user.id"/></th>
 		            <th><spring:message code="user.name"/></th>
 		            <th><spring:message code="user.surname"/></th>
-		            <th><spring:message code="user.date_of_birth"/></th>
+		            <th><spring:message code="user.dateOfBirth"/></th>
 		            <th><spring:message code="user.address"/></th>
 		            <th><spring:message code="user.email"/></th>
 		            <th><spring:message code="user.created"/></th>
-		            <th><spring:message code="user.last_access"/></th>
+		            <th><spring:message code="user.lastAccess"/></th>
 		            <th><spring:message code="common.actions"/></th>
                 </tr>
               </thead>

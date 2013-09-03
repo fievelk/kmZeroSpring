@@ -30,7 +30,7 @@
 					<div class="span1 centeredText"><b><spring:message code="cart.id"/></b></div>
 					<div class="span3 centeredText"><b><spring:message code="product.name"/></b></div>
 					<div class="span1 centeredText"><b><spring:message code="product.quantity"/></b></div>
-					<div class="span2 centeredText"><b><spring:message code="cart.delivery_date"/></b></div>
+					<div class="span2 centeredText"><b><spring:message code="cart.deliveryDate"/></b></div>
 					<div class="span4"><b><spring:message code="seller.company"/></b></div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 					<div class="span1 centeredText">${cartline.cart.id}</div>
 					<div class="span3 centeredText">${cartline.product.name}</div>
 					<div class="span1 centeredText">${cartline.quantity}</div>
-					<div class="span2 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cartline.cart.delivery_date}" /></div>
+					<div class="span2 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cartline.cart.deliveryDate}" /></div>
 					<div class="span4">${cartline.product.seller.company}</div>
 				</div>
 			</div>		

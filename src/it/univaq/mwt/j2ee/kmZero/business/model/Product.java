@@ -31,19 +31,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="products")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="product_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "products_seq")
 	@SequenceGenerator(name = "products_seq", allocationSize=1)
 	private long id;
@@ -59,11 +57,11 @@ public class Product implements Serializable {
 	
 	@Column(name="date_in")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date_in;
+	private Date dateIn;
 
 	@Column(name="date_out")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date_out;
+	private Date dateOut;
 
 	@Column(name="active")
 	private boolean active;
@@ -74,20 +72,12 @@ public class Product implements Serializable {
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "product_fk")
+	@JoinColumn(name = "product_id")
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 
-/*	@Column(name="rating", scale=1)
-	private float rating;
-	
-	@Column(name="absoluterating")
-	private int absoluteRating;
-	
-	@Column(name="ratingvotes")
-	private int ratingVotes; */
 
-	@OneToOne()
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="rating_id")
 	@JsonManagedReference("product-rating")
 	private Rating rating;
@@ -116,7 +106,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(long id, String name, String description, BigDecimal price,
-			Date date_in, Date date_out, boolean active, Category category,
+			Date dateIn, Date dateOut, boolean active, Category category,
 			List<Image> images, Rating rating, Collection<Feedback> feedbacks,
 			int stock, Measure measure, Seller seller, int position) {
 		super();
@@ -124,8 +114,8 @@ public class Product implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
+		this.dateIn = dateIn;
+		this.dateOut = dateOut;
 		this.active = active;
 		this.category = category;
 		this.images = images;
@@ -136,76 +126,6 @@ public class Product implements Serializable {
 		this.seller = seller;
 		this.position = position;
 	}
-
-
-	public Product(long id, String name, String description, BigDecimal price,
-			Date date_in, Date date_out, Category category,
-			List<Image> images, Seller seller) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
-		this.category = category;
-		this.images = images;
-		this.seller = seller;
-	}
-
-	/* Costruttore per l'inserimento senza immagini */
-	public Product(long id, String name, String description, BigDecimal price,
-			Category category, Seller seller, Date date_in, Date date_out) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.category = category;
-		this.seller = seller;
-		this.date_in = date_in;
-		this.date_out = date_out;
-	}	
-
-	/* Costruttore per l'inserimento senza immagini e date */
-	public Product(long id, String name, String description, BigDecimal price,
-			Category category, Seller seller) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.category = category;
-		this.seller = seller;
-	}
-
-	
-	
-/*	public Product(long id, String name, String description, BigDecimal price,
->>>>>>> branch 'master' of https://github.com/fievelk/kmZeroSpring.git
-			Date date_in, Date date_out, boolean active, Category category,
-			Collection<Image> images, float rating, int absoluteRating,
-			int ratingVotes, int stock, Measure measure, Seller seller,
-			int position) {
-		this(name,description,price,date_in,date_out,active,category,images,rating,absoluteRating,ratingVotes,stock,measure,seller,position);
-		this.id = id;
-<<<<<<< HEAD
-	}
-=======
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
-		this.active = active;
-		this.category = category;
-		this.images = images;
-		this.rating = rating;
-		this.stock = stock;
-		this.measure = measure;
-		this.seller = seller;
-		this.position = position;
-	} */
 
 
 	public long getId() {
@@ -229,19 +149,19 @@ public class Product implements Serializable {
 
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDate_in() {
-		return date_in;
+	public Date getDateIn() {
+		return dateIn;
 	}
-	public void setDate_in(Date date_in) {
-		this.date_in = date_in;
+	public void setDateIn(Date dateIn) {
+		this.dateIn = dateIn;
 	}
 
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDate_out() {
-		return date_out;
+	public Date getDateOut() {
+		return dateOut;
 	}
-	public void setDate_out(Date date_out) {
-		this.date_out = date_out;
+	public void setDateOut(Date dateOut) {
+		this.dateOut = dateOut;
 	}
 	public Category getCategory() {
 		return category;
@@ -249,16 +169,6 @@ public class Product implements Serializable {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
-
-//	public float getRating() {
-//		return rating;
-//	}
-//
-//	public void setRating(float rating) {
-//		this.rating = rating;
-//	}
-
 
 	public boolean isActive() {
 		return active;
@@ -296,26 +206,11 @@ public class Product implements Serializable {
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
 	@JsonSerialize(using=PriceJsonSerializer.class)
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-//	public int getAbsoluteRating() {
-//		return absoluteRating;
-//	}
-//
-//	public void setAbsoluteRating(int absoluteRating) {
-//		this.absoluteRating = absoluteRating;
-//	}
-//
-//	public int getRatingVotes() {
-//		return ratingVotes;
-//	}
-//
-//	public void setRatingVotes(int ratingVotes) {
-//		this.ratingVotes = ratingVotes;
-//	}
 
 	public int getPosition() {
 		return position;
@@ -324,7 +219,6 @@ public class Product implements Serializable {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
 
 	public Collection<Image> getImages() {
 		return images;
@@ -373,7 +267,5 @@ public class Product implements Serializable {
 	public void setFeedbacks(Collection<Feedback> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
-
-
 
 }

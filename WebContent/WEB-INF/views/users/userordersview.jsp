@@ -58,6 +58,7 @@ $(document).ready(function () {
 		    data: {"feedback" : feedbackString},
 		    success: function() {
 		    	$("#feedText"+ cartLineId).attr('readonly','readonly');
+		    	$("#feed_"+cartLineId).attr('disabled','disabled');
 		    },
 		});
 		return false;

@@ -2,15 +2,12 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OrderColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,7 +15,6 @@ import javax.persistence.Table;
 @Table(name="images")
 public class Image implements Serializable{
 	
-
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "images_seq")
@@ -44,12 +40,6 @@ public class Image implements Serializable{
 	public Image(String name, byte[] imageData) {
 		this.name = name;
 		this.imageData = imageData;
-	}
-
-
-	public Image(long id, String name) {
-		this.id = id;
-		this.name = name;
 	}
 	
 	public Image(long id, String name, String altName, int position,
@@ -101,7 +91,6 @@ public class Image implements Serializable{
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
 	
 
 }

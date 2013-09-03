@@ -17,14 +17,10 @@
 				<div class="scontact well">
 					<form:form modelAttribute="cart" cssClass="form-horizontal" action="${requestScope.action}" method="POST">
 					<form:hidden path="id"/>
-					<%-- <p><spring:message code="user.name"/> : <form:label id="name" path="name">${cart.name}</form:label></p> 
-					<p><spring:message code="user.surname"/> : <form:label id="surname" path="surname">${cart.surname}</form:label></p>
-					<p><spring:message code="cart.address"/> : <form:label id="addresscart" path="address">${cart.address}</form:label></p>
-					<p><spring:message code="cart.delivery_date"/> : <form:label id="delivery_date" path="delivery_date"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></form:label></p> --%>
 					<p><spring:message code="user.name"/> : ${cart.name}</p> 
 					<p><spring:message code="user.surname"/> : ${cart.surname}</p>
 					<p><spring:message code="cart.address"/> : ${cart.address}</p>
-					<p><spring:message code="cart.delivery_date"/> : <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}"/></p>
+					<p><spring:message code="cart.deliveryDate"/> : <fmt:formatDate pattern="dd-MM-yyyy" value="${cart.deliveryDate}"/></p>
 					<table class="table table-striped tcart">
 			          <thead>
 			            <tr>

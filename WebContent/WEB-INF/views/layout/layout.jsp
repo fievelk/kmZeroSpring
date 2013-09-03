@@ -56,7 +56,7 @@
 	<![endif]-->
 	
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="img/favicon/favicon.png">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico">
 
 	<script src="${pageContext.request.contextPath}/resources/jquery/jquery-1.9.1.min.js"></script> <!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/jquery-ui/js/jquery-ui-1.10.3.custom.min.js"></script>

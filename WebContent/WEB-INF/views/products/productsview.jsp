@@ -88,12 +88,10 @@ function setCriteria(){
 	sortDir = sortBy_parts[1];
 	/*Infine creo la stringa serializzata per l'ajax call*/
 	criteria = "iDisplayStart="+iDisplayStart+"&iDisplayLength="+iDisplayLength+"&sortCol="+sortCol+"&sortDir="+sortDir+"&sSearch="+sSearch+"&categoryId="+categoryId+"&sellerId="+sellerId;
-	console.log(criteria);
 };
 
 function buildItems(data){
 	var products = "";
-		console.log(data);
 		$.each(data.rows,function(i,item){
 			products += buildItem(item);
 		});	
@@ -114,7 +112,6 @@ function buildItem(item){
 	}else{
 		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};
-	console.log("desc:"+item.description);
 	var description = (item.description != null) ? (item.description.substring(0,30)+'...') : "no description provided";
 	var result = 
 		'<div class="span3">'+

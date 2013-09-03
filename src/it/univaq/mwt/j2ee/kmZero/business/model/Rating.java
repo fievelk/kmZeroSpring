@@ -21,7 +21,7 @@ public class Rating implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="rating_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "ratings_seq")
 	@SequenceGenerator(name = "ratings_seq", allocationSize=1)
 	private long id;
@@ -42,6 +42,16 @@ public class Rating implements Serializable {
 
 	public Rating() {
 		super();
+	}
+
+	public Rating(long id, float rating, int absoluteRating, int ratingVotes,
+			Product product) {
+		super();
+		this.id = id;
+		this.rating = rating;
+		this.absoluteRating = absoluteRating;
+		this.ratingVotes = ratingVotes;
+		this.product = product;
 	}
 
 
