@@ -34,7 +34,7 @@
                                  
                 <!-- Quantity and add to cart button -->
                         <div class="input-append cart-quantity">
-                          <input id="${product.id}" type="text" value="2" class="input-mini">
+                          <input id="${product.id}" type="text" value="1" class="input-mini">
                           <button type="button" class="btn" onclick="existCart(${product.id});"><spring:message code="product.addToCart" /></button>      
                         </div>
 
@@ -88,3 +88,34 @@
         </div>
 
       </div>
+      
+      <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMapsModal.js"></script>
+
+		<div id="modalDialogAddress" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-header">
+		    <button id="modalDialogAddress_dismiss" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h5 class="title"><spring:message code="cart.addressValidation" /></h5>
+		  </div>
+		  <div class="modal-body">
+				
+				<div id="googleMapModal" style="height:200px;"></div>				
+					
+					<div class="control-group">
+					    <label class="control-label" for="address"><spring:message code="user.address" /></label>
+					    
+					    <div class="controls">
+							<input id="address_autocompletedModal"/><br />
+					    </div>
+					    
+					    <p id="addressDistanceErrorModal"></p>
+					
+						<div class="controls">
+					      <button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="product.addToCart" /></button>
+					    </div>
+					
+					</div>
+					
+					<div class="control-group">
+					</div>
+			</div>
+		</div>
