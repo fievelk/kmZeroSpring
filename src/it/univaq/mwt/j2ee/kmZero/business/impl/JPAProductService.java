@@ -167,7 +167,7 @@ public class JPAProductService implements ProductService{
         Long totalRecords = em.createQuery(qc).getSingleResult();
         
         
-		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, records, products);
+		return new ResponseGrid<Product>(requestGrid.getsEcho(), totalRecords, records, products);
 
 	}
 	
@@ -176,31 +176,26 @@ public class JPAProductService implements ProductService{
 		
 	    
 	    //Dati per la query
-	    boolean active = true;
-        Date today = new Date();
+		boolean active = true;
         String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
         sortCol = requestGrid.getSortCol().equals("seller.company") ? "seller" : requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
         int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
         int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
         String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
-        
+
         //Criteria Builider
-    
-        User u = em.find(User.class, seller_id);
-        if(u.getRoles().contains(new Role(3))){
-        	u = em.find(Seller.class, seller_id);
-        }
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Product> q = cb.createQuery(Product.class);
         Root<Product> p = q.from(Product.class);
         
-        //La clausola cb.and() � sempre vera - viene usata se l'utente loggato ha ruolo admin
-        Predicate adminOrSeller =  u.getClass().equals(Seller.class) ? cb.equal(p.get("seller"), u) : cb.and();
+        User u = em.find(User.class, seller_id);
+        //La clausola cb.and() e' sempre vera - viene usata se l'utente loggato ha ruolo admin
+        Predicate adminOrSeller =  u.getRoles().contains(new Role("admin")) ? cb.and() : cb.equal(p.get("seller"), u);
               
         Predicate predicate = cb.and(
         							adminOrSeller,
-									//cb.equal(p.get("active").as(Boolean.class), active),	
+									cb.equal(p.get("active").as(Boolean.class), active),	
 									cb.or(
 					        				cb.like(p.get("name").as(String.class),search),
 					        				cb.like(p.get("description").as(String.class),search),
@@ -231,8 +226,8 @@ public class JPAProductService implements ProductService{
         query.setFirstResult(minRows);
         List<Product> products = query.getResultList();
 
-		return new ResponseGrid(requestGrid.getsEcho(), totalRecords, totalRecords, products);
-        //return null;
+		return new ResponseGrid<Product>(requestGrid.getsEcho(), totalRecords, totalRecords, products);
+		
 	}
 
 	// CATEGORIES //
@@ -419,8 +414,9 @@ public class JPAProductService implements ProductService{
 	
 	@Override
 	public List<Product> getFavouriteProducts() {
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
-		query.setMaxResults(4);
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=:active", Product.class);
+		query.setParameter("active", true);
+		query.setMaxResults(3);
 		List<Product> products = query.getResultList();
 		return products;
 	}	
@@ -429,8 +425,9 @@ public class JPAProductService implements ProductService{
 	@Override
 	public List<Product> getSameCategoryProducts(Long prodId) {
 		Product product = em.find(Product.class, prodId);
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category ", Product.class);
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.category=:category AND p.active=:active", Product.class);
 		query.setParameter("category", product.getCategory());
+		query.setParameter("active", true);
 		List<Product> products = query.getResultList();
 		products.remove(product);
 		return products;
@@ -438,7 +435,7 @@ public class JPAProductService implements ProductService{
 
 	@Override
 	public List<Product> getAllProducts() {
-		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
+		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=:active", Product.class);
 		List<Product> products = query.getResultList();
 		
 		return products;

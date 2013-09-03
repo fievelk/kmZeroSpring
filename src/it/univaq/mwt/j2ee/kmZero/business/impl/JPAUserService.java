@@ -78,9 +78,15 @@ public class JPAUserService implements UserService{
 	@Override
 	public User findUserById(long id) throws BusinessException {
 		User user = em.find(User.class, id);
-		
 		return user;
 	}
+	
+	@Override
+	public User findUserSellerById(long id) throws BusinessException {
+		User user = em.find(Seller.class, id);
+		return user;
+	}
+	
 
 	@Override
 	public ResponseGrid<User> viewAllUsersPaginated(RequestGrid requestGrid) throws BusinessException {

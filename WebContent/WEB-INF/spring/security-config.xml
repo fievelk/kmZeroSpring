@@ -44,10 +44,6 @@
 		<security:intercept-url pattern="/sellers/admin/**" access="hasAnyRole('admin')"/>
 		<security:intercept-url pattern="/sellers/*/*" access="permitAll"/>
 
-
-				
-
- 		
 		<security:form-login login-page="/login" 
 							 authentication-failure-url="/login" 
 							 default-target-url="/welcome"

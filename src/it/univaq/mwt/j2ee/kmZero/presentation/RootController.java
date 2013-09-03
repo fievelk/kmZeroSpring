@@ -3,9 +3,11 @@ package it.univaq.mwt.j2ee.kmZero.presentation;
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
+import it.univaq.mwt.j2ee.kmZero.business.model.User;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
+import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class RootController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private LoggedUser loggedUser;
+	
 	
 	@RequestMapping("/")
 	public String getFavouriteSellers(Model model) throws BusinessException{
@@ -31,6 +36,19 @@ public class RootController {
 		model.addAttribute("sellers", l);
 		model.addAttribute("products", p);
 		return "common.index";
+	}
+	
+	@RequestMapping("/welcome")
+	public String welcome(Model model) throws BusinessException{
+		User user;
+		Long userId = loggedUser.getUserDetails().getId();
+		if(loggedUser.getUserDetails().isSeller()){
+			user = userService.findUserSellerById(userId);
+		}else{
+			user = userService.findUserById(userId);
+		}
+		model.addAttribute("user", user);
+		return "common.welcome";
 	}
 
 
