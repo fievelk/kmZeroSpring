@@ -28,6 +28,7 @@
   
   <!-- Gestire i pulsanti per il checkout e per continuare lo shopping -->
   <div class="modal-footer">
+  	<a id="emptycart" href="#" class="btn">Svuota il Carrello</a>
     <a href="" class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="common.backToShopping"/></a>
     <a id="checkout" href="${pageContext.request.contextPath}/carts/confirmcart" class="btn btn-danger"><spring:message code="common.checkout"/></a>
   </div>

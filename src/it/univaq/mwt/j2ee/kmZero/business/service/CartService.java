@@ -50,5 +50,7 @@ public interface CartService {
 	ResponseCarts<CartLine> persistCartSession(Cart cart, User user) throws BusinessException;
 
 	Rating findRatingById(long ratingId) throws BusinessException;
+	
+	void emptyCart(long cartId) throws BusinessException;
 
 }

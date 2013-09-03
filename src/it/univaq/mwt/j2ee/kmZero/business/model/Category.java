@@ -28,7 +28,7 @@ public class Category implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "categories_seq") @Column(name="category_id")
 	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
-	@SequenceGenerator(name = "categories_seq")
+	@SequenceGenerator(name = "categories_seq", allocationSize=1)
 	private long id;
 	
 	//@Column(name="name")

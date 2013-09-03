@@ -30,6 +30,11 @@
 		<security:intercept-url pattern="/users/userordersview" access="isAuthenticated()"/> 
 		<security:intercept-url pattern="/products/*/*" access="permitAll"/>
 		<security:intercept-url pattern="/products/**" access="hasAnyRole('admin', 'seller')"/>
+		<security:intercept-url pattern="/carts/addressvalidated" access="permitAll"/>
+		<security:intercept-url pattern="/carts/viewcartpaginated" access="permitAll"/>
+		<security:intercept-url pattern="/carts/create" access="permitAll"/>
+		<security:intercept-url pattern="/carts/delete_cartline" access="permitAll"/>
+		<security:intercept-url pattern="/carts/**" access="isAuthenticated()"/>
 <!-- 		<security:intercept-url pattern="/carts/confirmcart_start.do" access="isAuthenticated()"/> -->
 		
 		

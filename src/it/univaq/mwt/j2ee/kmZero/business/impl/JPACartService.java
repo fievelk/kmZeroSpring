@@ -177,7 +177,6 @@ public class JPACartService implements CartService{
 		Cart cart = em.find(Cart.class, cart_id);
 		cart.setPaid(new Date());
 		cart.setTransaction_id(transaction_id);
-		cart.setSession_id(null);
 		em.merge(cart);
 	}
 
@@ -312,6 +311,15 @@ public class JPACartService implements CartService{
 		Rating rating = em.find(Rating.class, ratingId);
 		
 		return rating;
+	}
+
+	@Override
+	@Transactional
+	public void emptyCart(long cartId) throws BusinessException {
+		Cart cart = em.find(Cart.class, cartId);
+		cart.setCartLines(null);
+		em.merge(cart);
+		em.getEntityManagerFactory().getCache().evictAll();
 	}
 	
 }

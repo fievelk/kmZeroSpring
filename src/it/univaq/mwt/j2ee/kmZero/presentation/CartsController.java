@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -168,25 +169,28 @@ public class CartsController {
 				j++;
 			}
 			cart.setCartLines(cartLines);
-			if (cart.getCartLines().size() == 0){
+			session.setAttribute("cart", cart);
+			/*if (cart.getCartLines().size() == 0){
 				session.setAttribute("cart", cart);
 			} else {
 				session.setAttribute("cart", cart);
-			}
+			}*/
 		} else {
 			service.deleteCartLine(idCartLine, idCart);
 		}
 		return null;
 	}
 	
-	@RequestMapping("/confirmcart_start")
-	public String confirmCart(@RequestParam("id") long id, Model model) throws BusinessException{
-		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		if (s.equals("anonymousUser")){
-			return "common.login";
-		}
+	@RequestMapping(value="/confirmcart_start")
+	public String confirmCart(@RequestParam("id") long id, Model model, HttpSession session) throws BusinessException{
 		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Cart cart = service.findCartToCheckout(id, udi.getEmail());
+		Cart cart = null;
+		if (id == 1){
+			cart = (Cart)session.getAttribute("cart");
+			ResponseCarts<CartLine>result = service.persistCartSession(cart, udi.getUser());
+			id = result.getId();
+		}
+		cart = service.findCartToCheckout(id, udi.getEmail());
 		model.addAttribute("cart", cart);
 		return "carts.confirm";
 	}
@@ -222,4 +226,20 @@ public class CartsController {
 		service.createFeedback(cartLine, feedbackString);
 	}
 	
+	@RequestMapping("/emptycart")
+	@ResponseBody
+	public String emptyCart(@RequestParam("id") long cartId, HttpSession session) throws BusinessException {
+		String s = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		Cart cart = null;
+		if (s.equals("anonymousUser")){
+			cart = (Cart)session.getAttribute("cart");
+			Collection<CartLine> cls = cart.getCartLines();
+			cls.removeAll(cls);
+			cart.setCartLines(cls);
+			session.setAttribute("cart", cart);
+		} else {
+			service.emptyCart(cartId);
+		}
+		return null;
+	}
 }

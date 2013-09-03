@@ -19,7 +19,7 @@ function cartExistJson(data){
 		});
 	}
 	$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
-	$('span#tot').replaceWith('<span id="tot" class="bold">' + tot + '&euro;</span>');
+	$('span#tot').replaceWith('<span id="tot" class="bold"> ' + tot.toFixed(2) + ' &euro;</span>');
 }
 
 
@@ -29,10 +29,10 @@ function createModalCart(){
 		url: contextPath+"/carts/viewcartpaginated",
 		success: function(data){
 			var exist = data.exist;
-			//$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + exist + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
 			if (exist == 0){
 				$('table#tablecart').replaceWith('<div id="divcart"><label>Il carrello \u00E8 vuoto</label></div>');
-				$('a#checkout').replaceWith('<a id=checkout></a>');
+				$('a#checkout').replaceWith('<a id="checkout"></a>');
+				$('a#emptycart').replaceWith('<a id="emptycart"></a>');
 				$('div#delivery_checkout').replaceWith('<div id="delivery_checkout"></div>');
 				$('button#button_checkout').replaceWith('<div id="button_checkout"></div>');
 			} else {
@@ -62,6 +62,7 @@ function cartJson(data)  {
 	$('tbody#cartlines').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
 	$('a#checkout').replaceWith('<a id="checkout" href="' + contextPath + '/carts/confirmcart_start?id=' + data.id + '" class="btn btn-danger">Vai alla cassa</a>');
+	$('a#emptycart').replaceWith('<a id="emptycart" href="#" class="btn" onclick="emptyCart('+ data.id +')">Svuota il Carrello</a>');
 }
 
 function checkoutCart(){
@@ -87,7 +88,7 @@ function checkoutJson(data)  {
 	});
 	$('tbody#cartlinesconfirmed').replaceWith('<tbody id="cartlines">' + products + '<tr><th></th><th>Total</th><th id="total"></th></tr></tbody>');
 	$('th#total').replaceWith('<th id="total">\u20ac ' + tot.toFixed(2) + '</th>');
-	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot + '">');
+	$('#totpaypal').replaceWith('<input id="totpaypal" type="hidden" name="amount" value="' + tot.toFixed(2) + '">');
 }
 
 
@@ -110,30 +111,17 @@ function existCart(id){
 		success: function(data){
 			var cart_id = data.id;
 			var exist = data.exist;
-			//var cartlines = data.cartlines;
 			if (cart_id == 0 && exist == 0){
 				// fai partire la finestra modale per l'indirizzo
 				$('#modalDialogAddress').modal('show');
+				$('#address_autocompletedModal').val('');
+				$('#addressDistanceErrorModal').empty();
+				$('#successimgModal').remove();
 				$('#submitIfValidAddressModal').replaceWith('<button id="submitIfValidAddressModal" type="submit" class="btn" data-dismiss="modal" aria-hidden="true" onclick="validAddress(' + id + ')">Aggiungi al Carrello</button>');
 				google.maps.event.addDomListenerOnce($('#modalDialogAddress'), 'shown', executeOnModal());
-				//$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + (exist+1) + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
 			} else {
 				// L'indirizzo è già stato validato
 				addCartLine(id);
-				/*var num_cartlines = 0;
-				var cartlineExist = 0;
-				$.each(cartlines,function(i,item){
-					if (item.product.id == id){
-						cartlineExist = 1;
-					}
-					num_cartlines = i;
-				});
-				// il controllo con l'exist l'ho messo perchè quando cancello tutti i prodotti e riaggiungo un prodotto
-				// il numeretto degli item all'interno del carrello non mi viene sbagliato (invece di 1, lo mette a 2)
-				if (cartlineExist == 0 && exist != 0){
-					num_cartlines++;
-				}
-				$('a#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + (num_cartlines+1) + ' Item(s) in your <i class="icon-shopping-cart"></i></a>');*/
 			};
 		}
 	});
@@ -149,7 +137,6 @@ function validAddress(id){
 	});
 };
 
-
 function addCartLine(id){
 	var quantity = $('#'+id).val();
 	$.ajax({
@@ -159,12 +146,22 @@ function addCartLine(id){
 	});
 };
 
-
-/* Maxi-zingarata */
 function minimalCart(){
 	$.ajax({
 		type: "POST",
 		url: contextPath+"/carts/viewcartpaginated",
 		success: cartExistJson
+	});
+}
+
+function emptyCart(id){
+	$.ajax({
+		type: "POST",
+		url: contextPath+"/carts/emptycart?id=" + id,
+		success: function(data){
+			createModalCart();
+			$('#modalC').replaceWith('<a id="modalC" href="#modalCart" role="button" data-toggle="modal" onclick="createModalCart()">' + 0 + ' Prodotti nel tuo <i class="icon-shopping-cart"></i></a>');
+			$('span#tot').replaceWith('<span id="tot" class="bold"> ' + 0.00 + ' &euro;</span>');
+		}
 	});
 }

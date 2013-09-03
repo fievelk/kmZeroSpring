@@ -2,6 +2,7 @@ package it.univaq.mwt.j2ee.kmZero.business.model;
 
 import it.univaq.mwt.j2ee.kmZero.common.Comparators;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name="sellers")
 @DiscriminatorValue(value="S")
 @PrimaryKeyJoinColumn(name="user_id")
-public class Seller extends User {
+public class Seller extends User implements Serializable{
 
 	@Column(name="p_iva")
 	private String p_iva;
