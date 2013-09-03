@@ -130,7 +130,7 @@ function buildItem(item){
 			'<p>'+description+'</p>'+
 			'<p><a href="'+sellerurl+'">'+item.seller.company+'</a></p>'+
 			'<hr />'+
-			'<div class="item-price pull-left">****</div>'+
+			'<div class="item-price pull-left">'+item.rating.rating.toFixed(1)+'/5</div>'+
 			'<div class="item-price pull-right">\u20ac '+item.price+'/'+item.measure.shortName+'</div>'+			
 // 			<!-- Price -->
 			

@@ -11,11 +11,11 @@
 					<img src="${pageContext.request.contextPath}/seller/image/<c:out value="${seller.images[0].id}"/>/<c:out value="${seller.images[0].name}"/>" alt="<c:out value="${seller.images[0].altName}"/>" />
                   <div class="flex-caption">
                      <!-- Title -->
-                     <h3>${seller.name} - <span class="color">Just 65</span></h3>
+                     <h3>${seller.name} - <span class="color">${seller.company}</span></h3>
                      <!-- Para -->
-                     <p>${fn:substring(seller.contents[0].description, 0, 25)}...</p>
+                     <p>${fn:substring(seller.contents[0].description, 0, 100)}...</p>
                      <div class="button">
-                      <a href="single-item.html">Buy Now</a>
+                      <a href="${pageContext.request.contextPath}/sellers/${seller.id}/${seller.company}"><spring:message code="common.buyNow"/></a>
                      </div>
                   </div>                  
                 </li>
