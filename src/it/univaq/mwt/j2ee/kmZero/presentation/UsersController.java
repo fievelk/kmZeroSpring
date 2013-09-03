@@ -85,7 +85,7 @@ public class UsersController {
 			return "users.updateform";
 		}
 		service.updateUser(user);
-		return "redirect:/";
+		return "redirect:/welcome";
 	}
 	
 	@RequestMapping("/admin/update_start")
@@ -138,7 +138,7 @@ public class UsersController {
 			return "users.passwordform";
 		}
 		service.editPassword(user.getId(), user.getPassword().getPassword());
-		return "redirect:/";
+		return "redirect:/welcome";
 	}
 	
 	@RequestMapping(value="/userordersview")

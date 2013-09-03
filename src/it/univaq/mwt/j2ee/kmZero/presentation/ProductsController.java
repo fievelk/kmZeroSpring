@@ -112,7 +112,7 @@ public class ProductsController {
 			return "products.updateform";
 		}
 		long sellerid = loggedUser.isAdmin() ? product.getSeller().getId() : loggedUser.getUserDetails().getId();
-
+	
 		Rating rating = cartService.findRatingById(product.getRating().getId());
 		product.setRating(rating);
 		

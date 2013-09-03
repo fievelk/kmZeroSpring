@@ -10,7 +10,7 @@
 	
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
-<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver" p:order="1" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver" p:order="1" />
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:order="2" p:defaultErrorView="common.dataAccessFailure">
        <property name="warnLogCategory" value="log4j.exceptionLogger"/>
        <property name="exceptionMappings">
@@ -18,7 +18,7 @@
 			<prop key="it.univaq.mwt.j2ee.kmZero.business.BusinessException">common.dataAccessFailure</prop>
 		</props>
        </property>
-    </bean> -->
+    </bean>
 
 	<mvc:annotation-driven />
 	

@@ -134,12 +134,11 @@ public class JPAUserService implements UserService{
 	public void updateSeller(Seller seller) throws BusinessException {
 		
 		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
-				"dateOfBirth= :dateOfBirth, address= :address, url= :url, phone= :phone WHERE id= :id");
+				"dateOfBirth= :dateOfBirth, url= :url, phone= :phone WHERE id= :id");
 		query.setParameter("name", seller.getName());
 		query.setParameter("surname", seller.getSurname());
 		query.setParameter("email", seller.getEmail());
 		query.setParameter("dateOfBirth", seller.getDateOfBirth());
-		query.setParameter("address", seller.getAddress());
 		query.setParameter("url", seller.getUrl());
 		query.setParameter("phone", seller.getPhone());
 		query.setParameter("id", seller.getId());

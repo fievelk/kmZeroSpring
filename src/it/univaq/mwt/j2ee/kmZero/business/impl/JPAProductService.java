@@ -427,6 +427,7 @@ public class JPAProductService implements ProductService{
 	@Transactional
 	public List<Product> getAllProducts() {
 		TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p WHERE p.active=:active", Product.class);
+		query.setParameter("active", true);
 		List<Product> products = query.getResultList();
 		return products;
 		
