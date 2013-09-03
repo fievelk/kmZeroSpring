@@ -79,7 +79,6 @@ public class User implements java.io.Serializable{
 	private Set<Role> roles = new HashSet<Role>();
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-//	@JoinColumn(name = "user_fk")
 	private Collection<Cart> cart = new ArrayList<Cart>();
 
 	private static final long serialVersionUID = 1L;
@@ -87,6 +86,16 @@ public class User implements java.io.Serializable{
 	public User() {
 
 	}
+
+	// Costruttore utilizzato nella classe Seller
+	public User(long id, String name, String surname) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+	}
+
+
 
 	// Costruttore dello User con solo l'id
 	public User(long id){
@@ -105,13 +114,7 @@ public class User implements java.io.Serializable{
 		this.address = address;
 	}
 
-	public User(long id, String name, String surname, String email, Password password, 
-			Date created, Date date_of_birth, String address) {
-		this(name,surname,email,password,created,date_of_birth,address);
-		this.id = id;
-	}
-
-	/* Costruttore per visualizzare la lista degli utenti senza il campo password */
+	/* Costruttore per Datatables */
 	public User(long id, String name, String surname, String email,
 			Date created, Date date_of_birth, Date last_access, String address) {
 		this.id = id;
@@ -123,46 +126,6 @@ public class User implements java.io.Serializable{
 		this.last_access = last_access;
 		this.address = address;
 	}
-
-	/* Costruttore per aggiornare il profilo utente */
-	public User(long id, String name, String surname, String email,
-			Date date_of_birth, String address) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-		this.email = email;
-		this.date_of_birth = date_of_birth;
-		this.address = address;
-	}
-	
-	/* Costruttore con il carrello (servira'?) */
-	public User(long id, String name, String surname, String email, Password password, 
-			Date created, Date date_of_birth, String address, Collection<Cart> cart) {
-		this(id, name,surname,email,password,created,date_of_birth,address);
-		this.cart = cart;
-	}
-
-
-
-	/* Costruttore che serve al Seller quando verr� visualizzata la lista tramite Datatables */
-
-	/* Costruttore che serve al Seller quando verr� visualizzata la lista tramite Datatables */
-
-	public User(long id, String name, String surname) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-	}
-
-	// Costruttore per il cambio password
-	public User(long id, Password password) {
-		super();
-		this.id = id;
-		this.password = password;
-	}
-
 
 
 	public long getId() {

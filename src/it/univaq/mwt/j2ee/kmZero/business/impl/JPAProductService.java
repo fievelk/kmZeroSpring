@@ -85,8 +85,8 @@ public class JPAProductService implements ProductService{
         Long categoryId = requestGrid.getCategoryId();
         Long sellerId = requestGrid.getSellerId();
 
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
         
         String search = ConversionUtility.addPercentSuffix(requestGrid.getsSearch().toLowerCase());
         //Criteria Builider
@@ -173,8 +173,8 @@ public class JPAProductService implements ProductService{
         String sortCol = requestGrid.getSortCol().equals("category.name") ? "category" : requestGrid.getSortCol();
         sortCol = requestGrid.getSortCol().equals("seller.company") ? "seller" : requestGrid.getSortCol();
         String sortDir = requestGrid.getSortDir();
-        int minRows = (int) (long) requestGrid.getiDisplayStart(); // Doppio cast per ottenere le rows minime + 1
-        int maxRows = (int) (long) requestGrid.getiDisplayLength(); // Doppio cast per ottenere le rows massime
+        int minRows = (int) (long) requestGrid.getiDisplayStart();
+        int maxRows = (int) (long) requestGrid.getiDisplayLength();
         String search  = ConversionUtility.addPercentSuffix(requestGrid.getsSearch());
         
         //Criteria Builider
@@ -273,7 +273,6 @@ public class JPAProductService implements ProductService{
 		if(c.getParent()!=null){
 			Category parent = em.find(Category.class, c.getParent().getId());
 			parent.getChilds().remove(c);
-			//em.merge(parent);
 		}
 		//se ho prodotti associati, elimino l'associazione
 		c.getProducts().clear();

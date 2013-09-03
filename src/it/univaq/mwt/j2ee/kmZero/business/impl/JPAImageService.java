@@ -111,8 +111,6 @@ public class JPAImageService implements ImageService{
 	public void updateSellerContentImage(Image image, Long sellercontentId) {
 		SellerContent sc = em.find(SellerContent.class,sellercontentId);
 		sc.getImage().setAltName(image.getAltName());
-		//Image i = em.find(Image.class,image.getId());
-		//i.setAltName(image.getAltName());		
 	}
 
 	@Override
