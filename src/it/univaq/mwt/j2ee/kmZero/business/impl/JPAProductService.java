@@ -129,8 +129,8 @@ public class JPAProductService implements ProductService{
         /*MAIN PREDICATE*/
         Predicate predicate = cb.and(
 									cb.equal(p.get("active").as(Boolean.class), active),
-									cb.lessThanOrEqualTo(p.get("date_in").as(Date.class), today),
-									cb.greaterThanOrEqualTo(p.get("date_out").as(Date.class), today),
+									cb.lessThanOrEqualTo(p.get("dateIn").as(Date.class), today),
+									cb.greaterThanOrEqualTo(p.get("dateOut").as(Date.class), today),
 									categoryPredicate,
 									sellerPredicate,
 									cb.or(

@@ -153,7 +153,7 @@ public class JPATestService implements TestService{
 		    TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
 		    											"LEFT JOIN cl.cart c " +
 		    											"LEFT JOIN cl.product p " +
-		    											"WHERE p.seller = :seller AND c.delivery_date = null",CartLine.class);
+		    											"WHERE p.seller = :seller AND c.deliveryDate = null",CartLine.class);
 		    query.setParameter("seller", s);
 	        List<CartLine> rs = query.getResultList();
 	        return rs;

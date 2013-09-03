@@ -50,7 +50,7 @@ if (document.getElementById('address_autocompleted')) {
 
 	var input = (document.getElementById('address_autocompleted'));
 	var autocomplete_options = {
-			  componentRestrictions: {country: 'it'} // Nel caso dell'iscrizione si potrebbero eliminare le restrizioni
+			  componentRestrictions: {country: 'it'}
 			};
 
 	
@@ -58,7 +58,6 @@ if (document.getElementById('address_autocompleted')) {
 
 	google.maps.event.addListener(autocomplete, 'place_changed', function() {
         var place = autocomplete.getPlace();
-        console.log(place.address_components);
     }); 	
 
     autocomplete.bindTo('bounds', map);
@@ -150,7 +149,6 @@ if (document.getElementById('address_autocompleted')) {
 		        	if (document.getElementById("submitIfValidAddress")) {
 		        		document.getElementById("submitIfValidAddress").disabled=true;
 		        	}
-//		        	document.getElementById("addressDistanceError").innerHTML="<spring:message code='error.addressDistance'/>";
 		        	document.getElementById("addressDistanceError").innerHTML="L'indirizzo risulta al di fuori del range di consegna di KmZero.";
 		        }
 		      } 
@@ -160,10 +158,6 @@ if (document.getElementById('address_autocompleted')) {
 		  
 		  /* Fine CALCOLO DISTANZA */
 		  
-		  /* Aggiunta percorso in div apposito */
-		  
-		  
-
 }
 }
 
@@ -172,9 +166,6 @@ if (document.getElementById('address_autocompleted')) {
 
 
 function calcRoute() {
-//	var start = document.getElementById("start").value;
-//	var start = document.getElementById("start").innerHTML;
-//	var end = document.getElementById("end").value;
 	
 	var start = warehouse;
 	var end = warehouse;
@@ -204,5 +195,3 @@ function calcRoute() {
 		}
 	});
 }
-	
-//google.maps.event.addDomListener(window, 'load', initialize);

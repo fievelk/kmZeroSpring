@@ -7,12 +7,12 @@ import javax.persistence.Transient;
 public class Password implements java.io.Serializable{
 
 	@Transient
-	private String db_password;
+	private String dbPassword;
 	@Transient
-	private String old_password;
+	private String oldPassword;
 	private String password;
 	@Transient
-	private String confirm_password;
+	private String confirmPassword;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -20,28 +20,28 @@ public class Password implements java.io.Serializable{
 		
 	}
 
-	public Password(String db_password, String old_password, String password, String confirm_password) {
+	public Password(String dbPassword, String oldPassword, String password, String confirmPassword) {
 		super();
-		this.db_password = db_password;
-		this.old_password = old_password;
+		this.dbPassword = dbPassword;
+		this.oldPassword = oldPassword;
 		this.password = password;
-		this.confirm_password = confirm_password;
+		this.confirmPassword = confirmPassword;
 	}
 
-	public String getDb_password() {
-		return db_password;
+	public String getDbPassword() {
+		return dbPassword;
 	}
 
-	public void setDb_password(String db_password) {
-		this.db_password = db_password;
+	public void setDbPassword(String dbPassword) {
+		this.dbPassword = dbPassword;
 	}
 	
-	public String getOld_password() {
-		return old_password;
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
-	public void setOld_password(String old_password) {
-		this.old_password = old_password;
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 	public String getPassword() {
@@ -52,12 +52,12 @@ public class Password implements java.io.Serializable{
 		this.password = password;
 	}
 
-	public String getConfirm_password() {
-		return confirm_password;
+	public String getConfirmPassword() {
+		return confirmPassword;
 	}
 
-	public void setConfirm_password(String confirm_password) {
-		this.confirm_password = confirm_password;
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 }

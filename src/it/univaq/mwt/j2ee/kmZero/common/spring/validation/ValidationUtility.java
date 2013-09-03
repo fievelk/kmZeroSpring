@@ -7,9 +7,7 @@ import java.util.Iterator;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
-import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 public class ValidationUtility {
@@ -40,24 +38,14 @@ public class ValidationUtility {
 		
 	}
 	
-	public static void checkIdentity(Errors errors, String fieldName, String errorMessage, long id){
-		UserDetailsImpl udi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		long userid = udi.getId();/*
-		if (id != userid && !udi.getRoles().contains(new Role(3))){
-
-			errors.rejectValue(fieldName, errorMessage);
-		}*/
-		
-	}
-
-	public static void checkDelivery_date(Errors errors, String fieldName, String errorMessage,
-			Collection<CartLine> cartLines, Date delivery_date) {
+	public static void checkdeliveryDate(Errors errors, String fieldName, String errorMessage,
+			Collection<CartLine> cartLines, Date deliveryDate) {
 		Iterator<CartLine> i = cartLines.iterator();
 		int x = 0;
 		while (i.hasNext()){
 			CartLine cl = i.next();
 			Product p = cl.getProduct();
-			if (delivery_date.after(p.getDate_out())){
+			if (deliveryDate.after(p.getDateOut())){
 				x++;
 			}
 		}

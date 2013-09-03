@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="sellers")
 @DiscriminatorValue(value="S")
-@PrimaryKeyJoinColumn(name="user_id")
+@PrimaryKeyJoinColumn(name="id")
 public class Seller extends User implements Serializable{
 
 	@Column(name="p_iva")
@@ -43,7 +43,7 @@ public class Seller extends User implements Serializable{
 	private boolean enable;
 	
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "seller_fk")
+	@JoinColumn(name = "seller_id")
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 	
@@ -65,8 +65,8 @@ public class Seller extends User implements Serializable{
 	
 	// Costruttore per il Test
 	public Seller(String name, String surname, String email, Password password, Date created, 
-			Date date_of_birth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
-		super(name, surname, email, password, created, date_of_birth, address);
+			Date dateOfBirth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
+		super(name, surname, email, password, created, dateOfBirth, address);
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
 		this.company = company;

@@ -166,11 +166,10 @@ public class SellersController {
 		seller.setPassword(user.getPassword());
 		seller.setEmail(user.getEmail());
 		seller.setCreated(user.getCreated());
-		seller.setDate_of_birth(user.getDate_of_birth());
-		seller.setLast_access(user.getLast_access());
+		seller.setDateOfBirth(user.getDateOfBirth());
+		seller.setLastAccess(user.getLastAccess());
 		seller.setAddress(user.getAddress());
 		
-		//seller = (Seller) user;
 		model.addAttribute("seller", seller);
 		return "sellers.upgradeform";
 	}
@@ -265,7 +264,6 @@ public class SellersController {
 		model.addAttribute("warehouse", warehouse);
 		return "sellers.view";
 	}
-	
 
 	// WAREHOUSE
 
@@ -297,7 +295,6 @@ public class SellersController {
 	* interpreted as a view name).*/
 	public String findWarehouseAddress() throws BusinessException {
 		String address = warehouseService.findWarehouseAddress();	
-	
 		return address;
 	}
 	
@@ -327,7 +324,6 @@ public class SellersController {
 	public String sellersPickUpMap(Model model) throws BusinessException {
 
 		Collection<CartLine> cartLinesToDeliver = cartService.findCartLinesToDeliver();
-		System.out.println("CARTLINES "+cartLinesToDeliver);
 		
 		model.addAttribute("cartLinesToDeliver", cartLinesToDeliver);
 		return "planning.sellerspickupmap";

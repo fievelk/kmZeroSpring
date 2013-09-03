@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class CartLine implements Serializable{
 
 	@Id
-	@Column(name="cartline_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "cartlines_seq")
 	@SequenceGenerator(name = "cartlines_seq", allocationSize=1)
 	private long id;
@@ -37,7 +37,7 @@ public class CartLine implements Serializable{
 	@Column(name="quantity")
 	private int quantity;
 	
-	@Column(name="lineTotal")
+	@Column(name="line_total")
 	private BigDecimal lineTotal;
 	
 	@Column(name="review", nullable=true)
@@ -47,11 +47,11 @@ public class CartLine implements Serializable{
 	private int rating;
 	
 	@OneToOne
-	@JoinColumn(name="product_fk")
+	@JoinColumn(name="product_id")
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="cart_fk")
+	@JoinColumn(name="cart_id")
 	@JsonBackReference("cart-cartlines")
 	private Cart cart; 
 	

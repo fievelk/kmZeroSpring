@@ -28,10 +28,10 @@ public interface CartService {
 	Cart findCartToCheckout(long id, String email) throws BusinessException;
 
 	// Il carrello e' stato pagato
-	void paid(String transaction_id, long cart_id) throws BusinessException;
+	void paid(String transactionId, long cart_id) throws BusinessException;
 
 	// Conferma il carrello prima di fare il checkout
-	void confirmCart(long id_cart, Date delivery_date) throws BusinessException;
+	void confirmCart(long id_cart, Date deliveryDate) throws BusinessException;
 
 	CartLine findCartLineById(long cartLineId) throws BusinessException;
 

@@ -85,18 +85,18 @@ $(function() {
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
+				    <label class="control-label" for="confirmPassword"><spring:message code="user.confirmPassword"/></label>
 				    <div class="controls">
-				    	<form:password id="confirm_password" path="password.confirm_password"/><br />
-				    	<form:errors path="password.confirm_password"/>
+				    	<form:password id="confirmPassword" path="password.confirmPassword"/><br />
+				    	<form:errors path="password.confirmPassword"/>
 				    </div>
 				</div>
 				</c:if>
 				<div class="control-group">
-				    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
+				    <label class="control-label" for="dateOfBirth"><spring:message code="user.dateOfBirth"/></label>
 					<div class="controls">
-						<form:input id="datepicker" path="date_of_birth"/>
-						<form:errors path="date_of_birth"/>
+						<form:input id="datepicker" path="dateOfBirth"/>
+						<form:errors path="dateOfBirth"/>
 					</div>
 				</div>
 				<div class="control-group">

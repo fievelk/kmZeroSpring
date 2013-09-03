@@ -99,7 +99,6 @@ function createMarker(latlng, name, html) {
     var contentString = html;
     var iconBase = '${pageContext.request.contextPath}/resources/custom/img/';
     var marker;
-    console.log(name);
     if(name=="WAREHOUSE"){
     	
 	    	marker = new google.maps.Marker({

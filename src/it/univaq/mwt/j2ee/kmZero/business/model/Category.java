@@ -26,7 +26,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name="categories")
 public class Category implements Serializable{
 	
-	@Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "categories_seq") @Column(name="category_id")
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "categories_seq")
+	@Column(name="id")
 	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 	@SequenceGenerator(name = "categories_seq", allocationSize=1)
 	private long id;

@@ -33,13 +33,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class Cart implements Serializable{
 
 	@Id
-	@Column(name="cart_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "carts_seq")
 	@SequenceGenerator(name = "carts_seq", allocationSize=1, initialValue=2)
 	private long id;
 	
 	@Column(name="transaction_id")
-	private String transaction_id;
+	private String transactionId;
 	
 	@Column(name="created", nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,7 +55,7 @@ public class Cart implements Serializable{
 	
 	@Column(name="delivery_date", nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date delivery_date;
+	private Date deliveryDate;
 	
 	@Column(name="address", nullable=true)
 	private String address;
@@ -71,7 +71,7 @@ public class Cart implements Serializable{
 	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
 	
 	@ManyToOne
-	@JoinColumn(name="user_fk")
+	@JoinColumn(name="user_id")
 	private User user;
 	
 	private static final long serialVersionUID = 1L;
@@ -81,16 +81,16 @@ public class Cart implements Serializable{
 	}
 
 	
-	public Cart(long id, String transaction_id, Date created, Date dispatched, Date paid,
-			Date delivery_date,Collection<CartLine> cartLines, String address, String name,
+	public Cart(long id, String transactionId, Date created, Date dispatched, Date paid,
+			Date deliveryDate,Collection<CartLine> cartLines, String address, String name,
 			String surname) {
 		super();
 		this.id = id;
-		this.transaction_id = transaction_id;
+		this.transactionId = transactionId;
 		this.created = created;
 		this.dispatched = dispatched;
 		this.paid = paid;
-		this.delivery_date = delivery_date;
+		this.deliveryDate = deliveryDate;
 		this.cartLines = cartLines;
 		this.address = address;
 		this.name = name;
@@ -105,11 +105,11 @@ public class Cart implements Serializable{
 		this.id = id;
 	}
 	
-	public String getTransaction_id() {
-		return transaction_id;
+	public String getTransactionId() {
+		return transactionId;
 	}
-	public void setTransaction_id(String transaction_id) {
-		this.transaction_id = transaction_id;
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	@JsonSerialize(using=DateJsonSerializer.class)
@@ -136,11 +136,11 @@ public class Cart implements Serializable{
 		this.paid = paid;
 	}
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDelivery_date() {
-		return delivery_date;
+	public Date getDeliveryDate() {
+		return deliveryDate;
 	}
-	public void setDelivery_date(Date delivery_date) {
-		this.delivery_date = delivery_date;
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 	
 	public String getAddress() {

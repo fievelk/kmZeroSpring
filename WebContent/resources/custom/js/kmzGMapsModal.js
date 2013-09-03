@@ -21,24 +21,9 @@ function executeOnModal() {
 		
 	}, 500);
 }
-//function executeOnModal() {
-//	$.ajax({
-//		type:"POST",
-//	    url:contextPath+"/sellers/findWarehouseAddress",  
-//	    success:function(data){
-//	    			warehouseAddressModal = data;
-//	    			geocoderModal.geocode({'address': warehouseAddressModal }, function(results) {
-//	    				warehouse = results[0].geometry.location;
-//	    				initializeModal();
-//	    			});
-//	    }
-//	});
-//};
 
 function initializeModal() {
 	
-//	var warehouse = new google.maps.LatLng(42.348395, 14.108963);
-
 	/* Address Autocompletion */
 	
 	var inputModal = (document.getElementById('address_autocompletedModal'));
@@ -51,7 +36,6 @@ function initializeModal() {
 
 	google.maps.event.addListener(autocompleteModal, 'place_changed', function() {
         var placeModal = autocompleteModal.getPlace();
-        console.log(placeModal.address_components);
     }); 
 	
 	/* End of address Autocompletion */
@@ -170,7 +154,6 @@ function initializeModal() {
 		        	if (document.getElementById("submitIfValidAddressModal")) {
 		        		document.getElementById("submitIfValidAddressModal").disabled=true;
 		        	}
-//		        	document.getElementById("addressDistanceError").innerHTML="<spring:message code='error.addressDistance'/>";
 		        	document.getElementById("addressDistanceErrorModal").innerHTML="L'indirizzo risulta al di fuori del range di consegna di KmZero.";
 		        }
 		      } 
@@ -210,5 +193,3 @@ function calcRoute() {
 		}
 	});
 }
-	
-//google.maps.event.addDomListener(window, 'load', initializeModal);

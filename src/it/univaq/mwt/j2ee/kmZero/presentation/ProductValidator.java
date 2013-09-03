@@ -1,7 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
-import java.math.BigDecimal;
-
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.common.spring.validation.ValidationUtility;
 
@@ -28,8 +26,8 @@ public class ProductValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "stock", "errors.required");
 		ValidationUtils.rejectIfEmpty(errors, "measure.id", "errors.required");
 		ValidationUtils.rejectIfEmpty(errors, "category.id", "errors.required");
-		ValidationUtils.rejectIfEmpty(errors, "date_in", "errors.required");
-		ValidationUtils.rejectIfEmpty(errors, "date_out", "errors.required");
+		ValidationUtils.rejectIfEmpty(errors, "dateIn", "errors.required");
+		ValidationUtils.rejectIfEmpty(errors, "dateOut", "errors.required");
 		
 		ValidationUtility.rejectIfMaxLength(errors, "name", "errors.maxlength", product.getName(), 255);
 		ValidationUtility.rejectIfMaxLength(errors, "description", "errors.maxlength", product.getDescription(), 500);

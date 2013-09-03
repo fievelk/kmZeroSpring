@@ -15,7 +15,6 @@ import javax.persistence.Table;
 @Table(name="images")
 public class Image implements Serializable{
 	
-
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "images_seq")

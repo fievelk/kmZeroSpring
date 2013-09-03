@@ -20,9 +20,9 @@ public class CartsValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Cart cart = (Cart) target;
 		
-		ValidationUtils.rejectIfEmpty(errors, "delivery_date", "errors.required");
-		if (cart.getDelivery_date() != null){
-			ValidationUtility.checkDelivery_date(errors, "delivery_date", "errors.delivery_date", cart.getCartLines(), cart.getDelivery_date());
+		ValidationUtils.rejectIfEmpty(errors, "deliveryDate", "errors.required");
+		if (cart.getDeliveryDate() != null){
+			ValidationUtility.checkdeliveryDate(errors, "deliveryDate", "errors.deliveryDate", cart.getCartLines(), cart.getDeliveryDate());
 		}
 	}
 }

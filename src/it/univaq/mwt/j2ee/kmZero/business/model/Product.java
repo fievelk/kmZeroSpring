@@ -41,7 +41,7 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="product_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "products_seq")
 	@SequenceGenerator(name = "products_seq", allocationSize=1)
 	private long id;
@@ -57,11 +57,11 @@ public class Product implements Serializable {
 	
 	@Column(name="date_in")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date_in;
+	private Date dateIn;
 
 	@Column(name="date_out")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date_out;
+	private Date dateOut;
 
 	@Column(name="active")
 	private boolean active;
@@ -72,7 +72,7 @@ public class Product implements Serializable {
 	private Category category;
 
 	@OneToMany(fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "product_fk")
+	@JoinColumn(name = "product_id")
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
 
@@ -106,7 +106,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(long id, String name, String description, BigDecimal price,
-			Date date_in, Date date_out, boolean active, Category category,
+			Date dateIn, Date dateOut, boolean active, Category category,
 			List<Image> images, Rating rating, Collection<Feedback> feedbacks,
 			int stock, Measure measure, Seller seller, int position) {
 		super();
@@ -114,8 +114,8 @@ public class Product implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
+		this.dateIn = dateIn;
+		this.dateOut = dateOut;
 		this.active = active;
 		this.category = category;
 		this.images = images;
@@ -149,19 +149,19 @@ public class Product implements Serializable {
 
 	// L'annotazione @JsonSerialize serve per visualizzare correttamente le date in DataTables
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDate_in() {
-		return date_in;
+	public Date getDateIn() {
+		return dateIn;
 	}
-	public void setDate_in(Date date_in) {
-		this.date_in = date_in;
+	public void setDateIn(Date dateIn) {
+		this.dateIn = dateIn;
 	}
 
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDate_out() {
-		return date_out;
+	public Date getDateOut() {
+		return dateOut;
 	}
-	public void setDate_out(Date date_out) {
-		this.date_out = date_out;
+	public void setDateOut(Date dateOut) {
+		this.dateOut = dateOut;
 	}
 	public Category getCategory() {
 		return category;

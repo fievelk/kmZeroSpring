@@ -130,12 +130,9 @@ public class UsersController {
 	
 	@RequestMapping(value="/edit_password", method = RequestMethod.POST)
 	public String editPassword(@ModelAttribute User user, BindingResult bindingResult) throws BusinessException {
-		/* Metodo che restituisce la password vecchia che � nel DB e poi fare il confronto
-		 * Ricordare che bisogna mettere l'hash altrimenti il confronto non funziona. */
 		Password password = user.getPassword();
-		password.setDb_password(service.oldPassword(user.getId()));
+		password.setDbPassword(service.oldPassword(user.getId()));
 		
-		//user.getPassword().setDb_password(service.oldPassword(user.getId()));
 		validatorPassword.validate(password, bindingResult);
 		if (bindingResult.hasErrors()){
 			return "users.passwordform";
@@ -151,7 +148,6 @@ public class UsersController {
 		long id = udi.getId();
 		User user = service.findUserById(id);
 		
-		// Trovo i carrelli pagati e li aggiungo al model
 		Collection<Cart> carts = cartService.findUserPaidCarts(user); 
 		
 		model.addAttribute("carts", carts);

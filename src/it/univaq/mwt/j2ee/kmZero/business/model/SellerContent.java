@@ -31,7 +31,7 @@ public class SellerContent implements Serializable{
 	private String description;
 	
 	@OneToOne(cascade=CascadeType.ALL,orphanRemoval=true)
-	@JoinColumn(name = "image_fk")
+	@JoinColumn(name = "image_id")
 	private Image image;
 	
 	@ManyToOne

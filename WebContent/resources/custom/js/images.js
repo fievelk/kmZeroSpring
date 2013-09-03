@@ -32,14 +32,12 @@ function doAjaxPostUpload(form_id) {
 function processJson(data)  {
 	if(data.trueData){
 		var imgs = '';
-		console.log(data);
 		/*dai dati json ritornati dal controller ricreo tutte le immagini e i relativi links per la cancellazione*/
 		var prod_id = data.owner_id;
 		var images = data.images;
 		var owner_kind = data.owner_kind;
 		
 		$.each(images,function(i,item){
-			console.log(item);
 			
 			var paramsDelete = "'deleteImage','"+owner_kind+"','"+prod_id+"','"+item.id+"'";
 			var paramsUpdate = "'updateImage','"+owner_kind+"','"+prod_id+"','"+item.id+"'";
@@ -53,7 +51,7 @@ function processJson(data)  {
 					+'</span>'
 					+'</div>';
 		});
-		/*non si capisce perch al primo giro del foreach viene stamapato 'undefined', 
+		/*non si capisce perche' al primo giro del foreach viene stamapato 'undefined', 
 		ho cercato di debuggare ma firebug non lo mostra, alla fine ho dovuto stripparlo manualmente dalla stringa*/
 		imgs = imgs.replace('undefined','');
 		$('div#km0Images').replaceWith('<div id="km0Images">'+imgs+'</div>'); 
@@ -81,7 +79,6 @@ function upload(event, position, total, percentComplete)  {
 
 function createModalWindow(method,owner_kind,owner_id,image_id){
 	var data;
-	console.log(owner_kind);
 	if(data = doAjaxGetModalWindowContent(method+'_start',owner_kind,owner_id,image_id)){	
 		$('#modalWindow').modal('show');
 	}else{

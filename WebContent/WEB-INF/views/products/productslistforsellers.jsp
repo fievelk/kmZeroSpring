@@ -15,8 +15,8 @@
 		                {"mData":"name"},		
 		                {"mData":"price"},
 		                {"mData":"category.name"},
-		                {"mData":"date_in"},
-		                {"mData":"date_out"},
+		                {"mData":"dateIn"},
+		                {"mData":"dateOut"},
 		                {"mData":"position"},
 		                {"mData":"seller.company"},
 		                { "sName": "id",
@@ -53,8 +53,8 @@
 				    <th><spring:message code="product.name"/></th>
 				    <th><spring:message code="product.price"/></th>
 				    <th><spring:message code="product.category"/></th>
-				    <th><spring:message code="product.date_in"/></th>
-				    <th><spring:message code="product.date_out"/></th>
+				    <th><spring:message code="product.dateIn"/></th>
+				    <th><spring:message code="product.dateOut"/></th>
 				    <th><spring:message code="product.position"/></th>
 				    <th><spring:message code="product.seller"/></th>
 		   	   	    <th><spring:message code="common.actions"/></th>

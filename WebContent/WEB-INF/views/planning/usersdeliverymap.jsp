@@ -29,7 +29,7 @@ $(document).ready(function() {
 				<div class="span9 withBorder">
 					<div class="span1"></div>
 					<div class="span1 centeredText"><b><spring:message code="cart.id"/></b></div>
-					<div class="span2 centeredText"><b><spring:message code="cart.delivery_date"/></b></div>
+					<div class="span2 centeredText"><b><spring:message code="cart.deliveryDate"/></b></div>
 					<div class="span5"><b><spring:message code="cart.address"/></b></div>
 				</div>
 			</div>
@@ -38,7 +38,7 @@ $(document).ready(function() {
 				<div class="span12 withBorder coloredDiv">
 					<div class="span1"><input type="checkbox" name="waypoints" value="${cart.address}"></div>
 					<div class="span1 centeredText">${cart.id}</div>
-					<div class="span2 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.delivery_date}" /></div>
+					<div class="span2 centeredText"><fmt:formatDate pattern="dd-MM-yyyy" value="${cart.deliveryDate}" /></div>
 					<div class="span5">${cart.address}</div>
 				</div>
 				<c:forEach items="${cart.cartLines}" var="cartLine">

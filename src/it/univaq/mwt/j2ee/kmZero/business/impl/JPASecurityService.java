@@ -28,9 +28,9 @@ public class JPASecurityService implements SecurityService {
         
         result = (User)query.getSingleResult();
         
-        result.setLast_access(new Date());
-        Query update = em.createQuery("UPDATE User SET last_access= :last_access WHERE id= :id");
-        update.setParameter("last_access", new Date());
+        result.setLastAccess(new Date());
+        Query update = em.createQuery("UPDATE User SET lastAccess= :lastAccess WHERE id= :id");
+        update.setParameter("lastAccess", new Date());
         update.setParameter("id", result.getId());
         update.executeUpdate();
        

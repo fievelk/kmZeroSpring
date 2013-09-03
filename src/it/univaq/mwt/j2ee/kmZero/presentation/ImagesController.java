@@ -3,18 +3,12 @@ package it.univaq.mwt.j2ee.kmZero.presentation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
-import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseImages;
 import it.univaq.mwt.j2ee.kmZero.business.service.ImageService;
-import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,14 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
-import it.univaq.mwt.j2ee.kmZero.business.model.Product;
-import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
-
 
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;
 import it.univaq.mwt.j2ee.kmZero.common.km0ImageUtility;
-import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
-import it.univaq.mwt.j2ee.kmZero.common.spring.validation.ValidationUtility;
 
 @Controller
 public class ImagesController {
@@ -44,10 +33,9 @@ public class ImagesController {
 	@Autowired
 	private ImageService imageService;
 	
-	
 	/*ADD IMAGES*/
 	/*i metodi start sono parametrizzati per tutti i modelli che utilizzano le immagini (Product, Seller, SellerContent nel nostro caso)*/
-	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che è unica) */
+	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che e' unica) */
 	/*prima di ritornare vengono impostati i parametri da sotituire compresa la action del form presente nella jsp*/
 	
 	@RequestMapping(value="/{ownerKind}/{ownerId}/addImages_start",method = RequestMethod.POST)
@@ -57,7 +45,7 @@ public class ImagesController {
 		return "image.addform";
 	}
 	
-	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo start). Ne sono uno per modello perchè abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
+	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo start). Ne sono uno per modello perchÔøΩ abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
 	@RequestMapping(value="/product/addImages", method = RequestMethod.POST)
 	public @ResponseBody ResponseImages productAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("ownerId") Long ownerId) throws BusinessException, IOException {
 	
@@ -190,7 +178,9 @@ public class ImagesController {
 	public ResponseImages reloadSellerContentImages(long sellercontentId) throws BusinessException{
 		Image i = imageService.getSellerContentImages(sellercontentId);
 		List<Image> ri = new ArrayList<Image>();
-		//se non viene effettuato questo controllo (i == null), nell'oggetto json viene ritornato un array con un unico elemento null e questo fa fallire image.js che deve ricostruire la lista delle immagini. Se l'array delle immagini ÔøΩ [ ] OK, se ÔøΩ [null] fallisce quindi ÔøΩ importante fare il controllo e ritornare [ ] 
+		/*se non viene effettuato questo controllo (i == null), nell'oggetto json viene ritornato un array 
+		 * con un unico elemento null e questo fa fallire image.js che deve ricostruire la lista delle immagini. 
+		 * Se l'array delle immagini e' [ ] OK, se e' [null] fallisce quindi e' importante fare il controllo e ritornare [ ] */
 		if(i != null) ri.add(i);
 		return new ResponseImages(ri, sellercontentId,"sellercontent");
 	}

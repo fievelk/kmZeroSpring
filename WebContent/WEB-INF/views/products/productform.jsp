@@ -152,18 +152,18 @@ $(function() {
 		
 				
 		 		<div>
-				    <label for="date_in"><spring:message code="product.date_in"/></label>
+				    <label for="dateIn"><spring:message code="product.dateIn"/></label>
 				    <div>
-				    	<form:input id="from" path="date_in"/><br />
-				    	<form:errors path="date_in"/>
+				    	<form:input id="from" path="dateIn"/><br />
+				    	<form:errors path="dateIn"/>
 				    </div>
 				</div> 
 				
 		 		<div>
-				    <label for="date_out"><spring:message code="product.date_out"/></label>
+				    <label for="dateOut"><spring:message code="product.dateOut"/></label>
 				    <div>
-				    	<form:input id="to" path="date_out"/><br />
-				    	<form:errors path="date_out"/>
+				    	<form:input id="to" path="dateOut"/><br />
+				    	<form:errors path="dateOut"/>
 				    </div>
 				</div>		
 				

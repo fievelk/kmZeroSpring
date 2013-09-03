@@ -32,8 +32,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser;
 
-
-
 @Controller
 @RequestMapping("/products")
 public class ProductsController {
@@ -267,7 +265,6 @@ public class ProductsController {
 	}	
 	
 // Model Attributes	
-	
 
 	@ModelAttribute
 	public void findAllCategories(Model model) throws BusinessException {

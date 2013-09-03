@@ -19,7 +19,7 @@ public class Measure implements Serializable{
 
 	@Id 
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "measures_seq")
-	@Column(name="measure_id")
+	@Column(name="id")
 	@SequenceGenerator(name = "measures_seq", allocationSize=1)
 	private long id;
 	

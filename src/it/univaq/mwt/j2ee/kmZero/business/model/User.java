@@ -41,7 +41,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class User implements java.io.Serializable{
 
 	@Id
-	@Column(name="user_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "users_seq")
 	@SequenceGenerator(name = "users_seq", allocationSize=1)
 	private long id;
@@ -62,20 +62,20 @@ public class User implements java.io.Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
-	@Column(name="date_of_birth",nullable=true)
+	@Column(name="dateOfBirth",nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date_of_birth;
+	private Date dateOfBirth;
 
 	@Column(name="last_access",nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date last_access;
+	private Date lastAccess;
 
 	@Column(name="address")
 	private String address;
 
 	@ManyToMany(fetch=FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
-	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_fk"),
-	inverseJoinColumns=@JoinColumn(name = "role_fk"))
+	@JoinTable(name="users_roles",joinColumns=@JoinColumn(name = "user_id"),
+	inverseJoinColumns=@JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<Role>();
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
@@ -103,27 +103,27 @@ public class User implements java.io.Serializable{
 	}
 
 	public User(String name, String surname, String email, Password password, Date created, 
-			Date date_of_birth, String address) {
+			Date dateOfBirth, String address) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
 		this.created = created;
-		this.date_of_birth = date_of_birth;
+		this.dateOfBirth = dateOfBirth;
 		this.address = address;
 	}
 
 	/* Costruttore per Datatables */
 	public User(long id, String name, String surname, String email,
-			Date created, Date date_of_birth, Date last_access, String address) {
+			Date created, Date dateOfBirth, Date lastAccess, String address) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.created = created;
-		this.date_of_birth = date_of_birth;
-		this.last_access = last_access;
+		this.dateOfBirth = dateOfBirth;
+		this.lastAccess = lastAccess;
 		this.address = address;
 	}
 
@@ -172,21 +172,21 @@ public class User implements java.io.Serializable{
 	}
 
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getDate_of_birth() {
-		return date_of_birth;
+	public Date getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public void setDate_of_birth(Date date_of_birth) {
-		this.date_of_birth = date_of_birth;
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	@JsonSerialize(using=DateJsonSerializer.class)
-	public Date getLast_access() {
-		return last_access;
+	public Date getLastAccess() {
+		return lastAccess;
 	}
 
-	public void setLast_access(Date last_access) {
-		this.last_access = last_access;
+	public void setLastAccess(Date lastAccess) {
+		this.lastAccess = lastAccess;
 	}
 
 	public String getAddress() {

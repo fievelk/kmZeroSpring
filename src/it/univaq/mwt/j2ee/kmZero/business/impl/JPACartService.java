@@ -173,18 +173,18 @@ public class JPACartService implements CartService{
 
 	@Override
 	@Transactional
-	public void paid(String transaction_id, long cart_id) throws BusinessException {
+	public void paid(String transactionId, long cart_id) throws BusinessException {
 		Cart cart = em.find(Cart.class, cart_id);
 		cart.setPaid(new Date());
-		cart.setTransaction_id(transaction_id);
+		cart.setTransactionId(transactionId);
 		em.merge(cart);
 	}
 
 	@Override
 	@Transactional
-	public void confirmCart(long id_cart, Date delivery_date) throws BusinessException {
-		Query query = em.createQuery("UPDATE Cart SET delivery_date = :delivery_date WHERE id = :id");
-		query.setParameter("delivery_date", delivery_date);
+	public void confirmCart(long id_cart, Date deliveryDate) throws BusinessException {
+		Query query = em.createQuery("UPDATE Cart SET deliveryDate = :deliveryDate WHERE id = :id");
+		query.setParameter("deliveryDate", deliveryDate);
 		query.setParameter("id", id_cart);
 		query.executeUpdate();
 	}
@@ -269,7 +269,7 @@ public class JPACartService implements CartService{
 		TypedQuery<CartLine> query = em.createQuery("Select cl FROM CartLine cl " +
 	    											"WHERE cl.cart.paid IS NOT NULL " +
 	    											"AND cl.cart.dispatched IS NULL " +
-	    											"ORDER BY cl.cart.delivery_date, cl.product.seller",CartLine.class);
+	    											"ORDER BY cl.cart.deliveryDate, cl.product.seller",CartLine.class);
 	    
         Collection<CartLine> cartLines = query.getResultList();
 		return cartLines;

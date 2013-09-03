@@ -78,8 +78,8 @@
 			<div class="span4 offset5">
 				<div class="pull-right">
 					<span><h6 class="">Scegli una data di consegna</h6></span>
-					<form:input  class="pull-right" id="cartpicker" path="delivery_date"/></br>
-					<form:errors class="pull-right" path="delivery_date"/>
+					<form:input  class="pull-right" id="cartpicker" path="deliveryDate"/></br>
+					<form:errors class="pull-right" path="deliveryDate"/>
 				</div>
 				
 			</div>

@@ -23,7 +23,7 @@ public class Feedback implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="feedback_id")
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "feedbacks_seq")
 	@SequenceGenerator(name = "feedbacks_seq", allocationSize=1)
 	private long id;

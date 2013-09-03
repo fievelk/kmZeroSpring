@@ -57,11 +57,11 @@ public class JPAUserService implements UserService{
 	@Transactional
 	public void updateUser(User user) throws BusinessException {
         Query query = em.createQuery("UPDATE User SET name= :name, surname= :surname, email= :email, " +
-				"date_of_birth= :date_of_birth, address= :address WHERE id= :id");
+				"dateOfBirth= :dateOfBirth, address= :address WHERE id= :id");
 		query.setParameter("name", user.getName());
 		query.setParameter("surname", user.getSurname());
 		query.setParameter("email", user.getEmail());
-		query.setParameter("date_of_birth", user.getDate_of_birth());
+		query.setParameter("dateOfBirth", user.getDateOfBirth());
 		query.setParameter("address", user.getAddress());
 		query.setParameter("id", user.getId());
 		query.executeUpdate();
@@ -91,7 +91,7 @@ public class JPAUserService implements UserService{
         int maxRows = (int) (long) requestGrid.getiDisplayLength();
         int minRows = (int) (long) requestGrid.getiDisplayStart();
         
-		TypedQuery<User> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.User (u.id, u.name, u.surname, u.email, u.created, u.date_of_birth, u.last_access, u.address) FROM User u" +
+		TypedQuery<User> query = em.createQuery("SELECT NEW it.univaq.mwt.j2ee.kmZero.business.model.User (u.id, u.name, u.surname, u.email, u.created, u.dateOfBirth, u.lastAccess, u.address) FROM User u" +
 				 ((!"".equals(requestGrid.getsSearch())) ? " AND u.name LIKE '" + ConversionUtility.addPercentSuffix(requestGrid.getsSearch()) + "'" : "") +
 				 ((!"".equals(requestGrid.getSortCol()) && !"".equals(requestGrid.getSortDir())) ? " order by " + requestGrid.getSortCol() + " " + requestGrid.getSortDir() : ""), User.class);
 		
@@ -128,11 +128,11 @@ public class JPAUserService implements UserService{
 	public void updateSeller(Seller seller) throws BusinessException {
 		
 		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
-				"date_of_birth= :date_of_birth, address= :address, url= :url, phone= :phone WHERE id= :id");
+				"dateOfBirth= :dateOfBirth, address= :address, url= :url, phone= :phone WHERE id= :id");
 		query.setParameter("name", seller.getName());
 		query.setParameter("surname", seller.getSurname());
 		query.setParameter("email", seller.getEmail());
-		query.setParameter("date_of_birth", seller.getDate_of_birth());
+		query.setParameter("dateOfBirth", seller.getDateOfBirth());
 		query.setParameter("address", seller.getAddress());
 		query.setParameter("url", seller.getUrl());
 		query.setParameter("phone", seller.getPhone());
@@ -157,7 +157,7 @@ public class JPAUserService implements UserService{
 		}
 		Seller s = em.find(Seller.class, seller.getId());
 		seller.setPassword(s.getPassword());
-		seller.setLast_access(s.getLast_access());
+		seller.setLastAccess(s.getLastAccess());
 		seller.setCreated(s.getCreated());
 		seller.setImages(s.getImages());
 		seller.setContents(s.getContents());
@@ -181,7 +181,7 @@ public class JPAUserService implements UserService{
 	public void upgradeSeller(Seller seller) throws BusinessException {
 		User user = em.find(User.class, seller.getId());
 		seller.setPassword(user.getPassword());
-		seller.setLast_access(user.getLast_access());
+		seller.setLastAccess(user.getLastAccess());
 		seller.setCreated(user.getCreated());
 		
 		em.remove(em.merge(user));
@@ -263,9 +263,9 @@ public class JPAUserService implements UserService{
 	@Override
 	public String oldPassword(long id) throws BusinessException {
 		User user = em.find(User.class, id);
-		String db_password = user.getPassword().getPassword();
+		String dbPassword = user.getPassword().getPassword();
 		
-		return db_password;
+		return dbPassword;
 	}
 
 	@Override
