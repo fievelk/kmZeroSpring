@@ -72,6 +72,7 @@ public class JPAImageService implements ImageService{
 	public void setSellerImages(Long sellerId, Collection<Image> ci) throws BusinessException {
 		Seller s = em.find(Seller.class, sellerId);
 		s.addImages(ci);
+		
 	}
 	
 	@Override

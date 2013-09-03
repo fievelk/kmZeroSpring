@@ -29,7 +29,7 @@ public interface UserService {
 	
 	void updateSellerByAdmin(Seller seller) throws BusinessException;
 	
-	void deleteSeller(Seller seller) throws BusinessException;
+	void deleteSeller(Long sellerId) throws BusinessException;
 	
 	void upgradeSeller(Seller seller) throws BusinessException;
 	

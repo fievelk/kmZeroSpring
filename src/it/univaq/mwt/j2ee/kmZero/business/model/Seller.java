@@ -20,6 +20,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import apple.laf.JRSUIUtils.Images;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,7 +56,7 @@ public class Seller extends User {
 	@JsonBackReference("contents-seller")
 	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller")
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL,mappedBy="seller")
 	@JsonBackReference("products-seller")
 	@OrderBy("position ASC")
 	private Collection<Product> products = new ArrayList<Product>();
@@ -203,20 +205,20 @@ public class Seller extends User {
 
 	public void setImages(Collection<Image> images) {
 		Comparators comparator = new Comparators();
-		List<Image> imagesList = new ArrayList<Image>(this.images);
+		List<Image> imagesList = new ArrayList<Image>(images);
 		Collections.sort(imagesList,comparator.getImagePositionComparator());
 		this.images = imagesList;
 	}
 
 	public void addImage(Image image){
-		List<Image> imagesList = new ArrayList<Image>(this.images);
+		List<Image> imagesList = new ArrayList<Image>(images);
 		int position = 0;
 		if(!imagesList.isEmpty()){
 			Image lastImage = imagesList.get(this.images.size()-1);
 			position = lastImage.getPosition();
 		}
 		image.setPosition(position+1);
-		this.images.add(image);	
+		images.add(image);	
 	}
 	
 	public void addImages(Collection<Image> images){
@@ -224,30 +226,58 @@ public class Seller extends User {
 			this.addImage(i.next());
 		}
 	}
+	
+/*	public void deleteImage(Image image){
+		if(images.contains(image)){
+			images.remove(image);
+		}		
+	}
+	
+	public void deleteImages(Collection<Image> images){
+		for(Iterator<Image> i = images.iterator();i.hasNext();){
+			deleteImage(i.next());
+		}
+	}*/
 
 	public Collection<Product> getProducts() {
 		return products;
 	}
 
 	public void setProducts(Collection<Product> products) {
-		Comparators comparator = new Comparators();
-		List<Product> productsList = new ArrayList<Product>(products);
-		Collections.sort(productsList,comparator.getProductPositionComparator());
-		this.products = productsList;
+		if(products != null){
+			Comparators comparator = new Comparators();
+			List<Product> productsList = new ArrayList<Product>(products);
+			Collections.sort(productsList,comparator.getProductPositionComparator());
+			this.products = productsList;
+		}else this.products = null;
 	}
 	
 	public void addProduct(Product product){
-		List<Product> productsList = new ArrayList<Product>(products);
-		int position = 0;
-		if(!productsList.isEmpty()){
-			Product lastProduct = productsList.get(products.size()-1);
-			position = lastProduct.getPosition();
-		}
-		product.setPosition(position+1);
-		products.add(product);		
+		
+		if(!products.contains(product)){
+			List<Product> productsList = new ArrayList<Product>(products);
+			int position = 0;
+			if(!productsList.isEmpty()){
+				Product lastProduct = productsList.get(products.size()-1);
+				position = lastProduct.getPosition();
+			}
+			product.setPosition(position+1);
+			products.add(product);	
+		}	
 	}
 	
+	//utilizzato quando viene modificato il seller di un product
 	public void deleteProduct(Product product){
-		products.remove(product);
+		if(products.contains(product)){
+			product.setSeller(null);
+			products.remove(product);
+		}
+	}
+	
+	//utilizzato alla cancellazione del seller (per rimuovere tutti i product associati -> lato owner)
+	public void deleteAllProducts(){
+		for(Iterator<Product> i = products.iterator();i.hasNext();){
+			i.next().setSeller(null);
+		}
 	}
 }

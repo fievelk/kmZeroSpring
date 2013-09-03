@@ -47,7 +47,7 @@
      
     <definition name="products.createform" extends="standard_logged">
         <put-attribute name="content" value="/WEB-INF/views/products/productform.jsp"/>
-        <put-attribute name="action" value="/products/create"/>
+        <put-attribute name="action" value="/products/update"/>
         <put-attribute name="create" value="true"/>
     </definition>
  
@@ -207,13 +207,13 @@
     </definition>
     
     <definition name="sellers.createform" extends="standard">
-        <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
         <put-attribute name="action" value="/sellers/create"/>
         <put-attribute name="create" value="true"/>
     </definition>
     
     <definition name="sellers.updateformadmin" extends="standard_logged">
-        <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
         <put-attribute name="action" value="/sellers/admin/update"/>
         <put-attribute name="update" value="true"/>
     </definition>
@@ -225,7 +225,7 @@
     </definition>
     
     <definition name="sellers.deleteform" extends="standard_logged">
-        <put-attribute name="content" value="/WEB-INF/views/users/sellercreateform.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/views/users/sellerform.jsp"/>
         <put-attribute name="action" value="/sellers/admin/delete"/>
         <put-attribute name="delete" value="true"/>
     </definition>

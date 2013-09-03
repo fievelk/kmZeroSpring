@@ -80,8 +80,8 @@ $(function() {
 			  <form:form modelAttribute="product" action="${pageContext.request.contextPath}${requestScope.action}">
 		      <div class="span4">
 				<form:hidden path="id"/>
-<%-- 				<form:hidden path="rating.id"/> --%>
-				<input type="hidden" id="ratingId" value="${ratingId}" name="ratingId"/>
+				<form:hidden path="rating.id"/>
+<%-- 				<input type="hidden" id="ratingId" value="${ratingId}" name="ratingId"/> --%>
 				
 				<form:hidden path="active"/> <!-- senza questo campo, l'ACTIVE del prodotto viene passato come "false" al controller da Spring -->
 				<div>

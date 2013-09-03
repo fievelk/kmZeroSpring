@@ -3,10 +3,20 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <script src="${pageContext.request.contextPath}/resources/custom/js/kmzGMaps.js"></script>
 <script src="${pageContext.request.contextPath}/resources/custom/js/images.js"></script>
 <script>
+$(document).ready(function() {
+	var del = "${requestScope.delete}"; 
+	if (del == "true" ) {
+		$(":input[type='text']").each(function () { $(this).attr('readonly',true); });	
+		$("form input[type='checkbox']").attr('disabled',true);	
+	}		
+});
+
+
 $(function() {
 	$( "#datepicker" ).datepicker({
 		defaultDate: "1/1/1960",
@@ -20,6 +30,9 @@ $(function() {
 	});
 });
 </script>
+<security:authorize var="isAdmin" access="hasRole('admin')" />
+<security:authorize var="isUser" access="hasRole('user')" />
+
 <div class="span9">
 <div class="row">
 	<!-- Main content -->
@@ -32,6 +45,9 @@ $(function() {
 	      		<c:when test="${requestScope.update}">
 	      			<spring:message code="seller.edit"/>
 	   			</c:when>
+	   			<c:when test="${requestScope.delete}">
+					<spring:message code="seller.delete"/>
+	      		</c:when>
 	      	</c:choose>	
 		</h5>
 	</div>
@@ -60,6 +76,22 @@ $(function() {
 				    	<form:errors path="email"/>
 				    </div>
 				</div>
+			     <c:if test="${requestScope.create}">
+				<div class="control-group">
+				    <label class="control-label" for="password"><spring:message code="user.password"/></label>
+				    <div class="controls">
+				    	<form:password id="password" path="password.password"/><br />
+				    	<form:errors path="password.password"/>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="confirm_password"><spring:message code="user.confirm_password"/></label>
+				    <div class="controls">
+				    	<form:password id="confirm_password" path="password.confirm_password"/><br />
+				    	<form:errors path="password.confirm_password"/>
+				    </div>
+				</div>
+				</c:if>
 				<div class="control-group">
 				    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 					<div class="controls">
@@ -67,9 +99,24 @@ $(function() {
 						<form:errors path="date_of_birth"/>
 					</div>
 				</div>
-				<form:hidden path="address" id="address_autocompleted"/>
-				<c:choose>
-					<c:when test="${requestScope.upgrade}">
+				<div class="control-group">
+				    <label class="control-label" for="url"><spring:message code="seller.url"/></label>
+				    <div class="controls">
+						<form:input id="url" path="url"/>
+						<form:errors path="url"/>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="phone"><spring:message code="seller.phone"/></label>
+				    <div class="controls">
+						<form:input id="phone" path="phone"/>
+						<form:errors path="phone"/>
+				    </div>
+				</div>
+				
+				
+				<c:if test="${isAdmin || (isUser && requestScope.upgrade) || requestScope.create}">
+						
 						<div class="control-group">
 						    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 						    <div class="controls">
@@ -99,27 +146,26 @@ $(function() {
 								<form:errors path="company"/>
 						    </div>
 						</div>
-					</c:when>
-				</c:choose>
-				
+				</c:if>
+				<security:authorize access="hasRole('admin')">
 				<div class="control-group">
-				    <label class="control-label" for="url"><spring:message code="seller.url"/></label>
-				    <div class="controls">
-						<form:input id="url" path="url"/>
-						<form:errors path="url"/>
-				    </div>
+				    <label class="control-label" for="enable"><spring:message code="seller.enable"/></label>
+					<div class="controls">
+						<form:checkbox id="enable" path="enable"/>
+					</div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="phone"><spring:message code="seller.phone"/></label>
-				    <div class="controls">
-						<form:input id="phone" path="phone"/>
-						<form:errors path="phone"/>
-				    </div>
-				</div>
+				</security:authorize>
 				<div class="control-group">
 				    <div class="controls">
 				      <button type="submit" id="submitIfValidAddress" class="btn">
-				      	<spring:message code="common.submit"/>
+				      	<c:choose>
+				      		<c:when test="${!requestScope.delete}">
+								<spring:message code="common.submit"/>
+				      		</c:when>
+				      		<c:otherwise>
+				      			<spring:message code="common.delete"/>
+				      		</c:otherwise>
+			      		</c:choose>	
 				      </button>
 					</div>
 				</div>

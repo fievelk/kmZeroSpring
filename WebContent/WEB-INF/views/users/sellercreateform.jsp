@@ -88,7 +88,7 @@ $(function() {
 			</div>
 			</c:when>
 			</c:choose>
-			
+
 			<div class="control-group">
 			    <label class="control-label" for="date_of_birth"><spring:message code="user.date_of_birth"/></label>
 				<div class="controls">
@@ -96,7 +96,7 @@ $(function() {
 					<form:errors path="date_of_birth"/>
 				</div>
 			</div>
-			
+
 			<div class="control-group">
 			    <label class="control-label" for="address"><spring:message code="user.address"/></label>
 			    <div class="controls">
@@ -170,4 +170,3 @@ $(function() {
 		</div>
 	</div>
 </div>
-			

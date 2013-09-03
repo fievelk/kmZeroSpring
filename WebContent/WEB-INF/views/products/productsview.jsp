@@ -115,7 +115,7 @@ function buildItem(item){
 		image = '<a href="'+producturl+'"><img src="${pageContext.request.contextPath}/resources/mackart/img/photos/question.png" alt="undefined" /></a>';
 	};
 	console.log("desc:"+item.description);
-	var description = (item.description != null) ? (item.description.substring(0,30)+'..') : "no description provided";
+	var description = (item.description != null) ? (item.description.substring(0,30)+'...') : "no description provided";
 	var result = 
 		'<div class="span3">'+
 		'<div class="item">'+

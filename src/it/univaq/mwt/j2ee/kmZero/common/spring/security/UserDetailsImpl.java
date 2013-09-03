@@ -68,6 +68,12 @@ public class UserDetailsImpl implements UserDetails {
     public Set<Role> getRoles() {
         return user.getRoles();
     }
+    public boolean isAdmin(){
+    	return user.getRoles().contains(new Role("admin"));
+    }
+    public boolean isUser(){
+    	return user.getRoles().contains(new Role("user"));
+    }
     /*---- USER DATA TO DISPLAY WITH PRINCIPAL -- END -----*/
 	
 	@Override

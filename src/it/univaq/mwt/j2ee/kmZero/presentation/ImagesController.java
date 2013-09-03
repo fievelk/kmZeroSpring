@@ -44,9 +44,7 @@ public class ImagesController {
 	@Autowired
 	private ImageService imageService;
 	
-	@Autowired
-	private ImageValidator validator;
-		
+	
 	/*ADD IMAGES*/
 	/*i metodi start sono parametrizzati per tutti i modelli che utilizzano le immagini (Product, Seller, SellerContent nel nostro caso)*/
 	/*viene invocato via ajax per caricare la jsp dentro la finestra modale (che è unica) */
@@ -62,38 +60,32 @@ public class ImagesController {
 	/*questi 2 metodi che seguono vengono sempre chiamati via ajax (image.js) quando il form viene submittato(corrispondono alla action impostata nel metodo start). Ne sono uno per modello perchè abbiamo bisogno di generare thumbnails di dimensioni diverse (si protrebbe parametrizzare anche questo)*/
 	@RequestMapping(value="/product/addImages", method = RequestMethod.POST)
 	public @ResponseBody ResponseImages productAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("ownerId") Long ownerId) throws BusinessException, IOException {
-		if(validator.validateProdImage(ownerId)){
-			Collection<MultipartFile> files = fileUpload.getFiles();
-			Collection<Image> images = km0ImageUtility.generateImages(files,410,410);
-			imageService.setProductImages(ownerId,images);
-			return reloadProductImages(ownerId);	
-		}else{
-			return responseError();
-		}
+	
+		Collection<MultipartFile> files = fileUpload.getFiles();
+		Collection<Image> images = km0ImageUtility.generateImages(files,410,410);
+		imageService.setProductImages(ownerId,images);
+		return reloadProductImages(ownerId);	
+		
 	}
 		
 	@RequestMapping(value="/seller/addImages", method = RequestMethod.POST)
 	public @ResponseBody ResponseImages sellerAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("ownerId") Long ownerId) throws BusinessException, IOException {
-		if(validator.validateSellerImage(ownerId)){
-			Collection<MultipartFile> files = fileUpload.getFiles();
-			Collection<Image> images = km0ImageUtility.generateImages(files,640,269);
-			imageService.setSellerImages(ownerId,images);
-			return reloadSellerImages(ownerId);	
-		}else {
-			return responseError();
-		}
+		
+		Collection<MultipartFile> files = fileUpload.getFiles();
+		Collection<Image> images = km0ImageUtility.generateImages(files,640,269);
+		imageService.setSellerImages(ownerId,images);
+		return reloadSellerImages(ownerId);	
+		
 	}
 	
 	@RequestMapping(value="/sellercontent/addImages", method = RequestMethod.POST)
 	public @ResponseBody ResponseImages sellerContentAddImages(@ModelAttribute("fileUpload") MultipartBean fileUpload,@ModelAttribute("ownerId") Long ownerId) throws BusinessException, IOException {
-		if(validator.validateSellerContentImage(ownerId)){
-			Collection<MultipartFile> files = fileUpload.getFiles();
-			List<Image> li = new ArrayList<Image>(km0ImageUtility.generateImages(files,350,350));
-			imageService.setSellerContentImage(ownerId,li.get(0));
-			return reloadSellerContentImages(ownerId);
-		}else {
-			return responseError();
-		}
+		
+		Collection<MultipartFile> files = fileUpload.getFiles();
+		List<Image> li = new ArrayList<Image>(km0ImageUtility.generateImages(files,350,350));
+		imageService.setSellerContentImage(ownerId,li.get(0));
+		return reloadSellerContentImages(ownerId);
+		
 	}
 	
 	
@@ -111,35 +103,29 @@ public class ImagesController {
 	@RequestMapping(value ="/product/updateImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages productUpdateImage(@ModelAttribute Image image,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateProdImage(ownerId)){
-			imageService.updateProductImage(image,ownerId);
-			return reloadProductImages(ownerId);
-		}else{
-			return responseError();
-		}
+		
+		imageService.updateProductImage(image,ownerId);
+		return reloadProductImages(ownerId);
+		
 	}
 	
 	@RequestMapping(value ="/seller/updateImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages sellerUpdateImage(@ModelAttribute Image image,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateSellerImage(ownerId)){
-			imageService.updateSellerImage(image,ownerId);
-			return reloadSellerImages(ownerId);
-		}else{
-			return responseError();
-		}
+		
+		imageService.updateSellerImage(image,ownerId);
+		return reloadSellerImages(ownerId);
+		
 	}
 	
 	@RequestMapping(value ="/sellercontent/updateImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages sellerContentUpdateImage(@ModelAttribute Image image,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateSellerContentImage(ownerId)){
-			image.setAltName(image.getAltName().toLowerCase().replace(" ","-"));
-			imageService.updateSellerContentImage(image,ownerId);
-			return reloadSellerContentImages(ownerId);
-		}else{
-			return responseError();
-		}
+		
+		image.setAltName(image.getAltName().toLowerCase().replace(" ","-"));
+		imageService.updateSellerContentImage(image,ownerId);
+		return reloadSellerContentImages(ownerId);
+		
 	}
 	
 	/*DELETE IMAGE*/
@@ -156,34 +142,28 @@ public class ImagesController {
 	@RequestMapping(value ="/product/deleteImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages productDeleteImage(@ModelAttribute("id") Long imageId,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateProdImage(ownerId)){
-			imageService.deleteProductImage(imageId,ownerId);	
-			return reloadProductImages(ownerId);	
-		}else{
-			return responseError();
-		}
+		
+		imageService.deleteProductImage(imageId,ownerId);	
+		return reloadProductImages(ownerId);	
+	
 	}
 	
 	@RequestMapping(value ="/seller/deleteImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages sellerDeleteImage(@ModelAttribute("id") Long imageId,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateSellerImage(ownerId)){
-			imageService.deleteSellerImage(imageId,ownerId);	
-			return reloadSellerImages(ownerId);	
-		}else{
-			return responseError();
-		}
+		
+		imageService.deleteSellerImage(imageId,ownerId);	
+		return reloadSellerImages(ownerId);	
+		
 	}
 	
 	@RequestMapping(value ="/sellercontent/deleteImage", method = RequestMethod.POST)
 	@ResponseBody
     public ResponseImages sellerContentDeleteImage(@ModelAttribute("id") Long imageId,@ModelAttribute("ownerId") Long ownerId)throws BusinessException {
-		if(validator.validateSellerContentImage(ownerId)){
-			imageService.deleteSellerContentImage(ownerId);	
-			return reloadSellerContentImages(ownerId);
-		}else{
-			return responseError();
-		}
+	
+		imageService.deleteSellerContentImage(ownerId);	
+		return reloadSellerContentImages(ownerId);
+		
 	}
 
 	@RequestMapping(value = {"/product/image/{id}/*","/product/image/{id}","/seller/image/{id}/*","/seller/image/{id}","/sellercontent/image/{id}/*","/sellercontent/image/{id}"})
@@ -215,10 +195,5 @@ public class ImagesController {
 		return new ResponseImages(ri, sellercontentId,"sellercontent");
 	}
 	
-	public ResponseImages responseError() throws BusinessException{
-		ResponseImages r = new ResponseImages();
-		r.setTrueData(false);
-		return r;
-	}
 
 }

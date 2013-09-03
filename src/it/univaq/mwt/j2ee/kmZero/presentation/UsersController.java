@@ -65,7 +65,7 @@ public class UsersController {
 			return "users.createform";
 		}
 		service.createUser(user);
-		return "redirect:/";
+		return "common.login";
 	}
 	
 	@RequestMapping("/update_start")

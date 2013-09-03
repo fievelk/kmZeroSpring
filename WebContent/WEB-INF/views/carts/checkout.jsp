@@ -40,7 +40,7 @@
 					<input type="image" src="${pageContext.request.contextPath}/resources/custom/img/paga-adesso.png" border="0" name="submit" alt="PayPal - Il metodo rapido, affidabile e innovativo per pagare e farsi pagare.">
 					
 					<input type="hidden" name="cmd" value="_xclick">
-					<input type="hidden" name="return" value="${pageContext.request.contextPath}/carts/payed">
+					<input type="hidden" name="return" value="${pageContext.request.contextPath}/carts/paid">
 					<input type="hidden" name="business" value="km_seller@email.it">
 					<input type="hidden" name="currency_code" value="EUR">
 					<input type="hidden" name="item_name" value="Km Zero & C">
