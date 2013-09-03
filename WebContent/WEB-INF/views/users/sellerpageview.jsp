@@ -126,7 +126,7 @@ function createMarker(latlng) {
 						       	</div>
 								<div class="rp-details">
 								  <!-- Title and para -->
-								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">$255</span></a></h5>
+								  <h5><a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">${product.name}<span class="price pull-right">&euro; ${product.price}</span></a></h5>
 								  <div class="clearfix"></div>
 								  <p>
 								  	<c:if test="${product.description ne null }">
