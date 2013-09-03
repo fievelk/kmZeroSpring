@@ -20,6 +20,7 @@
 		      		 <li><a href="${pageContext.request.contextPath}/sellers/<security:authentication property="principal.id"/>/<security:authentication property="principal.company"/>"><spring:message code="menu.preview"/></a></li>
 		      	</ul>	
 		      </li>
+		      <li><a href="${pageContext.request.contextPath}/users/edit_start_password"><spring:message code="password.edit"/></a></li> 
 		      <li><a href="${pageContext.request.contextPath}/products/viewsforsellers"><spring:message code="menu.products"/></a></li>
 		      <li><a href="${pageContext.request.contextPath}/sellers/sellerreceivedorders"><spring:message code="seller.receivedOrders"/></a></li>
 			</security:authorize>

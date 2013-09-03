@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name="products")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +46,7 @@ public class Product implements Serializable {
 	@SequenceGenerator(name = "products_seq", allocationSize=1)
 	private long id;
 
-	@Column(name="name", nullable=false)
+	@Column(name="name", nullable=true)
 	private String name;
 
 	@Column(name="description",length = 2000)
@@ -76,6 +75,7 @@ public class Product implements Serializable {
 	@JoinColumn(name = "product_fk")
 	@OrderBy("position ASC")
 	private Collection<Image> images = new ArrayList<Image>();
+
 
 	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name="rating_id")
@@ -125,48 +125,6 @@ public class Product implements Serializable {
 		this.measure = measure;
 		this.seller = seller;
 		this.position = position;
-	}
-
-
-	public Product(long id, String name, String description, BigDecimal price,
-			Date date_in, Date date_out, Category category,
-			List<Image> images, Seller seller) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.date_in = date_in;
-		this.date_out = date_out;
-		this.category = category;
-		this.images = images;
-		this.seller = seller;
-	}
-
-	/* Costruttore per l'inserimento senza immagini */
-	public Product(long id, String name, String description, BigDecimal price,
-			Category category, Seller seller, Date date_in, Date date_out) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.category = category;
-		this.seller = seller;
-		this.date_in = date_in;
-		this.date_out = date_out;
-	}	
-
-	/* Costruttore per l'inserimento senza immagini e date */
-	public Product(long id, String name, String description, BigDecimal price,
-			Category category, Seller seller) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.category = category;
-		this.seller = seller;
 	}
 
 

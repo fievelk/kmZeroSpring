@@ -18,9 +18,10 @@ public interface ProductService {
 	
 	// Metodi per i prodotti
 		
-	void createProduct(Product product, long seller_id) throws BusinessException;
+	//void createProduct(Product product, long seller_id) throws BusinessException;
+	Product createProduct() throws BusinessException;
 	
-	void updateProduct(Product product,Collection<Image> images, long seller_id) throws BusinessException;
+	void updateProduct(Product product, long seller_id) throws BusinessException;
 	
 	void deleteProduct(Product product, long seller_id);
 	
@@ -62,6 +63,8 @@ public interface ProductService {
 	
 	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
 
+	// Metodi per ricerche
+	
 	List<Product> getFavouriteProducts();
 
 	List<Product> getSameCategoryProducts(Long prodId);

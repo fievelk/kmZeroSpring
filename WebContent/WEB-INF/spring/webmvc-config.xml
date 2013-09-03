@@ -58,5 +58,7 @@
 	</bean>
 	
 	<bean id="loggedUser" class="it.univaq.mwt.j2ee.kmZero.common.spring.security.LoggedUser" /> 
-
+	
+	
+	
 </beans>

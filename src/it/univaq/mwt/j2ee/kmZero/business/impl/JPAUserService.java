@@ -1,5 +1,7 @@
 package it.univaq.mwt.j2ee.kmZero.business.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -128,7 +130,10 @@ public class JPAUserService implements UserService{
 	@Override
 	@Transactional
 	public void updateSeller(Seller seller) throws BusinessException {
-		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
+		System.out.println("HERE");	
+		
+		em.merge(seller);
+		/*Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
 				"date_of_birth= :date_of_birth, address= :address, url= :url, phone= :phone WHERE id= :id");
 		query.setParameter("name", seller.getName());
 		query.setParameter("surname", seller.getSurname());
@@ -138,7 +143,7 @@ public class JPAUserService implements UserService{
 		query.setParameter("url", seller.getUrl());
 		query.setParameter("phone", seller.getPhone());
 		query.setParameter("id", seller.getId());
-		query.executeUpdate();
+		query.executeUpdate();*/
 	}
 
 	@Override
@@ -155,24 +160,26 @@ public class JPAUserService implements UserService{
 			Set<Role> roles = new HashSet<Role>();
 			roles.remove(s);
 			seller.setRoles(roles);
-			//TypedQuery<SellerContent> contents = em.createQuery("SELECT s FROM Seller s WHERE seller_fk=" + seller.getId(), SellerContent.class);
-			seller.setContents(null);
-			/*TypedQuery<Seller> query = em.createQuery("SELECT s FROM Seller s", Seller.class);
-			List<Seller> sellers = query.getResultList();*/
 		}
-		
-		Seller old_seller = em.find(Seller.class, seller.getId());
-		seller.setPassword(old_seller.getPassword());
-		seller.setLast_access(old_seller.getLast_access());
-		seller.setCreated(old_seller.getCreated());
+		Seller s = em.find(Seller.class, seller.getId());
+		seller.setPassword(s.getPassword());
+		seller.setLast_access(s.getLast_access());
+		seller.setCreated(s.getCreated());
+		seller.setImages(s.getImages());
+		seller.setContents(s.getContents());
 		
 		em.merge(seller);
+	
 	}
 
 	@Override
 	@Transactional
-	public void deleteSeller(Seller seller) throws BusinessException {
-		em.remove(em.merge(seller));
+	public void deleteSeller(Long sellerId) throws BusinessException {
+		Seller s = em.find(Seller.class, sellerId);
+		if(!s.getProducts().isEmpty()){
+			s.deleteAllProducts();
+		}
+		em.remove(s);
 	}
 
 	@Override
@@ -184,8 +191,8 @@ public class JPAUserService implements UserService{
 		seller.setCreated(user.getCreated());
 		
 		em.remove(em.merge(user));
-		
-		em.merge(seller);
+		seller.setId(0);
+		em.persist(seller);
 	}
 
 	@Override

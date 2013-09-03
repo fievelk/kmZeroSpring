@@ -91,7 +91,7 @@ public class SellersController {
 			return "sellers.createform";
 		}
 		service.createSeller(seller);
-		return "redirect:/";
+		return "common.login";
 	}
 	
 	@RequestMapping("/update_start")
@@ -145,7 +145,7 @@ public class SellersController {
 	
 	@RequestMapping(value="/admin/delete", method = RequestMethod.POST)
 	public String delete(@ModelAttribute Seller seller) throws BusinessException {
-		service.deleteSeller(seller);
+		service.deleteSeller(seller.getId());
 		if (seller.getEnable()){
 			return "redirect:/sellers/admin/viewsEnabled";
 		} else {
@@ -182,7 +182,7 @@ public class SellersController {
 			return "sellers.upgradeform";
 		}
 		service.upgradeSeller(seller);
-		return "redirect:/";
+		return "redirect:/welcome";
 	}
 	
 	

@@ -22,10 +22,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="sellers")
@@ -55,7 +51,7 @@ public class Seller extends User implements Serializable{
 	@JsonBackReference("contents-seller")
 	private Collection<SellerContent> contents = new ArrayList<SellerContent>();
 
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="seller")
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.ALL,mappedBy="seller")
 	@JsonBackReference("products-seller")
 	@OrderBy("position ASC")
 	private Collection<Product> products = new ArrayList<Product>();
@@ -66,11 +62,8 @@ public class Seller extends User implements Serializable{
 		super();
 	}
 
-	// Construttore con solo l'id
-	public Seller(long user_id){
-		super (user_id);
-	}
-
+	
+	// Costruttore per il Test
 	public Seller(String name, String surname, String email, Password password, Date created, 
 			Date date_of_birth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
 		super(name, surname, email, password, created, date_of_birth, address);
@@ -81,20 +74,8 @@ public class Seller extends User implements Serializable{
 		this.phone = phone;
 		this.enable = false;
 	}
-
-	// Costruttore da utilizzare quando il venditore si registra da zero.
-	public Seller(long id, String name, String surname, String email, Password password, Date created, 
-			Date date_of_birth, String address, String p_iva, String cod_fisc, String company,String url, String phone, boolean enable) {
-		super(id, name, surname, email, password, created, date_of_birth, address);
-		this.p_iva = p_iva;
-		this.cod_fisc = cod_fisc;
-		this.company = company;
-		this.url = url;
-		this.phone = phone;
-		this.enable = false;
-	}
-
-	// Costruttore da utilizzare quando un utente fa l'upgrade a venditore
+	
+	// Costruttore per il Test
 	public Seller(String p_iva, String cod_fisc, String company, String url, String phone) {
 		this.p_iva = p_iva;
 		this.cod_fisc = cod_fisc;
@@ -103,7 +84,7 @@ public class Seller extends User implements Serializable{
 		this.phone = phone;
 		this.enable = false;
 	}
-
+	
 	// Costruttore da utilizzare per visualizzare un venditore all'interno di una Datatables (Admin)
 	public Seller(long id, String name, String surname, String p_iva, String company, String phone){
 		super(id, name, surname);
@@ -112,31 +93,6 @@ public class Seller extends User implements Serializable{
 		this.phone = phone;
 	}
 
-	// Costruttore da utilizzare al momento della cancellazione e delle modifica di un venditore
-	public Seller(long id, String name, String surname, String email, Date date_of_birth,
-			String address, String p_iva, String cod_fisc, String company, String url, String phone){
-		super(id, name, surname, email, date_of_birth, address);
-		this.p_iva = p_iva;
-		this.cod_fisc = cod_fisc;
-		this.company = company;
-		this.url = url;
-		this.phone = phone;
-	}
-
-	// Costruttore da utilizzare al momento della modifica di un venditore da parte di quest'ultimo
-		public Seller(long id, String name, String surname, String email, Date date_of_birth,
-				String address, String url, String phone){
-			super(id, name, surname, email, date_of_birth, address);
-			this.url = url;
-			this.phone = phone;
-		}
-
-	// Costruttore con Id User e nome della Company utilizzato per la visualizzazione dei prodotti di un venditore e
-	// per far visualizzare ad un utente la lista dei venditori.
-	 public Seller(long id, String company) {
-		super(id);
-		this.company = company;
-	 }
 
 	public String getP_iva() {
 		return p_iva;
@@ -204,20 +160,20 @@ public class Seller extends User implements Serializable{
 
 	public void setImages(Collection<Image> images) {
 		Comparators comparator = new Comparators();
-		List<Image> imagesList = new ArrayList<Image>(this.images);
+		List<Image> imagesList = new ArrayList<Image>(images);
 		Collections.sort(imagesList,comparator.getImagePositionComparator());
 		this.images = imagesList;
 	}
 
 	public void addImage(Image image){
-		List<Image> imagesList = new ArrayList<Image>(this.images);
+		List<Image> imagesList = new ArrayList<Image>(images);
 		int position = 0;
 		if(!imagesList.isEmpty()){
 			Image lastImage = imagesList.get(this.images.size()-1);
 			position = lastImage.getPosition();
 		}
 		image.setPosition(position+1);
-		this.images.add(image);	
+		images.add(image);	
 	}
 	
 	public void addImages(Collection<Image> images){
@@ -231,24 +187,40 @@ public class Seller extends User implements Serializable{
 	}
 
 	public void setProducts(Collection<Product> products) {
-		Comparators comparator = new Comparators();
-		List<Product> productsList = new ArrayList<Product>(products);
-		Collections.sort(productsList,comparator.getProductPositionComparator());
-		this.products = productsList;
+		if(products != null){
+			Comparators comparator = new Comparators();
+			List<Product> productsList = new ArrayList<Product>(products);
+			Collections.sort(productsList,comparator.getProductPositionComparator());
+			this.products = productsList;
+		}else this.products = null;
 	}
 	
 	public void addProduct(Product product){
-		List<Product> productsList = new ArrayList<Product>(products);
-		int position = 0;
-		if(!productsList.isEmpty()){
-			Product lastProduct = productsList.get(products.size()-1);
-			position = lastProduct.getPosition();
-		}
-		product.setPosition(position+1);
-		products.add(product);		
+		
+		if(!products.contains(product)){
+			List<Product> productsList = new ArrayList<Product>(products);
+			int position = 0;
+			if(!productsList.isEmpty()){
+				Product lastProduct = productsList.get(products.size()-1);
+				position = lastProduct.getPosition();
+			}
+			product.setPosition(position+1);
+			products.add(product);	
+		}	
 	}
 	
+	//utilizzato quando viene modificato il seller di un product
 	public void deleteProduct(Product product){
-		products.remove(product);
+		if(products.contains(product)){
+			product.setSeller(null);
+			products.remove(product);
+		}
+	}
+	
+	//utilizzato alla cancellazione del seller (per rimuovere tutti i product associati -> lato owner)
+	public void deleteAllProducts(){
+		for(Iterator<Product> i = products.iterator();i.hasNext();){
+			i.next().setSeller(null);
+		}
 	}
 }
