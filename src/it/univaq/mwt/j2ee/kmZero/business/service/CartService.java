@@ -46,6 +46,7 @@ public interface CartService {
 	Collection<CartLine> findCartLinesToDeliver() throws BusinessException;
 
 	void createFeedback(CartLine cartLine, String feedback) throws BusinessException;
+	
 	// Il carrello anonimo viene reso persistente
 	ResponseCarts<CartLine> persistCartSession(Cart cart, User user) throws BusinessException;
 

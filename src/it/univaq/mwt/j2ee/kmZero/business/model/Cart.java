@@ -67,7 +67,6 @@ public class Cart implements Serializable{
 	private String surname;
 	
 	@OneToMany(mappedBy="cart",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-//	@JoinColumn(name = "cart_fk")
 	@JsonManagedReference("cart-cartlines")
 	private Collection<CartLine> cartLines = new ArrayList<CartLine>();
 	

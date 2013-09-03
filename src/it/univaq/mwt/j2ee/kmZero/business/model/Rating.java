@@ -44,6 +44,16 @@ public class Rating implements Serializable {
 		super();
 	}
 
+	public Rating(long id, float rating, int absoluteRating, int ratingVotes,
+			Product product) {
+		super();
+		this.id = id;
+		this.rating = rating;
+		this.absoluteRating = absoluteRating;
+		this.ratingVotes = ratingVotes;
+		this.product = product;
+	}
+
 
 	public long getId() {
 		return id;

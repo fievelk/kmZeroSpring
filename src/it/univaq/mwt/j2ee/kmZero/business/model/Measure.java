@@ -30,7 +30,7 @@ public class Measure implements Serializable{
 	public Measure() {
 		super();
 	}
-
+	
 	public Measure(String name) {
 		super();
 		this.name = name;

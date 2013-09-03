@@ -66,7 +66,6 @@ public class CartLine implements Serializable{
 		super();
 	}
 	
-	
 	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
 			int rating, Product product, Cart cart, Feedback feedback) {
 		super();
@@ -80,36 +79,6 @@ public class CartLine implements Serializable{
 		this.feedback = feedback;
 	}
 
-
-
-
-	public CartLine(int quantity, BigDecimal lineTotal, String review) {
-		super();
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-	}
-
-	public CartLine(int quantity, BigDecimal lineTotal, String review, int rating,
-			Product product) {
-		super();
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-		this.rating = rating;
-		this.product = product;
-	}
-
-	public CartLine(long id, int quantity, BigDecimal lineTotal, String review,
-			int rating, Product product) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.lineTotal = lineTotal;
-		this.review = review;
-		this.rating = rating;
-		this.product = product;
-	}
 
 	public long getId() {
 		return id;

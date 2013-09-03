@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -25,7 +24,7 @@ public class km0ImageUtility {
 		Collection<Image> images = new ArrayList<Image>();
 		for (Iterator<MultipartFile> i = files.iterator(); i.hasNext();){
 			MultipartFile mpf = (MultipartFile)i.next();
-			//File cannot be null 
+			//File non puo' essere null
 			if(!mpf.isEmpty()){
 				byte [] scaledimg = getScaledImage(width, height, mpf.getBytes(), mpf.getContentType());
 				Image img = new Image(mpf.getOriginalFilename(), scaledimg);
@@ -54,7 +53,7 @@ public class km0ImageUtility {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			try {
 				
-				//contentType is a String that contains the image contetType e.g. image/jpg or image/png
+				//contentType is a String that contains the image contentType e.g. image/jpg or image/png
 				//ImageIO.write as 2 parameter takes the informal name of the format e.g. jpg or png
 				//then is necessary to substring the contentType stripping the first part of the string e.g. image/ 
 	

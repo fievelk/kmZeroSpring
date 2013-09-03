@@ -10,7 +10,6 @@ public class DateEditor extends PropertyEditorSupport {
 	public void setAsText(String value) {
         try {
             setValue(new SimpleDateFormat("dd/MM/yyyy").parse(value));
-        	//System.out.println("Metodo set Binder" + new SimpleDateFormat("dd/MM/yyyy").parse(value));
         } catch(ParseException e) {
             setValue(null);
         }
@@ -20,7 +19,6 @@ public class DateEditor extends PropertyEditorSupport {
     	String s = "";
     	if (getValue() != null) {
 			s = new SimpleDateFormat("dd/MM/yyyy").format((Date) getValue());
-        	//System.out.println("Metodo get Binder return " + s);
 		}
     	return s;
     }

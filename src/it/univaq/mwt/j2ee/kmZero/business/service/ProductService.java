@@ -1,6 +1,5 @@
 package it.univaq.mwt.j2ee.kmZero.business.service;
 
-import java.util.Collection;
 import java.util.List;
 
 
@@ -9,7 +8,6 @@ import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
-import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 
@@ -18,7 +16,6 @@ public interface ProductService {
 	
 	// Metodi per i prodotti
 		
-	//void createProduct(Product product, long seller_id) throws BusinessException;
 	Product createProduct() throws BusinessException;
 	
 	void updateProduct(Product product, long seller_id) throws BusinessException;
@@ -29,8 +26,6 @@ public interface ProductService {
 	
 	ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, long seller_id) throws BusinessException;
 	
-	//ResponseGrid<Product> viewProductsBySellerIdPaginated(RequestGrid requestGrid, Seller seller) throws BusinessException;
-
 	Product findProductById(long id) throws BusinessException;
 	
 	// Metodi per le categorie

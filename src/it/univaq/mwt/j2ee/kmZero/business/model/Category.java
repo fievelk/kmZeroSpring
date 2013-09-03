@@ -31,7 +31,6 @@ public class Category implements Serializable{
 	@SequenceGenerator(name = "categories_seq", allocationSize=1)
 	private long id;
 	
-	//@Column(name="name")
 	private String name;
 	
 	@OneToOne

@@ -118,10 +118,4 @@ public class Role implements java.io.Serializable {
 		return true;
 	}
 
-	
-	
-	
-
-	
-
 }
