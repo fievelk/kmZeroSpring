@@ -330,16 +330,7 @@ public class JPAProductService implements ProductService{
 	}
 
 	
-	@Override
-	@Transactional
-	public boolean checkProductProperty(long sellerId, long prodId) throws BusinessException{
-		
-		long sp;
-			Product p = findProductById(prodId);
-			sp = p.getSeller().getId();
-			return (sp == sellerId);
-		
-	}
+
 	
 	/* Measures */
 

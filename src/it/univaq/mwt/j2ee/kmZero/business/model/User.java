@@ -62,7 +62,7 @@ public class User implements java.io.Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
-	@Column(name="dateOfBirth",nullable=true)
+	@Column(name="date_of_birth",nullable=true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateOfBirth;
 

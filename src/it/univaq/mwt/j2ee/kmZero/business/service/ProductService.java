@@ -54,16 +54,12 @@ public interface ProductService {
 
 	void deleteMeasure(Measure measure) throws BusinessException;
 	
-	// Metodi per la validazione (chiamato da ImageValidator)
-	
-	boolean checkProductProperty(long sellerId, long prodId) throws BusinessException;
-
 	// Metodi per ricerche
 	
-	List<Product> getFavouriteProducts();
+	List<Product> getFavouriteProducts() throws BusinessException;
 
-	List<Product> getSameCategoryProducts(Long prodId);
+	List<Product> getSameCategoryProducts(Long prodId) throws BusinessException;
 
-	List<Product> getAllProducts();
+	List<Product> getAllProducts() throws BusinessException;
 
 }

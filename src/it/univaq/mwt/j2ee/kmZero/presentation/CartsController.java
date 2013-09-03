@@ -192,7 +192,8 @@ public class CartsController {
 		service.confirmCart(cart.getId(), cart.getDeliveryDate());
 		return "carts.checkout";
 	}
-	
+
+	// tx e cm sono parametri standard di Paypal
 	@RequestMapping("/paid")
 	public String paid(@RequestParam("tx") String transactionId, @RequestParam("cm") long cart_id) throws BusinessException{
 		service.paid(transactionId, cart_id);
