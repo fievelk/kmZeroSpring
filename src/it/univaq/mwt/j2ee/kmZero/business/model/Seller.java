@@ -72,7 +72,7 @@ public class Seller extends User implements Serializable{
 		this.company = company;
 		this.url = url;
 		this.phone = phone;
-		this.enable = false;
+		this.enable = enable;
 	}
 	
 	// Costruttore per il Test

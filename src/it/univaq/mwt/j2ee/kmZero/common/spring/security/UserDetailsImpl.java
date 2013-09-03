@@ -74,6 +74,9 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isUser(){
     	return user.getRoles().contains(new Role("user"));
     }
+    public boolean isSeller(){
+    	return user.getRoles().contains(new Role("seller"));
+    }
     /*---- USER DATA TO DISPLAY WITH PRINCIPAL -- END -----*/
 	
 	@Override

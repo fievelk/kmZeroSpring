@@ -36,6 +36,10 @@
         <put-attribute name="content" value="/WEB-INF/views/accessdenied.jsp"/>
     </definition>
     
+    <definition name="common.dataAccessFailure" extends="standard">
+        <put-attribute name="content" value="/WEB-INF/views/dataAccessFailure.jsp"/>
+    </definition>
+    
     <definition name="products.views" extends="standard">
     <put-attribute name="sidebar" value="/WEB-INF/views/products/sidebarproducts.jsp"/>
         <put-attribute name="content" value="/WEB-INF/views/products/productsview.jsp"/>

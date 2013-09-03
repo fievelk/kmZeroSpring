@@ -19,6 +19,8 @@ public interface UserService {
 	
 	User findUserById(long id) throws BusinessException;
 	
+	User findUserSellerById(long id) throws BusinessException;
+	
 	ResponseGrid<User> viewAllUsersPaginated(RequestGrid requestGrid) throws BusinessException;
 	
 	void createSeller(Seller seller) throws BusinessException;
