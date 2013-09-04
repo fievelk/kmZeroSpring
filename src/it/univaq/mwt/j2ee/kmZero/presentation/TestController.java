@@ -8,12 +8,12 @@ import java.util.Map;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
+import it.univaq.mwt.j2ee.kmZero.business.impl.CartService;
+import it.univaq.mwt.j2ee.kmZero.business.impl.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 import it.univaq.mwt.j2ee.kmZero.common.spring.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -29,7 +29,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
 
 @Service
 public class JPAProductService implements ProductService{
@@ -62,14 +61,15 @@ public class JPAProductService implements ProductService{
 		Product p = em.find(Product.class, product.getId());
         Seller s = em.find(Seller.class, seller_id);
         product.setImages(p.getImages());
-        
+                
         if(p.getSeller() != null && s != p.getSeller()){
 	        p.getSeller().deleteProduct(p);
         }
-        
+
         product.setSeller(s);
         product = em.merge(product);
         s.addProduct(product);   
+        s.setProducts(s.getProducts());
 	}
 
 	

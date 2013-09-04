@@ -360,6 +360,8 @@ color:#67a94c;
 #product_buttons .button{float:left;margin-top:6px}
 #product_buttons .fuelux{float:left;width:77px;height:33px;}
 
+.hlinks{margin-top:20px}
+
 /*PAGER*/
 .pagging .current{
 	background-color:#67a94c;

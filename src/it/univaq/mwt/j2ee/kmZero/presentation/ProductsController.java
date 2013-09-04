@@ -8,9 +8,6 @@ import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
 import it.univaq.mwt.j2ee.kmZero.business.RequestGridProducts;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
-import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
-import it.univaq.mwt.j2ee.kmZero.business.service.ProductService;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.univaq.mwt.j2ee.kmZero.business.impl.CartService;
+import it.univaq.mwt.j2ee.kmZero.business.impl.ProductService;
+import it.univaq.mwt.j2ee.kmZero.business.impl.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Category;
 import it.univaq.mwt.j2ee.kmZero.business.model.Feedback;
 import it.univaq.mwt.j2ee.kmZero.business.model.Measure;

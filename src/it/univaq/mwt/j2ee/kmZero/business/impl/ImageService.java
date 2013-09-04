@@ -1,4 +1,4 @@
-package it.univaq.mwt.j2ee.kmZero.business.service;
+package it.univaq.mwt.j2ee.kmZero.business.impl;
 
 import java.util.Collection;
 

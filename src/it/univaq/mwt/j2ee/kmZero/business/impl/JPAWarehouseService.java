@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
-import it.univaq.mwt.j2ee.kmZero.business.service.WarehouseService;
 
 @Service
 public class JPAWarehouseService implements WarehouseService {

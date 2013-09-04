@@ -1,5 +1,8 @@
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!-- Header starts -->
   <header>
     <div class="container">
@@ -21,14 +24,8 @@
         </div>
 
         <div class="span4 offset4">
-          
-          <!-- Search form -->
-          <form class="form-search">
-            <div class="input-append">
-              <input class="span3" id="appendedInputButton" type="text" placeholder="<spring:message code="product.searchInProducts" />">
-              <button class="btn" type="button"><spring:message code="menu.search" /></button>
-            </div>
-          </form>
+     
+
 
           <div class="hlinks">
             <span>
@@ -53,10 +50,20 @@
 					<a href="${pageContext.request.contextPath}/j_spring_security_logout" role="button" data-toggle="modal">Logout</a>
 				</span>	
 				</security:authorize>
-            
-              
-          
+
           </div>
+          
+          <c:set var="searchpage"  value="${pageContext.request.contextPath}/products"/>	
+          <c:set var="currentURI"  value="${requestScope['javax.servlet.forward.request_uri']}"/>
+          <c:if test="${searchpage eq currentURI }">
+          <!-- Search form -->
+          <form class="form-search">
+            <div class="input-append">
+              <input class="span3" id="appendedInputButton" type="text" placeholder="<spring:message code="product.searchInProducts" />">
+              <button class="btn" type="button"><spring:message code="menu.search" /></button>
+            </div>
+          </form>
+          </c:if>
 
         </div>
 

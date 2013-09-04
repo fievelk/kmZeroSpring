@@ -34,6 +34,12 @@ $(document).ready(function() {
 	         <li>
 	            <a href="#"><spring:message code="seller.p_iva"/></a>
 	            <p>${user.p_iva}</p>
+	            <a href="#"><spring:message code="seller.url"/></a>
+	            <p>${user.p_iva}</p>
+	            <a href="#"><spring:message code="seller.cod_fisc"/></a>
+	            <p>${user.cod_fisc}</p>
+	            <a href="#"><spring:message code="seller.company"/></a>
+	            <p>${user.company}</p>
 	         </li>
 			 </security:authorize>                    
 	    </ul>

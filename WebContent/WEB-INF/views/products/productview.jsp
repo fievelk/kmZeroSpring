@@ -40,7 +40,7 @@
 
                         <!-- Share button -->
                 <!-- AddThis Button BEGIN -->
-                <div class="addthis_toolbox addthis_default_style ">
+                <!-- <div class="addthis_toolbox addthis_default_style ">
                 <a class="addthis_button_preferred_1 addthis_button_facebook at300b" title="Facebook" href="#"><span class="at16nc at300bs at15nc at15t_facebook at16t_facebook"><span class="at_a11y">Share on facebook</span></span></a>
                 <a class="addthis_button_preferred_2 addthis_button_twitter at300b" title="Tweet" href="#"><span class="at16nc at300bs at15nc at15t_twitter at16t_twitter"><span class="at_a11y">Share on twitter</span></span></a>
                 <a class="addthis_button_preferred_3 addthis_button_email at300b" target="_blank" title="E-mail" href="#"><span class="at16nc at300bs at15nc at15t_email at16t_email"><span class="at_a11y">Share on email</span></span></a>
@@ -48,7 +48,7 @@
                 <a class="addthis_button_compact at300m" href="#"><span class="at16nc at300bs at15nc at15t_compact at16t_compact"><span class="at_a11y">More Sharing Services</span></span></a>
                 <a class="addthis_counter addthis_bubble_style" style="display: block;" href="#"><a class="addthis_button_expanded" target="_blank" title="Più..." href="#">0</a><a class="atc_s addthis_button_compact"><span></span></a></a>
                 <div class="atclear"></div></div>
-                <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-50e06de237d5cb9d" type="text/javascript"></script><div style="visibility: hidden; height: 1px; width: 1px; position: absolute; z-index: 100000;" id="_atssh"><iframe id="_atssh849" title="AddThis utility frame" style="height: 1px; width: 1px; position: absolute; z-index: 100000; border: 0px none; left: 0px; top: 0px;" src="//ct1.addthis.com/static/r07/sh134.html#"></iframe></div><script type="text/javascript" src="http://ct1.addthis.com/static/r07/core089.js"></script>
+                <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-50e06de237d5cb9d" type="text/javascript"></script><div style="visibility: hidden; height: 1px; width: 1px; position: absolute; z-index: 100000;" id="_atssh"><iframe id="_atssh849" title="AddThis utility frame" style="height: 1px; width: 1px; position: absolute; z-index: 100000; border: 0px none; left: 0px; top: 0px;" src="//ct1.addthis.com/static/r07/sh134.html#"></iframe></div><script type="text/javascript" src="http://ct1.addthis.com/static/r07/core089.js"></script> -->
                 <!-- AddThis Button END -->
             </div>
           </div>

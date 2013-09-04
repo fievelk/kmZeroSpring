@@ -121,7 +121,7 @@ function createMarker(latlng) {
 							<div class="rp-item"> 
 						           <div class="rp-image">        
 						             <a href="${pageContext.request.contextPath}/products/${product.id}/${product.name}">	
-									<img src="${pageContext.request.contextPath}/product/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" />
+									<img src="${pageContext.request.contextPath}/product/image/<c:out value="${product.images[0].id}" />/<c:out value="${product.images[0].name}" />" alt="<c:out value="${product.images[0].altName}" />" width="100" height="100" />
 						          	</a>
 						       	</div>
 								<div class="rp-details">

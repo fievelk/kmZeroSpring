@@ -50,8 +50,8 @@ public class JPATestService implements TestService{
 		em.persist(r3);
 		
 		
-		Seller s1 = new Seller("Pippo", "Goofy", "pippo@gmail.com", null, new Date(), null, "Via delle Napee, Francavilla Al Mare, CH, Italia", "78969678", "87696879", null, null, null, true);
-		Seller s2 = new Seller("Topolino", "Mickey", "topolino@gmail.com", null, new Date(), null, "Via delle Piscine, Sant'agata, PE, Italia", "78969678", "87696879", null, null, null, true);
+		Seller s1 = new Seller("Pippo", "Goofy", "pippo@gmail.com", null, new Date(), null, "Via delle Napee, Francavilla Al Mare, CH, Italia", "78969678", "87696879", "Goofy G.A.S.", null, null, true);
+		Seller s2 = new Seller("Topolino", "Mickey", "topolino@gmail.com", null, new Date(), null, "Via delle Piscine, Sant'agata, PE, Italia", "78969678", "87696879", "Mickey G.A.S.", null, null, true);
 
 		User u3 = new User("admin", "admin", "admin@email.it", null, new Date(), null, "Via dei Tigli, Brecciarola, CH, Italia");
 		Password p1 = new Password();

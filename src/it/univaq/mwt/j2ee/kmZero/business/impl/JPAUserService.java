@@ -28,7 +28,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Role;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-import it.univaq.mwt.j2ee.kmZero.business.service.UserService;
 
 @Service
 public class JPAUserService implements UserService{

@@ -139,7 +139,7 @@ $(function() {
 				    <label for="Seller">Seller</label>
 				    <div>
 						<form:select id="sellerId" path="seller.id">
-							<form:options items="${sellers}" itemValue="id" itemLabel="name"/>
+							<form:options items="${sellers}" itemValue="id" itemLabel="company"/>
 						</form:select><br />
 						<form:errors path="seller.id"/>
 				    </div>

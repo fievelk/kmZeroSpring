@@ -13,7 +13,7 @@
 		 			</li>
 		 		</c:when>
 		 		<c:otherwise>
-		 			<li><a id="cat_${category.id}" href="#"><b>${category.name}</b> (${fn:length(category.products)})</a></li>
+		 			<li><a id="cat_${category.id}" href="#"><b>${category.name}</b></a></li>
 		 		</c:otherwise>
 		 	</c:choose>	
 </c:forEach> 

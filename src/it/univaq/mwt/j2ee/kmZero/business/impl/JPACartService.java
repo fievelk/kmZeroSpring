@@ -16,7 +16,6 @@ import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Rating;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;
-import it.univaq.mwt.j2ee.kmZero.business.service.CartService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
