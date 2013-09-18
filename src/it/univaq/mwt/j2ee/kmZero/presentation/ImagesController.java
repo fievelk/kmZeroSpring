@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
+import it.univaq.mwt.j2ee.kmZero.business.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.ResponseImages;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.univaq.mwt.j2ee.kmZero.business.impl.ImageService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Image;
 
 import it.univaq.mwt.j2ee.kmZero.common.MultipartBean;

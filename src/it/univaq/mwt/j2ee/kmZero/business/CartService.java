@@ -1,10 +1,8 @@
-package it.univaq.mwt.j2ee.kmZero.business.impl;
+package it.univaq.mwt.j2ee.kmZero.business;
 
 import java.util.Collection;
 import java.util.Date;
 
-import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.ResponseCarts;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Rating;

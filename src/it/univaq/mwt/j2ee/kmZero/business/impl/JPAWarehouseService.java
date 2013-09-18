@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
+import it.univaq.mwt.j2ee.kmZero.business.WarehouseService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
 
 @Service

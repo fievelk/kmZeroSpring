@@ -1,10 +1,7 @@
-package it.univaq.mwt.j2ee.kmZero.business.impl;
+package it.univaq.mwt.j2ee.kmZero.business;
 
 import java.util.List;
 
-import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.RequestGrid;
-import it.univaq.mwt.j2ee.kmZero.business.ResponseGrid;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.SellerContent;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;

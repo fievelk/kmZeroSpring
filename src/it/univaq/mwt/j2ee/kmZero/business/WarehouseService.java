@@ -1,6 +1,5 @@
-package it.univaq.mwt.j2ee.kmZero.business.impl;
+package it.univaq.mwt.j2ee.kmZero.business;
 
-import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
 import it.univaq.mwt.j2ee.kmZero.business.model.Warehouse;
 
 public interface WarehouseService {

@@ -1,8 +1,8 @@
 package it.univaq.mwt.j2ee.kmZero.presentation;
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
-import it.univaq.mwt.j2ee.kmZero.business.impl.ProductService;
-import it.univaq.mwt.j2ee.kmZero.business.impl.UserService;
+import it.univaq.mwt.j2ee.kmZero.business.ProductService;
+import it.univaq.mwt.j2ee.kmZero.business.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Product;
 import it.univaq.mwt.j2ee.kmZero.business.model.Seller;
 import it.univaq.mwt.j2ee.kmZero.business.model.User;

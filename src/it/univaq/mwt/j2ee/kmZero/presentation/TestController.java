@@ -7,9 +7,9 @@ import java.util.Map;
 
 
 import it.univaq.mwt.j2ee.kmZero.business.BusinessException;
+import it.univaq.mwt.j2ee.kmZero.business.CartService;
 import it.univaq.mwt.j2ee.kmZero.business.TestService;
-import it.univaq.mwt.j2ee.kmZero.business.impl.CartService;
-import it.univaq.mwt.j2ee.kmZero.business.impl.UserService;
+import it.univaq.mwt.j2ee.kmZero.business.UserService;
 import it.univaq.mwt.j2ee.kmZero.business.model.Cart;
 import it.univaq.mwt.j2ee.kmZero.business.model.CartLine;
 import it.univaq.mwt.j2ee.kmZero.business.model.Role;
