@@ -68,8 +68,7 @@ public class JPACartService implements CartService{
 		boolean clExist = false;
 		
     	// Carrello esiste
-    	Query cartQuery = em.createQuery("Select c FROM Cart c WHERE c.user = :user" +
-    			" ORDER BY c.created DESC", Cart.class).setMaxResults(1);
+    	Query cartQuery = em.createQuery("Select c FROM Cart c WHERE c.user = :user ORDER BY c.created DESC", Cart.class).setMaxResults(1);
     	cartQuery.setParameter("user", user);
     	c = (Cart)cartQuery.getSingleResult();
     	cls = c.getCartLines();
@@ -94,13 +93,8 @@ public class JPACartService implements CartService{
         	cls.add(cl);
     	} else {
     		// Questo prodotto e' stato gia' inserito nel carrello
-    		Query update = em.createQuery("UPDATE CartLine SET quantity = :quantity, lineTotal = :lineTotal WHERE id = :id");
     		cl.setQuantity(cl.getQuantity() + quantity);
     		cl.setLineTotal(p.getPrice().multiply(new BigDecimal(cl.getQuantity())));
-    		update.setParameter("quantity", cl.getQuantity());
-    		update.setParameter("lineTotal", cl.getLineTotal());
-    		update.setParameter("id", cl.getId());
-    		update.executeUpdate();
     	}
 		
 		em.persist(c);
@@ -131,8 +125,7 @@ public class JPACartService implements CartService{
 		Long exist = (Long)queryExistCart.getSingleResult();
 		
 		if (exist != 0){
-			Query queryCart = em.createQuery("Select c FROM Cart c WHERE c.user = :user and c.created IS NOT NULL" +
-	    			" ORDER BY c.created DESC", Cart.class).setMaxResults(1);
+			Query queryCart = em.createQuery("Select c FROM Cart c WHERE c.user = :user and c.created IS NOT NULL ORDER BY c.created DESC", Cart.class).setMaxResults(1);
 			queryCart.setParameter("user", user);
 			cart = (Cart)queryCart.getSingleResult();
 			
@@ -159,14 +152,12 @@ public class JPACartService implements CartService{
 		queryUser.setParameter("email", email);
 		User user = (User)queryUser.getSingleResult();
 		
-		Query query = em.createQuery("UPDATE Cart SET name = :name, surname = :surname, user = :user WHERE id = :id");
-		query.setParameter("name", user.getName());
-		query.setParameter("surname", user.getSurname());
-		query.setParameter("user", user);
-		query.setParameter("id", id);
-		query.executeUpdate();
-		
 		Cart cart = em.find(Cart.class, id);
+		cart.setName(user.getName());
+		cart.setSurname(user.getSurname());
+		cart.setUser(user);
+		
+		em.merge(cart);
 		
 		return cart;
 	}
@@ -183,10 +174,9 @@ public class JPACartService implements CartService{
 	@Override
 	@Transactional
 	public void confirmCart(long id_cart, Date deliveryDate) throws BusinessException {
-		Query query = em.createQuery("UPDATE Cart SET deliveryDate = :deliveryDate WHERE id = :id");
-		query.setParameter("deliveryDate", deliveryDate);
-		query.setParameter("id", id_cart);
-		query.executeUpdate();
+		Cart cart = em.find(Cart.class, id_cart);
+		cart.setDeliveryDate(deliveryDate);
+		em.merge(cart);
 	}
 
 	@Override
