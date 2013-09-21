@@ -56,15 +56,13 @@ public class JPAUserService implements UserService{
 	@Override
 	@Transactional
 	public void updateUser(User user) throws BusinessException {
-        Query query = em.createQuery("UPDATE User SET name= :name, surname= :surname, email= :email, " +
-				"dateOfBirth= :dateOfBirth, address= :address WHERE id= :id");
-		query.setParameter("name", user.getName());
-		query.setParameter("surname", user.getSurname());
-		query.setParameter("email", user.getEmail());
-		query.setParameter("dateOfBirth", user.getDateOfBirth());
-		query.setParameter("address", user.getAddress());
-		query.setParameter("id", user.getId());
-		query.executeUpdate();
+		User u = em.find(User.class, user.getId());
+		u.setName(user.getName());
+		u.setSurname(user.getSurname());
+		u.setEmail(user.getEmail());
+		u.setDateOfBirth(user.getDateOfBirth());
+		u.setAddress(user.getAddress());
+		em.merge(u);
 	}
 
 	@Override
@@ -132,17 +130,14 @@ public class JPAUserService implements UserService{
 	@Override
 	@Transactional
 	public void updateSeller(Seller seller) throws BusinessException {
-		
-		Query query = em.createQuery("UPDATE Seller SET name= :name, surname= :surname, email= :email, " +
-				"dateOfBirth= :dateOfBirth, url= :url, phone= :phone WHERE id= :id");
-		query.setParameter("name", seller.getName());
-		query.setParameter("surname", seller.getSurname());
-		query.setParameter("email", seller.getEmail());
-		query.setParameter("dateOfBirth", seller.getDateOfBirth());
-		query.setParameter("url", seller.getUrl());
-		query.setParameter("phone", seller.getPhone());
-		query.setParameter("id", seller.getId());
-		query.executeUpdate();
+		Seller s = em.find(Seller.class, seller.getId());
+		s.setName(seller.getName());
+		s.setSurname(seller.getSurname());
+		s.setEmail(seller.getEmail());
+		s.setDateOfBirth(seller.getDateOfBirth());
+		s.setUrl(seller.getUrl());
+		s.setPhone(seller.getPhone());
+		em.merge(s);
 	}
 
 	@Override
